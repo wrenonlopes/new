@@ -10,11 +10,14 @@
           </span>
         {%- elsif block.type == 'image_sticker' -%}
           {%- assign st_i = st_i | plus: 1 -%}
-          <span class="hs hs--{{ st_i }} hs--img" {{ block.shopify_attributes }}>
+          <span class="hs hs--{{ st_i }} hs--img" {% if block.settings.roasts != blank %}data-roasts="{{ block.settings.roasts | escape }}"{% endif %} {{ block.shopify_attributes }}>
             {%- if block.settings.image -%}
               <img src="{{ block.settings.image | image_url: width: 400 }}" alt="" loading="lazy">
             {%- elsif block.settings.asset != blank -%}
               <img src="{{ block.settings.asset | asset_url }}" alt="" loading="lazy">
+            {%- endif -%}
+            {%- if block.settings.roasts != blank -%}
+              <span class="roast">{{ block.settings.roasts | split: '|' | first }}</span>
             {%- endif -%}
           </span>
         {%- endif -%}
@@ -70,7 +73,8 @@
     ]},
     { "type": "image_sticker", "name": "Product sticker", "limit": 2, "settings": [
       { "type": "image_picker", "id": "image", "label": "Sticker image (transparent PNG)" },
-      { "type": "text", "id": "asset", "label": "Theme asset filename (fallback)", "info": "e.g. sticker-xl.png" }
+      { "type": "text", "id": "asset", "label": "Theme asset filename (fallback)", "info": "e.g. sticker-xl.png" },
+      { "type": "textarea", "id": "roasts", "label": "Roast lines (separate with |)", "info": "Tap the sticker to cycle through them" }
     ]}
   ],
   "presets": [{ "name": "Hero", "blocks": [

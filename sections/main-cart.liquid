@@ -56,7 +56,10 @@
       {%- endif -%}
     {%- else -%}
       <div class="cart-empty" style="position:relative">
-        <img class="page-sticker page-sticker--md" src="{{ 'sticker-xl.png' | asset_url }}" alt="" style="top:-34px;right:8%" loading="lazy">
+        <span class="page-sticker page-sticker--md" style="top:-34px;right:8%" aria-hidden="true" data-roasts="it's giving empty 🥲|ur skin said add to cart|no thoughts. just bamboo.">
+          <img src="{{ 'sticker-xl.png' | asset_url }}" alt="" loading="lazy">
+          <span class="roast">it's giving empty 🥲</span>
+        </span>
         <p class="h-m">{{ 'general.cart.empty' | t }}</p>
         <br>
         <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">Go shopping</a>

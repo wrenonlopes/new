@@ -1,6 +1,9 @@
 <section class="section" style="background:var(--cream)">
   <div class="wrap" style="position:relative">
-    <img class="page-sticker page-sticker--sm" src="{{ 'sticker-tube.png' | asset_url }}" alt="" style="top:-6px;right:5%" loading="lazy">
+    <span class="page-sticker page-sticker--sm" style="top:-6px;right:5%" aria-hidden="true" data-roasts="pick me. im literally right here|add to cart. u know u want to|main character energy, tube edition">
+      <img src="{{ 'sticker-tube.png' | asset_url }}" alt="" loading="lazy">
+      <span class="roast">pick me. im literally right here</span>
+    </span>
     <span class="kicker">Collection · {{ collection.title }}</span>
     <h1 class="h-xl">{{ section.settings.heading | default: collection.title }}</h1>
     {%- if collection.description != blank -%}

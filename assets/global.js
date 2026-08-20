@@ -68,6 +68,22 @@
     }, { passive: true });
   }
 
+  /* ---------- roast bubbles: tap sticker → squish + next roast ---------- */
+  document.addEventListener('click', ev => {
+    const s = ev.target.closest('[data-roasts]');
+    if (!s) return;
+    const lines = (s.dataset.roasts || '').split('|').map(t => t.trim()).filter(Boolean);
+    const bubble = s.querySelector('.roast');
+    if (lines.length < 2 || !bubble) return;
+    const i = ((+s.dataset.ri || 0) + 1) % lines.length;
+    s.dataset.ri = i;
+    bubble.textContent = lines[i];
+    bubble.style.animation = 'none'; void bubble.offsetWidth;
+    bubble.style.animation = ''; bubble.style.animationDelay = '0s';
+    s.classList.add('squish');
+    setTimeout(() => s.classList.remove('squish'), 220);
+  });
+
   /* ---------- header: mobile menu + cart bump ---------- */
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.site-nav');
