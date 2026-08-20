@@ -462,7 +462,7 @@ img{max-width:100%;height:auto}
   .cart-foot > div{flex-direction:column}
 }
 
-@media (max-width:380px){
+@media (max-width:340px){
   .grid-products{grid-template-columns:1fr}
   .h-display{font-size:15vw}
 }
