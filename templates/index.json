@@ -15,15 +15,13 @@
         "st1": {
           "type": "image_sticker",
           "settings": {
-            "asset": "sticker-xl.png",
-            "roasts": "ur old towel is a petri dish 💀|damp since tuesday? couldn't be me|new sheet, who dis|softer than ur excuses|ok stop poking me 😭"
+            "asset": "sticker-xl.png"
           }
         },
         "st2": {
           "type": "image_sticker",
           "settings": {
-            "asset": "sticker-tube.png",
-            "roasts": "cotton could never|im not a wet wipe. respectfully.|biodegrades faster than ur situationship|one sheet. zero drama.|ok stop poking me 😭"
+            "asset": "sticker-tube.png"
           }
         },
         "sn1": {
