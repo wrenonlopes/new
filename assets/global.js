@@ -38,6 +38,8 @@
       let paused = false;
       track.addEventListener('mouseenter', () => paused = true);
       track.addEventListener('mouseleave', () => paused = false);
+      track.addEventListener('touchstart', () => paused = true, { passive: true });
+      track.addEventListener('touchend', () => setTimeout(() => paused = false, 1200), { passive: true });
       let offset = Math.random() * 200, prev = performance.now();
       const half = () => track.scrollWidth / 2;
       (function loop(now) {
@@ -68,7 +70,11 @@
 
   /* ---------- header: mobile menu + cart bump ---------- */
   const toggle = document.querySelector('.menu-toggle');
-  if (toggle) toggle.addEventListener('click', () => document.querySelector('.site-nav').classList.toggle('open'));
+  const nav = document.querySelector('.site-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+  }
 
   function bumpCart(count) {
     document.querySelectorAll('[data-cart-count]').forEach(el => {

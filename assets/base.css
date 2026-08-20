@@ -353,3 +353,116 @@ img{max-width:100%;height:auto}
   .fbar i{width:var(--w);transition:none}
   .stamp{opacity:1;transform:rotate(-8deg);animation:none}
 }
+
+/* ============================================================
+   MOBILE PASS — phone-first refinements (overrides above)
+   ============================================================ */
+@media (max-width:880px){
+  /* rhythm */
+  .wrap{padding:0 18px}
+  .section{padding:56px 0}
+  .kicker{font-size:10px;padding:7px 15px;margin-bottom:18px}
+  .btn{padding:15px 28px;font-size:14.5px}
+
+  /* header */
+  .site-header__in{height:62px}
+  .cart-link{padding:9px 16px;font-size:13px}
+  .announce{font-size:9.5px;letter-spacing:.14em;padding:9px 12px}
+
+  /* hero: stickers become a swipe row under the CTAs */
+  .hero{padding:56px 0 0}
+  .hero .wrap{display:flex;flex-direction:column;align-items:center}
+  .hero__rating{font-size:10.5px;padding:8px 16px;margin-bottom:26px}
+  .hero__sub{margin:24px auto 30px;font-size:15.5px}
+  .hero__ctas{width:100%;flex-direction:column}
+  .hero__ctas .btn{width:100%}
+  .hero__stickers{position:static;order:5;display:flex;gap:10px;overflow-x:auto;pointer-events:auto;margin-top:30px;padding:6px 2px 12px;width:100%;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .hero__stickers::-webkit-scrollbar{display:none}
+  .hs{display:inline-flex;position:static;opacity:1;animation:none;flex:none;transform:rotate(var(--r,0deg));padding:12px 16px}
+  .hs b{font-size:22px}
+  .hero__snaps{order:6;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:14px;margin-top:34px;padding:6px 2px 16px;width:100%;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .hero__snaps::-webkit-scrollbar{display:none}
+  .snap{width:150px;flex:none;box-shadow:5px 6px 0 rgba(46,46,56,.9)}
+  .snap--2{transform:rotate(2deg)}
+
+  /* ticker */
+  .ticker{padding:13px 0}
+  .ticker span{font-size:14px}
+
+  /* chat */
+  .problem__grid{gap:40px}
+  .chat{transform:rotate(0);padding:20px 16px 22px;border-radius:24px}
+  .msg{max-width:88%}
+  .msg .bub{font-size:13.5px;padding:10px 14px}
+
+  /* product grid: 2-up like a real shop app */
+  .grid-products{grid-template-columns:1fr 1fr;gap:12px;margin-top:40px}
+  .pcard{border-radius:18px;border-width:2px}
+  .pcard:hover{transform:none;box-shadow:none}
+  .pcard__img{border-bottom-width:2px}
+  .pcard__tag{font-size:8.5px;padding:5px 10px;top:9px;left:9px}
+  .pcard__info{padding:12px 14px 4px;gap:4px}
+  .pcard__stars{font-size:9.5px}
+  .pcard__title{font-size:14.5px;line-height:1.2}
+  .pcard__sub{font-size:11px}
+  .price{gap:7px;padding-top:5px}
+  .price__now{font-size:17px}
+  .price__was{font-size:11.5px}
+  .price__save{font-size:8.5px;padding:3px 8px}
+  .pcard__add{margin:10px 14px 16px;padding:11px;font-size:13px;border-radius:999px}
+  .pcard form .pcard__add{width:calc(100% - 28px) !important}
+
+  /* versus */
+  .fight{gap:30px;margin-top:44px}
+  .fighter{padding:26px 22px;gap:16px}
+  .fbar{height:12px;margin-bottom:12px}
+  .stamp{right:4px;bottom:-16px;font-size:18px;border-width:3px;padding:6px 16px}
+
+  /* receipts + planet */
+  .stats{gap:16px;margin-top:44px}
+  .stat{padding:32px 26px;border-radius:22px}
+  .planet__grid{gap:40px}
+  .vs-card{padding:28px 22px;transform:rotate(-1deg)}
+
+  /* reviews strip */
+  .rev-strip{margin-top:40px}
+  .rcard{width:280px;height:420px;padding:28px 24px;border-radius:22px}
+  .rcard__q{font-size:18px}
+  .rcard--video{width:236px}
+
+  /* faq */
+  .faq-list{margin-top:34px;gap:10px}
+  .faq-list summary{font-size:15.5px;padding:18px 20px}
+  .faq-list details > div{padding:0 20px 20px;font-size:14px}
+
+  /* final cta */
+  .final{padding:80px 0}
+
+  /* footer: brand block full width */
+  .site-footer{padding:56px 0 32px}
+  .site-footer__grid > div:first-child{grid-column:1 / -1}
+
+  /* PDP */
+  .pdp{padding:20px 0 30px}
+  .pdp__thumbs img{width:64px;height:64px;border-radius:11px}
+  .pdp .price__now{font-size:28px}
+  .buy-row{position:sticky;bottom:12px;z-index:40;background:var(--cream);border-radius:999px;padding:6px;border:2.5px solid var(--ink);box-shadow:0 10px 30px -10px rgba(46,46,56,.4)}
+  .qty-box{border-width:0;border-right:2.5px solid var(--line);border-radius:0;background:transparent}
+  .qty-box button{height:46px;width:40px}
+  .buy-row .btn{font-size:15.5px;padding:13px 0}
+  .trust{font-size:11px;gap:6px 16px}
+  .receipt-strip{font-size:12.5px;padding:15px 18px}
+
+  /* cart */
+  .cline{flex-wrap:wrap;row-gap:10px}
+  .cline__qty{margin-left:0}
+  .cline__total{margin-left:auto}
+  .cart-foot{flex-direction:column;align-items:stretch}
+  .cart-foot .btn{width:100%}
+  .cart-foot > div{flex-direction:column}
+}
+
+@media (max-width:380px){
+  .grid-products{grid-template-columns:1fr}
+  .h-display{font-size:15vw}
+}
