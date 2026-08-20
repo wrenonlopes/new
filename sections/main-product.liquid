@@ -70,8 +70,8 @@
       </form>
 
       <div class="trust">
-        <span>Ships in 24h</span>
-        {%- if settings.show_cod -%}<span>Cash on delivery</span>{%- endif -%}
+        <span>Premium quality</span>
+        <span>Sustainably made</span>
         <span>Free delivery over Dhs {{ settings.free_shipping_threshold }}</span>
       </div>
 
@@ -97,18 +97,18 @@
   </div>
 
   {%- if section.settings.show_recommendations -%}
-    <div style="padding:30px 0 90px">
-      <h2 class="h-l reveal" style="margin-bottom:26px">Pairs well with</h2>
-      <div class="grid-products" style="margin-top:0">
-        {%- for rec in product.metafields.biod.pairs_with.value limit: 2 -%}
-          {% render 'product-card', product: rec %}
-        {%- else -%}
-          {%- for rec in recommendations.products limit: 2 -%}
+    {%- assign pairs = product.metafields.biod.pairs_with.value -%}
+    {%- if pairs == blank -%}{%- assign pairs = product.metafields.biod.pairs_well_with.value -%}{%- endif -%}
+    {%- if pairs != blank and pairs.count > 0 -%}
+      <div style="padding:30px 0 90px">
+        <h2 class="h-l reveal" style="margin-bottom:26px">Pairs well with</h2>
+        <div class="grid-products" style="margin-top:0">
+          {%- for rec in pairs limit: 2 -%}
             {% render 'product-card', product: rec %}
           {%- endfor -%}
-        {%- endfor -%}
+        </div>
       </div>
-    </div>
+    {%- endif -%}
   {%- endif -%}
 </div>
 {% schema %}
