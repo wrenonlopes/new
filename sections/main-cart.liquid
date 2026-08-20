@@ -55,7 +55,8 @@
         <p style="margin-top:18px;font-weight:700;font-size:12.5px;color:var(--faint)">Cash on delivery available at checkout · 30-day WhatsApp guarantee</p>
       {%- endif -%}
     {%- else -%}
-      <div class="cart-empty">
+      <div class="cart-empty" style="position:relative">
+        <img class="page-sticker page-sticker--md" src="{{ 'sticker-xl.png' | asset_url }}" alt="" style="top:-34px;right:8%" loading="lazy">
         <p class="h-m">{{ 'general.cart.empty' | t }}</p>
         <br>
         <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">Go shopping</a>
