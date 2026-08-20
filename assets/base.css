@@ -75,7 +75,7 @@ img{max-width:100%;height:auto}
 .hs--2.hs--img{width:105px}
 .hs--3.hs--img{width:150px}
 /* layered tube: tissue pulls out of the body */
-.hs--anim{animation:bob 5s ease-in-out infinite alternate}
+.hs--anim{opacity:1;animation:bob 5s ease-in-out infinite alternate}
 .hs--anim img{animation:none}
 .hs--anim .anim-body{position:relative;z-index:2}
 .hs--anim .anim-tissue{position:absolute;inset:0;z-index:1;animation:tissue-pull 2.4s ease-in-out infinite alternate}
