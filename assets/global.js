@@ -29,6 +29,27 @@
   }), { threshold: .5 });
   document.querySelectorAll('[data-target].count').forEach(el => cio.observe(el));
 
+  /* ---------- final CTA: clear-skin-era loader (stalls at 99%) ---------- */
+  const loader = document.querySelector('[data-loader]');
+  if (loader) {
+    const fill = loader.querySelector('[data-loader-fill]');
+    const pct = loader.querySelector('[data-loader-pct]');
+    const lio = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      lio.unobserve(loader);
+      if (!motionOK) { fill.style.width = '99%'; pct.textContent = 99; return; }
+      const t0 = performance.now(), dur = 2400;
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        const v = Math.round(easeOut(p) * 99);
+        fill.style.width = v + '%';
+        pct.textContent = v;
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }), { threshold: .4 });
+    lio.observe(loader);
+  }
+
   /* ---------- velocity marquees ---------- */
   let lastY = window.scrollY, velocity = 0, vTimer;
   if (motionOK && cfg.marqueeVelocity !== false) {

@@ -445,10 +445,15 @@
     "cta": {
       "type": "final-cta",
       "settings": {
-        "heading": "The revolution starts with you!",
+        "pill": "last call bestie",
+        "heading": "Your clear skin era is loading",
+        "show_loader": true,
+        "wink": "(the last 1% is you, clicking the button)",
         "subtext": "Dhs 19. One week. Clearer mornings. Worst case, you're out a shawarma.",
-        "cta_label": "Shop the sale",
-        "cta_url": ""
+        "cta_label": "Finish the download",
+        "cta_url": "/collections/all",
+        "microcopy": "free delivery over Dhs 100 · cash on delivery · your towel could never",
+        "show_sticker": true
       }
     }
   },
