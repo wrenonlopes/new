@@ -376,10 +376,12 @@ img{max-width:100%;height:auto}
   .hero__sub{margin:24px auto 30px;font-size:15.5px}
   .hero__ctas{width:100%;flex-direction:column}
   .hero__ctas .btn{width:100%}
-  .hero__stickers{position:static;order:5;display:flex;gap:10px;overflow-x:auto;pointer-events:auto;margin-top:30px;padding:6px 2px 12px;width:100%;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .hero__stickers::-webkit-scrollbar{display:none}
-  .hs{display:inline-flex;position:static;opacity:1;animation:none;flex:none;transform:rotate(var(--r,0deg));padding:12px 16px}
-  .hs b{font-size:22px}
+  .hero__stickers{position:static;order:5;display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;pointer-events:auto;margin-top:30px;padding:6px 4px 12px;width:100%;overflow:visible}
+  .hs{display:flex;position:static;opacity:1;animation:none;transform:rotate(var(--r,0deg));padding:12px 10px;justify-content:center;text-align:center}
+  .hs--1,.hs--3{--r:-1.5deg}
+  .hs--2,.hs--4{--r:1.5deg}
+  .hs b{font-size:20px}
+  .hs span{font-size:8.5px}
   .hero__snaps{order:6;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:14px;margin-top:34px;padding:6px 2px 16px;width:100%;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .hero__snaps::-webkit-scrollbar{display:none}
   .snap{width:150px;flex:none;box-shadow:5px 6px 0 rgba(46,46,56,.9)}
