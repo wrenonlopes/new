@@ -1,5 +1,6 @@
 <section class="section" style="background:var(--cream)">
-  <div class="wrap">
+  <div class="wrap" style="position:relative">
+    <img class="page-sticker" src="{{ 'sticker-tube.png' | asset_url }}" alt="" style="top:-10px;right:4%" loading="lazy">
     <span class="kicker">Collection · {{ collection.title }}</span>
     <h1 class="h-xl">{{ section.settings.heading | default: collection.title }}</h1>
     {%- if collection.description != blank -%}

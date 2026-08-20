@@ -8,6 +8,15 @@
           <span class="sticker hs hs--{{ st_i }}" {{ block.shopify_attributes }}>
             <b>{{ block.settings.value }}</b><span>{{ block.settings.label }}</span>
           </span>
+        {%- elsif block.type == 'image_sticker' -%}
+          {%- assign st_i = st_i | plus: 1 -%}
+          <span class="hs hs--{{ st_i }} hs--img" {{ block.shopify_attributes }}>
+            {%- if block.settings.image -%}
+              <img src="{{ block.settings.image | image_url: width: 400 }}" alt="" loading="lazy">
+            {%- elsif block.settings.asset != blank -%}
+              <img src="{{ block.settings.asset | asset_url }}" alt="" loading="lazy">
+            {%- endif -%}
+          </span>
         {%- endif -%}
       {%- endfor -%}
     </div>
@@ -58,6 +67,10 @@
     ]},
     { "type": "snap", "name": "Photo snap", "limit": 3, "settings": [
       { "type": "image_picker", "id": "image", "label": "Image (4:5)" }
+    ]},
+    { "type": "image_sticker", "name": "Product sticker", "limit": 2, "settings": [
+      { "type": "image_picker", "id": "image", "label": "Sticker image (transparent PNG)" },
+      { "type": "text", "id": "asset", "label": "Theme asset filename (fallback)", "info": "e.g. sticker-xl.png" }
     ]}
   ],
   "presets": [{ "name": "Hero", "blocks": [

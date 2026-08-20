@@ -13,17 +13,15 @@
       "type": "hero",
       "blocks": {
         "st1": {
-          "type": "sticker",
+          "type": "image_sticker",
           "settings": {
-            "value": "89%",
-            "label": "of used towels carry bacteria*"
+            "asset": "sticker-xl.png"
           }
         },
         "st2": {
-          "type": "sticker",
+          "type": "image_sticker",
           "settings": {
-            "value": "×1",
-            "label": "one sheet, one use"
+            "asset": "sticker-tube.png"
           }
         },
         "sn1": {
