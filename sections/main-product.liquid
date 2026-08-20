@@ -69,6 +69,37 @@
         </div>
       </form>
 
+      {%- assign has_ladder = false -%}
+      {%- for i in (1..3) -%}
+        {%- assign skey = 'size_' | append: i -%}
+        {%- if section.settings[skey] != blank -%}{%- assign has_ladder = true -%}{%- endif -%}
+      {%- endfor -%}
+      {%- if has_ladder -%}
+        <div class="sizes">
+          <div class="sizes__head">Pick your format. <span>bigger = better value. that's it, that's the math.</span></div>
+          <div class="sizes__grid">
+            {%- for i in (1..3) -%}
+              {%- assign skey = 'size_' | append: i -%}
+              {%- assign sp = section.settings[skey] -%}
+              {%- if sp != blank -%}
+                {%- assign tkey = 'size_tag_' | append: i -%}
+                {%- assign lkey = 'size_label_' | append: i -%}
+                {%- assign here = false -%}
+                {%- if sp.id == product.id -%}{%- assign here = true -%}{%- endif -%}
+                <a class="size-card{% if here %} on{% endif %}" {% unless here %}href="{{ sp.url }}"{% endunless %}>
+                  {%- if section.settings[tkey] != blank -%}<span class="size-card__tag">{{ section.settings[tkey] }}</span>{%- endif -%}
+                  {%- if sp.featured_image -%}<img src="{{ sp.featured_image | image_url: width: 300 }}" alt="{{ sp.title | escape }}" loading="lazy">{%- endif -%}
+                  <b>{{ section.settings[lkey] | default: sp.title }}</b>
+                  <div class="size-card__price">{{ sp.price | money }}{%- if sp.compare_at_price > sp.price %} <s>{{ sp.compare_at_price | money }}</s>{%- endif -%}</div>
+                  {%- if sp.metafields.biod.unit_note != blank -%}<div class="size-card__unit">{{ sp.metafields.biod.unit_note }}</div>{%- endif -%}
+                  {%- if here -%}<span class="size-card__here">← you're here</span>{%- endif -%}
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
       <div class="trust">
         <span>Premium quality</span>
         <span>Sustainably made</span>
@@ -77,6 +108,25 @@
 
       {%- if section.settings.show_receipts -%}
         <div class="receipt-strip"><b>Why single-use?</b> In a published study, <b>89%</b> of used hand towels carried coliform bacteria — and dermatologists advise washing a face towel after every single use if you're acne-prone. A fresh sheet skips the whole problem.</div>
+      {%- endif -%}
+
+      {%- assign combo = section.settings.combo_product -%}
+      {%- if combo != blank and combo.id != product.id -%}
+        <div class="combo-up">
+          <span class="combo-up__kicker">better together</span>
+          <div class="combo-up__row">
+            {%- if combo.featured_image -%}<img src="{{ combo.featured_image | image_url: width: 300 }}" alt="{{ combo.title | escape }}" loading="lazy">{%- endif -%}
+            <div class="combo-up__body">
+              <b>{{ section.settings.combo_heading }}</b>
+              <p>{{ section.settings.combo_sub }}</p>
+              <div class="combo-up__price">
+                {{ combo.price | money }}
+                {%- if combo.compare_at_price > combo.price %} <s>{{ combo.compare_at_price | money }}</s> <em>save {{ combo.compare_at_price | minus: combo.price | money }}</em>{%- endif -%}
+              </div>
+            </div>
+            <a class="btn btn--sunrise combo-up__btn" href="{{ combo.url }}">Get both</a>
+          </div>
+        </div>
       {%- endif -%}
 
       <div class="pdp__accs">
@@ -116,7 +166,21 @@
   "name": "Product page",
   "settings": [
     { "type": "checkbox", "id": "show_receipts", "label": "Show receipts strip", "default": true },
-    { "type": "checkbox", "id": "show_recommendations", "label": "Show 'Pairs well with'", "default": true }
+    { "type": "checkbox", "id": "show_recommendations", "label": "Show 'Pairs well with'", "default": true },
+    { "type": "header", "content": "Size ladder" },
+    { "type": "product", "id": "size_1", "label": "Size 1 (entry)" },
+    { "type": "text", "id": "size_tag_1", "label": "Size 1 tag" },
+    { "type": "text", "id": "size_label_1", "label": "Size 1 label" },
+    { "type": "product", "id": "size_2", "label": "Size 2 (popular)" },
+    { "type": "text", "id": "size_tag_2", "label": "Size 2 tag" },
+    { "type": "text", "id": "size_label_2", "label": "Size 2 label" },
+    { "type": "product", "id": "size_3", "label": "Size 3 (best value)" },
+    { "type": "text", "id": "size_tag_3", "label": "Size 3 tag" },
+    { "type": "text", "id": "size_label_3", "label": "Size 3 label" },
+    { "type": "header", "content": "Combo upsell" },
+    { "type": "product", "id": "combo_product", "label": "Combo product" },
+    { "type": "text", "id": "combo_heading", "label": "Heading", "default": "The full routine. One checkout." },
+    { "type": "text", "id": "combo_sub", "label": "Subtext", "default": "Travel for your bag, XL for your sink. Your future self says thanks." }
   ],
   "blocks": [
     { "type": "accordion", "name": "Accordion", "settings": [

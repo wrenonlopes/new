@@ -1,1 +1,22 @@
-{ "sections": { "main": { "type": "main-product" } }, "order": ["main"] }
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "size_1": "travel-towel",
+        "size_tag_1": "try it first",
+        "size_label_1": "Travel",
+        "size_2": "face-towel",
+        "size_tag_2": "most popular",
+        "size_label_2": "XL",
+        "size_3": "travel-towel-2",
+        "size_tag_3": "best value",
+        "size_label_3": "XL ×4 boxes",
+        "combo_product": "face-pack-combo-travel-xl-box",
+        "combo_heading": "The full routine. One checkout.",
+        "combo_sub": "Travel for your bag, XL for your sink. Your future self says thanks."
+      }
+    }
+  },
+  "order": ["main"]
+}
