@@ -1,0 +1,23 @@
+<section class="section" style="background:var(--cream)">
+  <div class="wrap">
+    <span class="kicker">Search</span>
+    <h1 class="h-xl">{% if search.performed %}Results for "{{ search.terms }}"{% else %}Looking for something?{% endif %}</h1>
+    <form action="{{ routes.search_url }}" method="get" style="margin-top:30px;display:flex;gap:12px;max-width:520px">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}"
+             style="flex:1;font-family:var(--body);font-size:15px;padding:14px 18px;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper)">
+      <button type="submit" class="btn btn--ink">Search</button>
+    </form>
+    {%- if search.performed -%}
+      <div class="grid-products">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'product-card', product: item %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Search", "settings": [] }
+{% endschema %}

@@ -1,0 +1,13 @@
+<section class="section" style="background:var(--cream)">
+  <div class="wrap" style="max-width:820px">
+    <span class="kicker">{{ article.tags | first | default: blog.title }}</span>
+    <h1 class="h-l">{{ article.title }}</h1>
+    {%- if article.image -%}
+      <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.image.alt | escape }}" style="border:2.5px solid var(--ink);border-radius:24px;margin:30px 0">
+    {%- endif -%}
+    <div class="rte">{{ article.content }}</div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Article", "settings": [] }
+{% endschema %}

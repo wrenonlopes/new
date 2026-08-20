@@ -1,0 +1,48 @@
+<section class="section receipts" id="receipts">
+  <div class="wrap">
+    <span class="kicker kicker--leaf" style="color:var(--ink)">{{ section.settings.kicker }}</span>
+    <h2 class="h-xl reveal">{{ section.settings.heading }}</h2>
+    <p class="lead reveal">{{ section.settings.subtext }}</p>
+    <div class="stats">
+      {%- for block in section.blocks -%}
+        <div class="stat reveal" {{ block.shopify_attributes }}>
+          {%- if block.settings.corner != blank -%}<span class="stat__corner">{{ block.settings.corner }}</span>{%- endif -%}
+          {%- if block.settings.count_to > 0 -%}
+            <b class="count" data-target="{{ block.settings.count_to }}" data-prefix="{{ block.settings.prefix }}" data-suffix="{{ block.settings.suffix }}">{{ block.settings.prefix }}{{ block.settings.count_to }}{{ block.settings.suffix }}</b>
+          {%- else -%}
+            <b>{{ block.settings.static_value }}</b>
+          {%- endif -%}
+          <p>{{ block.settings.text }}</p>
+          <span class="m">{{ block.settings.source }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+    <p class="receipts__foot">{{ section.settings.footnote }}</p>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Receipts (stats)",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The receipts" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "We brought receipts." },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "We went looking for published research on reused towels. It is worse than you think — and it is peer-reviewed." },
+    { "type": "richtext", "id": "footnote", "label": "Footnote / sources", "default": "<p>Sources: Food Protection Trends 34(5), 2014 · AAD towel-hygiene guidance. Kitchen-towel data — your bathroom towel is not doing better.</p>" }
+  ],
+  "blocks": [
+    { "type": "stat", "name": "Stat", "settings": [
+      { "type": "range", "id": "count_to", "label": "Count-up target (0 = use static value)", "min": 0, "max": 100, "step": 1, "default": 89 },
+      { "type": "text", "id": "prefix", "label": "Prefix (e.g. −)" },
+      { "type": "text", "id": "suffix", "label": "Suffix (e.g. %)", "default": "%" },
+      { "type": "text", "id": "static_value", "label": "Static value (when no count-up)", "default": "1 in 4" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Of 82 used hand towels tested, 89% carried coliform bacteria." },
+      { "type": "text", "id": "source", "label": "Source line", "default": "Gerba et al. · University of Arizona · Food Protection Trends, 2014" },
+      { "type": "text", "id": "corner", "label": "Corner tag", "default": "Published study" }
+    ]}
+  ],
+  "presets": [{ "name": "Receipts (stats)", "blocks": [
+    { "type": "stat" },
+    { "type": "stat", "settings": { "count_to": 0, "static_value": "1 in 4", "text": "About one in four of those towels carried E. coli. Yes, that E. coli.", "source": "25.6% E. coli detection · linked to washing frequency", "corner": "Same study" } }
+  ]}]
+}
+{% endschema %}

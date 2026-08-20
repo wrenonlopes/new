@@ -1,0 +1,68 @@
+<section class="section" style="background:var(--cream)">
+  <div class="wrap">
+    <span class="kicker">{{ 'general.cart.title' | t }}</span>
+    <h1 class="h-xl">Almost yours.</h1>
+
+    {%- if cart.item_count > 0 -%}
+      {%- assign threshold = settings.free_shipping_threshold | times: 100 -%}
+      {%- if threshold > 0 -%}
+        <div class="shipbar">
+          {%- if cart.total_price >= threshold -%}
+            <div class="t"><b>Free delivery unlocked.</b> The planet and your wallet high-five.</div>
+            <div class="prog"><i style="width:100%"></i></div>
+          {%- else -%}
+            {%- assign remaining = threshold | minus: cart.total_price -%}
+            {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
+            <div class="t">{{ remaining | money }} away from <b>free delivery</b>.</div>
+            <div class="prog"><i style="width:{{ pct }}%"></i></div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <form action="{{ routes.cart_url }}" method="post">
+        <div class="cart-lines">
+          {%- for item in cart.items -%}
+            <div class="cline">
+              {%- if item.image -%}
+                <a href="{{ item.url }}"><img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}"></a>
+              {%- endif -%}
+              <div>
+                <div class="cline__name"><a href="{{ item.url }}">{{ item.product.title }}</a></div>
+                <div class="cline__meta">
+                  {{ item.final_price | money }}
+                  {%- if item.selling_plan_allocation -%} · {{ item.selling_plan_allocation.selling_plan.name }}{%- endif -%}
+                </div>
+              </div>
+              <div class="cline__qty">
+                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}" aria-label="Decrease">−</button>
+                <b>{{ item.quantity }}</b>
+                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}" aria-label="Increase">+</button>
+              </div>
+              <span class="cline__total">{{ item.final_line_price | money }}</span>
+              <button type="button" class="cline__rm" data-line-change data-line="{{ forloop.index }}" data-qty="0" aria-label="Remove">✕</button>
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="cart-foot">
+          <span class="sum">Total: {{ cart.total_price | money }}</span>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a class="btn btn--outline" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.keep_shopping' | t }}</a>
+            <button type="submit" name="checkout" class="btn btn--ink">{{ 'general.cart.checkout' | t }}</button>
+          </div>
+        </div>
+      </form>
+      {%- if settings.show_cod -%}
+        <p style="margin-top:18px;font-weight:700;font-size:12.5px;color:var(--faint)">Cash on delivery available at checkout · 30-day WhatsApp guarantee</p>
+      {%- endif -%}
+    {%- else -%}
+      <div class="cart-empty">
+        <p class="h-m">{{ 'general.cart.empty' | t }}</p>
+        <br>
+        <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">Go shopping</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Cart page", "settings": [] }
+{% endschema %}

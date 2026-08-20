@@ -1,0 +1,48 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__grid">
+      <div>
+        {%- if settings.logo_light -%}
+          <img src="{{ settings.logo_light | image_url: width: 300 }}" alt="{{ shop.name }}" style="height:34px;width:auto">
+        {%- else -%}
+          <span style="font-family:var(--display);font-weight:800;font-size:28px;color:var(--cream)">{{ shop.name }}</span>
+        {%- endif -%}
+        <p style="margin-top:16px;font-size:14px;max-width:32ch;font-weight:500">{{ section.settings.blurb }}</p>
+        {%- if settings.whatsapp_url != blank -%}
+          <a class="wa-link" href="{{ settings.whatsapp_url }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+        {%- endif -%}
+      </div>
+      {%- for block in section.blocks -%}
+        <div {{ block.shopify_attributes }}>
+          <h4>{{ block.settings.heading }}</h4>
+          <ul>
+            {%- for link in block.settings.menu.links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="site-footer__note">
+      <span>© {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+      <span>{{ section.settings.tagline }}</span>
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "blurb", "label": "Blurb", "default": "100% bamboo everyday essentials. Made for your face and the planet it lives on. Dubai, UAE." },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Soft on you · Softer on the planet" }
+  ],
+  "blocks": [
+    { "type": "menu", "name": "Menu column", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
+      { "type": "link_list", "id": "menu", "label": "Menu" }
+    ]}
+  ],
+  "presets": [{ "name": "Footer" }]
+}
+{% endschema %}

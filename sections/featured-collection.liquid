@@ -1,0 +1,52 @@
+<section class="section" id="shop" style="background:var(--cream)">
+  <div class="wrap">
+    <span class="kicker kicker--sunrise">{{ section.settings.kicker }}</span>
+    <h2 class="h-xl reveal">{{ section.settings.heading }}</h2>
+    <div class="grid-products">
+      {%- assign coll = section.settings.collection | default: collections.all -%}
+      {%- for product in coll.products limit: section.settings.limit -%}
+        {%- assign tag_label = product.metafields.biod.card_tag -%}
+        {% render 'product-card', product: product, tag_label: tag_label, tag_hot: false %}
+      {%- endfor -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'coming_soon' -%}
+          <div class="pcard pcard--soon" {{ block.shopify_attributes }}>
+            <div class="pcard__img">
+              <span class="pcard__tag">Coming soon</span>
+              {%- if block.settings.image -%}<img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy">{%- endif -%}
+            </div>
+            <div class="pcard__info">
+              <span class="pcard__stars" style="color:var(--sub)">The revolution continues</span>
+              <h3 class="pcard__title">{{ block.settings.title }}</h3>
+              <p class="pcard__sub">{{ block.settings.subtitle }}</p>
+            </div>
+            <a class="pcard__add" style="margin:16px 26px 26px" href="{{ block.settings.notify_url }}">Get notified</a>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The sale is on" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find your format." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 3, "max": 12, "step": 1, "default": 6 }
+  ],
+  "blocks": [
+    { "type": "coming_soon", "name": "Coming soon card", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Bamboo Toilet Paper" },
+      { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Tree-free. On the way." },
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "url", "id": "notify_url", "label": "Notify link (newsletter / WhatsApp)" }
+    ]}
+  ],
+  "presets": [{ "name": "Featured collection", "blocks": [
+    { "type": "coming_soon" },
+    { "type": "coming_soon", "settings": { "title": "Bamboo Kitchen Towels", "subtitle": "Stronger wet. On the way." } }
+  ]}]
+}
+{% endschema %}

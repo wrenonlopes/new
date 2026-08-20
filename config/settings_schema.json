@@ -1,0 +1,40 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "BIOD Bamboo Revolution",
+    "theme_version": "1.0.0",
+    "theme_author": "BIOD",
+    "theme_documentation_url": "https://biod.co",
+    "theme_support_url": "https://biod.co"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo (dark, transparent PNG/SVG)" },
+      { "type": "image_picker", "id": "logo_light", "label": "Logo for dark backgrounds (cream)" },
+      { "type": "range", "id": "logo_height", "label": "Logo height (px)", "min": 20, "max": 60, "step": 2, "default": 30 },
+      { "type": "color", "id": "color_leaf", "label": "Leaf green", "default": "#7AC143" },
+      { "type": "color", "id": "color_leaf_dark", "label": "Leaf dark (text-safe green)", "default": "#3E7015" },
+      { "type": "color", "id": "color_ink", "label": "Ink", "default": "#2E2E38" },
+      { "type": "color", "id": "color_cream", "label": "Cream (page ground)", "default": "#F8F1DF" },
+      { "type": "color", "id": "color_paper", "label": "Paper (cards)", "default": "#FDFBF5" },
+      { "type": "color", "id": "color_kraft", "label": "Kraft", "default": "#C69A6D" },
+      { "type": "color", "id": "color_sunrise", "label": "Sunrise (sale accent)", "default": "#E9601F" }
+    ]
+  },
+  {
+    "name": "Store details",
+    "settings": [
+      { "type": "text", "id": "whatsapp_url", "label": "WhatsApp link", "default": "https://wa.me/9715XXXXXXXX" },
+      { "type": "range", "id": "free_shipping_threshold", "label": "Free shipping threshold (AED)", "min": 0, "max": 500, "step": 10, "default": 100 },
+      { "type": "checkbox", "id": "show_cod", "label": "Show cash-on-delivery messaging", "default": true }
+    ]
+  },
+  {
+    "name": "Motion",
+    "settings": [
+      { "type": "checkbox", "id": "enable_reveals", "label": "Scroll reveal animations", "default": true },
+      { "type": "checkbox", "id": "marquee_velocity", "label": "Marquees react to scroll speed", "default": true }
+    ]
+  }
+]

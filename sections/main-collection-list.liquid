@@ -1,0 +1,22 @@
+<section class="section" style="background:var(--cream)">
+  <div class="wrap">
+    <span class="kicker">Collections</span>
+    <h1 class="h-xl">Browse by category.</h1>
+    <div class="grid-products">
+      {%- for collection in collections -%}
+        <a class="pcard" href="{{ collection.url }}">
+          {%- if collection.featured_image -%}
+            <span class="pcard__img"><img src="{{ collection.featured_image | image_url: width: 600 }}" alt="{{ collection.title | escape }}" loading="lazy"></span>
+          {%- endif -%}
+          <div class="pcard__info" style="padding-bottom:24px">
+            <h3 class="pcard__title">{{ collection.title }}</h3>
+            <p class="pcard__sub">{{ collection.products_count }} products</p>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Collection list", "settings": [] }
+{% endschema %}

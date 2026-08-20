@@ -1,0 +1,42 @@
+<section class="section planet" id="planet">
+  <div class="wrap planet__grid">
+    <div>
+      <span class="kicker kicker--cream">{{ section.settings.kicker }}</span>
+      <h2 class="h-xl reveal">{{ section.settings.heading }}</h2>
+      <p class="big reveal">{{ section.settings.big_text }}</p>
+      <p class="small reveal">{{ section.settings.small_text }}</p>
+    </div>
+    <div class="vs-card reveal">
+      <h3>{{ section.settings.card_title }}</h3>
+      {%- for block in section.blocks -%}
+        <div class="vs-row" {{ block.shopify_attributes }}>
+          <span class="lft">{{ block.settings.item }}</span>
+          <span class="rgt">{{ block.settings.value }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Planet flex",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Planet flex" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Bamboo grows a meter a day." },
+    { "type": "textarea", "id": "big_text", "label": "Big text", "default": "Your plastic wipes will outlive your grandkids. Sit with that." },
+    { "type": "textarea", "id": "small_text", "label": "Small text", "default": "No pesticides, no replanting, no plastic. Every biod sheet biodegrades back into the ground it came from. Softer on the planet is not a slogan — it is the spec sheet." },
+    { "type": "text", "id": "card_title", "label": "Card title", "default": "Decomposition speedrun" }
+  ],
+  "blocks": [
+    { "type": "row", "name": "Comparison row", "settings": [
+      { "type": "text", "id": "item", "label": "Item", "default": "biod bamboo sheet" },
+      { "type": "text", "id": "value", "label": "Value", "default": "~ months" }
+    ]}
+  ],
+  "presets": [{ "name": "Planet flex", "blocks": [
+    { "type": "row" },
+    { "type": "row", "settings": { "item": "Cotton towel", "value": "~ 5 months + laundry water forever" } },
+    { "type": "row", "settings": { "item": "Plastic wet wipe", "value": "~ 100 years" } }
+  ]}]
+}
+{% endschema %}

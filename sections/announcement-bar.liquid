@@ -1,0 +1,11 @@
+{% if section.settings.text != blank %}
+<div class="announce">{{ section.settings.text }}</div>
+{% endif %}
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Free UAE delivery over Dhs 100 · <b>Ships in 24h</b> · Cash on delivery</p>" }
+  ]
+}
+{% endschema %}

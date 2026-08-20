@@ -1,0 +1,17 @@
+{
+  "current": {
+    "logo_height": 30,
+    "color_leaf": "#7AC143",
+    "color_leaf_dark": "#3E7015",
+    "color_ink": "#2E2E38",
+    "color_cream": "#F8F1DF",
+    "color_paper": "#FDFBF5",
+    "color_kraft": "#C69A6D",
+    "color_sunrise": "#E9601F",
+    "whatsapp_url": "https://wa.me/9715XXXXXXXX",
+    "free_shipping_threshold": 100,
+    "show_cod": true,
+    "enable_reveals": true,
+    "marquee_velocity": true
+  }
+}

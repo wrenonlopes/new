@@ -1,0 +1,63 @@
+<section class="section" id="compare" style="background:var(--paper)">
+  <div class="wrap">
+    <span class="kicker kicker--leaf">{{ section.settings.kicker }}</span>
+    <h2 class="h-xl reveal">{{ section.settings.heading }}</h2>
+    <div class="fight reveal">
+      {%- for block in section.blocks -%}
+        <div class="fighter {% if block.settings.winner %}fighter--win{% elsif forloop.index == 2 %}fighter--l1{% else %}fighter--l2{% endif %}" {{ block.shopify_attributes }}>
+          <span class="fighter__tag {% unless block.settings.winner %}fighter__tag--out{% endunless %}">{{ block.settings.tag }}</span>
+          <div class="fighter__head">
+            <div>
+              <div class="fighter__name">{{ block.settings.name }}</div>
+              <div class="fighter__vibe">{{ block.settings.vibe }}</div>
+            </div>
+          </div>
+          <div>
+            {%- assign stats = block.settings.stats | newline_to_br | split: '<br />' -%}
+            {%- assign delay = 50 -%}
+            {%- for stat in stats -%}
+              {%- assign parts = stat | split: '|' -%}
+              {%- if parts.size >= 2 -%}
+              <div class="fstat">
+                <div class="fl"><span>{{ parts[0] | strip }}{% if parts[2] %} <span class="note">— {{ parts[2] | strip }}</span>{% endif %}</span><span>{{ parts[1] | strip }}</span></div>
+                <div class="fbar"><i style="--w:{{ parts[1] | strip }}%;--d:.{{ delay }}s"></i></div>
+              </div>
+              {%- assign delay = delay | plus: 15 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          <div class="fighter__verdict">{{ block.settings.verdict }}</div>
+        </div>
+      {%- endfor -%}
+      <span class="vs vs--1" aria-hidden="true">VS</span>
+      <span class="vs vs--2" aria-hidden="true">VS</span>
+      <span class="stamp" aria-hidden="true">{{ section.settings.stamp }}</span>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Versus screen",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Head to head" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Choose your fighter." },
+    { "type": "text", "id": "stamp", "label": "Stamp text", "default": "not close." }
+  ],
+  "blocks": [
+    { "type": "fighter", "name": "Fighter", "settings": [
+      { "type": "text", "id": "name", "label": "Name", "default": "biod" },
+      { "type": "text", "id": "vibe", "label": "Vibe line", "default": "fresh sheet. every wash." },
+      { "type": "text", "id": "tag", "label": "Corner tag", "default": "The main character" },
+      { "type": "checkbox", "id": "winner", "label": "Winner styling", "default": false },
+      { "type": "textarea", "id": "stats", "label": "Stats (one per line: Label|Score|Note)", "default": "Softness|96|\nHygiene|98|zero buildup\nPlanet|95|gone in months\nNo additives|100|" },
+      { "type": "text", "id": "verdict", "label": "Verdict", "default": "The routine derms actually recommend." }
+    ]}
+  ],
+  "presets": [{ "name": "Versus screen", "blocks": [
+    { "type": "fighter", "settings": { "winner": true } },
+    { "type": "fighter", "settings": { "name": "Cotton Towel", "vibe": "damp since Tuesday", "tag": "Eliminated", "stats": "Softness|58|drags on skin\nHygiene|18|bacteria's airbnb\nPlanet|44|laundry forever\nNo additives|62|detergent residue", "verdict": "The default since forever. That's the problem." } },
+    { "type": "fighter", "settings": { "name": "Wet Wipes", "vibe": "immortal (derogatory)", "tag": "Eliminated", "stats": "Softness|55|\nHygiene|72|single use, at least\nPlanet|5|outlives your grandkids\nNo additives|12|preservatives + fragrance", "verdict": "Convenient today. Landfill for a century." } }
+  ]}]
+}
+{% endschema %}

@@ -1,0 +1,31 @@
+{%- comment -%} Accepts: product, tag_label (optional), tag_hot (optional) {%- endcomment -%}
+<div class="pcard">
+  <a class="pcard__img" href="{{ product.url }}">
+    {%- if tag_label != blank -%}
+      <span class="pcard__tag {% if tag_hot %}pcard__tag--hot{% endif %}">{{ tag_label }}</span>
+    {%- endif -%}
+    {%- if product.featured_image -%}
+      <img src="{{ product.featured_image | image_url: width: 600 }}"
+           srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 600 }} 600w"
+           sizes="(max-width: 920px) 90vw, 360px"
+           alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
+    {%- endif -%}
+  </a>
+  <div class="pcard__info">
+    <span class="pcard__stars">★★★★★</span>
+    <h3 class="pcard__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    {%- if product.metafields.biod.card_subtitle != blank -%}
+      <p class="pcard__sub">{{ product.metafields.biod.card_subtitle }}</p>
+    {%- endif -%}
+    {% render 'price', product: product %}
+  </div>
+  {%- assign v = product.selected_or_first_available_variant -%}
+  {%- if product.available -%}
+    <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
+      <input type="hidden" name="id" value="{{ v.id }}">
+      <button type="submit" class="pcard__add" style="width:calc(100% - 52px)">{{ 'products.add_to_cart' | t }}</button>
+    </form>
+  {%- else -%}
+    <button class="pcard__add" disabled>{{ 'products.sold_out' | t }}</button>
+  {%- endif -%}
+</div>

@@ -1,0 +1,130 @@
+{%- assign v = product.selected_or_first_available_variant -%}
+<div class="wrap" data-pdp>
+  <div class="pdp">
+    <div>
+      <div class="pdp__main-img">
+        {%- if product.metafields.biod.card_tag != blank -%}
+          <span class="pcard__tag pcard__tag--hot">{{ product.metafields.biod.card_tag }}</span>
+        {%- endif -%}
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}">
+        {%- endif -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <div class="pdp__thumbs">
+          {%- for image in product.images limit: 6 -%}
+            <img src="{{ image | image_url: width: 180 }}" data-full="{{ image | image_url: width: 900 }}"
+                 class="{% if forloop.first %}on{% endif %}" alt="{{ image.alt | escape }}" loading="lazy">
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div>
+      {%- if product.metafields.biod.kicker != blank -%}
+        <div class="pdp__kicker">{{ product.metafields.biod.kicker }}</div>
+      {%- endif -%}
+      <h1>{{ product.title }}</h1>
+      {%- if product.metafields.biod.hook != blank -%}
+        <p class="pdp__hook">{{ product.metafields.biod.hook }}</p>
+      {%- endif -%}
+      {% render 'price', product: product %}
+      {%- if product.metafields.biod.unit_note != blank -%}
+        <div class="pdp__unit">{{ product.metafields.biod.unit_note }}</div>
+      {%- endif -%}
+
+      <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
+        <input type="hidden" name="id" value="{{ v.id }}">
+
+        {%- if product.selling_plan_groups.size > 0 -%}
+          <div class="selling-plans">
+            <label class="plan on" data-price="{{ product.price | money }}">
+              <input type="radio" name="selling_plan" value="" checked>
+              <div><div class="t">One-time purchase</div><div class="s">Just this order</div></div>
+              <span class="p">{{ product.price | money }}</span>
+            </label>
+            {%- for group in product.selling_plan_groups -%}
+              {%- for plan in group.selling_plans -%}
+                {%- assign alloc = v.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
+                <label class="plan" data-price="{{ alloc.price | money }}">
+                  <input type="radio" name="selling_plan" value="{{ plan.id }}">
+                  <div><div class="t">{{ plan.name }}</div><div class="s">Cancel anytime</div></div>
+                  <span class="p">{{ alloc.price | money }}</span>
+                </label>
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div class="buy-row">
+          <div class="qty-box">
+            <button type="button" data-qty-minus aria-label="Decrease">−</button>
+            <input type="number" name="quantity" value="1" min="1" max="50" aria-label="Quantity">
+            <button type="button" data-qty-plus aria-label="Increase">+</button>
+          </div>
+          {%- if product.available -%}
+            <button type="submit" class="btn btn--ink">{{ 'products.add_to_cart' | t }}</button>
+          {%- else -%}
+            <button type="button" class="btn btn--outline" disabled>{{ 'products.sold_out' | t }}</button>
+          {%- endif -%}
+        </div>
+      </form>
+
+      <div class="trust">
+        <span>Ships in 24h</span>
+        {%- if settings.show_cod -%}<span>Cash on delivery</span>{%- endif -%}
+        <span>Free delivery over Dhs {{ settings.free_shipping_threshold }}</span>
+        <span>30-day WhatsApp guarantee</span>
+      </div>
+
+      {%- if section.settings.show_receipts -%}
+        <div class="receipt-strip"><b>Why single-use?</b> In a published study, <b>89%</b> of used hand towels carried coliform bacteria — and dermatologists advise washing a face towel after every single use if you're acne-prone. A fresh sheet skips the whole problem.</div>
+      {%- endif -%}
+
+      <div class="pdp__accs">
+        <details open>
+          <summary>What it is</summary>
+          <div>{{ product.description }}</div>
+        </details>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'accordion' -%}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.title }}</summary>
+              <div>{{ block.settings.content }}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.show_recommendations -%}
+    <div style="padding:30px 0 90px">
+      <h2 class="h-l reveal" style="margin-bottom:26px">Pairs well with</h2>
+      <div class="grid-products" style="margin-top:0">
+        {%- for rec in product.metafields.biod.pairs_with.value limit: 2 -%}
+          {% render 'product-card', product: rec %}
+        {%- else -%}
+          {%- for rec in recommendations.products limit: 2 -%}
+            {% render 'product-card', product: rec %}
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    { "type": "checkbox", "id": "show_receipts", "label": "Show receipts strip", "default": true },
+    { "type": "checkbox", "id": "show_recommendations", "label": "Show 'Pairs well with'", "default": true }
+  ],
+  "blocks": [
+    { "type": "accordion", "name": "Accordion", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "How to use it" },
+      { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Pull a fresh sheet. Wash like you always do. Pat dry — don't rub. Toss it: it's 100% bamboo fiber and biodegrades in months.</p>" }
+    ]}
+  ],
+  "presets": [{ "name": "Product page" }]
+}
+{% endschema %}

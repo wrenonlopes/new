@@ -1,0 +1,25 @@
+<section class="section" style="background:var(--cream)">
+  <div class="wrap">
+    <span class="kicker">The Feed</span>
+    <h1 class="h-xl">{{ blog.title }}</h1>
+    <div class="grid-products" style="margin-top:44px">
+      {%- paginate blog.articles by 9 -%}
+        {%- for article in blog.articles -%}
+          <a class="pcard" href="{{ article.url }}">
+            {%- if article.image -%}
+              <span class="pcard__img"><img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.image.alt | escape }}" loading="lazy"></span>
+            {%- endif -%}
+            <div class="pcard__info" style="padding-bottom:24px">
+              <span class="pcard__stars">{{ article.tags | first }}</span>
+              <h3 class="pcard__title">{{ article.title }}</h3>
+              <p class="pcard__sub">{{ article.published_at | date: '%b %Y' }}</p>
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Blog", "settings": [] }
+{% endschema %}

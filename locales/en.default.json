@@ -1,0 +1,12 @@
+{
+  "general": {
+    "search": { "placeholder": "Search" },
+    "cart": { "title": "Your cart", "empty": "Nothing here yet. Your towel remains moist.", "checkout": "Checkout", "keep_shopping": "Keep shopping" },
+    "404": { "title": "This page biodegraded.", "back": "Back to the shop" }
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "view": "View"
+  }
+}

@@ -1,0 +1,9 @@
+{%- comment -%} Renders price for a product. Accepts: product {%- endcomment -%}
+<div class="price">
+  <span class="price__now" data-price-now>{{ product.price | money }}</span>
+  {%- if product.compare_at_price > product.price -%}
+    <span class="price__was">{{ product.compare_at_price | money }}</span>
+    {%- assign save = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+    <span class="price__save">−{{ save }}%</span>
+  {%- endif -%}
+</div>

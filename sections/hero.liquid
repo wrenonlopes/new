@@ -1,0 +1,71 @@
+<header class="hero">
+  <div class="wrap" style="position:relative">
+    <div class="hero__stickers" aria-hidden="true">
+      {%- assign st_i = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'sticker' -%}
+          {%- assign st_i = st_i | plus: 1 -%}
+          <span class="sticker hs hs--{{ st_i }}" {{ block.shopify_attributes }}>
+            <b>{{ block.settings.value }}</b><span>{{ block.settings.label }}</span>
+          </span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.rating_text != blank -%}
+      <div class="hero__rating">{{ section.settings.rating_text }}</div>
+    {%- endif -%}
+    <h1 class="h-display">
+      <span class="w w1">{{ section.settings.heading_1 }}</span>
+      <span class="w w2">{{ section.settings.heading_2 }}</span><br>
+      <span class="accent w w3">{{ section.settings.heading_3 }}<svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path class="scribble" pathLength="100" d="M4 16 C60 6 120 20 160 12 C210 3 260 16 296 9" stroke="var(--sunrise)" stroke-width="7" fill="none" stroke-linecap="round"/></svg></span>
+    </h1>
+    <div class="hero__sub">{{ section.settings.subtext }}</div>
+    <div class="hero__ctas">
+      {%- if section.settings.cta1_label != blank -%}<a class="btn btn--sunrise" href="{{ section.settings.cta1_url }}">{{ section.settings.cta1_label }}</a>{%- endif -%}
+      {%- if section.settings.cta2_label != blank -%}<a class="btn btn--outline" href="{{ section.settings.cta2_url }}">{{ section.settings.cta2_label }}</a>{%- endif -%}
+    </div>
+    <div class="hero__snaps" aria-hidden="true">
+      {%- assign snap_i = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'snap' and block.settings.image -%}
+          {%- assign snap_i = snap_i | plus: 1 -%}
+          <div class="snap snap--{{ snap_i }}" {{ block.shopify_attributes }}>
+            <img src="{{ block.settings.image | image_url: width: 480 }}" alt="{{ block.settings.image.alt | escape }}" loading="lazy">
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</header>
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "text", "id": "rating_text", "label": "Rating pill", "default": "★★★★★  4.6 Excellent · 100,000+ customers" },
+    { "type": "text", "id": "heading_1", "label": "Heading word 1", "default": "The" },
+    { "type": "text", "id": "heading_2", "label": "Heading word 2", "default": "Bamboo" },
+    { "type": "text", "id": "heading_3", "label": "Heading word 3 (scribbled)", "default": "Revolution." },
+    { "type": "richtext", "id": "subtext", "label": "Subtext", "default": "<p>Everything you wipe, dry, and toss — remade in bamboo. <b>Face towels and tissues today. Toilet paper and kitchen towels next.<\/b> Softer than cotton, fresh every single use, and back in the ground in months, not centuries.<\/p>" },
+    { "type": "text", "id": "cta1_label", "label": "Primary CTA label", "default": "Shop the sale" },
+    { "type": "url", "id": "cta1_url", "label": "Primary CTA link" },
+    { "type": "text", "id": "cta2_label", "label": "Secondary CTA label", "default": "See the receipts" },
+    { "type": "url", "id": "cta2_url", "label": "Secondary CTA link" }
+  ],
+  "blocks": [
+    { "type": "sticker", "name": "Stat sticker", "limit": 4, "settings": [
+      { "type": "text", "id": "value", "label": "Value", "default": "89%" },
+      { "type": "text", "id": "label", "label": "Label", "default": "of used towels carry bacteria*" }
+    ]},
+    { "type": "snap", "name": "Photo snap", "limit": 3, "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image (4:5)" }
+    ]}
+  ],
+  "presets": [{ "name": "Hero", "blocks": [
+    { "type": "sticker", "settings": { "value": "89%", "label": "of used towels carry bacteria*" } },
+    { "type": "sticker", "settings": { "value": "×1", "label": "one sheet, one use" } },
+    { "type": "sticker", "settings": { "value": "100%", "label": "bamboo fiber" } },
+    { "type": "sticker", "settings": { "value": "4.6★", "label": "100k+ customers" } },
+    { "type": "snap" }, { "type": "snap" }, { "type": "snap" }
+  ]}]
+}
+{% endschema %}

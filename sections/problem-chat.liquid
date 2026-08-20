@@ -1,0 +1,60 @@
+<section class="section problem" id="problem">
+  <div class="wrap problem__grid">
+    <div>
+      <span class="kicker">{{ section.settings.kicker }}</span>
+      <h2 class="h-xl reveal">{{ section.settings.heading }}</h2>
+      <p class="big reveal">{{ section.settings.big_text }}</p>
+      <p class="small reveal">{{ section.settings.small_text }}</p>
+    </div>
+    <div class="chat reveal" aria-label="Group chat conversation">
+      <div class="chat__head">
+        <div class="chat__avas" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div>
+          <div class="chat__name">{{ section.settings.chat_name }}</div>
+          <div class="chat__status">● {{ section.settings.chat_status }}</div>
+        </div>
+      </div>
+      <div class="chat__time">{{ section.settings.chat_time }}</div>
+      <div class="thread">
+        {%- assign d = 30 -%}
+        {%- for block in section.blocks -%}
+          <div class="msg {% if block.settings.outgoing %}msg--out{% endif %}" style="--d:{{ d | divided_by: 100.0 }}s" {{ block.shopify_attributes }}>
+            {%- unless block.settings.outgoing or block.settings.sender == blank -%}
+              <div class="sender">{{ block.settings.sender }}</div>
+            {%- endunless -%}
+            <div class="bub">{{ block.settings.text }}</div>
+          </div>
+          {%- assign d = d | plus: 70 -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Problem + group chat",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The problem" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your towel has been moist since Tuesday." },
+    { "type": "textarea", "id": "big_text", "label": "Big text", "default": "Every wash, you dry your clean face on a towel that has been warm, damp, and collecting bacteria all week." },
+    { "type": "textarea", "id": "small_text", "label": "Small text", "default": "Then you wonder where the breakouts come from. It is not your serum. It is not your cleanser. It is the last thing that touches your face." },
+    { "type": "text", "id": "chat_name", "label": "Chat name", "default": "skincare gc" },
+    { "type": "text", "id": "chat_status", "label": "Chat status", "default": "maya is online" },
+    { "type": "text", "id": "chat_time", "label": "Timestamp", "default": "today 21:47" }
+  ],
+  "blocks": [
+    { "type": "message", "name": "Message", "settings": [
+      { "type": "text", "id": "sender", "label": "Sender (incoming only)", "default": "maya" },
+      { "type": "textarea", "id": "text", "label": "Text" },
+      { "type": "checkbox", "id": "outgoing", "label": "Outgoing (you)", "default": false }
+    ]}
+  ],
+  "presets": [{ "name": "Problem + group chat", "blocks": [
+    { "type": "message", "settings": { "text": "why is my skin freaking out?? i literally own the whole sephora aisle" } },
+    { "type": "message", "settings": { "text": "when did you last wash your face towel", "outgoing": true } },
+    { "type": "message", "settings": { "text": "we don't talk about that" } },
+    { "type": "message", "settings": { "text": "it's been marinating since tuesday 💀", "outgoing": true } },
+    { "type": "message", "settings": { "text": "ok adding to cart rn" } }
+  ]}]
+}
+{% endschema %}

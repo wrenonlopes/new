@@ -1,0 +1,68 @@
+<section class="section reviews" id="reviews">
+  <div class="wrap">
+    <span class="kicker">{{ section.settings.kicker }}</span>
+    <h2 class="h-xl reveal">{{ section.settings.heading }}</h2>
+  </div>
+  <div class="rev-strip">
+    <div class="rev-track" data-speed="{{ section.settings.speed }}">
+      {%- for i in (1..2) -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'text_review' -%}
+            <div class="rcard rcard--{{ block.settings.color }} {% if i == 2 %}dup{% endif %}" {% if i == 2 %}aria-hidden="true"{% else %}{{ block.shopify_attributes }}{% endif %}>
+              <span class="rcard__stars">★★★★★</span>
+              <p class="rcard__q">{{ block.settings.quote }}</p>
+              <span class="rcard__who">{{ block.settings.who }}</span>
+            </div>
+          {%- elsif block.type == 'video_review' -%}
+            <div class="rcard rcard--video {% if i == 2 %}dup{% endif %}" {% if i == 2 %}aria-hidden="true"{% else %}{{ block.shopify_attributes }}{% endif %}>
+              {%- if block.settings.video -%}
+                {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'vbg' }}
+              {%- elsif block.settings.poster -%}
+                <img class="vbg" src="{{ block.settings.poster | image_url: width: 480 }}" alt="" loading="lazy">
+              {%- endif -%}
+              <div class="rcard__vmeta">
+                <span class="s">★★★★★</span>
+                <div class="h">{{ block.settings.handle }}</div>
+                <div class="c">{{ block.settings.caption }}</div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Reviews strip",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "No, really" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The comment section agrees." },
+    { "type": "range", "id": "speed", "label": "Scroll speed", "min": 30, "max": 120, "step": 5, "default": 55 }
+  ],
+  "blocks": [
+    { "type": "text_review", "name": "Text review", "settings": [
+      { "type": "textarea", "id": "quote", "label": "Quote" },
+      { "type": "text", "id": "who", "label": "Reviewer", "default": "Mariam A. — Dubai" },
+      { "type": "select", "id": "color", "label": "Card color", "options": [
+        { "value": "paper", "label": "Paper" }, { "value": "leaf", "label": "Leaf" },
+        { "value": "ink", "label": "Ink" }, { "value": "sun", "label": "Sunrise" }
+      ], "default": "paper" }
+    ]},
+    { "type": "video_review", "name": "UGC video (9:16)", "settings": [
+      { "type": "video", "id": "video", "label": "Video (9:16, will autoplay muted)" },
+      { "type": "image_picker", "id": "poster", "label": "Fallback image (if no video)" },
+      { "type": "text", "id": "handle", "label": "Creator handle", "default": "@skinbysara.ae" },
+      { "type": "text", "id": "caption", "label": "Caption" }
+    ]}
+  ],
+  "presets": [{ "name": "Reviews strip", "blocks": [
+    { "type": "text_review", "settings": { "quote": "\"The first towel that didn't leave my cheeks red. Noticed it in week one.\"", "who": "Mariam A. — Dubai", "color": "paper" } },
+    { "type": "video_review", "settings": { "caption": "\"POV: you found out what's living on your face towel\"" } },
+    { "type": "text_review", "settings": { "quote": "\"My dermatologist told me to stop reusing cloth towels. This made it effortless.\"", "who": "Omar K. — Abu Dhabi", "color": "leaf" } },
+    { "type": "video_review", "settings": { "handle": "@rashidtries", "caption": "\"I tested it for 30 days so you don't have to.\"" } },
+    { "type": "text_review", "settings": { "quote": "\"Softer than anything I've used. Jawline breakouts: gone.\"", "who": "Lina S. — Sharjah", "color": "ink" } },
+    { "type": "text_review", "settings": { "quote": "\"Cancelled my wipes subscription. My face and the turtles say thanks.\"", "who": "Aisha M. — Dubai", "color": "sun" } }
+  ]}]
+}
+{% endschema %}

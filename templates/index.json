@@ -1,0 +1,125 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "st1": { "type": "sticker", "settings": { "value": "89%", "label": "of used towels carry bacteria*" } },
+        "st2": { "type": "sticker", "settings": { "value": "×1", "label": "one sheet, one use" } },
+        "st3": { "type": "sticker", "settings": { "value": "100%", "label": "bamboo fiber" } },
+        "st4": { "type": "sticker", "settings": { "value": "4.6★", "label": "100k+ customers" } },
+        "sn1": { "type": "snap", "settings": {} },
+        "sn2": { "type": "snap", "settings": {} },
+        "sn3": { "type": "snap", "settings": {} }
+      },
+      "block_order": ["st1", "st2", "st3", "st4", "sn1", "sn2", "sn3"]
+    },
+    "ticker": { "type": "ticker" },
+    "chat": {
+      "type": "problem-chat",
+      "blocks": {
+        "m1": { "type": "message", "settings": { "sender": "maya", "text": "why is my skin freaking out?? i literally own the whole sephora aisle", "outgoing": false } },
+        "m2": { "type": "message", "settings": { "text": "when did you last wash your face towel", "outgoing": true } },
+        "m3": { "type": "message", "settings": { "sender": "maya", "text": "we don't talk about that", "outgoing": false } },
+        "m4": { "type": "message", "settings": { "text": "it's been marinating since tuesday 💀", "outgoing": true } },
+        "m5": { "type": "message", "settings": { "sender": "maya", "text": "ok adding to cart rn", "outgoing": false } }
+      },
+      "block_order": ["m1", "m2", "m3", "m4", "m5"]
+    },
+    "featured": {
+      "type": "featured-collection",
+      "blocks": {
+        "cs1": { "type": "coming_soon", "settings": { "title": "Bamboo Toilet Paper", "subtitle": "Tree-free. On the way." } },
+        "cs2": { "type": "coming_soon", "settings": { "title": "Bamboo Kitchen Towels", "subtitle": "Stronger wet. On the way." } }
+      },
+      "block_order": ["cs1", "cs2"]
+    },
+    "versus": {
+      "type": "versus",
+      "blocks": {
+        "f1": { "type": "fighter", "settings": {
+          "name": "biod", "vibe": "fresh sheet. every wash.", "tag": "The main character", "winner": true,
+          "stats": "Softness|96|\nHygiene|98|zero buildup\nPlanet|95|gone in months\nNo additives|100|",
+          "verdict": "The routine derms actually recommend. Receipts attached."
+        } },
+        "f2": { "type": "fighter", "settings": {
+          "name": "Cotton Towel", "vibe": "damp since Tuesday", "tag": "Eliminated", "winner": false,
+          "stats": "Softness|58|drags on skin\nHygiene|18|bacteria's airbnb\nPlanet|44|laundry forever\nNo additives|62|detergent residue",
+          "verdict": "The default since forever. That's the problem."
+        } },
+        "f3": { "type": "fighter", "settings": {
+          "name": "Wet Wipes", "vibe": "immortal (derogatory)", "tag": "Eliminated", "winner": false,
+          "stats": "Softness|55|\nHygiene|72|single use, at least\nPlanet|5|outlives your grandkids\nNo additives|12|preservatives + fragrance",
+          "verdict": "Convenient today. Landfill for a century."
+        } }
+      },
+      "block_order": ["f1", "f2", "f3"]
+    },
+    "receipts": {
+      "type": "receipts",
+      "blocks": {
+        "r1": { "type": "stat", "settings": {
+          "count_to": 89, "prefix": "", "suffix": "%", "static_value": "",
+          "text": "Of 82 used hand towels tested, 89% carried coliform bacteria.",
+          "source": "Gerba et al. · University of Arizona · Food Protection Trends, 2014",
+          "corner": "Published study"
+        } },
+        "r2": { "type": "stat", "settings": {
+          "count_to": 0, "prefix": "", "suffix": "", "static_value": "1 in 4",
+          "text": "About one in four of those towels carried E. coli. Yes, that E. coli.",
+          "source": "25.6% E. coli detection · linked to washing frequency",
+          "corner": "Same study"
+        } }
+      },
+      "block_order": ["r1", "r2"]
+    },
+    "planet": {
+      "type": "planet",
+      "blocks": {
+        "p1": { "type": "row", "settings": { "item": "biod bamboo sheet", "value": "~ months" } },
+        "p2": { "type": "row", "settings": { "item": "Cotton towel", "value": "~ 5 months + laundry water forever" } },
+        "p3": { "type": "row", "settings": { "item": "Plastic wet wipe", "value": "~ 100 years" } }
+      },
+      "block_order": ["p1", "p2", "p3"]
+    },
+    "reviews": {
+      "type": "reviews-strip",
+      "blocks": {
+        "t1": { "type": "text_review", "settings": { "quote": "\"The first towel that didn't leave my cheeks red. Noticed it in week one.\"", "who": "Mariam A. — Dubai", "color": "paper" } },
+        "v1": { "type": "video_review", "settings": { "handle": "@skinbysara.ae", "caption": "\"POV: you found out what's living on your face towel\"" } },
+        "t2": { "type": "text_review", "settings": { "quote": "\"My dermatologist told me to stop reusing cloth towels. This made it effortless.\"", "who": "Omar K. — Abu Dhabi", "color": "leaf" } },
+        "v2": { "type": "video_review", "settings": { "handle": "@rashidtries", "caption": "\"I tested it for 30 days so you don't have to. Verdict inside.\"" } },
+        "t3": { "type": "text_review", "settings": { "quote": "\"Softer than anything I've used. Jawline breakouts: gone.\"", "who": "Lina S. — Sharjah", "color": "ink" } },
+        "t4": { "type": "text_review", "settings": { "quote": "\"Cancelled my wipes subscription. My face and the turtles say thanks.\"", "who": "Aisha M. — Dubai", "color": "sun" } }
+      },
+      "block_order": ["t1", "v1", "t2", "v2", "t3", "t4"]
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "qa", "settings": {
+          "question": "How is bamboo different from cotton?",
+          "answer": "<p>Bamboo cellulose fibers are finer and more uniform than cotton, so there is less friction on skin. The bigger difference is freshness: a biod sheet is used once, so bacteria, oil, and product residue never accumulate the way they do on a reused cloth towel.</p>"
+        } },
+        "q2": { "type": "qa", "settings": {
+          "question": "Single-use? Isn't that wasteful?",
+          "answer": "<p>Flip it: a fresh sheet each wash means zero buildup, and every sheet is 100% bamboo fiber that biodegrades in months — not the ~100 years a plastic wipe hangs around. Bamboo also regrows absurdly fast without pesticides.</p>"
+        } },
+        "q3": { "type": "qa", "settings": {
+          "question": "Will it work for sensitive or acne-prone skin?",
+          "answer": "<p>That's who it's for. Dermatologists recommend single-use face towels for acne-prone and sensitive skin, and the AAD advises washing a reusable face towel after every single use if you're breaking out. One fresh sheet skips that chore entirely.</p>"
+        } },
+        "q4": { "type": "qa", "settings": {
+          "question": "How fast is delivery in the UAE?",
+          "answer": "<p>Ships within 24 hours. Free delivery over Dhs 100. Cash on delivery available everywhere in the UAE.</p>"
+        } },
+        "q5": { "type": "qa", "settings": {
+          "question": "What if my skin disagrees?",
+          "answer": "<p>Start with the Travel size — Dhs 19. Not happy within 30 days? Message us on WhatsApp and we'll sort it. No forms, no drama.</p>"
+        } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5"]
+    },
+    "cta": { "type": "final-cta" }
+  },
+  "order": ["hero", "ticker", "chat", "featured", "versus", "receipts", "planet", "reviews", "faq", "cta"]
+}

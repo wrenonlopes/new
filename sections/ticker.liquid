@@ -1,0 +1,19 @@
+<div class="ticker {% if section.settings.style == 'sunrise' %}ticker--sunrise{% endif %}" aria-hidden="true">
+  <div class="ticker__track" data-speed="{{ section.settings.speed }}">
+    {%- assign items = section.settings.items | split: ',' -%}
+    {%- for i in (1..2) -%}
+      {%- for item in items -%}<span>{{ item | strip }}</span>{%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Ticker",
+  "settings": [
+    { "type": "textarea", "id": "items", "label": "Items (comma separated)", "default": "Derm-recommended routine, 100% bamboo, Fresh sheet every use, Hypoallergenic, No added fragrance, Biodegradable" },
+    { "type": "select", "id": "style", "label": "Color", "options": [ { "value": "ink", "label": "Ink" }, { "value": "sunrise", "label": "Sunrise" } ], "default": "ink" },
+    { "type": "range", "id": "speed", "label": "Base speed", "min": 40, "max": 160, "step": 10, "default": 90 }
+  ],
+  "presets": [{ "name": "Ticker" }]
+}
+{% endschema %}

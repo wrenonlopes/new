@@ -1,0 +1,31 @@
+<section class="section" id="faq" style="background:var(--paper)">
+  <div class="wrap">
+    <span class="kicker kicker--leaf">{{ section.settings.kicker }}</span>
+    <h2 class="h-xl reveal">{{ section.settings.heading }}</h2>
+    <div class="faq-list reveal">
+      {%- for block in section.blocks -%}
+        <details {% if forloop.first and section.settings.open_first %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }}</summary>
+          <div>{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Before you ask" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Fair questions." },
+    { "type": "checkbox", "id": "open_first", "label": "Open first question", "default": false }
+  ],
+  "blocks": [
+    { "type": "qa", "name": "Question", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "How is bamboo different from cotton?" },
+      { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Bamboo cellulose fibers are finer and more uniform than cotton, so there is less friction on skin. The bigger difference is freshness: a biod sheet is used once, so bacteria, oil, and product residue never accumulate.</p>" }
+    ]}
+  ],
+  "presets": [{ "name": "FAQ", "blocks": [ { "type": "qa" }, { "type": "qa" }, { "type": "qa" } ] }]
+}
+{% endschema %}
