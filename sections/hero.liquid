@@ -10,13 +10,20 @@
           </span>
         {%- elsif block.type == 'image_sticker' -%}
           {%- assign st_i = st_i | plus: 1 -%}
-          <span class="hs hs--{{ st_i }} hs--img" {{ block.shopify_attributes }}>
-            {%- if block.settings.image -%}
-              <img src="{{ block.settings.image | image_url: width: 400 }}" alt="" loading="lazy">
-            {%- elsif block.settings.asset != blank -%}
-              <img src="{{ block.settings.asset | asset_url }}" alt="" loading="lazy">
-            {%- endif -%}
-          </span>
+          {%- if block.settings.image == blank and block.settings.asset == 'sticker-tube.png' -%}
+            <span class="hs hs--{{ st_i }} hs--img hs--anim" {{ block.shopify_attributes }}>
+              <img class="anim-tissue" src="{{ 'tube-tissue.png' | asset_url }}" alt="" loading="lazy">
+              <img class="anim-body" src="{{ 'tube-body.png' | asset_url }}" alt="" loading="lazy">
+            </span>
+          {%- else -%}
+            <span class="hs hs--{{ st_i }} hs--img" {{ block.shopify_attributes }}>
+              {%- if block.settings.image -%}
+                <img src="{{ block.settings.image | image_url: width: 400 }}" alt="" loading="lazy">
+              {%- elsif block.settings.asset != blank -%}
+                <img src="{{ block.settings.asset | asset_url }}" alt="" loading="lazy">
+              {%- endif -%}
+            </span>
+          {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
     </div>
@@ -68,7 +75,7 @@
     { "type": "snap", "name": "Photo snap", "limit": 3, "settings": [
       { "type": "image_picker", "id": "image", "label": "Image (4:5)" }
     ]},
-    { "type": "image_sticker", "name": "Product sticker", "limit": 2, "settings": [
+    { "type": "image_sticker", "name": "Product sticker", "limit": 3, "settings": [
       { "type": "image_picker", "id": "image", "label": "Sticker image (transparent PNG)" },
       { "type": "text", "id": "asset", "label": "Theme asset filename (fallback)", "info": "e.g. sticker-xl.png" }
     ]}

@@ -73,6 +73,13 @@ img{max-width:100%;height:auto}
 .hs.hs--img{background:none !important;border:none !important;box-shadow:none;padding:0;color:inherit}
 .hs--1.hs--img{width:185px}
 .hs--2.hs--img{width:105px}
+.hs--3.hs--img{width:150px}
+/* layered tube: tissue pulls out of the body */
+.hs--anim{position:relative;display:block;animation:bob 5s ease-in-out infinite alternate}
+.hs--anim img{animation:none}
+.hs--anim .anim-body{position:relative;z-index:2}
+.hs--anim .anim-tissue{position:absolute;inset:0;z-index:1;animation:tissue-pull 2.4s ease-in-out infinite alternate}
+@keyframes tissue-pull{from{transform:translateY(0)}60%{transform:translateY(-4%)}to{transform:translateY(-2.6%)}}
 .hs--img img{width:100%;height:auto;display:block;filter:drop-shadow(0 14px 24px rgba(46,46,56,.28));animation:bob 5s ease-in-out infinite alternate}
 @keyframes bob{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-12px) rotate(1.5deg)}}
 .page-sticker{position:absolute;display:block;pointer-events:none;animation:bob 6s ease-in-out infinite alternate}
@@ -80,7 +87,7 @@ img{max-width:100%;height:auto}
 .page-sticker--sm{width:95px}
 .page-sticker--md{width:130px}
 .page-sticker--lg{width:175px}
-@media (prefers-reduced-motion:reduce){.hs--img img,.page-sticker{animation:none}}
+@media (prefers-reduced-motion:reduce){.hs--img img,.page-sticker,.hs--anim,.hs--anim .anim-tissue{animation:none}}
 .hs--1{top:2%;left:2%;--r:-7deg;animation-delay:.85s;background:var(--leaf);color:var(--ink)}
 .hs--2{top:6%;right:1%;--r:6deg;animation-delay:.97s;background:var(--sunrise);color:var(--cream)}
 .hs--3{bottom:-4%;left:6%;--r:4deg;animation-delay:1.09s;background:var(--ink);color:var(--cream)}
@@ -380,22 +387,26 @@ img{max-width:100%;height:auto}
   .cart-link{padding:9px 16px;font-size:13px}
   .announce{font-size:9.5px;letter-spacing:.14em;padding:9px 12px}
 
-  /* hero: stickers become a swipe row under the CTAs */
+  /* hero: XL above headline, travel + tube flank the subtext */
   .hero{padding:56px 0 0}
-  .hero .wrap{display:flex;flex-direction:column;align-items:center}
-  .hero__rating{font-size:10.5px;padding:8px 16px;margin-bottom:26px}
-  .hero__sub{margin:24px auto 30px;font-size:15.5px}
-  .hero__ctas{width:100%;flex-direction:column}
+  .hero .wrap{display:grid;grid-template-columns:1fr 1fr;justify-items:center;align-items:center}
+  .hero__rating{order:1;grid-column:1/-1;font-size:10.5px;padding:8px 16px;margin-bottom:20px}
+  .hero .h-display{order:3;grid-column:1/-1}
+  .hero__sub{order:4;grid-column:1/-1;margin:18px auto 6px;font-size:15.5px;max-width:80%;position:relative;z-index:2}
+  .hero__ctas{order:7;grid-column:1/-1;width:100%;flex-direction:column;margin-top:14px}
   .hero__ctas .btn{width:100%}
-  .hero__stickers{position:static;order:5;display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;pointer-events:auto;margin-top:30px;padding:6px 4px 12px;width:100%;overflow:visible}
+  .hero__snaps{order:8;grid-column:1/-1;width:100%}
+  .hero__stickers{display:contents;pointer-events:none}
   .hs{display:flex;position:static;opacity:1;animation:none;transform:rotate(var(--r,0deg));padding:12px 10px;justify-content:center;text-align:center}
-  .hs--1,.hs--3{--r:-1.5deg}
-  .hs--2,.hs--4{--r:1.5deg}
+  .hs--1{--r:-3deg}
+  .hs--3{--r:-6deg}
+  .hs--2,.hs--4{--r:5deg}
   .hs b{font-size:20px}
   .hs span{font-size:8.5px}
   .hs--img{justify-self:center;padding:0}
-  .hs--1.hs--img{width:140px;max-width:none}
-  .hs--2.hs--img{width:82px;max-width:none}
+  .hs--1.hs--img{order:2;grid-column:1/-1;width:165px;max-width:none;margin:2px 0 4px}
+  .hs--3.hs--img{order:5;justify-self:start;width:150px;max-width:none;margin:-4px 0 0 12px}
+  .hs--2.hs--img{order:6;justify-self:end;width:92px;max-width:none;margin:-36px 20px 0 0}
   .hero__snaps{order:6;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:14px;margin-top:34px;padding:6px 2px 16px;width:100%;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .hero__snaps::-webkit-scrollbar{display:none}
   .snap{width:150px;flex:none;box-shadow:5px 6px 0 rgba(46,46,56,.9)}

@@ -24,6 +24,12 @@
             "asset": "sticker-tube.png"
           }
         },
+        "st3": {
+          "type": "image_sticker",
+          "settings": {
+            "asset": "sticker-travel.png"
+          }
+        },
         "sn1": {
           "type": "snap",
           "settings": {}
@@ -40,6 +46,7 @@
       "block_order": [
         "st1",
         "st2",
+        "st3",
         "sn1",
         "sn2",
         "sn3"
