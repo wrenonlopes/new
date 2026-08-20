@@ -31,9 +31,9 @@ Create these under namespace `biod` (all single-line text unless noted):
 - `biod.pairs_with`    — product reference list (for the Pairs-well-with row; falls back
                          to Shopify recommendations if empty)
 
-## Subscriptions (Subscribe & Save 30%)
+## Subscriptions (Subscribe & Save 5%)
 The PDP renders selling plans automatically when they exist. Install a subscriptions app
-(Shopify Subscriptions is free) and create a "Monthly — save 30%" selling plan per product.
+(Shopify Subscriptions is free) and create a "Monthly — save 5%" selling plan per product.
 
 ## Fix these catalogue issues in admin (found during the redesign)
 - Tissue Tube: unify title/price (collection says 4-pack Dhs 36; product page said Dhs 45).
