@@ -5,7 +5,7 @@
         {%- if settings.logo_light -%}
           <img src="{{ settings.logo_light | image_url: width: 300 }}" alt="{{ shop.name }}" style="height:34px;width:auto">
         {%- else -%}
-          <span style="font-family:var(--display);font-weight:800;font-size:28px;color:var(--cream)">{{ shop.name }}</span>
+          <img src="{{ 'biod-logo-cream.png' | asset_url }}" alt="{{ shop.name }}" style="height:34px;width:auto">
         {%- endif -%}
         <p style="margin-top:16px;font-size:14px;max-width:32ch;font-weight:500">{{ section.settings.blurb }}</p>
         {%- if settings.whatsapp_url != blank -%}

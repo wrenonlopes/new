@@ -4,7 +4,7 @@
       {%- if settings.logo -%}
         <img src="{{ settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}" width="150" loading="eager">
       {%- else -%}
-        <span>{{ shop.name }}</span>
+        <img src="{{ 'biod-logo-dark.png' | asset_url }}" alt="{{ shop.name }}" loading="eager">
       {%- endif -%}
     </a>
     <nav class="site-nav">
