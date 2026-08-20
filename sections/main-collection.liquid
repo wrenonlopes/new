@@ -1,9 +1,5 @@
 <section class="section" style="background:var(--cream)">
   <div class="wrap" style="position:relative">
-    <span class="page-sticker page-sticker--sm" style="top:-6px;right:5%" aria-hidden="true" data-roasts="pick me. im literally right here|add to cart. u know u want to|main character energy, tube edition">
-      <img src="{{ 'sticker-tube.png' | asset_url }}" alt="" loading="lazy">
-      <span class="roast">pick me. im literally right here</span>
-    </span>
     <span class="kicker">Collection · {{ collection.title }}</span>
     <h1 class="h-xl">{{ section.settings.heading | default: collection.title }}</h1>
     {%- if collection.description != blank -%}
@@ -11,10 +7,14 @@
     {%- endif -%}
 
     <div class="coll-toolbar">
-      <a class="chip {% unless current_tags %}on{% endunless %}" href="{{ collection.url }}">All</a>
-      {%- for tag in collection.all_tags limit: 6 -%}
-        <a class="chip {% if current_tags contains tag %}on{% endif %}" href="{{ collection.url }}/{{ tag | handle }}">{{ tag }}</a>
-      {%- endfor -%}
+      {%- if collection.all_tags.size > 0 -%}
+        <a class="chip {% unless current_tags %}on{% endunless %}" href="{{ collection.url }}">All</a>
+        {%- for tag in collection.all_tags limit: 6 -%}
+          <a class="chip {% if current_tags contains tag %}on{% endif %}" href="{{ collection.url }}/{{ tag | handle }}">{{ tag }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        <span class="chip on" style="pointer-events:none">{{ collection.products_count }} formats · all bamboo</span>
+      {%- endif -%}
       <select onchange="location.href=this.value">
         {%- assign sorts = 'manual:Featured,price-ascending:Price low to high,price-descending:Price high to low,best-selling:Best selling' | split: ',' -%}
         {%- for s in sorts -%}
