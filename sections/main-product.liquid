@@ -9,6 +9,13 @@
         {%- if product.featured_image -%}
           <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}">
         {%- endif -%}
+        {%- assign badge_src = product.metafields.biod.image_badges | default: section.settings.image_badges -%}
+        {%- if badge_src != blank -%}
+          <div class="img-badges" aria-hidden="true">
+            {%- assign badge_list = badge_src | split: '|' -%}
+            {%- for b in badge_list limit: 3 -%}<span>{{ b | strip }}</span>{%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
       {%- if product.images.size > 1 -%}
         <div class="pdp__thumbs">
@@ -100,10 +107,11 @@
         </div>
       {%- endif -%}
 
-      <div class="trust">
-        <span>Premium quality</span>
-        <span>Sustainably made</span>
-        <span>Free delivery over Dhs {{ settings.free_shipping_threshold }}</span>
+      <div class="trust-tiles">
+        <div class="tt"><span>✨</span><div><b>Premium quality</b><small>100% bamboo fibre</small></div></div>
+        <div class="tt"><span>🌱</span><div><b>Sustainably made</b><small>biodegrades in months</small></div></div>
+        <div class="tt"><span>🚚</span><div><b>Free delivery</b><small>on orders Dhs {{ settings.free_shipping_threshold }}+</small></div></div>
+        <div class="tt"><span>🔒</span><div><b>Secure checkout</b><small>cash on delivery available</small></div></div>
       </div>
 
       {%- if section.settings.show_receipts -%}
@@ -167,6 +175,7 @@
   "settings": [
     { "type": "checkbox", "id": "show_receipts", "label": "Show receipts strip", "default": true },
     { "type": "checkbox", "id": "show_recommendations", "label": "Show 'Pairs well with'", "default": true },
+    { "type": "text", "id": "image_badges", "label": "Image badges (separate with |)", "default": "100% bamboo|no added fragrance|hypoallergenic", "info": "Override per product with the biod.image_badges metafield" },
     { "type": "header", "content": "Size ladder" },
     { "type": "product", "id": "size_1", "label": "Size 1 (entry)" },
     { "type": "text", "id": "size_tag_1", "label": "Size 1 tag" },

@@ -532,3 +532,22 @@ img{max-width:100%;height:auto}
   .combo-up__row>img{width:72px;height:72px}
   .combo-up__btn{width:100%;text-align:center}
 }
+
+/* ---------- trust tiles (2x2) ---------- */
+.trust-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0 4px}
+.tt{display:flex;align-items:center;gap:10px;background:var(--paper);border:2px solid var(--ink);border-radius:14px;padding:10px 12px}
+.tt>span{font-size:17px;flex:0 0 auto}
+.tt b{display:block;font-family:var(--display);font-weight:800;font-size:12.5px;letter-spacing:-.01em;line-height:1.2}
+.tt small{display:block;font-size:10.5px;font-weight:600;color:var(--faint);line-height:1.25}
+
+/* ---------- gallery badges ---------- */
+.img-badges{position:absolute;right:12px;bottom:14px;display:flex;flex-direction:column;gap:7px;align-items:flex-end;pointer-events:none}
+.img-badges span{background:#fff;border:2px solid var(--ink);border-radius:999px;font-family:var(--display);font-weight:800;font-size:11px;letter-spacing:.02em;padding:5px 12px;box-shadow:2px 3px 0 var(--ink)}
+.img-badges span:nth-child(1){transform:rotate(-2deg)}
+.img-badges span:nth-child(2){transform:rotate(1.5deg)}
+.img-badges span:nth-child(3){transform:rotate(-1deg)}
+@media (max-width:880px){
+  .trust-tiles{gap:7px}
+  .tt{padding:9px 10px;border-width:2px}
+  .img-badges span{font-size:10px;padding:4px 10px}
+}
