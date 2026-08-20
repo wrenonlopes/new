@@ -2,6 +2,17 @@
   "sections": {
     "main": {
       "type": "main-product",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "emoji": "🧖", "label": "Softer than cotton" } },
+        "b2": { "type": "benefit", "settings": { "emoji": "🫧", "label": "Fresh sheet, every wash" } },
+        "b3": { "type": "benefit", "settings": { "emoji": "🌱", "label": "Gone in months, not centuries" } },
+        "b4": { "type": "benefit", "settings": { "emoji": "🚫", "label": "No dyes, no fragrance" } },
+        "a1": { "type": "accordion", "settings": { "title": "How to use it", "content": "<p>Pull a fresh sheet. Wash like you always do. Pat dry — don't rub. Toss it: it's 100% bamboo fiber and biodegrades in months.</p>" } },
+        "a2": { "type": "accordion", "settings": { "title": "Is one sheet really enough?", "content": "<p>Yes. Each sheet is thick, ultra-absorbent, and sized for a full face-dry. One wash, one sheet, done — no damp towel hanging around collecting bacteria until laundry day.</p>" } },
+        "a3": { "type": "accordion", "settings": { "title": "How fast is delivery?", "content": "<p>Ships within 24 hours anywhere in the UAE. Free delivery over Dhs 100. Cash on delivery available everywhere.</p>" } },
+        "a4": { "type": "accordion", "settings": { "title": "What if my skin disagrees?", "content": "<p>Start with the Travel size — Dhs 19. One pack, one week, see what your skin says. Lowest-risk glow-up in the store.</p>" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4", "a1", "a2", "a3", "a4"],
       "settings": {
         "size_1": "travel-towel",
         "size_tag_1": "try it first",
@@ -14,7 +25,13 @@
         "size_label_3": "XL ×4 boxes",
         "combo_product": "face-pack-combo-travel-xl-box",
         "combo_heading": "The full routine. One checkout.",
-        "combo_sub": "Travel for your bag, XL for your sink. Your future self says thanks."
+        "combo_sub": "Travel for your bag, XL for your sink. Your future self says thanks.",
+        "show_reviews": true,
+        "review_score": "4.6",
+        "review_count": "100,000+ customers",
+        "review_quote": "\"The first towel that didn't leave my cheeks red. Noticed it in week one.\"",
+        "review_who": "Mariam A. — Dubai",
+        "review_video": "review-gayle.mp4"
       }
     }
   },

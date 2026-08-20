@@ -25,6 +25,19 @@
           {%- endfor -%}
         </div>
       {%- endif -%}
+      {%- assign has_benefits = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'benefit' -%}{%- assign has_benefits = true -%}{%- endif -%}
+      {%- endfor -%}
+      {%- if has_benefits -%}
+        <div class="pdp-benefits">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'benefit' -%}
+              <div class="pb" {{ block.shopify_attributes }}><span>{{ block.settings.emoji }}</span><small>{{ block.settings.label }}</small></div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
     </div>
     <div>
       {%- if product.metafields.biod.kicker != blank -%}
@@ -137,6 +150,24 @@
         </div>
       {%- endif -%}
 
+      {%- if section.settings.show_reviews -%}
+        <div class="pdp-social">
+          <div class="pdp-social__score">
+            <b>{{ section.settings.review_score }}</b>
+            <span>★★★★★</span>
+            <small>{{ section.settings.review_count }}</small>
+          </div>
+          <div class="pdp-social__quote">
+            <p>{{ section.settings.review_quote }}</p>
+            <span>{{ section.settings.review_who }}</span>
+            <a href="/#reviews">see the comment section →</a>
+          </div>
+          {%- if section.settings.review_video != blank -%}
+            <video class="pdp-social__vid" src="{{ section.settings.review_video | asset_url }}" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
       <div class="pdp__accs">
         <details open>
           <summary>What it is</summary>
@@ -189,9 +220,20 @@
     { "type": "header", "content": "Combo upsell" },
     { "type": "product", "id": "combo_product", "label": "Combo product" },
     { "type": "text", "id": "combo_heading", "label": "Heading", "default": "The full routine. One checkout." },
-    { "type": "text", "id": "combo_sub", "label": "Subtext", "default": "Travel for your bag, XL for your sink. Your future self says thanks." }
+    { "type": "text", "id": "combo_sub", "label": "Subtext", "default": "Travel for your bag, XL for your sink. Your future self says thanks." },
+    { "type": "header", "content": "Customer proof" },
+    { "type": "checkbox", "id": "show_reviews", "label": "Show review card", "default": true },
+    { "type": "text", "id": "review_score", "label": "Score", "default": "4.6" },
+    { "type": "text", "id": "review_count", "label": "Count line", "default": "100,000+ customers" },
+    { "type": "textarea", "id": "review_quote", "label": "Quote", "default": "\"The first towel that didn't leave my cheeks red. Noticed it in week one.\"" },
+    { "type": "text", "id": "review_who", "label": "Reviewer", "default": "Mariam A. — Dubai" },
+    { "type": "text", "id": "review_video", "label": "Mini video (theme asset)", "default": "review-gayle.mp4" }
   ],
   "blocks": [
+    { "type": "benefit", "name": "Benefit icon", "settings": [
+      { "type": "text", "id": "emoji", "label": "Emoji", "default": "🌱" },
+      { "type": "text", "id": "label", "label": "Label", "default": "Gone in months" }
+    ]},
     { "type": "accordion", "name": "Accordion", "settings": [
       { "type": "text", "id": "title", "label": "Title", "default": "How to use it" },
       { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Pull a fresh sheet. Wash like you always do. Pat dry — don't rub. Toss it: it's 100% bamboo fiber and biodegrades in months.</p>" }
