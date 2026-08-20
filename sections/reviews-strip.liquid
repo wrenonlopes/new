@@ -17,6 +17,8 @@
             <div class="rcard rcard--video {% if i == 2 %}dup{% endif %}" {% if i == 2 %}aria-hidden="true"{% else %}{{ block.shopify_attributes }}{% endif %}>
               {%- if block.settings.video -%}
                 {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'vbg' }}
+              {%- elsif block.settings.asset != blank -%}
+                <video class="vbg" src="{{ block.settings.asset | asset_url }}" autoplay muted loop playsinline preload="metadata"></video>
               {%- elsif block.settings.poster -%}
                 <img class="vbg" src="{{ block.settings.poster | image_url: width: 480 }}" alt="" loading="lazy">
               {%- endif -%}
@@ -51,6 +53,7 @@
     ]},
     { "type": "video_review", "name": "UGC video (9:16)", "settings": [
       { "type": "video", "id": "video", "label": "Video (9:16, will autoplay muted)" },
+      { "type": "text", "id": "asset", "label": "Theme asset filename (fallback)", "info": "e.g. review-gayle.mp4" },
       { "type": "image_picker", "id": "poster", "label": "Fallback image (if no video)" },
       { "type": "text", "id": "handle", "label": "Creator handle", "default": "@skinbysara.ae" },
       { "type": "text", "id": "caption", "label": "Caption" }
