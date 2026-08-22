@@ -60,7 +60,7 @@
         "cta1_label": "Shop the sale",
         "cta1_url": "shopify://collections/all",
         "cta2_label": "See the receipts",
-        "cta2_url": ""
+        "cta2_url": "/#receipts"
       }
     },
     "ticker": {
@@ -452,8 +452,8 @@
         "subtext": "Dhs 19. One week. Clearer mornings. Worst case, you're out a shawarma.",
         "cta_label": "Finish the download",
         "cta_url": "/collections/all",
-        "microcopy": "free delivery over Dhs 100 · cash on delivery · your towel could never",
-        "show_sticker": true
+        "microcopy": "free delivery over Dhs 100 · your towel could never",
+        "show_sticker": false
       }
     }
   },

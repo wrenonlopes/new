@@ -20,7 +20,7 @@
               <h3 class="pcard__title">{{ block.settings.title }}</h3>
               <p class="pcard__sub">{{ block.settings.subtitle }}</p>
             </div>
-            <a class="pcard__add" style="margin:16px 26px 26px" href="{{ block.settings.notify_url }}">Get notified</a>
+            <a class="pcard__add" style="margin:16px 26px 26px" href="{{ block.settings.notify_url | default: '/pages/contact' }}">Get notified</a>
           </div>
         {%- endif -%}
       {%- endfor -%}

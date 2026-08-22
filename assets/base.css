@@ -598,3 +598,40 @@ img{max-width:100%;height:auto}
   .pdp-social__score b{font-size:28px}
   .pdp-social__vid{width:72px}
 }
+
+/* ---------- PDF fixes batch ---------- */
+/* #7 collection sort dropdown: custom aligned chevron */
+.coll-toolbar select{-webkit-appearance:none;-moz-appearance:none;appearance:none;padding-right:36px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%232E2E38' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;background-size:12px}
+/* #9 empty-cart sticker overlapping text on mobile */
+@media (max-width:880px){
+  .cart-empty .page-sticker{display:none}
+}
+
+/* ---------- #5 Gen Z contact form ---------- */
+.contact__lead{font-size:17px;color:var(--sub);max-width:52ch;margin:16px 0 40px;font-weight:500}
+.contact__grid{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:start}
+.contact__formwrap form{display:flex;flex-direction:column;gap:16px}
+.contact__row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.contact label{display:flex;flex-direction:column;gap:7px;font-family:var(--display);font-weight:800;font-size:13.5px;color:var(--ink)}
+.contact .opt{color:var(--faint);font-weight:600}
+.contact input,.contact textarea{font-family:var(--body);font-size:15px;font-weight:500;padding:14px 16px;border:2.5px solid var(--ink);border-radius:14px;background:var(--paper);color:var(--ink);width:100%}
+.contact input::placeholder,.contact textarea::placeholder{color:var(--faint);font-weight:500}
+.contact input:focus,.contact textarea:focus{outline:none;box-shadow:3px 3px 0 var(--leaf)}
+.contact textarea{resize:vertical;min-height:120px}
+.contact .btn--xl{align-self:flex-start;font-size:16px;padding:17px 40px}
+.contact__done{background:var(--leaf);border:2.5px solid var(--ink);border-radius:16px;padding:18px 20px;margin-bottom:22px}
+.contact__done b{font-family:var(--display);font-size:18px}
+.contact__done p{margin-top:4px;font-weight:600;color:var(--ink)}
+.contact__err{background:var(--sunrise);color:var(--cream);border-radius:12px;padding:12px 16px;font-weight:700;font-size:13.5px}
+.contact__side{display:flex;flex-direction:column;gap:14px}
+.contact__card{background:var(--paper);border:2.5px solid var(--ink);border-radius:18px;padding:20px}
+.contact__card--soft{background:var(--cream)}
+.contact__label{display:block;font-family:var(--display);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.contact__wa{width:100%;text-align:center}
+.contact__wanum{margin-top:10px;font-weight:800;font-family:var(--display);font-size:15px}
+.contact__addr{font-weight:600;line-height:1.5}
+.contact__card p{font-weight:600;color:var(--sub)}
+@media (max-width:880px){
+  .contact__grid{grid-template-columns:1fr;gap:24px}
+  .contact__row{grid-template-columns:1fr}
+}

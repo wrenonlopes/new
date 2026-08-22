@@ -67,7 +67,7 @@
                 {%- assign alloc = v.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
                 <label class="plan" data-price="{{ alloc.price | money }}">
                   <input type="radio" name="selling_plan" value="{{ plan.id }}">
-                  <div><div class="t">{{ plan.name }}</div><div class="s">Cancel anytime</div></div>
+                  <div><div class="t">{{ plan.name | replace: '5%', 'Extra 5%' }}</div><div class="s">Cancel anytime</div></div>
                   <span class="p">{{ alloc.price | money }}</span>
                 </label>
               {%- endfor -%}
@@ -124,7 +124,7 @@
         <div class="tt"><span>✨</span><div><b>Premium quality</b><small>100% bamboo fibre</small></div></div>
         <div class="tt"><span>🌱</span><div><b>Sustainably made</b><small>biodegrades in months</small></div></div>
         <div class="tt"><span>🚚</span><div><b>Free delivery</b><small>on orders Dhs {{ settings.free_shipping_threshold }}+</small></div></div>
-        <div class="tt"><span>🔒</span><div><b>Secure checkout</b><small>cash on delivery available</small></div></div>
+        <div class="tt"><span>🔒</span><div><b>Secure checkout</b><small>safe & encrypted payment</small></div></div>
       </div>
 
       {%- if section.settings.show_receipts -%}

@@ -1,0 +1,69 @@
+<section class="section contact" style="background:var(--cream)">
+  <div class="wrap">
+    <span class="kicker">{{ section.settings.kicker }}</span>
+    <h1 class="h-xl">{{ section.settings.heading }}</h1>
+    <p class="contact__lead">{{ section.settings.subtext }}</p>
+
+    <div class="contact__grid">
+      <div class="contact__formwrap">
+        {%- if form.posted_successfully? -%}
+          <div class="contact__done">
+            <b>got it. 🌱</b>
+            <p>Message landed. We'll slide into your inbox soon — usually within a day.</p>
+          </div>
+        {%- endif -%}
+        {%- form 'contact' -%}
+          {%- if form.errors -%}
+            <div class="contact__err">Hmm, check the highlighted fields and try again.</div>
+          {%- endif -%}
+          <div class="contact__row">
+            <label>Your name
+              <input type="text" name="contact[name]" required placeholder="who's this?">
+            </label>
+            <label>Email
+              <input type="email" name="contact[email]" required placeholder="so we can reply">
+            </label>
+          </div>
+          <label>WhatsApp / phone <span class="opt">(optional)</span>
+            <input type="tel" name="contact[phone]" placeholder="+971 …">
+          </label>
+          <label>What's up?
+            <textarea name="contact[body]" rows="5" required placeholder="tell us everything — orders, wholesale, collabs, or just to say hi"></textarea>
+          </label>
+          <button type="submit" class="btn btn--sunrise btn--xl">Send it</button>
+        {%- endform -%}
+      </div>
+
+      <aside class="contact__side">
+        <div class="contact__card">
+          <span class="contact__label">Prefer to chat?</span>
+          {%- if settings.whatsapp_url != blank -%}
+            <a class="btn btn--ink contact__wa" href="{{ settings.whatsapp_url }}" target="_blank" rel="noopener">💬 WhatsApp us</a>
+          {%- endif -%}
+          <p class="contact__wanum">{{ section.settings.whatsapp_display }}</p>
+        </div>
+        <div class="contact__card">
+          <span class="contact__label">Find us</span>
+          <p class="contact__addr">{{ section.settings.address }}</p>
+        </div>
+        <div class="contact__card contact__card--soft">
+          <span class="contact__label">Response time</span>
+          <p>Usually within 24 hours, 7 days a week.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Contact form",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Contact us" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Let's talk bamboo." },
+    { "type": "text", "id": "subtext", "label": "Subtext", "default": "Orders, wholesale, collabs, or a question about your skin — drop us a line and a real human replies." },
+    { "type": "text", "id": "whatsapp_display", "label": "WhatsApp number (shown)", "default": "+971 50 977 4289" },
+    { "type": "textarea", "id": "address", "label": "Address", "default": "Biod co, Maze Tower, DIFC, Dubai, UAE" }
+  ],
+  "presets": [{ "name": "Contact form" }]
+}
+{% endschema %}
