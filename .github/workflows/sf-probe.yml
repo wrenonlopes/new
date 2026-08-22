@@ -1,0 +1,20 @@
+name: sf-probe
+on: push
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe suitefleet reachability
+        run: |
+          code=$(curl -s -X POST https://api.suitefleet.com/api/auth/authenticate \
+            -H "clientId: probe" -H "clientApiKey: x" -H "clientSecretKey: x" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -o resp.txt -w "%{http_code}")
+          echo "HTTP $code"
+          head -c 300 resp.txt || true
+          echo
+          if grep -qi "<html" resp.txt; then
+            echo "BLOCKED: got HTML challenge page"
+            exit 1
+          fi
+          echo "REACHABLE: got API response (json)"
