@@ -124,7 +124,7 @@
       ],
       "settings": {
         "kicker": "The problem",
-        "heading": "Your towel has been moist since Tuesday.",
+        "heading": "Respectfully, your towel is disgusting.",
         "big_text": "Every wash, you dry your clean face on a towel that has been warm, damp, and collecting bacteria all week.",
         "small_text": "Then you wonder where the breakouts come from. It is not your serum. It is not your cleanser. It is the last thing that touches your face.",
         "chat_name": "skincare gc",
@@ -331,20 +331,20 @@
             "color": "ink"
           }
         },
-        "t4": {
-          "type": "text_review",
-          "settings": {
-            "quote": "\"Cancelled my wipes subscription. My face and the turtles say thanks.\"",
-            "who": "Aisha M. — Dubai",
-            "color": "sun"
-          }
-        },
         "v3": {
           "type": "video_review",
           "settings": {
             "asset": "review-delphine.mp4",
             "handle": "@delphinesoudee",
             "caption": "\"my shelf's new main character\""
+          }
+        },
+        "t4": {
+          "type": "text_review",
+          "settings": {
+            "quote": "\"Cancelled my wipes subscription. My face and the turtles say thanks.\"",
+            "who": "Aisha M. — Dubai",
+            "color": "sun"
           }
         },
         "v4": {
