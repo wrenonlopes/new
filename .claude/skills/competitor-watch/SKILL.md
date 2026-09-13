@@ -126,6 +126,30 @@ If the sweep produced new creative direction, update `competitive/agent-feed/com
 and every hook in it must trace to a line **already live on the site**, so nothing needs
 re-clearing.
 
+## Ads-account analysis — mandatory verification protocol
+
+Any claim about BIOD's own Meta account goes through all eight of these first. Each one exists
+because skipping it produced a wrong answer that reached the operator.
+
+1. **Start at account level for totals.** Never derive an account total by summing campaigns, ad
+   sets or ads — a paginated or partial response silently under-counts.
+2. **Reconcile the levels before reporting.** account = Σ campaigns = Σ ad sets = Σ ads. If they
+   disagree, find the reason first.
+3. **Establish the ad account's timezone and what "today" means in it.** Today is always a partial
+   day. Never diagnose from it, and never compare a partial day to a complete one.
+4. **Name the source of every sales figure.** A Meta-attributed purchase is not a Shopify order.
+   Ask which one the operator means before explaining any change in it.
+5. **State n before stating a finding.** Below ~100 clicks or ~30 conversions, report "no signal"
+   rather than a conclusion, and compute the probability of the observed result under the null
+   before calling anything a change.
+6. **Rank on the objective metric — cost per purchase — never on a proxy such as CTR.**
+7. **Never recommend at a level above where the variance lives.** Drill to ad level before
+   proposing any cut: ad-set averages hide the ad carrying the result.
+8. **Every number must be traceable to a specific query.** If it cannot be pointed at, it does not
+   go in the report.
+
+Spend-affecting changes are never applied without explicit operator approval.
+
 ## Guardrails
 
 - **Public data only.** Public posts, storefronts, listings, the Ad Library. No logins that

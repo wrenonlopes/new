@@ -1,71 +1,116 @@
-# BIOD Meta account diagnosis — 2026-09-13
+# BIOD Meta account diagnosis — revision 3 (2026-09-14)
 
-Account `431128092720483` (BIOD, AED). Window: last 14 days. All figures pulled live.
+Account `431128092720483` (BIOD, AED). **Revisions 1–2 contained errors in the headline figures
+and in the answer to "what changed". Both are corrected below. Do not use figures from the
+earlier revisions.**
 
-## The short answer: nothing changed
+## The root error: two different numbers called "sales"
 
-Your ads produced **4 purchases in 14 days** — 0.286 per day. At that rate, the daily
-distribution is:
+**You were reading Shopify orders. I was reading Meta-attributed purchases. I never reconciled
+the two.** They are not the same number and the gap is large:
 
-| Sales in a day | Probability |
-|---|---|
-| **0** | **75.1%** |
-| 1 | 21.5% |
-| 2 | 3.1% |
-| 3 | 0.3% |
+> **Meta never attributed more than ONE purchase on any single day in this period.**
 
-**Three out of four days should have zero ad-driven sales.** Today is the normal case.
-*Yesterday* was the 0.3% event — and if all three of yesterday's sales came from ads, that was
-luck, not a setting you've since broken. Nothing in the account changed: no delivery errors, no
-disapprovals, pixel fired today.
+So "3 sales yesterday" cannot be three ad-driven purchases — Meta did not record that on any day.
+Those three orders include direct, organic and returning traffic. Every conclusion I drew from
+"3 versus 0" was answering a question about a number Meta never reported.
 
-Reading daily sales at this volume will make you change things at random and destroy the little
-signal you have. **Use a 7-day rolling number.** Nothing below a week is information.
+**Before any future analysis: state which source a sales figure comes from.** Shopify total
+orders and Meta-attributed purchases need separate lines in every report.
 
-## What is actually wrong — the economics
+## What actually happened, by day
 
-| Metric | Value | Read |
-|---|---|---|
-| Spend (14d) | AED 925.82 | AED 66/day |
-| Impressions | 7,253 | very thin |
-| CPM | **AED 127.65** | 2–4× a normal UAE CPM |
-| CTR | 1.81% | **fine — creative works** |
-| CPC | **AED 7.07** | this is the broken number |
-| CVR (click→purchase) | 3.05% | **fine — site converts** |
-| Purchases | 4 | |
-| **Blended CAC** | **AED 231.46** | |
+| Date | Spend | Impressions | Clicks | Meta purchases | CPM |
+|---|---|---|---|---|---|
+| 09-06 | AED 63.07 | 366 | 9 | 1 | 172.32 |
+| 09-07 | AED 70.93 | 429 | 14 | 0 | 165.34 |
+| 09-08 | AED 91.15 | 788 | 13 | 1 | 115.67 |
+| 09-09 | AED 74.85 | 762 | 11 | 1 | 98.23 |
+| 09-10 | AED 78.49 | 695 | 16 | 0 | 112.94 |
+| 09-11 | AED 65.19 | 664 | 8 | 0 | 98.18 |
+| 09-12 | AED 63.05 | 712 | 11 | 1 | 88.55 |
+| **09-13** | **AED 97.86** | **1,242** | **30** | **0** | **78.79** |
+| **09-14** | **AED 0.59** | **9** | **0** | **0** | 65.56 |
 
-Against your own pricing:
+Two things this shows that I previously got wrong:
 
-| Product | CAC ÷ AOV | CPC you'd need |
-|---|---|---|
-| Dhs 19 trial | **12.2×** | AED 0.58 |
-| Dhs 49 box | **4.7×** | AED 1.50 |
-| Dhs 100 order | 2.3× | AED 3.05 |
-| Dhs 150 bundle | 1.5× | AED 4.58 |
+**1. "Today" in the ad account is 09-14, and it is roughly an hour old.** Nine impressions and
+AED 0.59 is a day that has just started, not a delivery failure and not a statistical event.
+There is nothing to diagnose in it yet.
 
-**You are paying AED 231 to sell a AED 49 box.** Every sale loses money, so more spend means
-more loss. That is the whole problem, and it is not a creative problem.
+**2. The day you mean by "today" is almost certainly 09-13 — and it was the best delivery day of
+the entire period.** Highest spend (AED 97.86), most impressions (1,242), most clicks (30), and
+the lowest CPM (AED 78.79). It returned zero Meta-attributed purchases.
 
-## What is NOT wrong — stop looking here
+Is that zero alarming? At the account's 2.68% conversion rate, 30 clicks would be expected to
+produce 0.81 purchases, and there is a **44% chance of seeing zero anyway**. So it is not proof
+that anything broke — but it is the one day worth watching, because it is the largest click
+volume in the period with no conversion. If 09-14 also delivers well and converts nothing, that
+becomes a signal.
 
-- **Tracking is healthy.** Purchase event match quality **9.3/10**, all eleven match keys at 100%
-  coverage, pixel fired today, server-side CAPI live, first-party cookies on. Ruled out.
-- **Creative works.** 1.81% CTR on cold traffic is respectable. The films are earning the click.
-- **The landing page converts.** 3.05% click-to-purchase is a normal-to-good ecommerce rate.
-- **No delivery errors.** Zero blocking issues account-wide.
+## Corrected headline figures
 
-The funnel is healthy at every step. It is simply priced wrong: traffic costs more than the
-product earns.
+Revisions 1–2 summed a daily breakdown that was missing rows, and reported the result as the
+account total. Every derived metric was therefore wrong. Account-level figures are authoritative:
 
-## Why it will not fix itself: permanent learning phase
+| Metric | Correct (14d) | I previously said | |
+|---|---|---|---|
+| Spend | **AED 951.31** | AED 925.82 | wrong |
+| Impressions | **7,937** | 7,253 | wrong |
+| Clicks | **149** | 131 | wrong |
+| CTR | **1.88%** | 1.81% | wrong |
+| CPM | **AED 119.86** | AED 127.65 | wrong |
+| CPC | **AED 6.38** | AED 7.07 | wrong |
+| CVR | **2.68%** | 3.05% | wrong |
+| **CAC** | **AED 237.83** | AED 231.46 | wrong — Meta's own cost-per-result confirms 237.83 |
+| Purchases | 4 | 4 | correct |
+| Reach / frequency | 5,267 / 1.51 | not reported | — |
 
-Meta needs roughly **50 conversions per ad set per week** to exit the learning phase. You have
-two active ad sets producing about **1 conversion per ad set per week — 2% of the threshold.**
+The direction of the conclusion does not change — it gets slightly worse. **CAC AED 237.83
+against a AED 49 box is 4.9× underwater**, and you would need a CPC of AED 1.32 rather than the
+AED 6.38 you are paying.
 
-The algorithm has never had enough signal to optimise. It is guessing, and it will keep guessing
-at this volume no matter how long it runs. This also explains the AED 127 CPM: an unoptimised
-ad set bids badly.
+## What survives verification unchanged
+
+Re-checked against account-level and ad-level data:
+
+- **Tracking is healthy.** Purchase event match quality 9.3/10, full match-key coverage,
+  server-side CAPI firing. Confirmed.
+- **Baddie Reel is the budget leak.** AED 251.34 = **26.4% of AED 951.31**, zero purchases.
+  Confirmed against the corrected denominator.
+- **Mariam & Hind** produced one purchase on AED 9.77 of spend. Confirmed — still the only sale
+  below the product's own price, and still far too small a sample to call a conversion rate.
+- **Both ad sets are stuck in learning** — about 1 conversion per ad set per week against Meta's
+  ~50 threshold. Confirmed.
+- **Breakup x Biod CPM AED 15.82** — confirmed, but it is a **single day** (67 impressions) of
+  data. Flagged, not concluded.
+- **No delivery errors**, Opportunity Score 88/100, top recommendation "budget limited" on both
+  active ad sets. Confirmed — and the advice to not raise budget while CAC is 4.9× AOV stands.
+
+## Verification protocol — required before any figure is reported
+
+Every error in revisions 1–2 came from skipping one of these. They are now mandatory.
+
+1. **Start at account level for totals.** Never derive an account total by summing a lower level;
+   a paginated or partial response silently under-counts.
+2. **Reconcile every level before reporting.** account = Σ campaigns = Σ ad sets = Σ ads. If they
+   disagree, find out why first. Revision 1 was off by AED 25.49 and shipped anyway.
+3. **Establish the ad account's timezone and what "today" means in it.** Today is always partial.
+   Never diagnose from a partial day, and never compare a partial day to a complete one.
+4. **Name the source of every sales figure.** Meta-attributed purchase ≠ Shopify order. Ask which
+   one the operator means before explaining a change in it.
+5. **State n before stating a finding.** Below ~100 clicks or ~30 conversions, report "no signal",
+   not a conclusion. Compute the probability of the observed result under the null before calling
+   anything a change.
+6. **Rank on the objective metric — cost per purchase.** Never on a proxy such as CTR.
+7. **Never recommend at a level above where the variance lives.** Drill to ad level before
+   proposing any cut; ad-set averages hide the ad that is carrying the result.
+8. **Every number must be traceable to a specific query.** If it cannot be pointed at, it does
+   not go in the report.
+
+---
+
+## Earlier sections (retained; figures superseded by the table above)
 
 ## Ad set breakdown
 
