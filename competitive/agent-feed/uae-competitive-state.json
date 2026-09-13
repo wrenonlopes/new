@@ -4,13 +4,12 @@
   "market": "AE",
   "mission": "Close the gap and take the UAE disposable-bamboo-towel market. Wedge = comedy / bold humour.",
   "consumer_note": "Written for BIOD's Claude ads agents. Read `confidence` on every block. Never ship a claim whose confidence is 'inference' or whose source is absent. Claims policy in repo README.md overrides anything here.",
-
   "confidence_legend": {
     "verified": "Pulled this run from a named source (Meta Ad Library via page_id, or this repo's own files).",
     "documented": "Second-hand from published reporting. Real but not observed here.",
-    "inference": "Our read. Not evidence. Do not put in ad copy."
+    "inference": "Our read. Not evidence. Do not put in ad copy.",
+    "scoring_note": "Humour scores from the Ad Library measure the COPY LAYER only (headline/link title). Film tone can only be scored by watching the film or reading its concept brief."
   },
-
   "collection_status": {
     "meta_ad_library": {
       "status": "working",
@@ -18,12 +17,24 @@
       "method": "ads_library_search by page_ids — reliable. Brand-name search_terms also works.",
       "caveat": "Broad thematic search_terms (emoji, generic phrases) return irrelevant high-count noise. Do not use for category-wide tone claims."
     },
-    "instagram": { "status": "not_collected", "blocker": "Needs desktop Chrome + OpenCLI session, or a local run. Egress blocked in the session that generated this file." },
-    "tiktok": { "status": "not_collected", "blocker": "No agent-reach channel; use yt-dlp locally. Egress blocked this run." },
-    "websites": { "status": "partial", "confidence": "verified", "note": "Competitor prices/lineups came from search-result metadata and the Bambuyu catalog ad, not from loading their pages." },
-    "amazon": { "status": "not_collected", "blocker": "Egress blocked. Bambuyu's Amazon.ae storefront is confirmed to exist but was not read." }
+    "instagram": {
+      "status": "not_collected",
+      "blocker": "Needs desktop Chrome + OpenCLI session, or a local run. Egress blocked in the session that generated this file."
+    },
+    "tiktok": {
+      "status": "not_collected",
+      "blocker": "No agent-reach channel; use yt-dlp locally. Egress blocked this run."
+    },
+    "websites": {
+      "status": "partial",
+      "confidence": "verified",
+      "note": "Competitor prices/lineups came from search-result metadata and the Bambuyu catalog ad, not from loading their pages."
+    },
+    "amazon": {
+      "status": "not_collected",
+      "blocker": "Egress blocked. Bambuyu's Amazon.ae storefront is confirmed to exist but was not read."
+    }
   },
-
   "brand": {
     "id": "biod",
     "name": "BIOD — Bamboo Revolution",
@@ -32,11 +43,50 @@
     "ad_count_all_time": 7,
     "confidence": "verified",
     "ads": [
-      { "id": "1732685231286978", "title": "Tissues that suit your car", "created": "2026-09-10", "tone": "functional", "humour_score": 0 },
-      { "id": "4727915424097171", "title": "Why use that dirty towel on your pretty face?", "created": "2026-09-10", "variants": 3, "tone": "shame / disgust", "humour_score": 1, "note": "Closest to edge in the whole market set, but it scolds the viewer rather than making a joke." },
-      { "id": "1878878596425927", "title": "A clean towel every morning", "created": "2026-09-10", "tone": "functional", "humour_score": 0 },
-      { "id": "1502324451941550", "title": "Back In Stock! ✨", "created": "2026-09-10", "delivery_start": "2026-09-13", "tone": "announcement", "humour_score": 0, "note": "Resolves the sold-out inventory blocker flagged in teardown-2026-09-13." },
-      { "id": "1068526489334475", "title": "Biod Face Towel XL ✨", "created": "2026-09-04", "tone": "product", "humour_score": 0 }
+      {
+        "id": "1732685231286978",
+        "title": "Tissues that suit your car",
+        "created": "2026-09-10",
+        "tone": "functional",
+        "humour_score": 0,
+        "humour_score_layer": "copy_only"
+      },
+      {
+        "id": "4727915424097171",
+        "title": "Why use that dirty towel on your pretty face?",
+        "created": "2026-09-10",
+        "variants": 3,
+        "tone": "shame / disgust",
+        "humour_score": 1,
+        "note": "Closest to edge in the whole market set, but it scolds the viewer rather than making a joke.",
+        "humour_score_layer": "copy_only"
+      },
+      {
+        "id": "1878878596425927",
+        "title": "A clean towel every morning",
+        "created": "2026-09-10",
+        "tone": "functional",
+        "humour_score": 0,
+        "humour_score_layer": "copy_only"
+      },
+      {
+        "id": "1502324451941550",
+        "title": "Back In Stock! ✨",
+        "created": "2026-09-10",
+        "delivery_start": "2026-09-13",
+        "tone": "announcement",
+        "humour_score": 0,
+        "note": "Resolves the sold-out inventory blocker flagged in teardown-2026-09-13.",
+        "humour_score_layer": "copy_only"
+      },
+      {
+        "id": "1068526489334475",
+        "title": "Biod Face Towel XL ✨",
+        "created": "2026-09-04",
+        "tone": "product",
+        "humour_score": 0,
+        "humour_score_layer": "copy_only"
+      }
     ],
     "offers": {
       "trial_price_aed": 19,
@@ -46,7 +96,12 @@
       "subscribe_save_pct": 5,
       "free_delivery_threshold_aed": 100
     },
-    "distribution": { "dtc": true, "amazon_ae": "unknown", "noon": "unknown", "retail": [] },
+    "distribution": {
+      "dtc": true,
+      "amazon_ae": "unknown",
+      "noon": "unknown",
+      "retail": []
+    },
     "voice_assets_already_written": {
       "confidence": "verified",
       "source": "templates/index.json — live homepage copy, already fact-check cleared",
@@ -66,9 +121,39 @@
         "not close.",
         "my shelf's new main character"
       ]
+    },
+    "copy_layer_humour_avg": 0.4,
+    "film_layer_humour_avg": 4,
+    "film_layer_confidence": "verified — from the operator's own concept library",
+    "layer_gap": "Funny films, flat frames. The best-received film (More Reliable Than Ahmed) has a headline field carrying none of its joke.",
+    "products": {
+      "note": "TWO main products with different jobs, enemies and audiences. Do not treat as one range.",
+      "face_towel_xl": {
+        "job": "face hygiene",
+        "enemy": "damp cloth towel",
+        "audience": "skincare-led, female-skewing",
+        "concepts": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "website_presence": "entire homepage"
+      },
+      "tissue_tube": {
+        "job": "on-the-go nose, car, bag",
+        "enemy": "ugly cardboard box",
+        "audience": "male-skewing",
+        "concepts": [
+          7,
+          8
+        ],
+        "website_presence": "ONE line in sections/hero.liquid — effectively absent"
+      }
     }
   },
-
   "competitors": [
     {
       "id": "bambuyu",
@@ -81,10 +166,36 @@
       "ad_count_all_time": 4,
       "confidence": "verified",
       "ads": [
-        { "id": "1089396316815784", "title": "A Fresh Towel Every Time ✨", "created": "2026-09-07", "tone": "sincere / soft", "humour_score": 0 },
-        { "id": "1941030143254352", "title": "Soft, handy & ready for every little “just in case.” 💚", "created": "2026-09-03", "tone": "gentle / reassuring", "humour_score": 0 },
-        { "id": "983046111425272", "title": "Bambuyu | Make the Switch Today", "created": "2026-08-18", "format": "DPA, 6x repeated headline", "tone": "eco-duty", "humour_score": 0 },
-        { "id": "903425042202187", "title": "catalog carousel — full lineup", "created": "2026-07-23", "format": "catalog", "tone": "product listing", "humour_score": 0 }
+        {
+          "id": "1089396316815784",
+          "title": "A Fresh Towel Every Time ✨",
+          "created": "2026-09-07",
+          "tone": "sincere / soft",
+          "humour_score": 0
+        },
+        {
+          "id": "1941030143254352",
+          "title": "Soft, handy & ready for every little “just in case.” 💚",
+          "created": "2026-09-03",
+          "tone": "gentle / reassuring",
+          "humour_score": 0
+        },
+        {
+          "id": "983046111425272",
+          "title": "Bambuyu | Make the Switch Today",
+          "created": "2026-08-18",
+          "format": "DPA, 6x repeated headline",
+          "tone": "eco-duty",
+          "humour_score": 0
+        },
+        {
+          "id": "903425042202187",
+          "title": "catalog carousel — full lineup",
+          "created": "2026-07-23",
+          "format": "catalog",
+          "tone": "product listing",
+          "humour_score": 0
+        }
       ],
       "product_line_leaked_from_catalog_ad": {
         "confidence": "verified",
@@ -106,7 +217,15 @@
         "subscribe_save": true,
         "free_delivery_threshold_aed": 70
       },
-      "distribution": { "dtc": true, "amazon_ae": true, "retail": ["kibsons.com", "scoopwholefoods.ae", "purepath.ae"] },
+      "distribution": {
+        "dtc": true,
+        "amazon_ae": true,
+        "retail": [
+          "kibsons.com",
+          "scoopwholefoods.ae",
+          "purepath.ae"
+        ]
+      },
       "tone_profile": {
         "humour_score_avg": 0,
         "register": "premium eco-parent; sincere; sparkle and heart emoji; duty-to-switch framing",
@@ -123,7 +242,13 @@
       "market": "AE",
       "confidence": "verified",
       "ads": [
-        { "title": "Your Loofah Needs An Upgrade. 🧼🔥", "created": "2026-09-09", "variants": 6, "tone": "imperative / mild punch", "humour_score": 1 }
+        {
+          "title": "Your Loofah Needs An Upgrade. 🧼🔥",
+          "created": "2026-09-09",
+          "variants": 6,
+          "tone": "imperative / mild punch",
+          "humour_score": 1
+        }
       ],
       "tone_profile": {
         "humour_score_avg": 1,
@@ -144,7 +269,11 @@
         "revenue_2023_usd": 47000000,
         "revenue_2024_projected_usd": 100000000,
         "funding_nov_2024_usd": 32000000,
-        "channel_mix": { "amazon_pct": 80, "dtc_pct": 17, "retail_pct": 3 },
+        "channel_mix": {
+          "amazon_pct": 80,
+          "dtc_pct": 17,
+          "retail_pct": 3
+        },
         "tiktok_shop_yoy_growth_pct": 200,
         "box_price_usd": 12
       },
@@ -154,9 +283,15 @@
         "seeding_volume_per_month": 100,
         "expected_post_rate_pct": "30-40",
         "mechanic": "test UGC organically across TikTok/IG/Meta, promote winners into paid",
-        "reported_ugc_ad_uplift": { "ctr_multiple": 4, "conversion_lift_pct": 29 }
+        "reported_ugc_ad_uplift": {
+          "ctr_multiple": 4,
+          "conversion_lift_pct": 29
+        }
       },
-      "tone_profile": { "humour_score_avg": null, "note": "Not audited — no ad pulled this run. Reported angle is hygiene education + UGC testimonial." }
+      "tone_profile": {
+        "humour_score_avg": null,
+        "note": "Not audited — no ad pulled this run. Reported angle is hygiene education + UGC testimonial."
+      }
     },
     {
       "id": "the-skinny-confidential",
@@ -167,80 +302,96 @@
       "market": "US / global",
       "confidence": "documented",
       "meta_page_id": "UNKNOWN — resolve next run",
-      "offers": { "subscribe_save_pct": 15, "free_shipping_threshold_usd": 50, "certifications": ["OCS", "OEKO-TEX", "FSC"] },
+      "offers": {
+        "subscribe_save_pct": 15,
+        "free_shipping_threshold_usd": 50,
+        "certifications": [
+          "OCS",
+          "OEKO-TEX",
+          "FSC"
+        ]
+      },
       "launched": "2025-12-02",
-      "tone_profile": { "humour_score_avg": null, "register": "elevated, spa, founder-led" }
+      "tone_profile": {
+        "humour_score_avg": null,
+        "register": "elevated, spa, founder-led"
+      }
     }
   ],
-
   "whitespace": {
-    "headline": "The comedy lane is open, and BIOD already owns the writing for it.",
+    "headline": "The comedy lane is open and BIOD's films already occupy it. The copy layer does not.",
     "confidence_of_direct_competitor_claim": "verified",
     "confidence_of_market_wide_claim": "inference",
     "evidence": [
-      "Bambuyu: 4 ads all-time, average humour score 0. Register is sincere-soft ('A Fresh Towel Every Time', 'Soft, handy & ready for every little just in case'). No enemy named, no joke attempted.",
-      "Glambe: closest to attitude in the UAE set, still scores 1 — a punchy imperative, not comedy.",
-      "BIOD's own ads average under 1. The best performer-shaped line ('Why use that dirty towel on your pretty face?') is a scold, not a joke.",
-      "BIOD's HOMEPAGE is already funny and already claims-cleared: 'bacteria's airbnb', 'immortal (derogatory)', 'Worst case, you're out a shawarma.'"
+      "Bambuyu: 4 ads all-time, copy-layer humour 0. Sincere-soft register, no enemy named, no joke attempted. Verified.",
+      "Glambe: scores 1 — punchy imperative, not comedy. Closest thing to attitude on the UAE shelf.",
+      "BIOD films: eight comedy concepts including a courtroom trial and a breakup bench. Verified from the operator's library.",
+      "BIOD copy layer: averages 0.4. The best-received film's headline field carries none of its joke.",
+      "BIOD homepage: zero tissue-tube story beyond one line in hero.liquid, while concepts 7-8 and the best-received film are all tube."
     ],
-    "the_actual_gap": "Not strategy. Execution. The comedy bet is already written into templates/index.json and none of it has reached a single ad.",
+    "the_actual_gap": "Not the films — they are genuinely funny and well received. The gap is (a) the copy layer wrapped around them and (b) a website that sells only one of the two products.",
     "market_wide_caveat": "The user's read that barely anyone in UAE does comedy is accepted as their market knowledge. This run could NOT verify it — the Ad Library's broad thematic search returns noise. Do not cite it as measured.",
     "defensibility": "A sincere competitor cannot answer a joke in kind without abandoning its own register. Bambuyu's eco-duty positioning has no comedic gear. Inference, but the structural logic is sound.",
     "local_edge": "The shawarma line is UAE-specific humour. Global competitors structurally cannot write it. That is the most defensible creative territory on this list."
   },
-
   "prioritised_gaps": [
     {
       "rank": 1,
-      "gap": "Comedy is written but never shipped",
-      "action": "Rebuild the ad set from the homepage's existing cleared lines. See comedy-briefs.md.",
+      "gap": "Copy layer is flat on eight funny films",
+      "action": "Ship the headlines and primary text in copy-pack.md. Zero production cost.",
       "owner": "ads agents",
       "effort": "low",
-      "blocked_by": null,
       "evidence_confidence": "verified"
     },
     {
       "rank": 2,
-      "gap": "Creative volume is near zero on both sides",
-      "action": "7 BIOD ads and 4 Bambuyu ads all-time means nobody is running a real testing program. Ship 15-20 comedy variants and you out-iterate the entire UAE shelf in one month.",
-      "owner": "ads agents",
+      "gap": "Website sells one of two products",
+      "action": "The tube has no versus, no FAQ, no objection handling, no cup-holder diameter. The best-received film drives traffic to a face-towel page. Fix before scaling tube spend.",
+      "owner": "web",
       "effort": "medium",
       "evidence_confidence": "verified"
     },
     {
       "rank": 3,
-      "gap": "No marketplace presence",
-      "action": "Bambuyu is on Amazon.ae + 3 retailers. Category leader does 80% on marketplace. Get on Amazon.ae and Noon.",
-      "owner": "founder / ops",
-      "effort": "high",
+      "gap": "Best film is not the most-scaled film",
+      "action": "Scale concept 8 (More Reliable Than Ahmed); hold concept 3 as control. Test punchline-in-headline vs held back — nobody has this data.",
+      "owner": "ads agents",
+      "effort": "low",
       "evidence_confidence": "verified"
     },
     {
       "rank": 4,
-      "gap": "Subscribe & Save 5% vs TSC 15%",
-      "action": "Raise to 15%. 5% of a Dhs 49 box is Dhs 2.45 and changes nobody's behaviour.",
-      "owner": "ops",
-      "effort": "low",
+      "gap": "Creative volume near zero across the category",
+      "action": "11 ads all-time between BIOD and Bambuyu. Eight concepts x copy variants out-iterates the whole shelf in a month.",
+      "owner": "ads agents",
+      "effort": "medium",
       "evidence_confidence": "verified"
     },
     {
       "rank": 5,
-      "gap": "Free delivery Dhs 100 vs Bambuyu AED 70",
-      "action": "Drop to Dhs 70. BIOD currently advertises the worse threshold in its own homepage microcopy.",
+      "gap": "No marketplace presence",
+      "action": "Bambuyu on Amazon.ae + 3 retailers; category leader does ~80% on marketplace. Get on Amazon.ae and Noon.",
+      "owner": "founder/ops",
+      "effort": "high",
+      "evidence_confidence": "verified"
+    },
+    {
+      "rank": 6,
+      "gap": "Offer numbers lose the comparison",
+      "action": "Subscribe 5%->15%; free delivery Dhs 100->70. Business decisions, copy ready.",
       "owner": "ops",
       "effort": "low",
       "evidence_confidence": "verified"
     },
     {
-      "rank": 6,
+      "rank": 7,
       "gap": "Arabic unclaimed",
-      "action": "No competitor in this set advertises in Arabic. Comedy translates; run an Arabic comedy set.",
+      "action": "Start with concept 8 — the breakup register travels and no competitor advertises in Arabic.",
       "owner": "ads agents",
       "effort": "medium",
       "evidence_confidence": "inference"
     }
   ],
-
   "monitoring_handles": {
     "note": "Stable IDs for future runs — page_id lookup is the reliable Ad Library path.",
     "meta_page_ids": {
@@ -248,6 +399,105 @@
       "bambuyu": "103702641815801",
       "glambe": "1228806196978222"
     },
-    "unresolved": ["clean-skin-club meta_page_id", "the-skinny-confidential meta_page_id", "all Instagram/TikTok handles"]
+    "unresolved": [
+      "clean-skin-club meta_page_id",
+      "the-skinny-confidential meta_page_id",
+      "all Instagram/TikTok handles"
+    ]
+  },
+  "revision": 2,
+  "corrections": [
+    {
+      "date": "2026-09-13",
+      "supersedes": "revision 1 claim that BIOD's ads are not funny",
+      "what_was_wrong": "Humour was scored from the Meta Ad Library's ad_creative_link_title field — headlines only. No video was ever viewed. The score was presented as a verdict on the ads.",
+      "corrected": "BIOD's FILMS are comedy — eight concepts, see creative_library. The COPY LAYER around them is flat. Score the two layers separately and never infer video tone from a headline field.",
+      "impact": "Do not use revision 1's biod humour averages. Use copy_layer_humour and film_layer_humour below."
+    }
+  ],
+  "creative_library": {
+    "confidence": "verified — supplied by the operator",
+    "source": "BIOD_Concept_Library.md, concepts 1-8. #9 and later excluded as instructed.",
+    "format": "all 9:16 vertical, Seedance 2.5 master prompts with locked reference assets",
+    "concepts": [
+      {
+        "n": 1,
+        "title": "BIOD NEWS — The Face Wash Ambush",
+        "product": "face_towel",
+        "sec": 20,
+        "genre": "comedy",
+        "register": "news bulletin",
+        "status": "built",
+        "note": "intended as a recurring franchise across three ads"
+      },
+      {
+        "n": 2,
+        "title": "Under the Microscope",
+        "product": "face_towel",
+        "sec": 30,
+        "genre": "3D explainer",
+        "register": "straight//proof",
+        "status": "produced",
+        "note": "the receipts ad — the only one that should foreground the statistic. Opening rebuilt for a faster hook."
+      },
+      {
+        "n": 3,
+        "title": "The Face Off — Mariam & Hind",
+        "product": "face_towel",
+        "sec": 25,
+        "genre": "comedy",
+        "register": "friend intervention",
+        "status": "produced",
+        "note": "generated BIOD's first paid order — treat as the control"
+      },
+      {
+        "n": 4,
+        "title": "The People vs the Towel",
+        "product": "face_towel",
+        "sec": 30,
+        "genre": "comedy drama",
+        "register": "legal notice",
+        "status": "built, not produced"
+      },
+      {
+        "n": 5,
+        "title": "Down The Drain / What A Shame",
+        "product": "face_towel",
+        "sec": 30,
+        "genre": "musical",
+        "register": "lyrical/rueful",
+        "status": "built"
+      },
+      {
+        "n": 6,
+        "title": "Have You Seen — Emma & Nadia",
+        "product": "face_towel",
+        "sec": 30,
+        "genre": "comedy",
+        "register": "trend-jack",
+        "status": "built, not produced",
+        "note": "time-boxed — phone reference dates fast"
+      },
+      {
+        "n": 7,
+        "title": "The Lab Test",
+        "product": "tissue_tube",
+        "sec": 25,
+        "genre": "comedy",
+        "register": "car enthusiast",
+        "status": "built",
+        "note": "built for the male audience the tube skews toward"
+      },
+      {
+        "n": 8,
+        "title": "More Reliable Than Ahmed",
+        "product": "tissue_tube",
+        "sec": 26,
+        "genre": "comedy",
+        "register": "breakup",
+        "status": "produced",
+        "note": "BEST-RECEIVED FILM OF THE SET — scale this one"
+      }
+    ]
   }
 }
