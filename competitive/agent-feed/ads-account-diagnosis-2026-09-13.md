@@ -75,12 +75,8 @@ ad set bids badly.
 | **AE_EN_CNV – COLD** | AED 440.72 | 1 | **AED 440.72** | Active — 3.3× worse |
 | 3D Arabic Ad Only | AED 82.90 | — | — | **PAUSED, and CTR 3.37%** |
 
-Two things jump out:
-
-1. **Half your budget is in the ad set that performs 3.3× worse.** AE_EN_CNV – COLD has spent
-   *more* than Tissue Tube and returned a third of the purchases.
-2. **Your best CTR in the entire account is on a paused ad.** The Arabic creative pulled **3.37%**
-   against 1.48–1.85% on everything live. That is the Arabic opening, with evidence.
+> **Superseded — see "Correction: the ad-set read was wrong" below.** Cutting at ad-set level
+> would kill the cheapest purchase in the account. The cut belongs one level down.
 
 Account hygiene: 8 campaigns exist, 7 dormant; 14 ad sets, 12 not spending. Several show status
 ACTIVE under `CAMPAIGN_PAUSED`. Not harmful, but it makes the account unreadable.
@@ -103,15 +99,23 @@ towel + tube sets, subscription-first. Push the free-delivery threshold to pull 
 this is the one argument *for* keeping it at Dhs 100 rather than dropping to Dhs 70, and it
 cuts against my earlier recommendation. Decide it on margin, not on matching Bambuyu.
 
-**2. Kill AE_EN_CNV – COLD, move its budget to Tissue Tube M/W.**
-AED 440.72 vs AED 134.07 per purchase. Consolidating also doubles the signal into one ad set,
-which is the only way to move toward exiting learning. Expect blended CAC to fall toward
-AED 134 immediately — roughly a 40% improvement for one switch.
+**2. Kill the ad, not the ad set: turn off Baddie Reel.**
+AED 251.34 — **26% of all account spend** — on zero sales, with the worst CTR (1.19%) and the
+highest CPM (AED 156.99) of any ad with real volume. This is the budget leak. Cutting at ad-set
+level instead would take Mariam & Hind down with it.
 
 **3. Run one ad set, not two.** At AED 66/day, splitting the budget guarantees both ad sets stay
 in learning forever. One ad set at full budget is strictly better until you have volume.
 
-**4. Unpause the Arabic creative.** 3.37% CTR, best in the account, currently off.
+**4. Give Mariam & Hind real budget.** It has spent **AED 9.77** and produced one purchase — the
+only sale in the account at a CAC below the product price. One purchase from three clicks is
+noise, not a conversion rate, so treat this as *untested rather than proven*: it has never been
+given enough budget to fail. It is also the film that generated your first paid order.
+
+**5. Watch Breakup x Biod's CPM.** AED 15.82 against an account average of AED 127.65 — **8×
+cheaper**. At 67 impressions that is far too early to believe, but if it holds at any scale it
+implies roughly AED 0.87 CPC and ~AED 29 CAC, which is the only path on this page that makes the
+AED 49 box work on Meta. Let it spend before judging it.
 
 **5. Consider optimising for Add to Cart temporarily.** With 4 purchases per fortnight there is
 not enough purchase signal to train on. Optimising for a higher-volume upper-funnel event gets
@@ -120,8 +124,48 @@ intent, so only do this while volume is the binding constraint.* If you do, fix 
 those events first — AddToCart EMQ is **6.6** and InitiateCheckout **6.1** (email and phone
 coverage only 15–20%) versus 9.3 on Purchase.
 
-**6. Then, and only then, raise budget.** Once CAC is below AOV, Meta's budget recommendation
+**7. Then, and only then, raise budget.** Once CAC is below AOV, Meta's budget recommendation
 becomes correct and you should follow it hard.
+
+## Correction: the ad-set read was wrong, twice
+
+The operator pushed back on the Arabic recommendation. They were right, and checking at ad level
+found a second error.
+
+**Error 1 — I ranked the Arabic ad on CTR, in the same document where I argued CTR is not the
+bottleneck.** That is self-contradictory. If the constraint is CAC, a high click-through rate is
+not a fix. The Arabic ad has **21 clicks and zero sales**.
+
+Being precise about what that does and does not prove: at the account's 3.05% conversion rate,
+21 clicks would be expected to produce 0.64 sales, and **there is a 52% chance of seeing zero
+sales even if the ad converts exactly at the account average.** So zero sales does not prove the
+Arabic ad is bad — but nothing about it is evidence that it is good either. Twenty-one clicks is
+not a result. If anything, a high CTR paired with no conversion is a mild *warning* — it can mean
+the click is curiosity rather than intent — and it is certainly not a promise.
+
+**Error 2 — "kill AE_EN_CNV – COLD" would have destroyed the best unit economics in the account.**
+That ad set contains **Mariam & Hind**, which produced a purchase at **AED 9.77** — the only sale
+anywhere below the product's price. Its ad-set average was dragged to AED 440.72 by Baddie Reel
+sitting in the same ad set. Cutting at the wrong level would have thrown away the one thing
+working.
+
+**What the ad-level data actually shows:**
+
+| Ad | Spend | % of spend | CTR | CPM | Sales | Cost/sale |
+|---|---|---|---|---|---|---|
+| Tissue Tube Professor | AED 482.94 | 51% | 2.00% | 105.15 | **3** | AED 160.98 |
+| **Baddie Reel** | AED 251.34 | **26%** | 1.19% | 156.99 | **0** | — |
+| ZDF 3D Explainer Arabic | AED 94.45 | 10% | 3.36% | 151.12 | 0 | — |
+| ZDF 3D Explainer (EN) | AED 54.77 | 6% | 1.39% | 152.56 | 0 | — |
+| **Mariam & Hind** | AED 9.77 | 1% | 5.36% | 174.46 | **1** | **AED 9.77** |
+| **Breakup x Biod** | AED 1.06 | 0.1% | 1.49% | **15.82** | 0 | — |
+
+**48% of spend went to ads that produced no sales**, and a single ad — Baddie Reel — accounts for
+26% of everything spent. The operator's own read was correct: the sales came from cold prospecting
+and from the creatives inside it, specifically Tissue Tube Professor and Mariam & Hind.
+
+**The lesson for every future read of this account:** rank ads by cost per purchase, not by CTR,
+and never cut at ad-set level when one ad inside it is carrying the result.
 
 ## What this means for the marketplace argument
 
