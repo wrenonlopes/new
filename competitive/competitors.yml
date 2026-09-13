@@ -1,0 +1,115 @@
+# BIOD competitor registry — drives .claude/skills/competitor-watch
+#
+# tier 1 = watch weekly (same product, or sets the category narrative)
+# tier 2 = watch monthly (adjacent product or adjacent market)
+#
+# `domain` values are confirmed. `handles` are BEST-GUESS and marked
+# verified:false until a run confirms them — never quote metrics from an
+# unverified handle, resolve it first and flip the flag.
+
+meta:
+  brand: BIOD — Bamboo Revolution
+  market: UAE / GCC (primary), global DTC (reference)
+  updated: 2026-09-13
+
+competitors:
+  - id: bambuyu
+    name: Bambuyu
+    tier: 1
+    why: >
+      The direct rival. UAE's self-described first bamboo tissue brand, founder-led
+      (Sahar Karoubi), and it already sells "Bamboo Face Towels XL" — the same
+      product as BIOD's Face Towel XL, in the same market. Also already has the
+      retail distribution BIOD does not: Kibsons, Amazon.ae, Scoop Wholefoods, Pure Path.
+    domain: bambuyu.com
+    market: UAE
+    retail: [amazon.ae, kibsons.com, scoopwholefoods.ae, purepath.ae]
+    known_offers:
+      - "Subscribe & Save on site"
+      - "Free UAE delivery over AED 70"
+      - "Facial tissue 65 sheets x 3ply — AED 9.50"
+    handles:
+      instagram: bambuyu
+      tiktok: bambuyu
+      verified: false
+    watch:
+      - New face-towel SKUs, sheet counts and price-per-sheet
+      - Retail listings added or lost (Amazon.ae rank, Kibsons range)
+      - Whether they start producing video, and in Arabic or English
+
+  - id: clean-skin-club
+    name: Clean Skin Club
+    tier: 1
+    why: >
+      Category leader and the narrative-setter. ~$47M revenue 2023, projected $100M+
+      2024, raised $32M (Astō Consumer Partners + Amberstone) Nov 2024. Channel mix is
+      the lesson: ~80% Amazon, ~17% DTC, ~3% retail. Copy their video engine, not
+      their channel mix blindly.
+    domain: cleanskinclub.com
+    market: US / global
+    retail: [amazon.com, target.com, walmart.com, ulta.com, "tiktok shop"]
+    known_offers:
+      - "Clean Towels XL bamboo 50ct ~ USD 12"
+      - "Subscription on DTC"
+    handles:
+      instagram: cleanskinclub
+      tiktok: cleanskinclub
+      verified: false
+    watch:
+      - Top-performing UGC hooks and which get promoted into paid
+      - Creator tier mix (they lean micro, 2k–50k)
+      - New SKUs beyond towels (blemish-control variants)
+
+  - id: the-skinny-confidential
+    name: The Skinny Confidential (TSC)
+    tier: 1
+    why: >
+      Personality-led entrant, launched face towels 2025-12-02 to "disrupt the makeup
+      wipe industry". Relevant to BIOD because it competes on taste and packaging
+      (scalloped edges, spa feel) rather than on hygiene fear — the opposite of BIOD's
+      current angle, and the premium end of the same shelf.
+    domain: shopskinnyconfidential.com
+    market: US / global
+    retail: [amazon.com]
+    known_offers:
+      - "50ct bamboo/rayon box"
+      - "Subscribe & save 15% on refills"
+      - "Free shipping over USD 50"
+      - "Certifications: OCS, OEKO-TEX, FSC"
+    handles:
+      instagram: theskinnyconfidential
+      tiktok: theskinnyconfidential
+      verified: false
+    watch:
+      - How founder-led video outperforms brand-account video
+      - Certification and "non-toxic" claim language
+      - Travel/mini SKU strategy (Eden Rock travel towels)
+
+  - id: fomin
+    name: Fomin
+    tier: 2
+    why: Biodegradable bamboo cleansing towels, sensitive-skin positioning. Smaller, but competes on the same derm angle BIOD uses.
+    domain: fominsoap.com
+    market: US
+    handles: { verified: false }
+    watch: [Sensitive-skin claim language, pack sizes]
+
+  - id: sima
+    name: Sima
+    tier: 2
+    why: Cotton (not bamboo) disposable face towels, derm-tested, exfoliating variants. The cotton counter-argument to BIOD's bamboo case.
+    domain: simabrand.com
+    market: US
+    handles: { verified: false }
+    watch: [How they defend cotton vs bamboo, exfoliating variant demand]
+
+  - id: gcc-eco-retail
+    name: GCC eco-retail shelf (The Botanist Dubai, Eco Living Store, Anzu, Ultracare)
+    tier: 2
+    why: >
+      Not towel-first brands, but they own the UAE "eco tissue" shelf and search terms
+      BIOD needs. Anzu pitches carbon-savings reporting to B2B — a channel BIOD ignores.
+    domains: [thebotanistdubai.com, ecolivingstore.com, anzuproducts.com, myultracare.com]
+    market: UAE
+    handles: { verified: false }
+    watch: [Which of them adds a disposable face towel, B2B/office channel moves]
