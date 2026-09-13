@@ -1,213 +1,422 @@
-# BIOD copy pack — v1, 2026-09-13
+# BIOD copy pack — v2, 2026-09-13
 
-Ad copy for the eight live concepts, plus the website copy revisions they imply.
-Concepts #1–#8 only; #9 (end card) and the trailing notes are out of scope as instructed.
+Meta-ready copy for all eight live films, shaped to the actual ad form.
+Concepts #1–#8 only.
 
-## Correction this pack is built on
+## Two fixes to the live tube ad, first
 
-An earlier read of this repo scored BIOD's ads "not funny." That score came from the Meta Ad
-Library's `ad_creative_link_title` field — **headlines only, no video**. The films are comedy;
-the copy layer around them is not. So the gap is narrower and cheaper to fix than stated:
+**1. There's a typo running right now.** The headline reads *"Our tissue tubes wont dissapoint
+you like your ex"* — `wont` → `won't`, `dissapoint` → `disappoint`. It's also **48 characters**,
+so it truncates on feed. Replace with **"Won't disappoint you like your ex."** (33) or
+**"More reliable than Ahmed."** (25).
 
-> **Funny films, flat frames.** *More Reliable Than Ahmed* is the best-received film in the set
-> and its headline field carries none of it. The joke is doing all the work with no support.
+**2. The description is doing two jobs.** It currently sells the design *and* retells the joke
+("...or even when you're crying to your friend about your ex"). The video already told that joke.
+Pick one job per field — see below.
 
-## The two products are not one product
+## The division of labour
 
-| | Face Towel XL | Tissue Tube |
+Your tube ad is 80% right and it's worth naming why, because it's the pattern for all eight:
+
+| Field | Job | Your tube ad |
 |---|---|---|
-| Job | Face hygiene — what touches clean skin | On-the-go nose, car, bag |
-| Enemy | The damp cloth towel | The ugly cardboard box |
-| Audience | Skincare-led, female-skewing | Male-skewing (per the Lab Test brief) |
-| Emotional register | Disgust → relief | Reliability → loyalty |
-| Concepts | 1–6 | 7–8 |
-| **Website presence** | Entire homepage | **One line in `hero.liquid`** |
+| **Video** | Tell the joke | ✅ does it |
+| **Headline** | The tag — the quotable line | ✅ right idea, typo + too long |
+| **Primary text** | The sell — what it is, why it's better | ✅ the 3-line spec list works |
+| **Description** | One closer. Reassurance or offer. | ❌ retells the joke |
 
-**That last row is the most expensive thing in this document.** The tube is one of two main
-products and the homepage has no tube story — no versus, no receipts, no FAQ, no objection
-handling. Traffic from the Ahmed film lands on a page about face-towel bacteria. Fix the site
-before scaling tube spend.
+**The comedy lives in the film. The copy's job is to catch the person the film just made laugh
+and tell them what they're buying.** That's why the spec-list primary text is a good instinct —
+keep it. Copy that re-tells the joke competes with the video instead of converting off it.
 
----
+Meta shows "add multiple text options and we'll show the one we predict will perform best", so
+every field below has several. **Paste them all.** Character counts are measured.
 
-# Part 1 — Ad copy, per concept
-
-## How to write copy around a comedy film
-
-Four rules, because comedy ads fail differently from direct-response ads:
-
-1. **Never spoil the bit.** The primary text sets up or follows the joke — it never tells it.
-   If someone can read the copy and skip the video, the copy has cost you a view.
-2. **The headline is the tag, not the setup.** Treat it like the card at the end of a sketch.
-3. **Write in the film's voice, not the brand's.** A courtroom ad gets legal-notice copy. A
-   breakup ad gets breakup copy. Brand voice across all eight flattens them into one ad.
-4. **The claim lives in the copy, not the punchline.** Only three claims are cleared (root
-   `README.md`). The joke can be about the towel; the *statistic* must be sourced.
-
-Fields below are Meta: **PRIMARY** (above the video), **HEADLINE** (`ad_creative_link_title`),
-**DESCRIPTION**, **CTA**.
+On **headlines**, `LONG` means real truncation — avoid it. On **primary text**, over-125 just
+collapses behind "See more", which is fine for a narrative line *as long as the first 125
+characters stand on their own*. The three long primaries below (02, 04, 08) are deliberate:
+each one's first sentence is the hook and survives the fold. Every headline fits.
 
 ---
 
-## FACE TOWEL
+# Part 1 — The eight ads
 
-### 1. BIOD NEWS — "The Face Wash Ambush"
-Register: news bulletin. Recurring franchise, so the copy should feel like a running segment.
+### 01 — BIOD NEWS — The Face Wash Ambush
+`Face Towel` · news bulletin · 20s
 
-- **PRIMARY:** Breaking: the towel you used this morning has been damp since Tuesday. Our
-  correspondent is on the scene and she is not being polite about it.
-- **HEADLINE:** This has been BIOD News.
-- **DESCRIPTION:** A fresh sheet every wash. 50 per box.
-- **CTA:** Shop Now
-- **Variants to test:** `We interrupt your routine for an important update.` ·
-  `BIOD News, live from your bathroom.` · `Developing story: your towel.`
+**PRIMARY TEXT** — paste all as separate options *(125 chars before “See more”)*
 
-### 2. "Under the Microscope"
-Register: straight. **This is the receipts ad — the only one that should carry the statistic
-prominently,** because the film earns it.
+1. 50 single-use bamboo towels. A fresh sheet every wash — nothing hung up, nothing built up.  
+   <sub>90 chars · OK </sub>
+2. A fresh towel every single wash. ⏎ Bamboo, 50 to a box. ⏎ No fragrance, no dyes, nothing to build up.  
+   <sub>97 chars · OK </sub>
+3. Our correspondent has some breaking news about the towel you used this morning. She is not being polite about it.  
+   <sub>113 chars · OK </sub>
 
-- **PRIMARY:** We put a used face towel under a microscope. Of 82 used hand towels tested, 89%
-  carried coliform bacteria and about one in four carried E. coli. Then we watched someone press
-  one into their face. (Food Protection Trends, 2014.)
-- **HEADLINE:** This is what you're drying your face with.
-- **DESCRIPTION:** Single-use bamboo. Nothing to build up.
-- **CTA:** Learn More → `/#receipts`
-- **Note:** do not add a joke to this one. The film is the proof piece; comedy on top reads as
-  undercutting the evidence.
+**HEADLINE** — paste all *(40 chars max before truncation)*
 
-### 3. "The Face Off" — Mariam & Hind *(first paid order — treat as the control)*
-Register: friend intervention. Second person, mid-conversation.
+1. **This has been BIOD News.**  
+   <sub>24 chars · OK </sub>
+2. **We interrupt your routine.**  
+   <sub>26 chars · OK </sub>
+3. **Breaking: it's your towel.**  
+   <sub>26 chars · OK </sub>
+4. **BIOD News, live from your sink.**  
+   <sub>31 chars · OK </sub>
 
-- **PRIMARY:** Everyone needs a Hind. Someone who will take the damp towel out of your hand and
-  explain, at volume, exactly what has been living in it.
-- **HEADLINE:** Hind has opinions about your towel.
-- **DESCRIPTION:** Try it for Dhs 19. One week.
-- **CTA:** Shop Now
-- **Variants:** `She snatched it out of her hand. Fair enough.` ·
-  `This is your intervention.` · `Tell your friend. Gently. Or don't.`
+**DESCRIPTION** *(30 chars; hidden on Reels/Stories)*
 
-### 4. "The People vs the Towel" — courtroom
-Register: legal notice, played completely straight. The gap between register and subject is the joke.
+1. Fresh sheet, every wash.  
+   <sub>24 chars · OK </sub>
+2. 50 per box. Bamboo.  
+   <sub>19 chars · OK </sub>
 
-- **PRIMARY:** The defendant has been damp since Tuesday. The defendant has never been washed at
-  the temperature required. The defendant touches your face every single morning. The prosecution
-  submits Exhibit A.
-- **HEADLINE:** Exhibit A: your towel.
-- **DESCRIPTION:** The court recommends a fresh sheet every wash.
-- **CTA:** Shop Now
-- **Variants:** `Your towel has been charged.` · `The verdict was unanimous.` ·
-  `Cloth towels have been banned in this courtroom.`
-
-### 5. "Down The Drain" / "What A Shame" — musical
-Register: lyrical, rueful. Copy should read like a caption to a music video.
-
-- **PRIMARY:** She spent a fortune on the routine. Then she dried it all off on a towel that has
-  been hanging there since Tuesday. There's a song about it now.
-- **HEADLINE:** All that skincare. Down the drain.
-- **DESCRIPTION:** Bamboo. Single-use. Dhs 19 to start.
-- **CTA:** Shop Now
-- **Variants:** `Ten steps forward, one towel back.` · `What a shame.`
-
-### 6. "Have You Seen" — Emma & Nadia
-Register: trend-jacking. **Time-boxed** — the phone reference dates fast, so run it hard and early.
-
-- **PRIMARY:** New phone. Same towel that's been on the same hook since Tuesday. One of these is
-  actually ruining your week.
-- **HEADLINE:** New phone. Same disgusting towel.
-- **DESCRIPTION:** Priorities. Dhs 19.
-- **CTA:** Shop Now
-- **Note:** swap the phone reference as launches cycle; keep the sentence shape.
+**CALL TO ACTION:** Shop now
 
 ---
 
-## TISSUE TUBE
+### 02 — Under the Microscope
+`Face Towel` · proof / straight · 30s
 
-### 7. "The Lab Test" — professor and supercars
-Register: car enthusiast. Specs and standards, applied to a tissue box. Male-skewing.
+> **The receipts ad. Do NOT add a joke — comedy on top undercuts the evidence.**
 
-- **PRIMARY:** You chose the car. You chose the wheels. You chose the interior down to the
-  stitching. Then you put a supermarket tissue box on the seat. Sir. Respectfully.
-- **HEADLINE:** Fits the cup holder. Unlike that box.
-- **DESCRIPTION:** Bamboo tissue tube. Built for the cup holder.
-- **CTA:** Shop Now
-- **Variants:** `Everything else in here was a decision.` ·
-  `Tested. Approved. Binned the box.` · `The last ugly thing in your car.`
+**PRIMARY TEXT** — paste all as separate options *(125 chars before “See more”)*
 
-### 8. "More Reliable Than Ahmed" *(best-received film — scale this one)*
-Register: breakup. Dry, deadpan, never mean. **Do not put the punchline in the headline if you
-want the view** — but this line is strong enough to earn the exception, so test both.
+1. Of 82 used hand towels tested, 89% carried coliform bacteria. About one in four carried E. coli. Then we watched someone press one into their face. (Food Protection Trends, 2014.)  
+   <sub>179 chars · LONG</sub>
+2. We put a used face towel under a microscope. Published research, not a hunch — 89% carried coliform bacteria.  
+   <sub>109 chars · OK </sub>
+3. Single-use bamboo. You use it once, then it's gone. There is nothing for anything to build up in.  
+   <sub>97 chars · OK </sub>
 
-- **PRIMARY:** She cried. Reem listened, said the things a good friend says about an ex, and kept
-  handing her tissues. Halfway through the vent she noticed the tissue hadn't fallen apart.
-- **HEADLINE:** More reliable than Ahmed.
-- **DESCRIPTION:** Bamboo tissue. Won't disappoint you like your ex.
-- **CTA:** Shop Now
-- **Variants (test the punchline held back):** `Soft. Strong. Didn't fall apart.` ·
-  `One of them stayed.` · `The tissue, at least, held up.`
-- **Why to scale:** it is the only concept in the set carrying a genuine emotional beat as well as
-  a joke, and the tag is quotable without the video — which is what makes a line travel.
+**HEADLINE** — paste all *(40 chars max before truncation)*
+
+1. **This is what dries your face.**  
+   <sub>29 chars · OK </sub>
+2. **We looked. You won't like it.**  
+   <sub>29 chars · OK </sub>
+3. **89% carried coliform bacteria.**  
+   <sub>30 chars · OK </sub>
+4. **Published. Peer-reviewed.**  
+   <sub>25 chars · OK </sub>
+
+**DESCRIPTION** *(30 chars; hidden on Reels/Stories)*
+
+1. Peer-reviewed. Not a vibe.  
+   <sub>26 chars · OK </sub>
+2. The research, not a hunch.  
+   <sub>26 chars · OK </sub>
+
+**CALL TO ACTION:** Shop now
 
 ---
 
-# Part 2 — Website copy
+### 03 — The Face Off — Mariam & Hind
+`Face Towel` · friend intervention · 25s
 
-## 2a. The tube gap — new copy, currently missing entirely
+> **First paid order came from this film. Keep as the control.**
 
-The homepage sells one product. Below is the minimum tube story, mirroring the structures that
-already work for the towel.
+**PRIMARY TEXT** — paste all as separate options *(125 chars before “See more”)*
 
-**Tube versus block** — same `versus` pattern, new fighters:
+1. Everyone needs a Hind — someone who takes the damp cloth out of your hand and explains what has been living in it.  
+   <sub>113 chars · OK</sub>
+2. Your friend is right. Stop drying a clean face on a towel that has been hanging there all week.  
+   <sub>95 chars · OK </sub>
+3. 50 bamboo towels. Try the whole thing for Dhs 19.  
+   <sub>49 chars · OK </sub>
+
+**HEADLINE** — paste all *(40 chars max before truncation)*
+
+1. **Hind has opinions about your towel.**  
+   <sub>35 chars · OK </sub>
+2. **Everyone needs a Hind.**  
+   <sub>22 chars · OK </sub>
+3. **This is your intervention.**  
+   <sub>26 chars · OK </sub>
+4. **She snatched it. Fair enough.**  
+   <sub>29 chars · OK </sub>
+
+**DESCRIPTION** *(30 chars; hidden on Reels/Stories)*
+
+1. Try a week for Dhs 19.  
+   <sub>22 chars · OK </sub>
+2. Fresh sheet, every wash.  
+   <sub>24 chars · OK </sub>
+
+**CALL TO ACTION:** Shop now
+
+---
+
+### 04 — The People vs the Towel
+`Face Towel` · legal notice · 30s
+
+**PRIMARY TEXT** — paste all as separate options *(125 chars before “See more”)*
+
+1. The defendant has never been washed at the temperature required. The defendant touches your face every morning. The prosecution submits Exhibit A.  
+   <sub>146 chars · LONG</sub>
+2. Cloth towels have been banned in this courtroom. 50 single-use bamboo towels per box.  
+   <sub>85 chars · OK </sub>
+3. The case against your towel is peer-reviewed: 89% of used towels carried coliform bacteria. (Food Protection Trends, 2014.)  
+   <sub>123 chars · OK </sub>
+
+**HEADLINE** — paste all *(40 chars max before truncation)*
+
+1. **Exhibit A: your towel.**  
+   <sub>22 chars · OK </sub>
+2. **The verdict was unanimous.**  
+   <sub>26 chars · OK </sub>
+3. **Your towel has been charged.**  
+   <sub>28 chars · OK </sub>
+4. **The court has seen enough.**  
+   <sub>26 chars · OK </sub>
+
+**DESCRIPTION** *(30 chars; hidden on Reels/Stories)*
+
+1. Case closed. Dhs 19.  
+   <sub>20 chars · OK </sub>
+2. Single-use bamboo. 50 per box.  
+   <sub>30 chars · OK </sub>
+
+**CALL TO ACTION:** Shop now
+
+---
+
+### 05 — Down The Drain / What A Shame
+`Face Towel` · musical · 30s
+
+**PRIMARY TEXT** — paste all as separate options *(125 chars before “See more”)*
+
+1. She spent a fortune on the routine. Then dried it all off on the one thing in the bathroom nobody ever washes.  
+   <sub>110 chars · OK </sub>
+2. Ten steps of skincare, undone by the last one. There's a song about it now.  
+   <sub>75 chars · OK </sub>
+3. Bamboo, single-use, 50 to a box. The last step should be as clean as the first.  
+   <sub>79 chars · OK </sub>
+
+**HEADLINE** — paste all *(40 chars max before truncation)*
+
+1. **All that skincare. Down the drain.**  
+   <sub>34 chars · OK </sub>
+2. **Ten steps forward. One towel back.**  
+   <sub>34 chars · OK </sub>
+3. **What a shame.**  
+   <sub>13 chars · OK </sub>
+4. **The routine was fine. The towel wasn't.**  
+   <sub>39 chars · OK </sub>
+
+**DESCRIPTION** *(30 chars; hidden on Reels/Stories)*
+
+1. Don't undo the routine.  
+   <sub>23 chars · OK </sub>
+2. 50 per box. Dhs 19 to try.  
+   <sub>26 chars · OK </sub>
+
+**CALL TO ACTION:** Shop now
+
+---
+
+### 06 — Have You Seen — Emma & Nadia
+`Face Towel` · trend-jack · 30s
+
+> **Time-boxed — run hard and early, then swap the phone and keep the sentence shape.**
+
+**PRIMARY TEXT** — paste all as separate options *(125 chars before “See more”)*
+
+1. New phone. Same towel that has been on the same hook all week. Only one of these is actually ruining your skin.  
+   <sub>111 chars · OK </sub>
+2. You upgraded the phone. Maybe upgrade the thing that touches your face twice a day.  
+   <sub>83 chars · OK </sub>
+3. 50 single-use bamboo towels. Dhs 19 to try a week.  
+   <sub>50 chars · OK </sub>
+
+**HEADLINE** — paste all *(40 chars max before truncation)*
+
+1. **New phone. Same old towel.**  
+   <sub>26 chars · OK </sub>
+2. **New phone. Same breakouts.**  
+   <sub>26 chars · OK </sub>
+3. **Priorities.**  
+   <sub>11 chars · OK </sub>
+4. **You upgraded the wrong thing.**  
+   <sub>29 chars · OK </sub>
+
+**DESCRIPTION** *(30 chars; hidden on Reels/Stories)*
+
+1. Upgrade the right thing.  
+   <sub>24 chars · OK </sub>
+2. Dhs 19. One week.  
+   <sub>17 chars · OK </sub>
+
+**CALL TO ACTION:** Shop now
+
+---
+
+### 07 — The Lab Test
+`Tissue Tube` · car enthusiast · 25s
+
+> **Built for the male audience the tube skews toward.**
+
+**PRIMARY TEXT** — paste all as separate options *(125 chars before “See more”)*
+
+1. You chose the car. The wheels. The interior, down to the stitching. Then you put a supermarket tissue box on the seat.  
+   <sub>118 chars · OK </sub>
+2. 50 premium 3-ply bamboo tissues in a tube built for a cup holder. Everything else in there was a decision.  
+   <sub>105 chars · OK</sub>
+3. Bamboo tissue tube. ⏎ Fits a standard cup holder. ⏎ 3-ply, soft, and it doesn't fall apart. ⏎ 100% bamboo.  
+   <sub>100 chars · OK </sub>
+
+**HEADLINE** — paste all *(40 chars max before truncation)*
+
+1. **Fits the cup holder.**  
+   <sub>20 chars · OK </sub>
+2. **Fits the cup holder. Unlike that box.**  
+   <sub>37 chars · OK </sub>
+3. **Everything else was a choice.**  
+   <sub>29 chars · OK </sub>
+4. **The last ugly thing in your car.**  
+   <sub>32 chars · OK </sub>
+
+**DESCRIPTION** *(30 chars; hidden on Reels/Stories)*
+
+1. Built for the cup holder.  
+   <sub>25 chars · OK </sub>
+2. 50 tissues. 3-ply bamboo.  
+   <sub>25 chars · OK </sub>
+
+**CALL TO ACTION:** Shop now
+
+---
+
+### 08 — More Reliable Than Ahmed
+`Tissue Tube` · breakup · 26s
+
+> **BEST-RECEIVED FILM. Scale this one. Test the tag given away vs held back.**
+
+**PRIMARY TEXT** — paste all as separate options *(125 chars before “See more”)*
+
+1. She cried. Reem listened, said the things a good friend says about an ex, and kept handing her tissues. Halfway through, she noticed it hadn't fallen apart.  
+   <sub>156 chars · LONG</sub>
+2. 50 premium 3-ply bamboo tissues. ⏎ Soft, strong, and naturally gentle on skin. ⏎ 100% sustainably sourced bamboo.  
+   <sub>109 chars · OK </sub>
+3. Soft enough for a bad week. Strong enough to get through it. 50 3-ply bamboo tissues in a tube that fits your cup holder.  
+   <sub>121 chars · OK </sub>
+
+**HEADLINE** — paste all *(40 chars max before truncation)*
+
+1. **More reliable than Ahmed.**  
+   <sub>25 chars · OK </sub>
+2. **Won't disappoint you like your ex.**  
+   <sub>34 chars · OK </sub>
+3. **One of them stayed.**  
+   <sub>19 chars · OK </sub>
+4. **Soft. Strong. Didn't fall apart.**  
+   <sub>32 chars · OK </sub>
+
+**DESCRIPTION** *(30 chars; hidden on Reels/Stories)*
+
+1. It won't let you down.  
+   <sub>22 chars · OK </sub>
+2. 50 tissues. 3-ply bamboo.  
+   <sub>25 chars · OK </sub>
+
+**CALL TO ACTION:** Shop now
+
+---
+
+# Part 2 — Website
+
+## 2a. "Tuesday" is gone — applied
+
+You asked for it deleted, so it's out of the theme in this commit:
+
+| File | Was | Now |
+|---|---|---|
+| `sections/versus.liquid` | `"vibe": "damp since Tuesday"` | `"vibe": "never actually dry"` |
+| `templates/index.json` | `"vibe": "damp since Tuesday"` | `"vibe": "never actually dry"` |
+| `sections/problem-chat.liquid` | default `"Your towel has been moist since Tuesday."` | default `"Respectfully, your towel is disgusting."` |
+
+The last one was only a schema default — the live homepage already overrides it with
+"Respectfully, your towel is disgusting." Now the default matches what's actually on the page,
+so a future section added in the customiser won't resurrect the line.
+
+**Swap `never actually dry` for any of these if you prefer** — all fit the fighter-vibe slot:
+`washed? eventually.` · `still wet from yesterday` · `clean-ish` · `permanently damp`
+
+## 2b. Replacing the rotation headline
+
+Both the scold (*"Why use that dirty towel on your pretty face?"*) and the Tuesday line are out.
+The insight underneath is still the strongest one you have — the last step of the routine is the
+dirtiest thing in the room. Same idea, no Tuesday, no blaming the viewer:
+
+| Headline | Chars | Why |
+|---|---|---|
+| **Respectfully, your towel is disgusting.** | 40 | Already yours, already live, already cleared. Exactly at the limit. |
+| **Clean face. Dirty towel.** | 24 | Shortest statement of the whole problem |
+| **You wash your face. Then undo it.** | 33 | Attacks the sequence, not the person |
+| **When did you last wash that towel?** | 34 | A question they can't answer comfortably |
+| **The cleanest step, then the dirtiest.** | 38 | Most premium-sounding of the set |
+
+## 2c. Your corrections, applied
+
+**Hero subtext — you're right, reverted.** "Two products" would break the moment toilet paper
+lands. Worth noting the existing line is *already* the future-proof one:
+
+> Everything you wipe, dry, and toss, remade in bamboo.
+
+"Wipe, dry, and toss" covers tissue, towel and paper without ever counting. It was built as a
+range line. Keep it. If you ever want more bite without a count:
+**"The whole bathroom, remade in bamboo."**
+
+**Featured heading — reverted to "Find your format."** Your call, and on reflection it's the
+better line: "format" is doing real work when the range is tube vs towel vs roll, and it keeps
+working as you add SKUs. "Face or everywhere else" hard-codes a two-product world — the same
+mistake as the hero line.
+
+**CTA microcopy Dhs 100 → Dhs 70** — still your call. Bambuyu is at AED 70 and you currently
+advertise the worse threshold in your own footer. Copy is ready whenever the margin maths is.
+
+## 2d. The tube still has no website
+
+Unchanged from v1 and still the biggest structural gap: one line in `hero.liquid` and nothing in
+versus, receipts, chat, planet or FAQ. Concepts 07 and 08 — including your best-received film —
+send traffic to a face-towel argument.
+
+**Tube versus block**, same pattern as the towel one:
 
 | Fighter | Vibe | Tag | Verdict |
 |---|---|---|---|
-| **BIOD Tube** | fits the cup holder | The main character | Bamboo, 3-ply, and it doesn't look like a supermarket. |
-| Cardboard box | beige, enormous, everywhere | Eliminated | Designed for a shelf in 1974. Still there. |
+| **BIOD Tube** | fits the cup holder | The main character | 3-ply bamboo, and it doesn't look like a supermarket. |
+| Cardboard box | beige and enormous | Eliminated | Designed for a shelf in 1974. Still there. |
 | Pocket pack | disintegrates on contact | Eliminated | Two tissues in and you're using the packet. |
 
-**Tube hero / section copy:**
-- Kicker: `The one for everywhere else`
-- Heading: `The last ugly thing in your car.`
-- Body: `Bamboo tissue that fits a cup holder, survives an actual sneeze, and doesn't look like
-  it came free with a delivery. Soft enough for a bad week.`
-- Microcopy: `won't disappoint you like your ex`
+**Tube section copy:** kicker `The one for everywhere else` · heading **"The last ugly thing in
+your car."** · body *"3-ply bamboo tissue that fits a cup holder, survives an actual sneeze, and
+doesn't look like it came free with a delivery. Soft enough for a bad week."*
 
-**Tube FAQ — objection handling that doesn't exist yet:**
-- `Will it actually fit my cup holder?` → give the diameter. This is the single most common
-  pre-purchase question for a cup-holder product and the site answers it nowhere.
-- `Is bamboo tissue strong enough?` → the Ahmed film's whole premise. Say it plainly.
-- `How many sheets, and how long does one tube last?` → per-tube maths, same treatment as the
-  towel's `Dhs 0.98 per towel`.
-- `Is it safe for noses / sensitive skin?` → no added fragrance, no dyes.
-
-## 2b. Revisions to live towel copy
-
-Keep the voice — it's good, and it's already cleared. These are targeted fixes.
-
-| Where | Now | Change to | Why |
-|---|---|---|---|
-| `cta.microcopy` | `free delivery over Dhs 100` | `free delivery over Dhs 70` | Bambuyu is AED 70. You currently advertise the worse number yourself. Business decision — copy is ready when you are. |
-| `hero.subtext` | "Everything you wipe, dry, and toss, remade in bamboo." | `Two products. One for your face, one for everywhere else.` | Names both products in the first screen. The hero currently implies a range and sells a towel. |
-| Featured collection heading | `Find your format.` | `Face or everywhere else.` | Forces the two-product choice instead of a vague browse. |
-| Ad headline in rotation | `Why use that dirty towel on your pretty face?` | `Your towel has been damp since Tuesday.` | Same insight, but it mocks the towel instead of the customer. The current line blames the viewer for their own breakouts. |
-
-## 2c. One thing not to change
-
-Leave the `receipts` section alone. It is the only asset in this category with a peer-reviewed
-citation, and it is the reason concept #2 can exist. Don't make it funnier.
+**Tube FAQ — four answers that don't exist anywhere:**
+1. **Will it fit my cup holder?** — give the diameter in mm. Most common pre-purchase question
+   for a cup-holder product, and the site is silent on it.
+2. **Is bamboo tissue actually strong?** — the entire premise of concept 08. Say it plainly.
+3. **How many sheets, how long does a tube last?** — per-tube maths, same treatment as the
+   towel's `Dhs 0.98 per towel`.
+4. **Safe for noses and sensitive skin?** — no added fragrance, no dyes.
 
 ---
 
-## Ship order
+## Rules that still bind
 
-1. **Headlines and primary text on the eight live concepts.** Zero production cost, today.
-2. **Scale #8, keep #3 as control.** Best-received film versus first-order film.
-3. **Tube website copy.** Do this before increasing tube spend, or the Ahmed film keeps landing
-   on a towel page.
-4. **The two offer numbers** (delivery threshold, subscription %) — business decisions, copy ready.
-5. **Arabic cuts**, starting with #8 — the breakup register travels, and no competitor is there.
+- **Three cleared claims only** (root `README.md`), jokes included. The 89% / 1-in-4 study
+  (Food Protection Trends 2014), AAD guidance, bamboo growth and biodegradability. Never
+  "antibacterial", never an invented percentage.
+- **Never name a competitor.** Punch at cloth towels, cardboard boxes and wet wipes.
+- **Never spoil the bit** — except concept 08, where the tag is strong enough to give away.
+  Test it both ways.
+- **Leave the `receipts` section alone.** It's the only asset in this category with a
+  peer-reviewed citation and the reason concept 02 can exist. Don't make it funnier.
 
-## Feed back per variant
+## Log per variant
 
-Hook text, register (news / legal / breakup / car / musical / intervention), product, 3-second
-retention, CTR, CVR, and whether the punchline was held back or given away in the headline. That
-last column is the one nobody has data on yet, and it decides how every future comedy ad is framed.
+Which primary text and headline Meta actually served, register, product, 3-second retention, CTR,
+CVR, and whether the punchline was given away or held back. Meta picks the winner for you — so
+record *which option it picked*, since that's free data on what this market rewards and nobody
+has it yet.
