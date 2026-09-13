@@ -1,114 +1,142 @@
 ---
 name: competitor-watch
 description: >
-  Run a competitor sweep for BIOD — pull competitors' videos, product pages, prices and
-  reviews, transcribe the video, and write a dated teardown into competitive/. Use when
-  asked to check on competitors, analyse a competitor's video or ad, do a competitive
-  teardown, or refresh the competitor registry. Requires open internet egress, so it runs
-  on a local machine, NOT in a Claude-on-web session.
+  Full-surface competitor sweep for BIOD — Meta/Instagram ads, Instagram, TikTok, competitor
+  websites and Amazon storefronts — scored for tone and humour, written out as a machine-readable
+  feed for BIOD's Claude ads agents plus a dated human teardown. Use when asked to watch, monitor
+  or analyse competitors, audit their ads or videos, check what creative rivals are running, or
+  refresh the competitor registry. The ads surface works anywhere; the rest needs open egress.
 ---
 
 # Competitor watch (BIOD)
 
-Turns competitor video and storefronts into a dated, comparable teardown in `competitive/`.
-The competitor set lives in `competitive/competitors.yml` — read it first, it is the input.
+Turns every competitor surface into (a) `competitive/agent-feed/uae-competitive-state.json` for
+the ads agents and (b) `competitive/teardown-YYYY-MM-DD.md` for humans.
 
-## Before you start: does this environment work?
+**Read `competitive/competitors.yml` first — it is the input, and it carries the Meta page IDs
+that make the ads sweep reliable.**
 
-This workflow needs general outbound internet. **Claude Code on the web cannot run it** —
-its egress proxy answers `403` to CONNECT for youtube.com, instagram.com, tiktok.com,
-r.jina.ai and api.groq.com. Check in one command:
+Mission framing: BIOD is betting on **comedy / bold humour** as its wedge in the UAE. So tone is
+not a soft observation here, it is a scored dimension — see *Tone audit* below.
+
+## Surface coverage — know what runs where
+
+| Surface | Tool | Works in a restricted session? |
+|---|---|---|
+| **Meta + Instagram ads** | `ads_library_search` (MCP) | **Yes** — server-side, ignores container egress |
+| Instagram organic | agent-reach → OpenCLI | No — needs desktop Chrome + extension |
+| TikTok | `yt-dlp` direct (no agent-reach channel) | No |
+| Competitor websites | agent-reach web / Jina Reader | No |
+| Amazon storefronts | web fetch + `yt-dlp`-free scraping | No |
+
+So: **always run the ads sweep** — it works everywhere. Run the rest locally.
 
 ```bash
 curl -sS -o /dev/null -w "%{http_code}\n" --max-time 15 https://www.tiktok.com
 ```
+`000` → restricted. Do the ads sweep, mark every other surface `not_collected` in the JSON with
+its blocker, and say so. Never fill a blocked surface from memory.
 
-`200`/`3xx` → proceed. `000` → you are in a sandbox; stop and say so rather than producing
-a teardown from memory. Confirm with `curl -sS "$HTTPS_PROXY/__agentproxy/status"` if set.
+## 1. Ads — the reliable surface
 
-## Setup (once per machine)
+Query by **`page_ids`**, not keywords. Page IDs are in `competitors.yml` under `meta_page_id`.
 
-Install from the **GitHub repo, not PyPI**. `pip install agent-reach` installs an unrelated
-v0.1.0 package by a different author — a name collision. The real tool is:
-
-```bash
-git clone https://github.com/Panniantong/agent-reach ~/tools/agent-reach
-pip install -e ~/tools/agent-reach          # provides `agent-reach` v1.5+
-agent-reach doctor                           # shows per-platform status + active backend
+```
+ads_library_search(page_ids=["103702641815801"], ad_active_status="ALL", limit=50)
 ```
 
-Transcription needs a free Groq key and ffmpeg:
+Record per ad: id, `ad_creative_link_title`, creation and delivery dates, variant count, currency
+(AED confirms UAE targeting), format (catalog/DPA vs single), and a tone + humour score.
+
+**Known tool behaviour — do not misuse it:**
+- Search by **brand name** works well for discovering an unknown page ID (`search_terms="Bambuyu"`).
+- Search by **page_id** is exact and reliable.
+- **Broad thematic search is useless** — an emoji query returned 1.5M irrelevant ads, and
+  "face towel" returned drama-short spam. Never use it to support a category-wide claim such as
+  "nobody in UAE does comedy." If asked to prove that, say it cannot be measured this way.
+- Catalog/DPA ads leak the advertiser's **whole product line** in the link title. Always read them
+  — that is how Bambuyu's six SKUs were confirmed.
+
+New competitor found? Resolve its page ID by brand-name search, add it to `competitors.yml`.
+
+## 2. TikTok — agent-reach has no channel, use yt-dlp
 
 ```bash
-agent-reach configure groq-key               # hidden input; console.groq.com
-```
-
-Know the auth boundary before promising coverage:
-
-| Surface | Works how | Gotcha |
-|---|---|---|
-| YouTube | `yt-dlp`, zero config | needs a JS runtime configured, or subs come back empty |
-| Web pages | Jina Reader, zero config | fine for storefronts and press |
-| RSS | zero config | good for competitor blogs/PR |
-| **TikTok** | **not a channel in agent-reach** | see workaround below — this is the main gap |
-| Instagram / Facebook | OpenCLI on the user's logged-in Chrome | **desktop Chrome + extension required**, never on a server |
-| Twitter / Reddit | user-exported cookies | export via Cookie-Editor; use a burner account |
-
-Never log into a platform on the user's behalf and never read their browser cookies —
-agent-reach's own policy, and it is the right one. Ask them to export.
-
-## The TikTok gap (read this — it matters for BIOD)
-
-TikTok and Reels are where this category actually sells, and agent-reach has no TikTok
-channel. `yt-dlp` does support TikTok and Instagram directly, so go around it:
-
-```bash
-# metadata: views, likes, comments, caption, duration, music
-yt-dlp --dump-json "https://www.tiktok.com/@handle/video/ID" > /tmp/v.json
-
-# a creator's recent posts, newest first, no download
+yt-dlp --dump-json "https://www.tiktok.com/@handle/video/ID" > /tmp/v.json   # views/likes/caption
 yt-dlp --flat-playlist --dump-json --playlist-end 30 "https://www.tiktok.com/@handle"
-
-# the words: transcribe, since TikTok has no subtitle track to pull
 agent-reach transcribe "https://www.tiktok.com/@handle/video/ID" -o /tmp/t.txt
 ```
 
-Rate-limit yourself: 2–3s between requests. Captcha walls are the platform's limit, not a
-bug to route around — if you hit one, stop and report partial results.
+2–3s between requests. A captcha wall is the platform's limit — stop and report partial results.
 
-## The sweep
+## 3. Instagram, websites, Amazon
 
-1. **Read the registry.** `competitive/competitors.yml`. Do tier 1 every run, tier 2 monthly.
-2. **Resolve unverified handles first.** Any competitor with `verified: false` — confirm the
-   handle from their own site's social links, then update the YAML and flip the flag. Do not
-   attribute metrics to a guessed handle.
-3. **Per competitor, collect:**
-   - storefront: current SKUs, sheet counts, price, **price per sheet**, subscription discount,
-     free-delivery threshold, claims and certifications
-   - video: 10–20 most recent posts with view/like/comment counts; transcribe the top 3 by views
-   - reviews: what buyers praise and complain about (Amazon listing + site reviews)
-4. **For each transcribed video, record the mechanics**, not a summary:
-   - the hook — the literal first sentence, and which formula it is (shock/revelation,
-     product-as-find, product-as-hack, before-after, swab/proof demo)
-   - seconds to first product appearance
-   - the claim made, and whether it is substantiated
-   - the CTA and where it points (own site vs Amazon vs TikTok Shop)
-   - format: talking head / texture close-up / voiceover-over-b-roll / founder-led
-5. **Diff against last run.** `ls competitive/teardown-*.md | tail -2` — lead the new report
-   with what changed: new SKUs, price moves, new retail listings, a new hook that is working.
-6. **Write `competitive/teardown-YYYY-MM-DD.md`.** Sections: What changed · Per-competitor ·
-   Video mechanics table · What BIOD should do (ranked, each tied to a named file or section
-   of this theme) · Open questions. Cite a URL for every factual claim.
+- **Instagram**: `opencli instagram profile/user <handle> -f yaml`. Desktop Chrome, user's own
+  logged-in session, never a server. Do not log in for the user; do not read their cookies.
+- **Websites**: price, sheet count, **price per sheet**, subscription discount, free-delivery
+  threshold, claims, certifications.
+- **Amazon**: listing price, review count and rating, Best Sellers Rank, variant count, and
+  whether the brand has a Storefront. Marketplace presence is the structural gap for BIOD —
+  the category leader does ~80% of volume there — so record it even when nothing changed.
+
+## 4. Tone audit — scored, because comedy is the strategy
+
+Score every ad and top organic video **0–5**:
+
+| Score | Register |
+|---|---|
+| 0 | Sincere / functional — "A Fresh Towel Every Time" |
+| 1 | Punchy imperative, no joke — "Your Loofah Needs An Upgrade" |
+| 2 | Wry aside or mild self-awareness |
+| 3 | Clearly a joke, safe and brand-adjacent |
+| 4 | Committed comedy — a real bit, a character, a runner |
+| 5 | Category-defining comic voice |
+
+Also log: does it **name an enemy**? Does it **mock the customer** (a scold) or **the object** (a
+joke)? Those are different things and the distinction drives BIOD's creative decisions — BIOD's
+own *"Why use that dirty towel on your pretty face?"* scores 1 precisely because it scolds.
+
+Report the humour average per competitor, and flag any rival moving above 2 — that is BIOD's lane
+being contested and it is the single most important early warning this sweep produces.
+
+## 5. Setup (once per machine, for the non-ads surfaces)
+
+Install from the **GitHub repo, not PyPI** — `pip install agent-reach` is an unrelated v0.1.0
+package by a different author.
+
+```bash
+git clone https://github.com/Panniantong/agent-reach ~/tools/agent-reach
+pip install -e ~/tools/agent-reach
+agent-reach configure groq-key      # free, console.groq.com — needed for transcription
+agent-reach doctor
+```
+
+## 6. Write the output
+
+**Always both files.**
+
+1. `competitive/agent-feed/uae-competitive-state.json` — bump nothing, keep `schema_version`,
+   set `generated`, fill `collection_status` honestly per surface, and tag **every** block
+   `verified` / `documented` / `inference`. The ads agents gate on those tags.
+2. `competitive/teardown-YYYY-MM-DD.md` — human report. Lead with **what changed** since the
+   previous teardown (`ls competitive/teardown-*.md | tail -2`), then per-competitor, tone table,
+   ranked actions each tied to a named file or section, and open questions.
+
+If the sweep produced new creative direction, update `competitive/agent-feed/comedy-briefs.md` —
+and every hook in it must trace to a line **already live on the site**, so nothing needs
+re-clearing.
 
 ## Guardrails
 
-- **Public data only.** Public posts, storefronts, listings, press. No scraping behind logins
-  that aren't the user's own, no fake accounts, no automated engagement.
-- **Never copy a competitor's creative.** Extract the *mechanism* (hook shape, proof device,
-  CTA placement) and rebuild it in BIOD's voice. Lifting a script or edit is both a legal
-  problem and an obvious one to viewers.
-- **BIOD's claims policy still binds** (see `README.md`). A competitor making a claim is not
-  evidence for it. Do not recommend copying "antibacterial fabric" or unverified trial
-  percentages into BIOD copy just because a rival says it.
-- **Mark inference as inference.** Follower counts and view counts are observable; CAC, margin
-  and "why it worked" are not. Label guesses.
+- **Public data only.** Public posts, storefronts, listings, the Ad Library. No logins that
+  aren't the user's own, no fake accounts, no automated engagement, no bulk scraping.
+- **Never copy a competitor's creative.** Extract the mechanism — hook shape, proof device, CTA
+  placement — and rebuild it in BIOD's voice.
+- **BIOD's claims policy (root `README.md`) binds everything**, jokes included. Three cleared
+  claims. A competitor asserting something is not evidence for it.
+- **Never name a competitor in BIOD creative.** Punch at cotton towels and wet wipes.
+- **UAE humour guardrails** apply to anything creative this sweep proposes: object-comedy and
+  self-deprecation are safe; religion, politics, national identity, modesty, alcohol and
+  person-directed mockery are not. Step the tone down during Ramadan.
+- **Mark inference as inference.** View counts and ad titles are observable. CAC, margin, "why it
+  worked", and market-wide tone claims are not.

@@ -1,0 +1,253 @@
+{
+  "schema_version": "1.0",
+  "generated": "2026-09-13",
+  "market": "AE",
+  "mission": "Close the gap and take the UAE disposable-bamboo-towel market. Wedge = comedy / bold humour.",
+  "consumer_note": "Written for BIOD's Claude ads agents. Read `confidence` on every block. Never ship a claim whose confidence is 'inference' or whose source is absent. Claims policy in repo README.md overrides anything here.",
+
+  "confidence_legend": {
+    "verified": "Pulled this run from a named source (Meta Ad Library via page_id, or this repo's own files).",
+    "documented": "Second-hand from published reporting. Real but not observed here.",
+    "inference": "Our read. Not evidence. Do not put in ad copy."
+  },
+
+  "collection_status": {
+    "meta_ad_library": {
+      "status": "working",
+      "confidence": "verified",
+      "method": "ads_library_search by page_ids — reliable. Brand-name search_terms also works.",
+      "caveat": "Broad thematic search_terms (emoji, generic phrases) return irrelevant high-count noise. Do not use for category-wide tone claims."
+    },
+    "instagram": { "status": "not_collected", "blocker": "Needs desktop Chrome + OpenCLI session, or a local run. Egress blocked in the session that generated this file." },
+    "tiktok": { "status": "not_collected", "blocker": "No agent-reach channel; use yt-dlp locally. Egress blocked this run." },
+    "websites": { "status": "partial", "confidence": "verified", "note": "Competitor prices/lineups came from search-result metadata and the Bambuyu catalog ad, not from loading their pages." },
+    "amazon": { "status": "not_collected", "blocker": "Egress blocked. Bambuyu's Amazon.ae storefront is confirmed to exist but was not read." }
+  },
+
+  "brand": {
+    "id": "biod",
+    "name": "BIOD — Bamboo Revolution",
+    "meta_page_id": "371025029425342",
+    "meta_page_name": "Biod",
+    "ad_count_all_time": 7,
+    "confidence": "verified",
+    "ads": [
+      { "id": "1732685231286978", "title": "Tissues that suit your car", "created": "2026-09-10", "tone": "functional", "humour_score": 0 },
+      { "id": "4727915424097171", "title": "Why use that dirty towel on your pretty face?", "created": "2026-09-10", "variants": 3, "tone": "shame / disgust", "humour_score": 1, "note": "Closest to edge in the whole market set, but it scolds the viewer rather than making a joke." },
+      { "id": "1878878596425927", "title": "A clean towel every morning", "created": "2026-09-10", "tone": "functional", "humour_score": 0 },
+      { "id": "1502324451941550", "title": "Back In Stock! ✨", "created": "2026-09-10", "delivery_start": "2026-09-13", "tone": "announcement", "humour_score": 0, "note": "Resolves the sold-out inventory blocker flagged in teardown-2026-09-13." },
+      { "id": "1068526489334475", "title": "Biod Face Towel XL ✨", "created": "2026-09-04", "tone": "product", "humour_score": 0 }
+    ],
+    "offers": {
+      "trial_price_aed": 19,
+      "box_price_aed_est": 49,
+      "per_sheet_aed": 0.98,
+      "sheets_per_box": 50,
+      "subscribe_save_pct": 5,
+      "free_delivery_threshold_aed": 100
+    },
+    "distribution": { "dtc": true, "amazon_ae": "unknown", "noon": "unknown", "retail": [] },
+    "voice_assets_already_written": {
+      "confidence": "verified",
+      "source": "templates/index.json — live homepage copy, already fact-check cleared",
+      "note": "THE KEY FINDING. These lines are funny and already approved. The ads use none of them.",
+      "lines": [
+        "Respectfully, your towel is disgusting.",
+        "damp since Tuesday",
+        "bacteria's airbnb",
+        "immortal (derogatory)",
+        "Your plastic wipes will outlive your grandkids. Sit with that.",
+        "Dhs 19. One week. Clearer mornings. Worst case, you're out a shawarma.",
+        "your towel could never",
+        "last call bestie",
+        "Your clear skin era is loading",
+        "(the last 1% is you, clicking the button)",
+        "The main character / Eliminated",
+        "not close.",
+        "my shelf's new main character"
+      ]
+    }
+  },
+
+  "competitors": [
+    {
+      "id": "bambuyu",
+      "name": "Bambuyu",
+      "tier": 1,
+      "threat": "direct — same product, same market",
+      "meta_page_id": "103702641815801",
+      "domain": "bambuyu.com",
+      "market": "AE",
+      "ad_count_all_time": 4,
+      "confidence": "verified",
+      "ads": [
+        { "id": "1089396316815784", "title": "A Fresh Towel Every Time ✨", "created": "2026-09-07", "tone": "sincere / soft", "humour_score": 0 },
+        { "id": "1941030143254352", "title": "Soft, handy & ready for every little “just in case.” 💚", "created": "2026-09-03", "tone": "gentle / reassuring", "humour_score": 0 },
+        { "id": "983046111425272", "title": "Bambuyu | Make the Switch Today", "created": "2026-08-18", "format": "DPA, 6x repeated headline", "tone": "eco-duty", "humour_score": 0 },
+        { "id": "903425042202187", "title": "catalog carousel — full lineup", "created": "2026-07-23", "format": "catalog", "tone": "product listing", "humour_score": 0 }
+      ],
+      "product_line_leaked_from_catalog_ad": {
+        "confidence": "verified",
+        "source": "ad 903425042202187 link title",
+        "skus": [
+          "Bambuyu Travel Set",
+          "Bamboo Facial Tissue | Tube",
+          "Bamboo Clean Face Towels | XL",
+          "Bamboo Clean Face Towels | Travel",
+          "Bambuyu Home Smart Trial Bundle",
+          "Bambuyu Slim Pocket Tissue | XL 3Ply"
+        ],
+        "note": "Maps almost 1:1 onto BIOD's lineup — XL towel, travel towel, tissue tube, trial bundle. They are not adjacent; they are the same shelf."
+      },
+      "offers": {
+        "facial_tissue_aed": 9.5,
+        "facial_tissue_sheets": 65,
+        "face_towel_price_aed": "UNKNOWN — still the most important missing number",
+        "subscribe_save": true,
+        "free_delivery_threshold_aed": 70
+      },
+      "distribution": { "dtc": true, "amazon_ae": true, "retail": ["kibsons.com", "scoopwholefoods.ae", "purepath.ae"] },
+      "tone_profile": {
+        "humour_score_avg": 0,
+        "register": "premium eco-parent; sincere; sparkle and heart emoji; duty-to-switch framing",
+        "conflict_used": "none — never names an enemy, never mocks the status quo",
+        "exploitable": "A sincere brand cannot answer a joke without looking humourless. They have no comedic register to retaliate in."
+      }
+    },
+    {
+      "id": "glambe",
+      "name": "Glambeofficial",
+      "tier": 2,
+      "threat": "adjacent — UAE personal care, competes for the same 'upgrade your bathroom' impulse",
+      "meta_page_id": "1228806196978222",
+      "market": "AE",
+      "confidence": "verified",
+      "ads": [
+        { "title": "Your Loofah Needs An Upgrade. 🧼🔥", "created": "2026-09-09", "variants": 6, "tone": "imperative / mild punch", "humour_score": 1 }
+      ],
+      "tone_profile": {
+        "humour_score_avg": 1,
+        "register": "punchy imperative, fire emoji, but not a joke",
+        "note": "Closest thing to attitude found in the UAE set. Still not comedy. Worth watching as the most likely to move first."
+      }
+    },
+    {
+      "id": "clean-skin-club",
+      "name": "Clean Skin Club",
+      "tier": 1,
+      "threat": "category leader — sets the narrative, not yet a UAE presence",
+      "domain": "cleanskinclub.com",
+      "market": "US / global",
+      "confidence": "documented",
+      "meta_page_id": "UNKNOWN — resolve next run",
+      "business": {
+        "revenue_2023_usd": 47000000,
+        "revenue_2024_projected_usd": 100000000,
+        "funding_nov_2024_usd": 32000000,
+        "channel_mix": { "amazon_pct": 80, "dtc_pct": 17, "retail_pct": 3 },
+        "tiktok_shop_yoy_growth_pct": 200,
+        "box_price_usd": 12
+      },
+      "growth_engine": {
+        "confidence": "documented",
+        "creator_tier_followers": "2000-50000",
+        "seeding_volume_per_month": 100,
+        "expected_post_rate_pct": "30-40",
+        "mechanic": "test UGC organically across TikTok/IG/Meta, promote winners into paid",
+        "reported_ugc_ad_uplift": { "ctr_multiple": 4, "conversion_lift_pct": 29 }
+      },
+      "tone_profile": { "humour_score_avg": null, "note": "Not audited — no ad pulled this run. Reported angle is hygiene education + UGC testimonial." }
+    },
+    {
+      "id": "the-skinny-confidential",
+      "name": "The Skinny Confidential",
+      "tier": 1,
+      "threat": "premium entrant — competes on taste, not fear",
+      "domain": "shopskinnyconfidential.com",
+      "market": "US / global",
+      "confidence": "documented",
+      "meta_page_id": "UNKNOWN — resolve next run",
+      "offers": { "subscribe_save_pct": 15, "free_shipping_threshold_usd": 50, "certifications": ["OCS", "OEKO-TEX", "FSC"] },
+      "launched": "2025-12-02",
+      "tone_profile": { "humour_score_avg": null, "register": "elevated, spa, founder-led" }
+    }
+  ],
+
+  "whitespace": {
+    "headline": "The comedy lane is open, and BIOD already owns the writing for it.",
+    "confidence_of_direct_competitor_claim": "verified",
+    "confidence_of_market_wide_claim": "inference",
+    "evidence": [
+      "Bambuyu: 4 ads all-time, average humour score 0. Register is sincere-soft ('A Fresh Towel Every Time', 'Soft, handy & ready for every little just in case'). No enemy named, no joke attempted.",
+      "Glambe: closest to attitude in the UAE set, still scores 1 — a punchy imperative, not comedy.",
+      "BIOD's own ads average under 1. The best performer-shaped line ('Why use that dirty towel on your pretty face?') is a scold, not a joke.",
+      "BIOD's HOMEPAGE is already funny and already claims-cleared: 'bacteria's airbnb', 'immortal (derogatory)', 'Worst case, you're out a shawarma.'"
+    ],
+    "the_actual_gap": "Not strategy. Execution. The comedy bet is already written into templates/index.json and none of it has reached a single ad.",
+    "market_wide_caveat": "The user's read that barely anyone in UAE does comedy is accepted as their market knowledge. This run could NOT verify it — the Ad Library's broad thematic search returns noise. Do not cite it as measured.",
+    "defensibility": "A sincere competitor cannot answer a joke in kind without abandoning its own register. Bambuyu's eco-duty positioning has no comedic gear. Inference, but the structural logic is sound.",
+    "local_edge": "The shawarma line is UAE-specific humour. Global competitors structurally cannot write it. That is the most defensible creative territory on this list."
+  },
+
+  "prioritised_gaps": [
+    {
+      "rank": 1,
+      "gap": "Comedy is written but never shipped",
+      "action": "Rebuild the ad set from the homepage's existing cleared lines. See comedy-briefs.md.",
+      "owner": "ads agents",
+      "effort": "low",
+      "blocked_by": null,
+      "evidence_confidence": "verified"
+    },
+    {
+      "rank": 2,
+      "gap": "Creative volume is near zero on both sides",
+      "action": "7 BIOD ads and 4 Bambuyu ads all-time means nobody is running a real testing program. Ship 15-20 comedy variants and you out-iterate the entire UAE shelf in one month.",
+      "owner": "ads agents",
+      "effort": "medium",
+      "evidence_confidence": "verified"
+    },
+    {
+      "rank": 3,
+      "gap": "No marketplace presence",
+      "action": "Bambuyu is on Amazon.ae + 3 retailers. Category leader does 80% on marketplace. Get on Amazon.ae and Noon.",
+      "owner": "founder / ops",
+      "effort": "high",
+      "evidence_confidence": "verified"
+    },
+    {
+      "rank": 4,
+      "gap": "Subscribe & Save 5% vs TSC 15%",
+      "action": "Raise to 15%. 5% of a Dhs 49 box is Dhs 2.45 and changes nobody's behaviour.",
+      "owner": "ops",
+      "effort": "low",
+      "evidence_confidence": "verified"
+    },
+    {
+      "rank": 5,
+      "gap": "Free delivery Dhs 100 vs Bambuyu AED 70",
+      "action": "Drop to Dhs 70. BIOD currently advertises the worse threshold in its own homepage microcopy.",
+      "owner": "ops",
+      "effort": "low",
+      "evidence_confidence": "verified"
+    },
+    {
+      "rank": 6,
+      "gap": "Arabic unclaimed",
+      "action": "No competitor in this set advertises in Arabic. Comedy translates; run an Arabic comedy set.",
+      "owner": "ads agents",
+      "effort": "medium",
+      "evidence_confidence": "inference"
+    }
+  ],
+
+  "monitoring_handles": {
+    "note": "Stable IDs for future runs — page_id lookup is the reliable Ad Library path.",
+    "meta_page_ids": {
+      "biod": "371025029425342",
+      "bambuyu": "103702641815801",
+      "glambe": "1228806196978222"
+    },
+    "unresolved": ["clean-skin-club meta_page_id", "the-skinny-confidential meta_page_id", "all Instagram/TikTok handles"]
+  }
+}

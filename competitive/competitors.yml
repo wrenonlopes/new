@@ -11,6 +11,10 @@ meta:
   brand: BIOD — Bamboo Revolution
   market: UAE / GCC (primary), global DTC (reference)
   updated: 2026-09-13
+  mission: Close the gap and take the UAE market. Wedge = comedy / bold humour.
+  # Meta Ad Library page_ids are the most reliable monitoring handle we have —
+  # page_id lookup works; broad keyword search returns noise. Reuse these.
+  own_meta_page_id: "371025029425342"   # Biod — 7 ads all-time as of 2026-09-13
 
 competitors:
   - id: bambuyu
@@ -22,12 +26,26 @@ competitors:
       product as BIOD's Face Towel XL, in the same market. Also already has the
       retail distribution BIOD does not: Kibsons, Amazon.ae, Scoop Wholefoods, Pure Path.
     domain: bambuyu.com
+    meta_page_id: "103702641815801"     # VERIFIED — 4 ads all-time, all humour score 0
     market: UAE
     retail: [amazon.ae, kibsons.com, scoopwholefoods.ae, purepath.ae]
     known_offers:
       - "Subscribe & Save on site"
       - "Free UAE delivery over AED 70"
       - "Facial tissue 65 sheets x 3ply — AED 9.50"
+    # Full lineup leaked by their own catalog ad 903425042202187 (2026-07-23).
+    # Maps almost 1:1 onto BIOD's — same shelf, not adjacent.
+    skus_confirmed:
+      - "Bamboo Clean Face Towels | XL"
+      - "Bamboo Clean Face Towels | Travel"
+      - "Bamboo Facial Tissue | Tube"
+      - "Bambuyu Home Smart Trial Bundle"
+      - "Bambuyu Slim Pocket Tissue | XL 3Ply"
+      - "Bambuyu Travel Set"
+    tone: >
+      Sincere, soft, eco-duty. "A Fresh Towel Every Time ✨" / "Soft, handy & ready for
+      every little just in case 💚" / "Make the Switch Today". Names no enemy, attempts
+      no joke. Has no comedic register to retaliate in.
     handles:
       instagram: bambuyu
       tiktok: bambuyu
@@ -84,6 +102,19 @@ competitors:
       - How founder-led video outperforms brand-account video
       - Certification and "non-toxic" claim language
       - Travel/mini SKU strategy (Eden Rock travel towels)
+
+  - id: glambe
+    name: Glambeofficial
+    tier: 2
+    why: >
+      UAE personal care, found via the Ad Library while auditing tone — not from search.
+      Competes for the same "upgrade your bathroom" impulse. Running "Your Loofah Needs An
+      Upgrade. 🧼🔥" (6 variants, 2026-09-09) — the closest thing to attitude anyone on the
+      UAE shelf is running, and still not comedy. Most likely rival to move into the lane first.
+    meta_page_id: "1228806196978222"
+    market: UAE
+    handles: { verified: false }
+    watch: [Whether they escalate from punchy imperative into actual humour]
 
   - id: fomin
     name: Fomin
