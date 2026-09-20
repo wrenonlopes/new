@@ -10,7 +10,7 @@
     "color_sunrise": "#E9601F",
     "whatsapp_url": "https://wa.me/971509774289",
     "free_shipping_threshold": 100,
-    "show_cod": false,
+    "show_cod": true,
     "enable_reveals": true,
     "marquee_velocity": true
   }
