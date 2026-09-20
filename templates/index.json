@@ -315,28 +315,12 @@
             "color": "leaf"
           }
         },
-        "v2": {
-          "type": "video_review",
-          "settings": {
-            "asset": "review-rev2.mp4",
-            "handle": "@biod.fam",
-            "caption": "\"POV: you finally switched to bamboo\""
-          }
-        },
         "t3": {
           "type": "text_review",
           "settings": {
             "quote": "\"Softer than anything I've used. Jawline breakouts: gone.\"",
             "who": "Lina S. — Sharjah",
             "color": "ink"
-          }
-        },
-        "v3": {
-          "type": "video_review",
-          "settings": {
-            "asset": "review-delphine.mp4",
-            "handle": "@delphinesoudee",
-            "caption": "\"my shelf's new main character\""
           }
         },
         "t4": {
@@ -346,43 +330,14 @@
             "who": "Aisha M. — Dubai",
             "color": "sun"
           }
-        },
-        "v4": {
-          "type": "video_review",
-          "settings": {
-            "asset": "review-rev3.mp4",
-            "handle": "@biod.fam",
-            "caption": "\"the whole routine, unboxed\""
-          }
-        },
-        "v5": {
-          "type": "video_review",
-          "settings": {
-            "asset": "review-mariah.mp4",
-            "handle": "@mariah",
-            "caption": "\"no more towel ick. period.\""
-          }
-        },
-        "v6": {
-          "type": "video_review",
-          "settings": {
-            "asset": "review-rev4.mp4",
-            "handle": "@biod.fam",
-            "caption": "\"one sheet. that's all it takes.\""
-          }
         }
       },
       "block_order": [
         "t1",
         "v1",
         "t2",
-        "v2",
         "t3",
-        "v3",
-        "t4",
-        "v4",
-        "v5",
-        "v6"
+        "t4"
       ],
       "settings": {
         "kicker": "No, really",
