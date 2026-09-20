@@ -355,6 +355,9 @@ img{max-width:100%;height:auto}
 .shipbar .t b{color:var(--leaf-dark)}
 .prog{height:12px;background:rgba(46,46,56,.1);border-radius:999px;margin-top:10px;overflow:hidden}
 .prog i{display:block;height:100%;background:var(--leaf);border-radius:999px;transition:width .4s ease}
+.shipbar--compact{margin:0 0 14px;padding:13px 16px;border-width:2px;border-radius:16px}
+.shipbar--compact .t{font-size:12.5px}
+.shipbar--compact .prog{height:9px;margin-top:8px}
 .cart-lines{margin-top:24px;display:flex;flex-direction:column;gap:14px}
 .cline{display:flex;gap:16px;align-items:center;background:var(--paper);border:2.5px solid var(--ink);border-radius:18px;padding:14px 18px}
 .cline img{width:72px;height:72px;object-fit:cover;border-radius:12px;border:1.5px solid var(--line)}
@@ -389,6 +392,7 @@ img{max-width:100%;height:auto}
   .scribble{stroke-dashoffset:0;animation:none}
   .ticker__track{animation:none}
   .fbar i{width:var(--w);transition:none}
+  .prog i{transition:none}
   .stamp{opacity:1;transform:rotate(-8deg);animation:none}
 }
 
@@ -501,6 +505,10 @@ img{max-width:100%;height:auto}
   .receipt-strip{font-size:12.5px;padding:15px 18px}
 
   /* cart */
+  .shipbar{padding:14px 16px;margin-top:22px;border-radius:16px}
+  .shipbar .t{font-size:13px}
+  .shipbar .prog{height:10px}
+  .shipbar--compact{margin:0 0 12px;padding:12px 14px}
   .cline{flex-wrap:wrap;row-gap:10px}
   .cline__qty{margin-left:0}
   .cline__total{margin-left:auto}

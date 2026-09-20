@@ -1,0 +1,34 @@
+{%- comment -%}
+  Free UAE delivery progress. Accepts: compact (boolean, tighter variant for the PDP buy box)
+
+  Scope: the settings.free_shipping_threshold rate is the UAE domestic rate. GCC and
+  international orders have their own, much higher thresholds, so the bar is hidden for
+  shoppers in other markets rather than promising them delivery terms they do not get.
+  Copy names the UAE explicitly as a second guard, for single-market stores where
+  localization.country resolves to AE for every visitor.
+{%- endcomment -%}
+{%- assign fs_threshold = settings.free_shipping_threshold | times: 100 -%}
+{%- assign fs_country = localization.country.iso_code -%}
+{%- assign fs_show = false -%}
+{%- if fs_country == blank -%}{%- assign fs_show = true -%}{%- endif -%}
+{%- if fs_country == 'AE' -%}{%- assign fs_show = true -%}{%- endif -%}
+
+{%- if fs_show -%}
+  {%- if fs_threshold > 0 -%}
+    {%- if cart.item_count > 0 -%}
+      <div class="shipbar{% if compact %} shipbar--compact{% endif %}">
+        {%- if cart.total_price >= fs_threshold -%}
+          <div class="t"><b>Free UAE delivery unlocked.</b>{% unless compact %} The planet and your wallet high-five.{% endunless %}</div>
+          <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i style="width:100%"></i></div>
+        {%- else -%}
+          {%- assign fs_remaining = fs_threshold | minus: cart.total_price -%}
+          {%- assign fs_pct = cart.total_price | times: 100 | divided_by: fs_threshold -%}
+          {%- assign fs_bar = fs_pct -%}
+          {%- if fs_bar < 4 -%}{%- assign fs_bar = 4 -%}{%- endif -%}
+          <div class="t">You're <b>{{ fs_remaining | money }}</b> away from free UAE delivery.</div>
+          <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_pct }}"><i style="width:{{ fs_bar }}%"></i></div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
