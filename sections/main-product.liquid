@@ -160,9 +160,9 @@
       {%- if section.settings.show_reviews -%}
         <div class="pdp-social">
           <div class="pdp-social__score">
-            <b>{{ section.settings.review_score }}</b>
-            <span>★★★★★</span>
-            <small>{{ section.settings.review_count }}</small>
+            <b>89%</b>
+            <span>of used towels</span>
+            <small>tested carried bacteria</small>
           </div>
           <div class="pdp-social__quote">
             <p>{{ section.settings.review_quote }}</p>
@@ -170,7 +170,7 @@
             <a href="/#reviews">see the comment section →</a>
           </div>
           {%- if section.settings.review_video != blank -%}
-            <video class="pdp-social__vid" src="{{ section.settings.review_video | asset_url }}" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <video class="pdp-social__vid" src="{{ section.settings.review_video | asset_url }}" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
           {%- endif -%}
         </div>
       {%- endif -%}
