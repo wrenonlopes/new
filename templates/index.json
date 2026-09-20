@@ -373,7 +373,7 @@
           "type": "qa",
           "settings": {
             "question": "How fast is delivery in the UAE?",
-            "answer": "<p>Ships within 24 hours. Free delivery over Dhs 100. Cash on delivery available everywhere in the UAE.</p>"
+            "answer": "<p>Ships within 24 hours. Free UAE delivery over Dhs 100. Cash on delivery available everywhere in the UAE.</p>"
           }
         },
         "q5": {
@@ -407,7 +407,7 @@
         "subtext": "Dhs 19. One week. Clearer mornings. Worst case, you're out a shawarma.",
         "cta_label": "Finish the download",
         "cta_url": "/collections/all",
-        "microcopy": "free delivery over Dhs 100 · your towel could never",
+        "microcopy": "free UAE delivery over Dhs 100 · your towel could never",
         "show_sticker": false
       }
     }
