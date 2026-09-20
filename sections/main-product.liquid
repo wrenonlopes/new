@@ -52,7 +52,7 @@
         <div class="pdp__unit">{{ product.metafields.biod.unit_note }}</div>
       {%- endif -%}
 
-      <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
+      {%- form 'product', product, data-ajax-add: 'true' -%}
         <input type="hidden" name="id" value="{{ v.id }}">
 
         {%- if product.selling_plan_groups.size > 0 -%}
@@ -87,7 +87,11 @@
             <button type="button" class="btn btn--outline" disabled>{{ 'products.sold_out' | t }}</button>
           {%- endif -%}
         </div>
-      </form>
+
+        {%- if product.available -%}
+          <div class="pay-row">{{ form | payment_button }}</div>
+        {%- endif -%}
+      {%- endform -%}
 
       {%- assign has_ladder = false -%}
       {%- for i in (1..3) -%}

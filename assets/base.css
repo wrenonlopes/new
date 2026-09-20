@@ -635,3 +635,21 @@ img{max-width:100%;height:auto}
   .contact__grid{grid-template-columns:1fr;gap:24px}
   .contact__row{grid-template-columns:1fr}
 }
+
+/* ---------- express / accelerated checkout ---------- */
+.pay-row{margin-top:12px}
+.pay-row .shopify-payment-button{display:block}
+.pay-row .shopify-payment-button__button{font-family:var(--display);font-weight:700;font-size:17px;border-radius:999px;min-height:56px;transition:transform .15s,background .15s,filter .15s}
+.pay-row .shopify-payment-button__button:hover:not([disabled]){transform:translateY(-1px)}
+.pay-row .shopify-payment-button__button--unbranded{background:var(--sunrise);color:var(--cream);border:none;padding:16px 34px}
+.pay-row .shopify-payment-button__button--unbranded:hover:not([disabled]){background:var(--ink)}
+.pay-row .shopify-payment-button__more-options{font-family:var(--body);font-weight:700;font-size:12.5px;color:var(--faint);text-decoration:underline;margin-top:8px}
+.cart-express{margin-top:18px;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.cart-express__label{font-family:var(--display);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.cart-express .dynamic-checkout__content,.cart-express .additional-checkout-buttons{width:100%;max-width:340px}
+@media (max-width:920px){
+  .pay-row{margin-top:10px}
+  .pay-row .shopify-payment-button__button{font-size:15.5px;min-height:50px}
+  .cart-express{align-items:stretch}
+  .cart-express .dynamic-checkout__content,.cart-express .additional-checkout-buttons{max-width:none}
+}
