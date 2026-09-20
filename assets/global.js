@@ -119,6 +119,10 @@
       const cart = await (await fetch('/cart.js')).json();
       bumpCart(cart.item_count);
       btn.textContent = 'Added ✓';
+      // No cart drawer in this theme: send the shopper to the cart so the add is
+      // visible and the quantity can still be adjusted before checkout.
+      window.location = '/cart';
+      return;
     } catch (err) {
       btn.textContent = 'Oops — try again';
       console.error(err);
