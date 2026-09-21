@@ -145,19 +145,26 @@
     current.innerHTML = next.innerHTML;
   }
 
+  /* The curated pairings arrive as a JSON array of [productId, [pairedProductIds]]
+     rows, not as an object keyed by id. Shopify's Liquid parser scans an output tag
+     for the closing `}}` with /\}\}/, so a section that emits a brace from one is
+     rejected outright on upload; `[` and `]` mean nothing to Liquid. */
   function drawerPairs(root, productId) {
     const el = productId ? root.querySelector('[data-cart-drawer-pairs]') : null;
     if (!el) return [];
     try {
-      const list = JSON.parse(el.textContent)[productId];
-      return Array.isArray(list) ? list : [];
+      const rows = JSON.parse(el.textContent);
+      const row = Array.isArray(rows) && rows.find(r => Array.isArray(r) && String(r[0]) === String(productId));
+      return row && Array.isArray(row[1]) ? row[1] : [];
     } catch (err) {
       return [];
     }
   }
 
   /* Upsell priority, in order:
-       1) top up the just-added line — the snippet only renders that card when the
+       1) top up the anchor line — the just-added product in the drawer, or, on the
+          cart page, whichever line the section named in data-anchor-product-id (there
+          is no just-added item there). The section only renders that card when the
           quantity on it is verified to reach the free-delivery threshold,
        2) that product's curated biod.pairs_with list, in the order stored,
        3) fill: while the cart is short of the threshold, the cheapest product that
@@ -175,7 +182,7 @@
     const topups = root.querySelector('[data-upsell-topups]');
     const pool = root.querySelector('[data-upsell-pool]');
     const cards = pool ? [...pool.content.querySelectorAll('[data-upsell-card]')] : [];
-    const wanted = lastAddedProductId ? String(lastAddedProductId) : '';
+    const wanted = section.dataset.anchorProductId || (lastAddedProductId ? String(lastAddedProductId) : '');
     const below = section.dataset.belowThreshold === 'true';
     const price = c => +c.dataset.price || 0;
     const chosen = [];
@@ -256,6 +263,10 @@
     ev.preventDefault();
     if (drawerBusy) return;
     const routes = cartRoutes();
+    // The cart page asks for a reload instead of the drawer: opening a drawer over a
+    // cart page whose lines, total and delivery bar have just gone stale would leave
+    // the shopper looking at the stale page the moment they close it.
+    const reloadAfterAdd = !!form.closest('[data-upsell-reload]');
     const btn = form.querySelector('[type="submit"]');
     let orig = '';
     if (btn) {
@@ -269,8 +280,10 @@
     if (btn) { btn.disabled = true; btn.textContent = btn.dataset.addingLabel || 'Adding…'; }
     try {
       const body = new FormData(form);
-      body.append('sections', DRAWER_SECTION);
-      body.append('sections_url', routes.cart);
+      if (!reloadAfterAdd) {
+        body.append('sections', DRAWER_SECTION);
+        body.append('sections_url', routes.cart);
+      }
       const res = await fetch(routes.add + '.js', { method: 'POST', headers: { 'Accept': 'application/json' }, body });
       const data = await res.json().catch(() => null);
       if (!res.ok) throw new Error((data && data.description) || 'add failed');
@@ -278,6 +291,14 @@
       // Re-enable straight away: the drawer is the confirmation now, and closing it has
       // to be able to put focus back on this button. The label still reverts below.
       if (btn) { btn.disabled = false; btn.textContent = btn.dataset.addedLabel || 'Added ✓'; }
+      if (reloadAfterAdd) {
+        // Same re-render the cart page's own quantity handler uses. Re-rendering the
+        // section in place instead would tear out and re-inject the dynamic checkout
+        // buttons, which do not re-initialise. drawerBusy stays set on purpose: the
+        // page is on its way out and a second tap must not fire another add.
+        window.location.reload();
+        return;
+      }
       const added = data && (data.items ? data.items[0] : data);
       if (added && added.product_id) lastAddedProductId = added.product_id;
       const cart = await (await fetch(routes.cart + '.js')).json();
@@ -391,6 +412,13 @@
       if (priceEl && p.dataset.price) priceEl.innerHTML = p.dataset.price;
     }));
   }
+
+  /* ---------- cart page: upsell picks ----------
+     Same picker as the drawer, over the candidates sections/main-cart.liquid rendered.
+     Its section carries data-anchor-product-id — the cart's highest-quantity line —
+     because a cart page has no just-added item to key the top-up card off. Nothing to
+     open or close here: the block is already on the page, just empty until now. */
+  document.querySelectorAll('[data-upsell-root]').forEach(renderUpsells);
 
   /* ---------- cart page: line qty via /cart/change.js ---------- */
   document.addEventListener('click', async ev => {
