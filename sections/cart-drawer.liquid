@@ -1,0 +1,16 @@
+{%- comment -%}
+  Thin wrapper so the drawer in snippets/cart-drawer.liquid can be re-rendered on the
+  server by the Section Rendering API (?sections=cart-drawer, or the `sections`
+  parameter on /cart/add.js and /cart/change.js). That is what keeps every price in
+  the drawer on the theme's money filter and the free-delivery progress on
+  {% render 'free-shipping-bar' %} instead of re-implementing either in JavaScript.
+  Rendered on every page from layout/theme.liquid. No settings: nothing here is meant
+  to be edited in the theme editor.
+{%- endcomment -%}
+{% render 'cart-drawer' %}
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": []
+}
+{% endschema %}

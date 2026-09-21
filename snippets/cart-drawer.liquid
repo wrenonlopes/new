@@ -1,0 +1,261 @@
+{%- comment -%}
+  BIOD cart drawer.
+
+  Rendered once per page from layout/theme.liquid through sections/cart-drawer.liquid
+  so that assets/global.js can re-render it in place with the Section Rendering API
+  (?sections=cart-drawer, or the `sections` parameter on /cart/add.js and
+  /cart/change.js) after every cart change. Because the markup is rebuilt on the
+  server, every price here comes from the theme's money filter and the free-delivery
+  progress is {% render 'free-shipping-bar' %} — neither currency formatting nor the
+  free-delivery threshold logic is duplicated in JavaScript.
+
+  Upsell selection (assets/global.js picks, this snippet renders the candidates):
+    1. Top up the just-added line, but only with an N that is verified to reach the
+       free-delivery threshold, and only up to +3 units. Otherwise no top-up card.
+    2. That product's biod.pairs_with list, in the order stored.
+    3. Fill: below the threshold, the cheapest product that actually crosses it, then
+       — if nothing can cross — whatever gets closest. At or above the threshold,
+       cheapest first. Bundle XL is never used as filler (21 units, no stock sync).
+  At most 3 cards; the section is dropped entirely when nothing qualifies.
+
+  Free-delivery copy is only ever printed on a card whose own arithmetic has been
+  checked against cart.total_price and settings.free_shipping_threshold here, at
+  render time. A card that does not cross the threshold must not imply that it does.
+{%- endcomment -%}
+
+{%- comment -%} Products that may never be used as filler (rule 3). Rule 2 still honours a curated pairing. {%- endcomment -%}
+{%- assign cd_fill_exclude = 'face-towel-bundle-xl' | split: ',' -%}
+
+{%- comment -%}
+  Capture the shipping bar once: its own country / threshold guards decide whether it
+  renders at all, and an empty capture is the signal that free-delivery upsell copy
+  would be untrue here (non-UAE market, or no threshold configured).
+{%- endcomment -%}
+{%- capture cd_shipbar -%}{% render 'free-shipping-bar', compact: true %}{%- endcapture -%}
+{%- assign cd_shipbar_out = cd_shipbar | strip -%}
+
+{%- assign cd_threshold = settings.free_shipping_threshold | times: 100 -%}
+{%- assign cd_gap = cd_threshold | minus: cart.total_price -%}
+
+{%- comment -%}
+  cd_below: the cart is short of a free-delivery threshold that actually applies here.
+  Only while this is true may a card claim free delivery, and only after its own
+  arithmetic is checked below.
+{%- endcomment -%}
+{%- assign cd_below = false -%}
+{%- if cd_shipbar_out != blank and cd_gap > 0 -%}{%- assign cd_below = true -%}{%- endif -%}
+
+{%- comment -%} Product ids already in the cart, as ",id,id," for a cheap `contains` test. {%- endcomment -%}
+{%- assign cd_cart_pids = ',' -%}
+{%- for item in cart.items -%}
+  {%- assign cd_cart_pids = cd_cart_pids | append: item.product_id | append: ',' -%}
+{%- endfor -%}
+
+<div class="cdrawer" data-cart-drawer
+     data-cart-url="{{ routes.cart_url }}"
+     data-cart-add-url="{{ routes.cart_add_url }}"
+     data-cart-change-url="{{ routes.cart_change_url }}">
+  <div class="cdrawer__veil" data-cart-drawer-close></div>
+  <aside class="cdrawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle" tabindex="-1" data-cart-drawer-panel>
+    <p class="cdrawer__sr" role="status" aria-live="polite" data-cart-drawer-status></p>
+    <div class="cdrawer__inner" data-cart-drawer-inner>
+
+      <header class="cdrawer__head">
+        <div>
+          <h2 class="cdrawer__title" id="CartDrawerTitle">
+            {%- if cart.item_count > 0 -%}Added to your bag.{%- else -%}Your bag is empty.{%- endif -%}
+          </h2>
+          {%- if cart.item_count > 0 -%}
+            <p class="cdrawer__count">{{ cart.item_count }} item{% unless cart.item_count == 1 %}s{% endunless %} · ready when you are</p>
+          {%- endif -%}
+        </div>
+        <button type="button" class="cdrawer__close" data-cart-drawer-close aria-label="Close cart">&#10005;</button>
+      </header>
+
+      <div class="cdrawer__body" data-cart-drawer-body>
+        {%- if cart.item_count > 0 -%}
+
+          <ul class="cdrawer__lines">
+            {%- for item in cart.items -%}
+              <li class="cdline">
+                <a class="cdline__img" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                  {%- if item.image -%}
+                    <img src="{{ item.image | image_url: width: 160 }}" alt="" width="56" height="56" loading="lazy">
+                  {%- endif -%}
+                </a>
+                <div class="cdline__body">
+                  <a class="cdline__name" href="{{ item.url }}">{{ item.product.title }}</a>
+                  <div class="cdline__meta">
+                    {{ item.final_price | money }}
+                    {%- if item.selling_plan_allocation %} · {{ item.selling_plan_allocation.selling_plan.name }}{% endif -%}
+                  </div>
+                </div>
+                <button type="button" class="cdline__rm"
+                        data-drawer-line="{{ forloop.index }}" data-drawer-qty="0" data-drawer-step="remove"
+                        aria-label="Remove {{ item.product.title | escape }}">&#10005;</button>
+                <div class="cdline__qty">
+                  <button type="button"
+                          data-drawer-line="{{ forloop.index }}" data-drawer-qty="{{ item.quantity | minus: 1 }}" data-drawer-step="minus"
+                          aria-label="Decrease quantity of {{ item.product.title | escape }}"
+                          {% if item.quantity <= 1 %}disabled{% endif %}>&#8722;</button>
+                  <b>{{ item.quantity }}</b>
+                  <button type="button"
+                          data-drawer-line="{{ forloop.index }}" data-drawer-qty="{{ item.quantity | plus: 1 }}" data-drawer-step="plus"
+                          aria-label="Increase quantity of {{ item.product.title | escape }}">+</button>
+                </div>
+                <span class="cdline__total">{{ item.final_line_price | money }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- if cd_shipbar_out != blank -%}
+            <div class="cdrawer__ship">{{ cd_shipbar }}</div>
+          {%- endif -%}
+
+          <section class="cdrawer__ups" data-upsell-section data-below-threshold="{{ cd_below }}" hidden>
+            <h3 class="cdrawer__ups-title">Add to your order</h3>
+            <ul class="cdrawer__ups-list" data-upsell-list></ul>
+          </section>
+
+          {%- comment -%}
+            Rule 1 candidates: one card per cart line, each carrying the smallest number
+            of extra units that is verified to reach the threshold from the real cart
+            total. Capped at +3 units — beyond that the ask is bigger than the saving,
+            so no card is rendered at all and the selection falls through to rule 2.
+            global.js shows only the card for the product that was just added.
+          {%- endcomment -%}
+          <template data-upsell-topups>
+            {%- if cd_below -%}
+              {%- for item in cart.items -%}
+                {%- assign cd_unit = item.final_price -%}
+                {%- if item.product.available and cd_unit > 0 -%}
+                  {%- comment -%}
+                    Smallest whole N with N * unit >= gap. `ceil` then a re-check keeps
+                    this correct whether divided_by truncates (two integers, as here) or
+                    returns a fraction, so N can never be fractional or land short.
+                  {%- endcomment -%}
+                  {%- assign cd_need = cd_gap | divided_by: cd_unit | ceil -%}
+                  {%- assign cd_reach = cd_need | times: cd_unit -%}
+                  {%- if cd_reach < cd_gap -%}{%- assign cd_need = cd_need | plus: 1 -%}{%- endif -%}
+                  {%- assign cd_added = cd_unit | times: cd_need -%}
+                  {%- assign cd_after = cart.total_price | plus: cd_added -%}
+                  {%- if cd_need > 0 and cd_need <= 3 and cd_after >= cd_threshold -%}
+                    <li class="ucard ucard--topup" data-upsell-card data-product-id="{{ item.product_id }}">
+                      <span class="ucard__img" aria-hidden="true">
+                        {%- if item.image -%}
+                          <img src="{{ item.image | image_url: width: 140 }}" alt="" width="52" height="52" loading="lazy">
+                        {%- endif -%}
+                      </span>
+                      <div class="ucard__body">
+                        <span class="ucard__flag">free delivery</span>
+                        <span class="ucard__title">{{ item.product.title }}</span>
+                        <span class="ucard__note">Add {{ cd_need }} more — get free UAE delivery</span>
+                        <span class="ucard__price">{{ cd_added | money }}</span>
+                      </div>
+                      <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
+                        <input type="hidden" name="id" value="{{ item.variant_id }}">
+                        <input type="hidden" name="quantity" value="{{ cd_need }}">
+                        <button type="submit" class="ucard__add" data-adding-label="…" data-added-label="&#10003;"
+                                aria-label="Add {{ cd_need }} more {{ item.product.title | escape }} to cart">Add {{ cd_need }}</button>
+                      </form>
+                    </li>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </template>
+
+          {%- comment -%}
+            Rule 2 + rule 3 candidates: every in-stock product not already in the cart.
+            data-crosses is set only when adding one of this product is verified to take
+            the real cart total to or past the real threshold — it is what lets global.js
+            prefer the cheapest product that actually unlocks free delivery over the
+            cheapest product overall, and it is the only thing that licenses the copy.
+          {%- endcomment -%}
+          <template data-upsell-pool>
+            {%- for cd_p in collections.all.products limit: 50 -%}
+              {%- assign cd_key = ',' | append: cd_p.id | append: ',' -%}
+              {%- unless cd_cart_pids contains cd_key -%}
+                {%- if cd_p.available -%}
+                  {%- assign cd_v = cd_p.selected_or_first_available_variant -%}
+                  {%- assign cd_after_one = cart.total_price | plus: cd_p.price -%}
+                  {%- assign cd_crosses = false -%}
+                  {%- if cd_below and cd_after_one >= cd_threshold -%}{%- assign cd_crosses = true -%}{%- endif -%}
+                  <li class="ucard{% if cd_crosses %} ucard--unlocks{% endif %}" data-upsell-card
+                      data-product-id="{{ cd_p.id }}" data-price="{{ cd_p.price }}"
+                      {% if cd_crosses %}data-crosses="true"{% endif %}
+                      {% if cd_fill_exclude contains cd_p.handle %}data-fill-exclude="true"{% endif %}>
+                    <span class="ucard__img" aria-hidden="true">
+                      {%- if cd_p.featured_image -%}
+                        <img src="{{ cd_p.featured_image | image_url: width: 140 }}" alt="" width="52" height="52" loading="lazy">
+                      {%- endif -%}
+                    </span>
+                    <div class="ucard__body">
+                      {%- if cd_crosses -%}<span class="ucard__flag">free delivery</span>{%- endif -%}
+                      <span class="ucard__title">{{ cd_p.title }}</span>
+                      {%- if cd_crosses -%}
+                        <span class="ucard__note">Adding this unlocks free UAE delivery</span>
+                      {%- elsif cd_p.metafields.biod.card_subtitle != blank -%}
+                        <span class="ucard__note">{{ cd_p.metafields.biod.card_subtitle }}</span>
+                      {%- endif -%}
+                      <span class="ucard__price">{{ cd_p.price | money }}</span>
+                    </div>
+                    <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
+                      <input type="hidden" name="id" value="{{ cd_v.id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <button type="submit" class="ucard__add" data-adding-label="…" data-added-label="&#10003;"
+                              aria-label="Add {{ cd_p.title | escape }} to cart">Add</button>
+                    </form>
+                  </li>
+                {%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          </template>
+
+          {%- comment -%} Curated pairings, keyed by product id, in the order stored on the metafield. {%- endcomment -%}
+          {%- assign cd_pair_rows = '' -%}
+          {%- for cd_p in collections.all.products limit: 50 -%}
+            {%- assign cd_pairs = cd_p.metafields.biod.pairs_with.value -%}
+            {%- if cd_pairs == blank -%}{%- assign cd_pairs = cd_p.metafields.biod.pairs_well_with.value -%}{%- endif -%}
+            {%- if cd_pairs != blank -%}
+              {%- assign cd_ids = '' -%}
+              {%- for cd_r in cd_pairs -%}
+                {%- assign cd_ids = cd_ids | append: cd_r.id | append: ',' -%}
+              {%- endfor -%}
+              {%- assign cd_ids = cd_ids | split: ',' | join: ',' -%}
+              {%- if cd_ids != blank -%}
+                {%- assign cd_pair_rows = cd_pair_rows | append: '"' | append: cd_p.id | append: '":[' | append: cd_ids | append: ']|' -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <script type="application/json" data-cart-drawer-pairs>{{ '{' }}{{ cd_pair_rows | split: '|' | join: ',' }}{{ '}' }}</script>
+
+        {%- else -%}
+
+          <div class="cdrawer__empty">
+            <p>{{ 'general.cart.empty' | t }}</p>
+            <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">Go shopping</a>
+          </div>
+
+        {%- endif -%}
+      </div>
+
+      {%- if cart.item_count > 0 -%}
+        <footer class="cdrawer__foot">
+          <div class="cdrawer__sum">
+            <span>Subtotal</span>
+            <b>{{ cart.total_price | money }}</b>
+          </div>
+          <form action="{{ routes.cart_url }}" method="post">
+            <button type="submit" name="checkout" class="btn btn--ink cdrawer__checkout">{{ 'general.cart.checkout' | t }}</button>
+          </form>
+          <button type="button" class="cdrawer__keep" data-cart-drawer-close>{{ 'general.cart.keep_shopping' | t }}</button>
+          {%- if settings.show_cod -%}
+            <p class="cdrawer__cod">Cash on delivery available at checkout</p>
+          {%- endif -%}
+        </footer>
+      {%- endif -%}
+
+    </div>
+  </aside>
+</div>
