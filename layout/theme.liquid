@@ -40,6 +40,8 @@
 
   {% section 'cart-drawer' %}
 
+  {% render 'first-order-popup' %}
+
   <script>
     window.BIOD = {
       freeShipping: {{ settings.free_shipping_threshold | json }},
