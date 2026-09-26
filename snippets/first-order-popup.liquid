@@ -1,0 +1,223 @@
+{%- comment -%}
+  First-order email capture popup.
+
+  Trades a discount code for an email address. Shows once per browser, after a
+  delay or on exit intent. The code is a real Shopify discount (WELCOME10): 10%
+  off, minimum AED 100 subtotal, one use per customer — the minimum is what stops
+  it being spent on a single AED 19 travel box.
+
+  The email goes through Shopify's own customer form, so subscribers land in
+  Customers tagged for the newsletter and are reachable from any email tool.
+  That form posts and reloads the page with ?customer_posted=true, so both the
+  success markup and the script below key off that rather than off script state.
+  form.posted_successfully? only exists inside the form block, which is why the
+  whole panel lives inside it.
+{%- endcomment -%}
+
+{%- assign popup_code = 'WELCOME10' -%}
+{%- assign popup_percent = '10%' -%}
+{%- assign popup_minimum = 10000 -%}
+{%- assign popup_delay = 9000 -%}
+
+<div class="fop" id="FirstOrderPopup" hidden aria-hidden="true">
+  <div class="fop__scrim" data-fop-close></div>
+
+  <div class="fop__panel" role="dialog" aria-modal="true" aria-labelledby="FopTitle">
+    <button type="button" class="fop__x" data-fop-close aria-label="Close">&times;</button>
+
+    {%- form 'customer', id: 'FopForm', class: 'fop__inner' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="fop__kicker">You're in</p>
+        <h2 class="fop__title" id="FopTitle">Here's your code</h2>
+        <p class="fop__sub">
+          Enter it at checkout. Works once, on orders over {{ popup_minimum | money_without_trailing_zeros }}.
+        </p>
+
+        <div class="fop__code">
+          <span data-fop-code>{{ popup_code }}</span>
+          <button type="button" class="fop__copy" data-fop-copy>Copy</button>
+        </div>
+
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--ink fop__go">Start shopping</a>
+      {%- else -%}
+        <p class="fop__kicker">First order</p>
+        <h2 class="fop__title" id="FopTitle">{{ popup_percent }} off your first box</h2>
+        <p class="fop__sub">
+          Single-use bamboo face towels — a fresh one every wash. Drop your email
+          and the code is yours.
+        </p>
+
+        <input type="hidden" name="contact[tags]" value="newsletter,first-order-popup">
+        <input type="hidden" name="contact[accepts_marketing]" value="true">
+        <label class="visually-hidden" for="FopEmail">Email address</label>
+        <input
+          type="email"
+          id="FopEmail"
+          name="contact[email]"
+          placeholder="you@email.com"
+          autocomplete="email"
+          required>
+        <button type="submit" class="btn btn--ink">Send my code</button>
+
+        {%- if form.errors -%}
+          <p class="fop__err">{{ form.errors.messages['email'] | default: 'That email did not work — try again.' }}</p>
+        {%- endif -%}
+
+        <p class="fop__fine">
+          One use per customer, on orders over {{ popup_minimum | money_without_trailing_zeros }}.
+          Cash on delivery available across the UAE.
+        </p>
+        <button type="button" class="fop__no" data-fop-close>No thanks</button>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</div>
+
+<style>
+  .fop[hidden]{display:none!important}
+  .fop{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:20px}
+  .fop__scrim{position:absolute;inset:0;background:rgba(27,27,33,.55);backdrop-filter:blur(3px)}
+  .fop__panel{
+    position:relative;width:100%;max-width:420px;background:var(--paper);
+    border:2.5px solid var(--ink);border-radius:24px;padding:36px 30px 30px;
+    text-align:center;box-shadow:8px 8px 0 var(--ink);
+    max-height:calc(100dvh - 40px);overflow-y:auto;
+  }
+  .fop__inner{display:flex;flex-direction:column;gap:0}
+  @media (prefers-reduced-motion: no-preference){
+    .fop__panel{animation:fopIn .28s cubic-bezier(.2,.8,.3,1) both}
+    @keyframes fopIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+  }
+  .fop__x{
+    position:absolute;top:12px;right:14px;background:none;border:0;
+    font-size:30px;line-height:1;color:var(--ink);cursor:pointer;padding:4px 8px;opacity:.55;z-index:2
+  }
+  .fop__x:hover{opacity:1}
+  .fop__kicker{
+    align-self:center;font-family:var(--display);font-weight:800;font-size:10.5px;
+    letter-spacing:.2em;text-transform:uppercase;padding:7px 16px;border-radius:999px;
+    background:var(--sunrise);color:var(--cream);margin:0 0 16px;transform:rotate(-1.5deg)
+  }
+  .fop__title{font-family:var(--display);font-weight:800;font-size:29px;line-height:1.1;margin:0 0 12px;text-wrap:balance}
+  .fop__sub{margin:0 0 22px;font-size:14.5px;line-height:1.55;opacity:.8}
+  .fop__inner input[type=email]{
+    width:100%;padding:14px 18px;margin:0 0 10px;font-size:16px;font-family:inherit;
+    border:2.5px solid var(--ink);border-radius:999px;background:var(--cream);color:var(--ink)
+  }
+  .fop__inner input[type=email]:focus-visible{outline:3px solid var(--sunrise);outline-offset:2px}
+  .fop__inner .btn{width:100%;justify-content:center}
+  .fop__err{margin:10px 0 0;font-size:13px;color:#b3401c;font-weight:700}
+  .fop__fine{margin:16px 0 0;font-size:11.5px;line-height:1.5;opacity:.6}
+  .fop__no{
+    margin:14px auto 0;background:none;border:0;cursor:pointer;
+    font-size:12.5px;text-decoration:underline;color:var(--ink);opacity:.55;font-family:inherit
+  }
+  .fop__no:hover{opacity:.9}
+  .fop__code{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    border:2.5px dashed var(--ink);border-radius:16px;padding:14px 18px;margin:0 0 20px;
+    background:var(--cream)
+  }
+  .fop__code span{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.08em}
+  .fop__copy{
+    background:var(--ink);color:var(--cream);border:0;border-radius:999px;
+    padding:8px 16px;font-family:var(--display);font-weight:700;font-size:12.5px;cursor:pointer;flex:none
+  }
+  .fop__go{width:100%;justify-content:center}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  @media (max-width:420px){
+    .fop__panel{padding:30px 22px 24px;box-shadow:5px 5px 0 var(--ink)}
+    .fop__title{font-size:25px}
+  }
+</style>
+
+<script>
+(function () {
+  var root = document.getElementById('FirstOrderPopup');
+  if (!root) return;
+
+  var KEY = 'biod_fop_v1';
+  var DELAY = {{ popup_delay }};
+
+  /* Shopify reloads the page with ?customer_posted=true after a successful
+     customer form post. That is the same signal the Liquid above uses, so the
+     script and the markup can never disagree about which state is showing. */
+  var posted = window.location.search.indexOf('customer_posted=true') !== -1;
+
+  /* localStorage throws in private windows and where site data is blocked, so
+     every read and write is guarded. A failed read just means it may show again. */
+  function seen() {
+    try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; }
+  }
+  function remember() {
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+  }
+
+  var opened = false, timer = null;
+
+  function open() {
+    if (opened) return;
+    opened = true;
+    clearTimeout(timer);
+    document.removeEventListener('mouseout', onExit);
+    root.hidden = false;
+    root.setAttribute('aria-hidden', 'false');
+    var field = root.querySelector('input[type=email]');
+    if (field) field.focus({ preventScroll: true });
+  }
+
+  function close() {
+    root.hidden = true;
+    root.setAttribute('aria-hidden', 'true');
+    remember();
+  }
+
+  /* Exit intent: cursor leaving through the top of the window. Desktop only —
+     there is no equivalent gesture on touch, which is what the timer covers. */
+  function onExit(e) {
+    if (e.clientY <= 0 && !e.relatedTarget) open();
+  }
+
+  root.addEventListener('click', function (e) {
+    if (e.target.closest('[data-fop-close]')) { e.preventDefault(); close(); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !root.hidden) close();
+  });
+
+  var copyBtn = root.querySelector('[data-fop-copy]');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var code = root.querySelector('[data-fop-code]');
+      /* Clipboard access is refused in some in-app browsers; fall back to
+         selecting the text so the shopper can copy it by hand. */
+      function selectIt() {
+        if (!code) return;
+        var r = document.createRange();
+        r.selectNodeContents(code);
+        var s = window.getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code ? code.textContent.trim() : '').then(function () {
+          copyBtn.textContent = 'Copied';
+          setTimeout(function () { copyBtn.textContent = 'Copy'; }, 1800);
+        }).catch(selectIt);
+      } else {
+        selectIt();
+      }
+    });
+  }
+
+  /* Someone who just subscribed sees their code straight away, whether or not
+     they had dismissed the popup earlier. */
+  if (posted) { remember(); open(); return; }
+
+  if (seen()) return;
+
+  timer = setTimeout(open, DELAY);
+  document.addEventListener('mouseout', onExit);
+})();
+</script>

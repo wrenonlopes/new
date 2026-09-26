@@ -15,10 +15,15 @@
             </div>
           {%- elsif block.type == 'video_review' -%}
             <div class="rcard rcard--video {% if i == 2 %}dup{% endif %}" {% if i == 2 %}aria-hidden="true"{% else %}{{ block.shopify_attributes }}{% endif %}>
-              {%- if block.settings.video -%}
-                {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'vbg' }}
-              {%- elsif block.settings.asset != blank -%}
-                <video class="vbg" src="{{ block.settings.asset | asset_url }}" autoplay muted loop playsinline preload="metadata"></video>
+              {%- comment -%}
+                The track is rendered twice so the marquee can loop seamlessly. Only the
+                first pass gets a real <video>; the duplicate falls back to the poster
+                still (or the bare card) so the file is never downloaded twice.
+              {%- endcomment -%}
+              {%- if i == 1 and block.settings.video -%}
+                {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, preload: 'none', class: 'vbg' }}
+              {%- elsif i == 1 and block.settings.asset != blank -%}
+                <video class="vbg" src="{{ block.settings.asset | asset_url }}" autoplay muted loop playsinline preload="none"{% if block.settings.poster %} poster="{{ block.settings.poster | image_url: width: 480 }}"{% endif %}></video>
               {%- elsif block.settings.poster -%}
                 <img class="vbg" src="{{ block.settings.poster | image_url: width: 480 }}" alt="" loading="lazy">
               {%- endif -%}

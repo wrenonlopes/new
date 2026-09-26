@@ -26,7 +26,7 @@
     "name": "Store details",
     "settings": [
       { "type": "text", "id": "whatsapp_url", "label": "WhatsApp link", "default": "https://wa.me/9715XXXXXXXX" },
-      { "type": "range", "id": "free_shipping_threshold", "label": "Free shipping threshold (AED)", "min": 0, "max": 500, "step": 10, "default": 100 },
+      { "type": "range", "id": "free_shipping_threshold", "label": "Free UAE delivery threshold (AED)", "info": "UAE domestic orders only. The cart and product-page progress bar is hidden for shoppers in other markets, which have higher thresholds.", "min": 0, "max": 500, "step": 10, "default": 100 },
       { "type": "checkbox", "id": "show_cod", "label": "Show cash-on-delivery messaging", "default": true }
     ]
   },

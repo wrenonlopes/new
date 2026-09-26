@@ -1,25 +1,77 @@
+{%- comment -%}
+  BIOD cart page.
+
+  The upsell block below is a deliberate copy of the one in sections/cart-drawer.liquid
+  (start at `cd_fill_exclude` there; the variables here are the same with an `up_`
+  prefix). KEEP THE TWO IN STEP: same three rules, same exclusions, same free-delivery
+  arithmetic, same copy. They are duplicated rather than shared through a new snippet
+  on purpose: the last new snippet added to this theme never reached the live site, and
+  a working duplicate beats a shared file the live site cannot see. Only
+  snippets/free-shipping-bar.liquid is shared, and it is known-good on the live theme.
+
+  Differences from the drawer, and only these:
+    - Rule 1 (top up a line already in the cart) is keyed off the cart's
+      highest-quantity line instead of the just-added item, because a cart page has no
+      just-added item and Liquid exposes no add time on a cart line. Ties go to the
+      line that appears first in cart.items. That product id is emitted as
+      data-anchor-product-id and assets/global.js uses it in place of the just-added id.
+    - The wrapper carries data-upsell-reload, which tells assets/global.js to reload
+      the cart page after a successful add instead of opening the drawer over a page
+      whose lines, total and delivery bar have all just gone stale.
+    - The block sits outside the checkout <form>: each card carries its own
+      /cart/add form, and a form inside a form is dropped by the HTML parser.
+{%- endcomment -%}
 <section class="section" style="background:var(--cream)">
   <div class="wrap">
     <span class="kicker">{{ 'general.cart.title' | t }}</span>
     <h1 class="h-xl">Almost yours.</h1>
 
     {%- if cart.item_count > 0 -%}
-      {%- assign threshold = settings.free_shipping_threshold | times: 100 -%}
-      {%- if threshold > 0 -%}
-        <div class="shipbar">
-          {%- if cart.total_price >= threshold -%}
-            <div class="t"><b>Free delivery unlocked.</b> The planet and your wallet high-five.</div>
-            <div class="prog"><i style="width:100%"></i></div>
-          {%- else -%}
-            {%- assign remaining = threshold | minus: cart.total_price -%}
-            {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
-            <div class="t">{{ remaining | money }} away from <b>free delivery</b>.</div>
-            <div class="prog"><i style="width:{{ pct }}%"></i></div>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
+      {% render 'free-shipping-bar' %}
 
-      <form action="{{ routes.cart_url }}" method="post">
+      {%- comment -%}
+        Products that may never be used as filler (rule 3). Rule 2 still honours a curated pairing.
+      {%- endcomment -%}
+      {%- assign up_fill_exclude = 'face-towel-bundle-xl' | split: ',' -%}
+
+      {%- comment -%}
+        Capture the shipping bar once more: its own country / threshold guards decide
+        whether it renders at all, and an empty capture is the signal that free-delivery
+        upsell copy would be untrue here (non-UAE market, or no threshold configured).
+      {%- endcomment -%}
+      {%- capture up_shipbar -%}{% render 'free-shipping-bar', compact: true %}{%- endcapture -%}
+      {%- assign up_shipbar_out = up_shipbar | strip -%}
+
+      {%- assign up_threshold = settings.free_shipping_threshold | times: 100 -%}
+      {%- assign up_gap = up_threshold | minus: cart.total_price -%}
+
+      {%- comment -%}
+        up_below: the cart is short of a free-delivery threshold that actually applies
+        here. Only while this is true may a card claim free delivery, and only after its
+        own arithmetic is checked below.
+      {%- endcomment -%}
+      {%- assign up_below = false -%}
+      {%- if up_shipbar_out != blank and up_gap > 0 -%}{%- assign up_below = true -%}{%- endif -%}
+
+      {%- comment -%} Product ids already in the cart, as ",id,id," for a cheap `contains` test. {%- endcomment -%}
+      {%- assign up_cart_pids = ',' -%}
+      {%- for item in cart.items -%}
+        {%- assign up_cart_pids = up_cart_pids | append: item.product_id | append: ',' -%}
+      {%- endfor -%}
+
+      {%- comment -%}
+        The line rule 1 is keyed off: the highest-quantity line, first one wins a tie.
+      {%- endcomment -%}
+      {%- assign up_anchor = '' -%}
+      {%- assign up_anchor_qty = 0 -%}
+      {%- for item in cart.items -%}
+        {%- if item.quantity > up_anchor_qty -%}
+          {%- assign up_anchor_qty = item.quantity -%}
+          {%- assign up_anchor = item.product_id -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="cart-stack">
         <div class="cart-lines">
           {%- for item in cart.items -%}
             <div class="cline">
@@ -43,14 +95,147 @@
             </div>
           {%- endfor -%}
         </div>
-        <div class="cart-foot">
-          <span class="sum">Total: {{ cart.total_price | money }}</span>
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <a class="btn btn--outline" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.keep_shopping' | t }}</a>
-            <button type="submit" name="checkout" class="btn btn--ink">{{ 'general.cart.checkout' | t }}</button>
-          </div>
+
+        <div class="cart-ups" data-upsell-root data-upsell-reload>
+          <section class="cart-ups__box" data-upsell-section data-below-threshold="{{ up_below }}"{% if up_anchor != blank %} data-anchor-product-id="{{ up_anchor }}"{% endif %} hidden>
+            <h2 class="cart-ups__title">Add to your order</h2>
+            <ul class="cart-ups__list" data-upsell-list></ul>
+          </section>
+
+          {%- comment -%}
+            Rule 1 candidates: one card per cart line, each carrying the smallest number
+            of extra units that is verified to reach the threshold from the real cart
+            total. Capped at +3 units — beyond that the ask is bigger than the saving,
+            so no card is rendered at all and the selection falls through to rule 2.
+            global.js shows only the card for the anchor product above.
+          {%- endcomment -%}
+          <template data-upsell-topups>
+            {%- if up_below -%}
+              {%- for item in cart.items -%}
+                {%- assign up_unit = item.final_price -%}
+                {%- if item.product.available and up_unit > 0 -%}
+                  {%- comment -%}
+                    Smallest whole N with N * unit >= gap. `ceil` then a re-check keeps
+                    this correct whether divided_by truncates (two integers, as here) or
+                    returns a fraction, so N can never be fractional or land short.
+                  {%- endcomment -%}
+                  {%- assign up_need = up_gap | divided_by: up_unit | ceil -%}
+                  {%- assign up_reach = up_need | times: up_unit -%}
+                  {%- if up_reach < up_gap -%}{%- assign up_need = up_need | plus: 1 -%}{%- endif -%}
+                  {%- assign up_added = up_unit | times: up_need -%}
+                  {%- assign up_after = cart.total_price | plus: up_added -%}
+                  {%- if up_need > 0 and up_need <= 3 and up_after >= up_threshold -%}
+                    <li class="ucard ucard--topup" data-upsell-card data-product-id="{{ item.product_id }}">
+                      <span class="ucard__img" aria-hidden="true">
+                        {%- if item.image -%}
+                          <img src="{{ item.image | image_url: width: 140 }}" alt="" width="52" height="52" loading="lazy">
+                        {%- endif -%}
+                      </span>
+                      <div class="ucard__body">
+                        <span class="ucard__flag">free delivery</span>
+                        <span class="ucard__title">{{ item.product.title }}</span>
+                        <span class="ucard__note">Add {{ up_need }} more — get free UAE delivery</span>
+                        <span class="ucard__price">{{ up_added | money }}</span>
+                      </div>
+                      <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
+                        <input type="hidden" name="id" value="{{ item.variant_id }}">
+                        <input type="hidden" name="quantity" value="{{ up_need }}">
+                        <button type="submit" class="ucard__add" data-adding-label="…" data-added-label="&#10003;"
+                                aria-label="Add {{ up_need }} more {{ item.product.title | escape }} to cart">Add {{ up_need }}</button>
+                      </form>
+                    </li>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </template>
+
+          {%- comment -%}
+            Rule 2 + rule 3 candidates: every in-stock product not already in the cart.
+            data-crosses is set only when adding one of this product is verified to take
+            the real cart total to or past the real threshold — it is what lets global.js
+            prefer the cheapest product that actually unlocks free delivery over the
+            cheapest product overall, and it is the only thing that licenses the copy.
+          {%- endcomment -%}
+          <template data-upsell-pool>
+            {%- for up_p in collections.all.products limit: 50 -%}
+              {%- assign up_key = ',' | append: up_p.id | append: ',' -%}
+              {%- unless up_cart_pids contains up_key -%}
+                {%- if up_p.available -%}
+                  {%- assign up_v = up_p.selected_or_first_available_variant -%}
+                  {%- assign up_after_one = cart.total_price | plus: up_p.price -%}
+                  {%- assign up_crosses = false -%}
+                  {%- if up_below and up_after_one >= up_threshold -%}{%- assign up_crosses = true -%}{%- endif -%}
+                  <li class="ucard{% if up_crosses %} ucard--unlocks{% endif %}" data-upsell-card
+                      data-product-id="{{ up_p.id }}" data-price="{{ up_p.price }}"
+                      {% if up_crosses %}data-crosses="true"{% endif %}
+                      {% if up_fill_exclude contains up_p.handle %}data-fill-exclude="true"{% endif %}>
+                    <span class="ucard__img" aria-hidden="true">
+                      {%- if up_p.featured_image -%}
+                        <img src="{{ up_p.featured_image | image_url: width: 140 }}" alt="" width="52" height="52" loading="lazy">
+                      {%- endif -%}
+                    </span>
+                    <div class="ucard__body">
+                      {%- if up_crosses -%}<span class="ucard__flag">free delivery</span>{%- endif -%}
+                      <span class="ucard__title">{{ up_p.title }}</span>
+                      {%- if up_crosses -%}
+                        <span class="ucard__note">Adding this unlocks free UAE delivery</span>
+                      {%- elsif up_p.metafields.biod.card_subtitle != blank -%}
+                        <span class="ucard__note">{{ up_p.metafields.biod.card_subtitle }}</span>
+                      {%- endif -%}
+                      <span class="ucard__price">{{ up_p.price | money }}</span>
+                    </div>
+                    <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
+                      <input type="hidden" name="id" value="{{ up_v.id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <button type="submit" class="ucard__add" data-adding-label="…" data-added-label="&#10003;"
+                              aria-label="Add {{ up_p.title | escape }} to cart">Add</button>
+                    </form>
+                  </li>
+                {%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          </template>
+
+          {%- comment -%}
+            Curated pairings, keyed by product id, in the order stored on the metafield.
+            The attribute name is the drawer's, kept as-is so assets/global.js reads both
+            copies with one selector.
+          {%- endcomment -%}
+          {%- assign up_pair_rows = '' -%}
+          {%- for up_p in collections.all.products limit: 50 -%}
+            {%- assign up_pairs = up_p.metafields.biod.pairs_with.value -%}
+            {%- if up_pairs == blank -%}{%- assign up_pairs = up_p.metafields.biod.pairs_well_with.value -%}{%- endif -%}
+            {%- if up_pairs != blank -%}
+              {%- assign up_ids = '' -%}
+              {%- for up_r in up_pairs -%}
+                {%- assign up_ids = up_ids | append: up_r.id | append: ',' -%}
+              {%- endfor -%}
+              {%- assign up_ids = up_ids | split: ',' | join: ',' -%}
+              {%- if up_ids != blank -%}
+                {%- assign up_pair_rows = up_pair_rows | append: '[' | append: up_p.id | append: ',[' | append: up_ids | append: ']]|' -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <script type="application/json" data-cart-drawer-pairs>[{{ up_pair_rows | split: '|' | join: ',' }}]</script>
         </div>
-      </form>
+
+        <form class="cart-checkout" action="{{ routes.cart_url }}" method="post">
+          <div class="cart-foot">
+            <span class="sum">Total: {{ cart.total_price | money }}</span>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <a class="btn btn--outline" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.keep_shopping' | t }}</a>
+              <button type="submit" name="checkout" class="btn btn--ink">{{ 'general.cart.checkout' | t }}</button>
+            </div>
+          </div>
+          {%- if additional_checkout_buttons -%}
+            <div class="cart-express">
+              <span class="cart-express__label">or check out with</span>
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+          {%- endif -%}
+        </form>
+      </div>
       {%- if settings.show_cod -%}
         <p style="margin-top:18px;font-weight:700;font-size:12.5px;color:var(--faint)">Cash on delivery available at checkout</p>
       {%- endif -%}
