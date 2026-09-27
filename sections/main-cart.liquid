@@ -24,7 +24,7 @@
 <section class="section" style="background:var(--cream)">
   <div class="wrap">
     <span class="kicker">{{ 'general.cart.title' | t }}</span>
-    <h1 class="h-xl">Almost yours.</h1>
+    <h1 class="h-xl">{{ 'general.cart.heading' | t }}</h1>
 
     {%- if cart.item_count > 0 -%}
       {% render 'free-shipping-bar' %}
@@ -86,19 +86,19 @@
                 </div>
               </div>
               <div class="cline__qty">
-                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}" aria-label="Decrease">−</button>
+                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}" aria-label="{{ 'general.cart.decrease_item' | t: title: item.product.title }}">−</button>
                 <b>{{ item.quantity }}</b>
-                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}" aria-label="Increase">+</button>
+                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}" aria-label="{{ 'general.cart.increase_item' | t: title: item.product.title }}">+</button>
               </div>
               <span class="cline__total">{{ item.final_line_price | money }}</span>
-              <button type="button" class="cline__rm" data-line-change data-line="{{ forloop.index }}" data-qty="0" aria-label="Remove">✕</button>
+              <button type="button" class="cline__rm" data-line-change data-line="{{ forloop.index }}" data-qty="0" aria-label="{{ 'general.cart.remove_item' | t: title: item.product.title }}">✕</button>
             </div>
           {%- endfor -%}
         </div>
 
         <div class="cart-ups" data-upsell-root data-upsell-reload>
           <section class="cart-ups__box" data-upsell-section data-below-threshold="{{ up_below }}"{% if up_anchor != blank %} data-anchor-product-id="{{ up_anchor }}"{% endif %} hidden>
-            <h2 class="cart-ups__title">Add to your order</h2>
+            <h2 class="cart-ups__title">{{ 'general.cart.upsell_title' | t }}</h2>
             <ul class="cart-ups__list" data-upsell-list></ul>
           </section>
 
@@ -132,16 +132,16 @@
                         {%- endif -%}
                       </span>
                       <div class="ucard__body">
-                        <span class="ucard__flag">free delivery</span>
+                        <span class="ucard__flag">{{ 'general.cart.upsell_flag' | t }}</span>
                         <span class="ucard__title">{{ item.product.title }}</span>
-                        <span class="ucard__note">Add {{ up_need }} more — get free UAE delivery</span>
+                        <span class="ucard__note">{{ 'general.cart.topup_note' | t: count: up_need }}</span>
                         <span class="ucard__price">{{ up_added | money }}</span>
                       </div>
                       <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
                         <input type="hidden" name="id" value="{{ item.variant_id }}">
                         <input type="hidden" name="quantity" value="{{ up_need }}">
                         <button type="submit" class="ucard__add" data-adding-label="…" data-added-label="&#10003;"
-                                aria-label="Add {{ up_need }} more {{ item.product.title | escape }} to cart">Add {{ up_need }}</button>
+                                aria-label="{{ 'general.cart.topup_add_aria' | t: count: up_need, title: item.product.title }}">{{ 'general.cart.topup_add' | t: count: up_need }}</button>
                       </form>
                     </li>
                   {%- endif -%}
@@ -176,10 +176,10 @@
                       {%- endif -%}
                     </span>
                     <div class="ucard__body">
-                      {%- if up_crosses -%}<span class="ucard__flag">free delivery</span>{%- endif -%}
+                      {%- if up_crosses -%}<span class="ucard__flag">{{ 'general.cart.upsell_flag' | t }}</span>{%- endif -%}
                       <span class="ucard__title">{{ up_p.title }}</span>
                       {%- if up_crosses -%}
-                        <span class="ucard__note">Adding this unlocks free UAE delivery</span>
+                        <span class="ucard__note">{{ 'general.cart.upsell_unlocks' | t }}</span>
                       {%- elsif up_p.metafields.biod.card_subtitle != blank -%}
                         <span class="ucard__note">{{ up_p.metafields.biod.card_subtitle }}</span>
                       {%- endif -%}
@@ -189,7 +189,7 @@
                       <input type="hidden" name="id" value="{{ up_v.id }}">
                       <input type="hidden" name="quantity" value="1">
                       <button type="submit" class="ucard__add" data-adding-label="…" data-added-label="&#10003;"
-                              aria-label="Add {{ up_p.title | escape }} to cart">Add</button>
+                              aria-label="{{ 'general.cart.upsell_add_aria' | t: title: up_p.title }}">{{ 'general.cart.upsell_add' | t }}</button>
                     </form>
                   </li>
                 {%- endif -%}
@@ -222,7 +222,7 @@
 
         <form class="cart-checkout" action="{{ routes.cart_url }}" method="post">
           <div class="cart-foot">
-            <span class="sum">Total: {{ cart.total_price | money }}</span>
+            <span class="sum">{{ 'general.cart.total' | t }} {{ cart.total_price | money }}</span>
             <div style="display:flex;gap:12px;flex-wrap:wrap">
               <a class="btn btn--outline" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.keep_shopping' | t }}</a>
               <button type="submit" name="checkout" class="btn btn--ink">{{ 'general.cart.checkout' | t }}</button>
@@ -230,14 +230,14 @@
           </div>
           {%- if additional_checkout_buttons -%}
             <div class="cart-express">
-              <span class="cart-express__label">or check out with</span>
+              <span class="cart-express__label">{{ 'general.cart.express_label' | t }}</span>
               {{ content_for_additional_checkout_buttons }}
             </div>
           {%- endif -%}
         </form>
       </div>
       {%- if settings.show_cod -%}
-        <p style="margin-top:18px;font-weight:700;font-size:12.5px;color:var(--faint)">Cash on delivery available at checkout</p>
+        <p style="margin-top:18px;font-weight:700;font-size:12.5px;color:var(--faint)">{{ 'general.cart.cod' | t }}</p>
       {%- endif -%}
     {%- else -%}
       <div class="cart-empty" style="position:relative">
@@ -246,7 +246,7 @@
         </span>
         <p class="h-m">{{ 'general.cart.empty' | t }}</p>
         <br>
-        <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">Go shopping</a>
+        <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.go_shopping' | t }}</a>
       </div>
     {%- endif -%}
   </div>

@@ -1,7 +1,7 @@
 <section class="section" style="background:var(--cream)">
   <div class="wrap">
-    <span class="kicker">Collections</span>
-    <h1 class="h-xl">Browse by category.</h1>
+    <span class="kicker">{{ 'collections.list.kicker' | t }}</span>
+    <h1 class="h-xl">{{ 'collections.list.title' | t }}</h1>
     <div class="grid-products">
       {%- for collection in collections -%}
         <a class="pcard" href="{{ collection.url }}">
@@ -10,7 +10,7 @@
           {%- endif -%}
           <div class="pcard__info" style="padding-bottom:24px">
             <h3 class="pcard__title">{{ collection.title }}</h3>
-            <p class="pcard__sub">{{ collection.products_count }} products</p>
+            <p class="pcard__sub">{{ 'collections.list.product_count' | t: count: collection.products_count }}</p>
           </div>
         </a>
       {%- endfor -%}

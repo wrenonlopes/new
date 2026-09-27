@@ -18,56 +18,65 @@
 {%- assign popup_percent = '10%' -%}
 {%- assign popup_minimum = 10000 -%}
 {%- assign popup_delay = 9000 -%}
+{%- comment -%}
+  The minimum is formatted once here so it can be passed into the two translated
+  sentences that mention it, instead of each of them carrying a money filter.
+{%- endcomment -%}
+{%- assign popup_minimum_money = popup_minimum | money_without_trailing_zeros -%}
 
 <div class="fop" id="FirstOrderPopup" hidden aria-hidden="true">
   <div class="fop__scrim" data-fop-close></div>
 
   <div class="fop__panel" role="dialog" aria-modal="true" aria-labelledby="FopTitle">
-    <button type="button" class="fop__x" data-fop-close aria-label="Close">&times;</button>
+    <button type="button" class="fop__x" data-fop-close aria-label="{{ 'general.popup.close' | t }}">&times;</button>
 
     {%- form 'customer', id: 'FopForm', class: 'fop__inner' -%}
       {%- if form.posted_successfully? -%}
-        <p class="fop__kicker">You're in</p>
-        <h2 class="fop__title" id="FopTitle">Here's your code</h2>
+        <p class="fop__kicker">{{ 'general.popup.success_kicker' | t }}</p>
+        <h2 class="fop__title" id="FopTitle">{{ 'general.popup.success_title' | t }}</h2>
         <p class="fop__sub">
-          Enter it at checkout. Works once, on orders over {{ popup_minimum | money_without_trailing_zeros }}.
+          {{- 'general.popup.success_sub' | t: amount: popup_minimum_money -}}
         </p>
 
         <div class="fop__code">
           <span data-fop-code>{{ popup_code }}</span>
-          <button type="button" class="fop__copy" data-fop-copy>Copy</button>
+          <button type="button" class="fop__copy" data-fop-copy
+                  data-copied-label="{{ 'general.popup.copied' | t }}">{{ 'general.popup.copy' | t }}</button>
         </div>
 
-        <a href="{{ routes.all_products_collection_url }}" class="btn btn--ink fop__go">Start shopping</a>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--ink fop__go">{{ 'general.popup.start_shopping' | t }}</a>
       {%- else -%}
-        <p class="fop__kicker">First order</p>
-        <h2 class="fop__title" id="FopTitle">{{ popup_percent }} off your first box</h2>
+        <p class="fop__kicker">{{ 'general.popup.kicker' | t }}</p>
+        <h2 class="fop__title" id="FopTitle">{{ 'general.popup.title' | t: percent: popup_percent }}</h2>
         <p class="fop__sub">
-          Single-use bamboo face towels — a fresh one every wash. Drop your email
-          and the code is yours.
+          {{- 'general.popup.sub' | t -}}
         </p>
 
         <input type="hidden" name="contact[tags]" value="newsletter,first-order-popup">
         <input type="hidden" name="contact[accepts_marketing]" value="true">
-        <label class="visually-hidden" for="FopEmail">Email address</label>
+        <label class="visually-hidden" for="FopEmail">{{ 'general.popup.email_label' | t }}</label>
         <input
           type="email"
           id="FopEmail"
           name="contact[email]"
-          placeholder="you@email.com"
+          placeholder="{{ 'general.popup.email_placeholder' | t }}"
           autocomplete="email"
           required>
-        <button type="submit" class="btn btn--ink">Send my code</button>
+        <button type="submit" class="btn btn--ink">{{ 'general.popup.submit' | t }}</button>
 
         {%- if form.errors -%}
-          <p class="fop__err">{{ form.errors.messages['email'] | default: 'That email did not work — try again.' }}</p>
+          {%- comment -%}
+            Shopify's own message is already localized; the fallback has to be a
+            translation too, so it is resolved into a variable first.
+          {%- endcomment -%}
+          {%- assign popup_error = 'general.popup.error' | t -%}
+          <p class="fop__err">{{ form.errors.messages['email'] | default: popup_error }}</p>
         {%- endif -%}
 
         <p class="fop__fine">
-          One use per customer, on orders over {{ popup_minimum | money_without_trailing_zeros }}.
-          Cash on delivery available across the UAE.
+          {{- 'general.popup.fine_print' | t: amount: popup_minimum_money -}}
         </p>
-        <button type="button" class="fop__no" data-fop-close>No thanks</button>
+        <button type="button" class="fop__no" data-fop-close>{{ 'general.popup.decline' | t }}</button>
       {%- endif -%}
     {%- endform -%}
   </div>
@@ -188,6 +197,12 @@
 
   var copyBtn = root.querySelector('[data-fop-copy]');
   if (copyBtn) {
+    /* Both labels come from the locale files: the idle one is the button's own text and
+       the confirmation rides along in data-copied-label — the same data-attribute pattern
+       the cart upsell buttons use. No English is hardcoded in this script. */
+    var copyIdle = copyBtn.textContent.trim();
+    var copyDone = copyBtn.getAttribute('data-copied-label') || copyIdle;
+
     copyBtn.addEventListener('click', function () {
       var code = root.querySelector('[data-fop-code]');
       /* Clipboard access is refused in some in-app browsers; fall back to
@@ -202,8 +217,8 @@
       }
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(code ? code.textContent.trim() : '').then(function () {
-          copyBtn.textContent = 'Copied';
-          setTimeout(function () { copyBtn.textContent = 'Copy'; }, 1800);
+          copyBtn.textContent = copyDone;
+          setTimeout(function () { copyBtn.textContent = copyIdle; }, 1800);
         }).catch(selectIt);
       } else {
         selectIt();

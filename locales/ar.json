@@ -1,0 +1,216 @@
+{
+  "general": {
+    "search": {
+      "kicker": "البحث",
+      "placeholder": "ابحث",
+      "submit": "ابحث",
+      "heading_empty": "تدوّر على شي؟",
+      "results_for": "نتائج البحث عن “{{ terms }}”"
+    },
+    "cart": {
+      "title": "سلتك",
+      "heading": "قربت تكون لك.",
+      "empty": "ما فيه شي هنا بعد. ومنشفتك؟ لا زالت رطبة.",
+      "checkout": "إتمام الشراء",
+      "keep_shopping": "أكمل التسوق",
+      "go_shopping": "يلا نتسوق",
+      "total": "الإجمالي:",
+      "subtotal": "المجموع",
+      "close": "إغلاق السلة",
+      "remove_item": "إزالة {{ title }}",
+      "decrease_item": "تقليل كمية {{ title }}",
+      "increase_item": "زيادة كمية {{ title }}",
+      "drawer_title_added": "تمت الإضافة إلى سلتك.",
+      "drawer_title_empty": "سلتك فاضية.",
+      "drawer_count": {
+        "zero": "سلتك فاضية",
+        "one": "قطعة واحدة · جاهزة وقت ما تجهز",
+        "two": "قطعتان · جاهزة وقت ما تجهز",
+        "few": "{{ count }} قطع · جاهزة وقت ما تجهز",
+        "many": "{{ count }} قطعة · جاهزة وقت ما تجهز",
+        "other": "{{ count }} قطعة · جاهزة وقت ما تجهز"
+      },
+      "express_label": "أو أتمم الشراء بـ",
+      "cod": "الدفع عند الاستلام متاح.",
+      "free_shipping_unlocked": "فتحت التوصيل المجاني داخل الإمارات.",
+      "free_shipping_unlocked_extra": "الكوكب وجيبك يشكرونك.",
+      "free_shipping_progress_html": "باقي <b>{{ amount }}</b> ويصير التوصيل داخل الإمارات مجاني.",
+      "upsell_title": "أضف إلى طلبك",
+      "upsell_flag": "توصيل مجاني",
+      "upsell_add": "أضف",
+      "upsell_add_aria": "أضف {{ title }} إلى السلة",
+      "upsell_unlocks": "أضفه ويصير التوصيل داخل الإمارات مجاني",
+      "topup_note": {
+        "zero": "أضف المزيد ويصير التوصيل داخل الإمارات مجاني",
+        "one": "أضف واحدة ويصير التوصيل داخل الإمارات مجاني",
+        "two": "أضف قطعتين ويصير التوصيل داخل الإمارات مجاني",
+        "few": "أضف {{ count }} قطع ويصير التوصيل داخل الإمارات مجاني",
+        "many": "أضف {{ count }} قطعة ويصير التوصيل داخل الإمارات مجاني",
+        "other": "أضف {{ count }} قطعة ويصير التوصيل داخل الإمارات مجاني"
+      },
+      "topup_add": "أضف {{ count }}",
+      "topup_add_aria": "أضف {{ count }} من {{ title }} إلى السلة"
+    },
+    "quantity": {
+      "label": "الكمية",
+      "decrease": "تقليل الكمية",
+      "increase": "زيادة الكمية"
+    },
+    "404": {
+      "title": "هذه الصفحة تحلّلت.",
+      "back": "رجوع إلى المتجر"
+    },
+    "language": {
+      "label": "اللغة",
+      "switch_to": "التبديل إلى {{ language }}"
+    },
+    "popup": {
+      "close": "إغلاق",
+      "kicker": "أول طلب",
+      "title": "خصم {{ percent }} على أول علبة",
+      "sub": "مناشف وجه بامبو تُستخدم مرة واحدة — منشفة نظيفة كل غسلة. اكتب إيميلك والكود لك.",
+      "email_label": "البريد الإلكتروني",
+      "email_placeholder": "you@email.com",
+      "submit": "أرسل لي الكود",
+      "error": "الإيميل ما ضبط — جرّب مرة ثانية.",
+      "fine_print": "استخدام واحد لكل عميل، على الطلبات فوق {{ amount }}. الدفع عند الاستلام متاح في كل الإمارات.",
+      "decline": "لا، شكرًا",
+      "success_kicker": "صرت معنا",
+      "success_title": "هذا كودك",
+      "success_sub": "استخدمه عند إتمام الشراء. مرة واحدة، على الطلبات فوق {{ amount }}.",
+      "copy": "نسخ",
+      "copied": "تم النسخ",
+      "start_shopping": "ابدأ التسوق"
+    }
+  },
+  "products": {
+    "add_to_cart": "أضف إلى السلة",
+    "sold_out": "نفدت الكمية",
+    "view": "عرض",
+    "pairs_with": "أحلى مع",
+    "price": {
+      "save_percent": "−{{ percent }}%"
+    },
+    "selling_plan": {
+      "one_time": "شراء لمرة واحدة",
+      "one_time_note": "هذا الطلب فقط",
+      "cancel_anytime": "ألغِ في أي وقت",
+      "extra_discount": "خصم 5% إضافي"
+    },
+    "sizes": {
+      "title": "اختر حجمك.",
+      "note": "أكبر = أوفر. هذي كل الحسبة.",
+      "here": "أنت هنا ←"
+    },
+    "trust": {
+      "quality_title": "جودة عالية",
+      "quality_note": "ألياف بامبو 100%",
+      "planet_title": "صديقة للبيئة",
+      "planet_note": "تتحلل في أشهر",
+      "delivery_title": "توصيل مجاني داخل الإمارات",
+      "delivery_note": "للطلبات من {{ amount }} د.إ وأكثر",
+      "secure_title": "دفع آمن",
+      "secure_note": "مشفّر ومحمي",
+      "cod_title": "الدفع عند الاستلام",
+      "cod_note": "ادفع عند وصول طلبك"
+    },
+    "receipts": {
+      "strip_html": "<b>ليش استخدام واحد؟</b> في دراسة منشورة، <b>89%</b> من المناشف المستعملة كانت تحمل بكتيريا قولونية — وأطباء الجلد ينصحون بغسل منشفة الوجه بعد كل استخدام إذا كانت بشرتك معرّضة للحبوب. منشفة جديدة كل مرة تختصر المشكلة من أصلها."
+    },
+    "combo": {
+      "kicker": "أحلى مع بعض",
+      "save": "وفّر",
+      "cta": "خذ الاثنين"
+    },
+    "social": {
+      "stat_label": "من المناشف المستعملة",
+      "stat_note": "تحمل بكتيريا في الاختبار",
+      "link": "شوف التعليقات ←"
+    },
+    "accordion": {
+      "what_it_is": "عن المنتج"
+    }
+  },
+  "collections": {
+    "general": {
+      "kicker": "مجموعة",
+      "all": "الكل",
+      "sort_label": "ترتيب حسب",
+      "formats_count": {
+        "zero": "كلها بامبو",
+        "one": "حجم واحد · كله بامبو",
+        "two": "حجمان · كلها بامبو",
+        "few": "{{ count }} أحجام · كلها بامبو",
+        "many": "{{ count }} حجمًا · كلها بامبو",
+        "other": "{{ count }} حجم · كلها بامبو"
+      }
+    },
+    "sorting": {
+      "featured": "المميزة",
+      "price_ascending": "السعر: من الأقل للأعلى",
+      "price_descending": "السعر: من الأعلى للأقل",
+      "best_selling": "الأكثر مبيعًا"
+    },
+    "list": {
+      "kicker": "المجموعات",
+      "title": "تصفّح حسب الفئة.",
+      "product_count": {
+        "zero": "لا منتجات",
+        "one": "منتج واحد",
+        "two": "منتجان",
+        "few": "{{ count }} منتجات",
+        "many": "{{ count }} منتجًا",
+        "other": "{{ count }} منتج"
+      }
+    }
+  },
+  "blogs": {
+    "general": {
+      "kicker": "المدوّنة"
+    }
+  },
+  "contact": {
+    "form": {
+      "success_title": "وصلت. 🌱",
+      "success_body": "رسالتك وصلت. بنرد على إيميلك قريب — عادة خلال يوم.",
+      "error": "في شي ناقص — راجع الحقول المحدّدة وجرّب مرة ثانية.",
+      "name": "اسمك",
+      "name_placeholder": "مين معنا؟",
+      "email": "الإيميل",
+      "email_placeholder": "حتى نرد عليك",
+      "phone": "واتساب / جوال",
+      "optional": "(اختياري)",
+      "phone_placeholder": "+971 …",
+      "message": "شو الموضوع؟",
+      "message_placeholder": "قل لنا كل شي — طلبات، جملة، تعاونات، أو بس سلام",
+      "submit": "أرسل"
+    },
+    "side": {
+      "prefer_chat": "تحب تكلمنا؟",
+      "whatsapp": "كلمنا واتساب",
+      "find_us": "عنواننا",
+      "response_time": "وقت الرد",
+      "response_body": "عادة خلال 24 ساعة، 7 أيام في الأسبوع."
+    }
+  },
+  "sections": {
+    "header": {
+      "cart": "السلة",
+      "menu": "القائمة"
+    },
+    "footer": {
+      "whatsapp": "تواصل على واتساب"
+    },
+    "featured_collection": {
+      "coming_soon": "قريبًا",
+      "revolution": "الثورة مستمرة",
+      "notify": "نبّهني"
+    },
+    "problem": {
+      "chat_aria": "محادثة جماعية"
+    },
+    "versus": {
+      "vs": "VS"
+    }
+  }
+}

@@ -18,14 +18,20 @@
     {%- if cart.item_count > 0 -%}
       <div class="shipbar{% if compact %} shipbar--compact{% endif %}">
         {%- if cart.total_price >= fs_threshold -%}
-          <div class="t"><b>Free UAE delivery unlocked.</b>{% unless compact %} The planet and your wallet high-five.{% endunless %}</div>
+          <div class="t"><b>{{ 'general.cart.free_shipping_unlocked' | t }}</b>{% unless compact %} {{ 'general.cart.free_shipping_unlocked_extra' | t }}{% endunless %}</div>
           <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i style="width:100%"></i></div>
         {%- else -%}
           {%- assign fs_remaining = fs_threshold | minus: cart.total_price -%}
           {%- assign fs_pct = cart.total_price | times: 100 | divided_by: fs_threshold -%}
           {%- assign fs_bar = fs_pct -%}
           {%- if fs_bar < 4 -%}{%- assign fs_bar = 4 -%}{%- endif -%}
-          <div class="t">You're <b>{{ fs_remaining | money }}</b> away from free UAE delivery.</div>
+          {%- comment -%}
+            The amount is passed into the string so the sentence can be reordered per
+            language; the key carries the _html suffix because the bold tag lives in the
+            translation, around the placeholder.
+          {%- endcomment -%}
+          {%- assign fs_remaining_money = fs_remaining | money -%}
+          <div class="t">{{ 'general.cart.free_shipping_progress_html' | t: amount: fs_remaining_money }}</div>
           <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_pct }}"><i style="width:{{ fs_bar }}%"></i></div>
         {%- endif -%}
       </div>

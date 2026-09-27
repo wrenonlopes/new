@@ -19,11 +19,13 @@
    rather than the direction.
    ============================================================ */
 
-/* Arabic typeface. Loaded in layout/theme.liquid only when the locale is Arabic —
-   Outfit and Plus Jakarta Sans contain no Arabic glyphs at all. Cairo is variable
-   200-1000, so 500/600/700/800 are real instances rather than synthetic bolds, and it
-   carries Latin too so "AED" matches the Arabic next to it. */
-:root:lang(ar){
+/* Arabic typeface. layout/theme.liquid loads Cairo instead of the Latin pair for exactly
+   these languages — Outfit and Plus Jakarta Sans contain no Arabic glyphs at all. Cairo is
+   variable 200-1000, so 500/600/700/800 are real instances rather than synthetic bolds,
+   and it carries Latin too so "AED" matches the Arabic next to it. Keep this list in step
+   with the `case lang` block in the layout. */
+:root:lang(ar),:root:lang(fa),:root:lang(ur),:root:lang(ps),
+:root:lang(sd),:root:lang(ckb),:root:lang(ug){
   --display: 'Cairo','Noto Sans Arabic','Geeza Pro','Segoe UI',Tahoma,Arial,sans-serif;
   --body: 'Cairo','Noto Sans Arabic','Geeza Pro','Segoe UI',Tahoma,Arial,sans-serif;
 }

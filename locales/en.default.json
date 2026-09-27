@@ -17,7 +17,6 @@
       "total": "Total:",
       "subtotal": "Subtotal",
       "close": "Close cart",
-      "remove": "Remove item",
       "remove_item": "Remove {{ title }}",
       "decrease_item": "Decrease quantity of {{ title }}",
       "increase_item": "Increase quantity of {{ title }}",

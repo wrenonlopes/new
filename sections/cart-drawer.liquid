@@ -73,13 +73,13 @@
       <header class="cdrawer__head">
         <div>
           <h2 class="cdrawer__title" id="CartDrawerTitle">
-            {%- if cart.item_count > 0 -%}Added to your bag.{%- else -%}Your bag is empty.{%- endif -%}
+            {%- if cart.item_count > 0 -%}{{ 'general.cart.drawer_title_added' | t }}{%- else -%}{{ 'general.cart.drawer_title_empty' | t }}{%- endif -%}
           </h2>
           {%- if cart.item_count > 0 -%}
-            <p class="cdrawer__count">{{ cart.item_count }} item{% unless cart.item_count == 1 %}s{% endunless %} · ready when you are</p>
+            <p class="cdrawer__count">{{ 'general.cart.drawer_count' | t: count: cart.item_count }}</p>
           {%- endif -%}
         </div>
-        <button type="button" class="cdrawer__close" data-cart-drawer-close aria-label="Close cart">&#10005;</button>
+        <button type="button" class="cdrawer__close" data-cart-drawer-close aria-label="{{ 'general.cart.close' | t }}">&#10005;</button>
       </header>
 
       <div class="cdrawer__body" data-cart-drawer-body>
@@ -102,16 +102,16 @@
                 </div>
                 <button type="button" class="cdline__rm"
                         data-drawer-line="{{ forloop.index }}" data-drawer-qty="0" data-drawer-step="remove"
-                        aria-label="Remove {{ item.product.title | escape }}">&#10005;</button>
+                        aria-label="{{ 'general.cart.remove_item' | t: title: item.product.title }}">&#10005;</button>
                 <div class="cdline__qty">
                   <button type="button"
                           data-drawer-line="{{ forloop.index }}" data-drawer-qty="{{ item.quantity | minus: 1 }}" data-drawer-step="minus"
-                          aria-label="Decrease quantity of {{ item.product.title | escape }}"
+                          aria-label="{{ 'general.cart.decrease_item' | t: title: item.product.title }}"
                           {% if item.quantity <= 1 %}disabled{% endif %}>&#8722;</button>
                   <b>{{ item.quantity }}</b>
                   <button type="button"
                           data-drawer-line="{{ forloop.index }}" data-drawer-qty="{{ item.quantity | plus: 1 }}" data-drawer-step="plus"
-                          aria-label="Increase quantity of {{ item.product.title | escape }}">+</button>
+                          aria-label="{{ 'general.cart.increase_item' | t: title: item.product.title }}">+</button>
                 </div>
                 <span class="cdline__total">{{ item.final_line_price | money }}</span>
               </li>
@@ -123,7 +123,7 @@
           {%- endif -%}
 
           <section class="cdrawer__ups" data-upsell-section data-below-threshold="{{ cd_below }}" hidden>
-            <h3 class="cdrawer__ups-title">Add to your order</h3>
+            <h3 class="cdrawer__ups-title">{{ 'general.cart.upsell_title' | t }}</h3>
             <ul class="cdrawer__ups-list" data-upsell-list></ul>
           </section>
 
@@ -157,16 +157,16 @@
                         {%- endif -%}
                       </span>
                       <div class="ucard__body">
-                        <span class="ucard__flag">free delivery</span>
+                        <span class="ucard__flag">{{ 'general.cart.upsell_flag' | t }}</span>
                         <span class="ucard__title">{{ item.product.title }}</span>
-                        <span class="ucard__note">Add {{ cd_need }} more — get free UAE delivery</span>
+                        <span class="ucard__note">{{ 'general.cart.topup_note' | t: count: cd_need }}</span>
                         <span class="ucard__price">{{ cd_added | money }}</span>
                       </div>
                       <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
                         <input type="hidden" name="id" value="{{ item.variant_id }}">
                         <input type="hidden" name="quantity" value="{{ cd_need }}">
                         <button type="submit" class="ucard__add" data-adding-label="…" data-added-label="&#10003;"
-                                aria-label="Add {{ cd_need }} more {{ item.product.title | escape }} to cart">Add {{ cd_need }}</button>
+                                aria-label="{{ 'general.cart.topup_add_aria' | t: count: cd_need, title: item.product.title }}">{{ 'general.cart.topup_add' | t: count: cd_need }}</button>
                       </form>
                     </li>
                   {%- endif -%}
@@ -201,10 +201,10 @@
                       {%- endif -%}
                     </span>
                     <div class="ucard__body">
-                      {%- if cd_crosses -%}<span class="ucard__flag">free delivery</span>{%- endif -%}
+                      {%- if cd_crosses -%}<span class="ucard__flag">{{ 'general.cart.upsell_flag' | t }}</span>{%- endif -%}
                       <span class="ucard__title">{{ cd_p.title }}</span>
                       {%- if cd_crosses -%}
-                        <span class="ucard__note">Adding this unlocks free UAE delivery</span>
+                        <span class="ucard__note">{{ 'general.cart.upsell_unlocks' | t }}</span>
                       {%- elsif cd_p.metafields.biod.card_subtitle != blank -%}
                         <span class="ucard__note">{{ cd_p.metafields.biod.card_subtitle }}</span>
                       {%- endif -%}
@@ -214,7 +214,7 @@
                       <input type="hidden" name="id" value="{{ cd_v.id }}">
                       <input type="hidden" name="quantity" value="1">
                       <button type="submit" class="ucard__add" data-adding-label="…" data-added-label="&#10003;"
-                              aria-label="Add {{ cd_p.title | escape }} to cart">Add</button>
+                              aria-label="{{ 'general.cart.upsell_add_aria' | t: title: cd_p.title }}">{{ 'general.cart.upsell_add' | t }}</button>
                     </form>
                   </li>
                 {%- endif -%}
@@ -255,7 +255,7 @@
 
           <div class="cdrawer__empty">
             <p>{{ 'general.cart.empty' | t }}</p>
-            <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">Go shopping</a>
+            <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.go_shopping' | t }}</a>
           </div>
 
         {%- endif -%}
@@ -264,7 +264,7 @@
       {%- if cart.item_count > 0 -%}
         <footer class="cdrawer__foot">
           <div class="cdrawer__sum">
-            <span>Subtotal</span>
+            <span>{{ 'general.cart.subtotal' | t }}</span>
             <b>{{ cart.total_price | money }}</b>
           </div>
           <form action="{{ routes.cart_url }}" method="post">
@@ -272,7 +272,7 @@
           </form>
           <button type="button" class="cdrawer__keep" data-cart-drawer-close>{{ 'general.cart.keep_shopping' | t }}</button>
           {%- if settings.show_cod -%}
-            <p class="cdrawer__cod">Cash on delivery available at checkout</p>
+            <p class="cdrawer__cod">{{ 'general.cart.cod' | t }}</p>
           {%- endif -%}
         </footer>
       {%- endif -%}

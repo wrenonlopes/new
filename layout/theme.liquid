@@ -15,11 +15,16 @@
   # Outfit and Plus Jakarta Sans carry no Arabic glyphs, so Arabic loads Cairo *instead of*
   # them, not in addition: one variable family (200-1000, Arabic + Latin) covers every
   # weight the theme asks for and keeps "AED" in the same typeface as the Arabic beside it.
-  # English pages are byte-for-byte unchanged. Another RTL script needs a `when` branch
-  # here plus a matching :lang() rule in base.css; the direction above already works.
+  # English pages are byte-for-byte unchanged.
+  # The `when` list is every Arabic-script language, so any of them that is enabled gets a
+  # font that can actually render it rather than falling back to tofu. It must stay in step
+  # with the :lang() rule at the top of base.css that points --display/--body at Cairo.
+  # Hebrew (he, yi) and Thaana (dv) are RTL but are not Arabic script: they get the correct
+  # direction from rtl_langs above, and still need a family added in both places.
+  # Urdu would ideally be Nastaliq rather than Cairo's Naskh; legible, not yet native.
   assign google_font = 'Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400'
   case lang
-    when 'ar'
+    when 'ar', 'fa', 'ur', 'ps', 'sd', 'ckb', 'ug'
       assign google_font = 'Cairo:wght@400..800'
   endcase
 -%}
