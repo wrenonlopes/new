@@ -222,7 +222,10 @@
   function drawerAnnounce(root, cart) {
     const el = root.querySelector('[data-cart-drawer-status]');
     if (!el || !cart) return;
-    el.textContent = cart.item_count === 1 ? '1 item in your bag.' : cart.item_count + ' items in your bag.';
+    /* Localized in layout/theme.liquid. The fallback is only reached if that
+       block is missing entirely, which would mean the theme failed to render. */
+    const tpl = (cfg.strings && cfg.strings.bagStatus) || 'Items in your bag: __COUNT__';
+    el.textContent = tpl.replace('__COUNT__', cart.item_count);
   }
 
   function drawerFocusables(panel) {
@@ -287,7 +290,7 @@
     }
     let addedOk = false;
     drawerBusy = true;
-    if (btn) { btn.disabled = true; btn.textContent = btn.dataset.addingLabel || 'Adding…'; }
+    if (btn) { btn.disabled = true; btn.textContent = btn.dataset.addingLabel || (cfg.strings && cfg.strings.adding) || 'Adding…'; }
     try {
       const body = new FormData(form);
       if (!reloadAfterAdd) {
@@ -300,7 +303,7 @@
       addedOk = true;
       // Re-enable straight away: the drawer is the confirmation now, and closing it has
       // to be able to put focus back on this button. The label still reverts below.
-      if (btn) { btn.disabled = false; btn.textContent = btn.dataset.addedLabel || 'Added ✓'; }
+      if (btn) { btn.disabled = false; btn.textContent = btn.dataset.addedLabel || (cfg.strings && cfg.strings.added) || 'Added ✓'; }
       if (reloadAfterAdd) {
         // Same re-render the cart page's own quantity handler uses. Re-rendering the
         // section in place instead would tear out and re-inject the dynamic checkout
@@ -322,7 +325,7 @@
         window.location = routes.cart;
         return;
       }
-      if (btn) btn.textContent = 'Oops — try again';
+      if (btn) btn.textContent = (cfg.strings && cfg.strings.addError) || 'Oops — try again';
     }
     drawerBusy = false;
     if (btn) {

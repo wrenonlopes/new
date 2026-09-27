@@ -49,7 +49,11 @@
         "other": "أضف {{ count }} قطعة ويصير التوصيل داخل الإمارات مجاني"
       },
       "topup_add": "أضف {{ count }}",
-      "topup_add_aria": "أضف {{ count }} من {{ title }} إلى السلة"
+      "topup_add_aria": "أضف {{ count }} من {{ title }} إلى السلة",
+      "bag_status": "المنتجات في سلتك: {{ count }}",
+      "add_error": "تعذّرت الإضافة — حاول مرة أخرى",
+      "adding": "جارٍ الإضافة…",
+      "added": "تمت الإضافة ✓"
     },
     "quantity": {
       "label": "الكمية",

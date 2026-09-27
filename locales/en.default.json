@@ -41,7 +41,11 @@
         "other": "Add {{ count }} more — get free UAE delivery"
       },
       "topup_add": "Add {{ count }}",
-      "topup_add_aria": "Add {{ count }} more {{ title }} to cart"
+      "topup_add_aria": "Add {{ count }} more {{ title }} to cart",
+      "bag_status": "Items in your bag: {{ count }}",
+      "add_error": "Oops — try again",
+      "adding": "Adding…",
+      "added": "Added ✓"
     },
     "quantity": {
       "label": "Quantity",

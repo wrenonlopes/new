@@ -77,7 +77,18 @@
       freeShipping: {{ settings.free_shipping_threshold | json }},
       moneyFormat: {{ shop.money_format | json }},
       reveals: {{ settings.enable_reveals | json }},
-      marqueeVelocity: {{ settings.marquee_velocity | json }}
+      marqueeVelocity: {{ settings.marquee_velocity | json }},
+      /* Strings global.js writes into the DOM. They have to be rendered here,
+         through `t`, or they stay English on a translated storefront. bagStatus
+         keeps {{ count }} as a literal placeholder for the script to substitute:
+         it is an aria-live status, and Arabic's six plural categories cannot be
+         resolved client-side, so the wording is count-agnostic in both locales. */
+      strings: {
+        bagStatus: {{ 'general.cart.bag_status' | t: count: '__COUNT__' | json }},
+        addError: {{ 'general.cart.add_error' | t | json }},
+        adding: {{ 'general.cart.adding' | t | json }},
+        added: {{ 'general.cart.added' | t | json }}
+      }
     };
   </script>
   <script src="{{ 'global.js' | asset_url }}" defer></script>
