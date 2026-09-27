@@ -1,12 +1,201 @@
 {
   "general": {
-    "search": { "placeholder": "Search" },
-    "cart": { "title": "Your cart", "empty": "Nothing here yet. Your towel remains moist.", "checkout": "Checkout", "keep_shopping": "Keep shopping" },
-    "404": { "title": "This page biodegraded.", "back": "Back to the shop" }
+    "search": {
+      "kicker": "Search",
+      "placeholder": "Search",
+      "submit": "Search",
+      "heading_empty": "Looking for something?",
+      "results_for": "Results for “{{ terms }}”"
+    },
+    "cart": {
+      "title": "Your cart",
+      "heading": "Almost yours.",
+      "empty": "Nothing here yet. Your towel remains moist.",
+      "checkout": "Checkout",
+      "keep_shopping": "Keep shopping",
+      "go_shopping": "Go shopping",
+      "total": "Total:",
+      "subtotal": "Subtotal",
+      "close": "Close cart",
+      "remove": "Remove item",
+      "remove_item": "Remove {{ title }}",
+      "decrease_item": "Decrease quantity of {{ title }}",
+      "increase_item": "Increase quantity of {{ title }}",
+      "drawer_title_added": "Added to your bag.",
+      "drawer_title_empty": "Your bag is empty.",
+      "drawer_count": {
+        "one": "{{ count }} item · ready when you are",
+        "other": "{{ count }} items · ready when you are"
+      },
+      "express_label": "or check out with",
+      "cod": "Cash on delivery available at checkout",
+      "free_shipping_unlocked": "Free UAE delivery unlocked.",
+      "free_shipping_unlocked_extra": "The planet and your wallet high-five.",
+      "free_shipping_progress_html": "You're <b>{{ amount }}</b> away from free UAE delivery.",
+      "upsell_title": "Add to your order",
+      "upsell_flag": "free delivery",
+      "upsell_add": "Add",
+      "upsell_add_aria": "Add {{ title }} to cart",
+      "upsell_unlocks": "Adding this unlocks free UAE delivery",
+      "topup_note": {
+        "one": "Add {{ count }} more — get free UAE delivery",
+        "other": "Add {{ count }} more — get free UAE delivery"
+      },
+      "topup_add": "Add {{ count }}",
+      "topup_add_aria": "Add {{ count }} more {{ title }} to cart"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease quantity",
+      "increase": "Increase quantity"
+    },
+    "404": {
+      "title": "This page biodegraded.",
+      "back": "Back to the shop"
+    },
+    "language": {
+      "label": "Language",
+      "switch_to": "Switch to {{ language }}"
+    },
+    "popup": {
+      "close": "Close",
+      "kicker": "First order",
+      "title": "{{ percent }} off your first box",
+      "sub": "Single-use bamboo face towels — a fresh one every wash. Drop your email and the code is yours.",
+      "email_label": "Email address",
+      "email_placeholder": "you@email.com",
+      "submit": "Send my code",
+      "error": "That email did not work — try again.",
+      "fine_print": "One use per customer, on orders over {{ amount }}. Cash on delivery available across the UAE.",
+      "decline": "No thanks",
+      "success_kicker": "You're in",
+      "success_title": "Here's your code",
+      "success_sub": "Enter it at checkout. Works once, on orders over {{ amount }}.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "start_shopping": "Start shopping"
+    }
   },
   "products": {
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",
-    "view": "View"
+    "view": "View",
+    "pairs_with": "Pairs well with",
+    "price": {
+      "save_percent": "−{{ percent }}%"
+    },
+    "selling_plan": {
+      "one_time": "One-time purchase",
+      "one_time_note": "Just this order",
+      "cancel_anytime": "Cancel anytime",
+      "extra_discount": "Extra 5%"
+    },
+    "sizes": {
+      "title": "Pick your format.",
+      "note": "bigger = better value. that's it, that's the math.",
+      "here": "← you're here"
+    },
+    "trust": {
+      "quality_title": "Premium quality",
+      "quality_note": "100% bamboo fibre",
+      "planet_title": "Sustainably made",
+      "planet_note": "biodegrades in months",
+      "delivery_title": "Free UAE delivery",
+      "delivery_note": "on orders Dhs {{ amount }}+",
+      "secure_title": "Secure checkout",
+      "secure_note": "safe & encrypted payment",
+      "cod_title": "Cash on delivery",
+      "cod_note": "pay when it arrives"
+    },
+    "receipts": {
+      "strip_html": "<b>Why single-use?</b> In a published study, <b>89%</b> of used hand towels carried coliform bacteria — and dermatologists advise washing a face towel after every single use if you're acne-prone. A fresh sheet skips the whole problem."
+    },
+    "combo": {
+      "kicker": "better together",
+      "save": "save",
+      "cta": "Get both"
+    },
+    "social": {
+      "stat_label": "of used towels",
+      "stat_note": "tested carried bacteria",
+      "link": "see the comment section →"
+    },
+    "accordion": {
+      "what_it_is": "What it is"
+    }
+  },
+  "collections": {
+    "general": {
+      "kicker": "Collection",
+      "all": "All",
+      "sort_label": "Sort by",
+      "formats_count": {
+        "one": "{{ count }} format · all bamboo",
+        "other": "{{ count }} formats · all bamboo"
+      }
+    },
+    "sorting": {
+      "featured": "Featured",
+      "price_ascending": "Price low to high",
+      "price_descending": "Price high to low",
+      "best_selling": "Best selling"
+    },
+    "list": {
+      "kicker": "Collections",
+      "title": "Browse by category.",
+      "product_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      }
+    }
+  },
+  "blogs": {
+    "general": {
+      "kicker": "The Feed"
+    }
+  },
+  "contact": {
+    "form": {
+      "success_title": "got it. 🌱",
+      "success_body": "Message landed. We'll slide into your inbox soon — usually within a day.",
+      "error": "Hmm, check the highlighted fields and try again.",
+      "name": "Your name",
+      "name_placeholder": "who's this?",
+      "email": "Email",
+      "email_placeholder": "so we can reply",
+      "phone": "WhatsApp / phone",
+      "optional": "(optional)",
+      "phone_placeholder": "+971 …",
+      "message": "What's up?",
+      "message_placeholder": "tell us everything — orders, wholesale, collabs, or just to say hi",
+      "submit": "Send it"
+    },
+    "side": {
+      "prefer_chat": "Prefer to chat?",
+      "whatsapp": "WhatsApp us",
+      "find_us": "Find us",
+      "response_time": "Response time",
+      "response_body": "Usually within 24 hours, 7 days a week."
+    }
+  },
+  "sections": {
+    "header": {
+      "cart": "Cart",
+      "menu": "Menu"
+    },
+    "footer": {
+      "whatsapp": "Chat on WhatsApp"
+    },
+    "featured_collection": {
+      "coming_soon": "Coming soon",
+      "revolution": "The revolution continues",
+      "notify": "Get notified"
+    },
+    "problem": {
+      "chat_aria": "Group chat conversation"
+    },
+    "versus": {
+      "vs": "VS"
+    }
   }
 }

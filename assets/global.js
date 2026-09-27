@@ -2,6 +2,10 @@
 (function () {
   const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cfg = window.BIOD || {};
+  /* Inline-axis sign: +1 in LTR, -1 in RTL. CSS transforms are never flipped by `dir`, so
+     anything this file slides along the inline axis has to mirror by hand. Mirrors the
+     --dir custom property in base.css. */
+  const dirX = getComputedStyle(document.documentElement).direction === 'rtl' ? -1 : 1;
 
   /* ---------- scroll reveals ---------- */
   if (cfg.reveals !== false) {
@@ -67,7 +71,13 @@
         const dt = Math.min((now - prev) / 1000, .05); prev = now;
         if (!paused && half() > 0) {
           offset = (offset + (base + Math.min(Math.abs(velocity) * .9, 700)) * dt) % half();
-          track.style.transform = 'translateX(' + (-offset).toFixed(1) + 'px)';
+          /* The track is an over-wide flex row inside an overflow:hidden box, so it is
+             pinned to the container's inline-start edge and its duplicate half spills out
+             the other side. In LTR that means travelling left to feed the next items in;
+             in RTL the whole row is pinned to the right and spills left, so it has to
+             travel right instead — which is also the direction an Arabic reader expects a
+             ticker to scroll. Negating with dirX keeps one loop for both. */
+          track.style.transform = 'translateX(' + (dirX * -offset).toFixed(1) + 'px)';
         }
         requestAnimationFrame(loop);
       })(prev);
