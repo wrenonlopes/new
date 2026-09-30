@@ -128,7 +128,7 @@
                     <li class="ucard ucard--topup" data-upsell-card data-product-id="{{ item.product_id }}">
                       <span class="ucard__img" aria-hidden="true">
                         {%- if item.image -%}
-                          <img src="{{ item.image | image_url: width: 140 }}" alt="" width="52" height="52" loading="lazy">
+                          <img src="{{ item.image | image_url: width: 140 }}" alt="{{ item.image.alt | default: item.title | escape }}" width="52" height="52" loading="lazy">
                         {%- endif -%}
                       </span>
                       <div class="ucard__body">
@@ -172,7 +172,7 @@
                       {% if up_fill_exclude contains up_p.handle %}data-fill-exclude="true"{% endif %}>
                     <span class="ucard__img" aria-hidden="true">
                       {%- if up_p.featured_image -%}
-                        <img src="{{ up_p.featured_image | image_url: width: 140 }}" alt="" width="52" height="52" loading="lazy">
+                        <img src="{{ up_p.featured_image | image_url: width: 140 }}" alt="{{ up_p.featured_image.alt | default: up_p.title | escape }}" width="52" height="52" loading="lazy">
                       {%- endif -%}
                     </span>
                     <div class="ucard__body">

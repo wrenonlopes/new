@@ -90,7 +90,7 @@
               <li class="cdline">
                 <a class="cdline__img" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
                   {%- if item.image -%}
-                    <img src="{{ item.image | image_url: width: 160 }}" alt="" width="56" height="56" loading="lazy">
+                    <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.image.alt | default: item.title | escape }}" width="56" height="56" loading="lazy">
                   {%- endif -%}
                 </a>
                 <div class="cdline__body">
@@ -153,7 +153,7 @@
                     <li class="ucard ucard--topup" data-upsell-card data-product-id="{{ item.product_id }}">
                       <span class="ucard__img" aria-hidden="true">
                         {%- if item.image -%}
-                          <img src="{{ item.image | image_url: width: 140 }}" alt="" width="52" height="52" loading="lazy">
+                          <img src="{{ item.image | image_url: width: 140 }}" alt="{{ item.image.alt | default: item.title | escape }}" width="52" height="52" loading="lazy">
                         {%- endif -%}
                       </span>
                       <div class="ucard__body">
@@ -197,7 +197,7 @@
                       {% if cd_fill_exclude contains cd_p.handle %}data-fill-exclude="true"{% endif %}>
                     <span class="ucard__img" aria-hidden="true">
                       {%- if cd_p.featured_image -%}
-                        <img src="{{ cd_p.featured_image | image_url: width: 140 }}" alt="" width="52" height="52" loading="lazy">
+                        <img src="{{ cd_p.featured_image | image_url: width: 140 }}" alt="{{ cd_p.featured_image.alt | default: cd_p.title | escape }}" width="52" height="52" loading="lazy">
                       {%- endif -%}
                     </span>
                     <div class="ucard__body">
