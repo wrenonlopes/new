@@ -1,10 +1,13 @@
 /*
- * BIOD static ad creatives for Meta.
+ * BIOD price-led static ad creatives for Meta.
  *
- * Three concepts, each borrowing a piece of interface Gen Z reads all day --
- * a text thread, a search result, a receipt -- so the frame looks like
- * something already on their phone rather than something a brand paid for.
- * Copy is written for the ad. None of it is lifted from the storefront.
+ * The system: the price IS the headline. Not a badge, not a burst, not a pill
+ * -- the number is simply the largest type on the page, set in the display
+ * face on a flat ground with a lot of air around it. A discount sticker is
+ * small type in a loud container; this is the inverse, which is how the frame
+ * stays price-led without reading as dropshipping.
+ *
+ * Copy and every figure behind it live in copy.js.
  *
  * Everything is inlined as data URIs: this container has no egress to
  * fonts.googleapis.com or cdn.shopify.com, and a self-contained file is also
@@ -14,6 +17,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { CONCEPTS } = require('./copy.js');
 
 const ROOT = __dirname;
 const THEME = path.resolve(ROOT, '../../assets');
@@ -24,161 +28,103 @@ const b64 = (p, mime) => `data:${mime};base64,${fs.readFileSync(p).toString('bas
 const font = (pkg, file) => b64(path.join(NM, '@fontsource', pkg, 'files', file), 'font/woff2');
 
 const FONTS = {
+  o600: font('outfit', 'outfit-latin-600-normal.woff2'),
   o700: font('outfit', 'outfit-latin-700-normal.woff2'),
   o800: font('outfit', 'outfit-latin-800-normal.woff2'),
   j500: font('plus-jakarta-sans', 'plus-jakarta-sans-latin-500-normal.woff2'),
   j700: font('plus-jakarta-sans', 'plus-jakarta-sans-latin-700-normal.woff2'),
-  m400: font('space-mono', 'space-mono-latin-400-normal.woff2'),
-  m700: font('space-mono', 'space-mono-latin-700-normal.woff2'),
 };
 const BOX = b64(path.join(THEME, 'sticker-xl.png'), 'image/png');
 const LOGO_CREAM = b64(path.join(THEME, 'biod-logo-cream.png'), 'image/png');
 const LOGO_DARK = b64(path.join(THEME, 'biod-logo-dark.png'), 'image/png');
 
-/* Brand tokens, lifted verbatim from config/settings_data.json so the ads and
-   the storefront cannot drift apart. */
+/* Brand tokens, matching config/settings_data.json. */
 const C = {
   leaf: '#7AC143', leafDark: '#3E7015', ink: '#2E2E38',
   cream: '#F8F1DF', paper: '#FDFBF5', kraft: '#C69A6D', sunrise: '#E9601F',
 };
 
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+/* Each creative gets its own ground so the four are distinguishable in
+   reporting and so Meta has visibly different assets to allocate across. */
+const LOOK = {
+  'a-hook':  { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, scale: 246 },
+  'b-drop':  { ground: C.cream,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, scale: 246 },
+  'c-month': { ground: C.leaf,    fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, scale: 246 },
+  'd-fifty': { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 1, scale: 560 },
+};
 
-/* A till receipt is torn off, not cut. The teeth are generated rather than
-   drawn so the edge stays sharp at any width. */
-function tear(dir) {
-  const teeth = 40, w = 100, d = 4;
-  const pts = [];
-  for (let i = 0; i <= teeth; i++) {
-    const x = (i * w) / teeth;
-    const y = dir === 'down' ? (i % 2 ? d : 0) : (i % 2 ? 0 : d);
-    pts.push(`${x.toFixed(2)} ${y.toFixed(2)}`);
-  }
-  const close = dir === 'down' ? `L${w} 0 L0 0 Z` : `L${w} ${d} L0 ${d} Z`;
-  return `<svg class="tear" viewBox="0 0 ${w} ${d}" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M${pts.join(' L')} ${close}" fill="#fff"/></svg>`;
-}
-
-/* ---------------------------------------------------------------- concepts */
-/* Every figure is checked: 50 towels at AED 49; 200 at AED 176 is 88 fils
-   exactly; free shipping starts at AED 100, so the bundle clears it and the
-   single box does not. No ratings, hygiene or disposal claim appears here. */
-const CONCEPTS = [
-  {
-    id: '01-thread',
-    label: 'Face Towel XL — the text thread',
-    format: 'chat',
-    ground: '#23232B', fg: C.cream, accent: C.leaf, logo: LOGO_CREAM,
-    thread: [
-      { who: 'them', t: 'can i use your face towel' },
-      { who: 'you', t: 'take a fresh one, i have 50' },
-      { who: 'them', t: '50?????' },
-      { who: 'you', t: 'they were 49 aed lol' },
-    ],
-    tag: ['aed 49', '50 towels in a box'],
-    art: 'single', artW: 390, tilt: -4,
-  },
-  {
-    id: '02-search',
-    label: 'Face Towel XL — the search result',
-    format: 'search',
-    ground: C.paper, fg: C.ink, accent: C.leafDark, logo: LOGO_DARK,
-    query: 'why am i still breaking out if i wash my face twice a day',
-    answer: [{ t: "it's the " }, { t: 'towel', accent: true }, { t: '.' }],
-    sub: 'every wash, you put the same used towel back on clean skin.',
-    tag: ['aed 49', '50 clean ones'],
-    art: 'single', artW: 470, tilt: 3,
-  },
-  {
-    id: '03-receipt',
-    label: 'Bundle XL — the receipt',
-    format: 'receipt',
-    ground: C.leaf, fg: C.ink, accent: C.ink, logo: LOGO_DARK,
-    receipt: {
-      title: 'BIOD  ·  XL BUNDLE',
-      rows: [
-        ['4 BOXES x 50', '200 TOWELS'],
-        ['PER TOWEL', 'AED 0.88'],
-        ['DELIVERY', 'AED 0.00'],
-      ],
-      total: ['TOTAL', 'AED 176.00'],
-      foot: 'THANK YOU  ·  NOW STOP REORDERING',
-    },
-    headline: [{ t: '88 fils ' }, { t: 'a face', accent: false }, { t: '.' }],
-    sub: 'the cheapest step in the whole routine.',
-    tag: ['aed 176', 'delivered free'],
-    art: 'row', artW: 210,
-  },
-];
-
-/* Meta placements this account actually runs: Instagram Feed, Stories, Reels.
-   Story keeps its content inside y 270-1520 so neither the profile row at the
-   top nor the CTA and action rail at the bottom covers any of it. */
 const FORMATS = [
-  { key: 'feed', w: 1080, h: 1350, padT: 84, padB: 84, padX: 84, s: 1 },
+  { key: 'feed',  w: 1080, h: 1350, padT: 84,  padB: 84,  padX: 84,  s: 1 },
   { key: 'story', w: 1080, h: 1920, padT: 270, padB: 400, padX: 104, s: 1.05 },
 ];
 
-function artHTML(c) {
-  if (c.art === 'row') {
-    return `<div class="row">${[-6, 4, -3, 6]
-      .map((t) => `<img class="bx" style="--t:${t}deg;--bw:${c.artW}px" src="${BOX}" alt="">`)
-      .join('')}</div>`;
-  }
-  return `<img class="bx solo" style="--t:${c.tilt}deg;--bw:${c.artW}px" src="${BOX}" alt="">`;
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/* "88 fils" is set as one lockup: the integer at full display size so the eye
+   never reads "nearly one", and the unit at well under half, tucked to the
+   numerals' own baseline. Emphasis by scale, never by a container. */
+function fils(n, unit) {
+  return `<span class="lock"><span class="num">${esc(n)}</span><span class="unit">${esc(unit)}</span></span>`;
 }
 
-function bodyHTML(c) {
-  if (c.format === 'chat') {
-    return `<div class="thread">${c.thread
-      .map((m) => `<div class="bub ${m.who}">${esc(m.t)}</div>`)
-      .join('')}</div>`;
-  }
+/* The furniture line is the one place price and quality are guaranteed to
+   share a frame -- the rule is that they must never end up in separate
+   visual blocks, or the price reads as cheap paper on a face. */
+function furniture(text) {
+  return text
+    .split(' · ')
+    .map((seg) => (/fils|AED|was \d/.test(seg) ? `<b>${esc(seg)}</b>` : esc(seg)))
+    .join('<i>·</i>');
+}
 
-  if (c.format === 'search') {
-    return `<div class="searchbar">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2.4"/>
-          <path d="M16.5 16.5 L21 21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-        </svg>
-        <span>${esc(c.query)}<i class="caret"></i></span>
-      </div>
-      <h1 class="answer">${c.answer
-        .map((p) => (p.accent ? `<em>${esc(p.t)}</em>` : esc(p.t)))
-        .join('')}</h1>
-      <p class="sub">${esc(c.sub)}</p>`;
+function boxesHTML(look) {
+  if (look.boxes === 1) {
+    return `<img class="bx" style="--bw:${look.scale}px;--t:-3deg" src="${BOX}" alt="">`;
   }
+  /* Four discrete boxes, not one big spend: partitioning is what keeps
+     AED 176 from being evaluated as a single outlay. */
+  return `<div class="quad">${[-6, 4, -3, 6]
+    .map((t) => `<img class="bx" style="--bw:${look.scale}px;--t:${t}deg" src="${BOX}" alt="">`)
+    .join('')}</div>`;
+}
 
-  const r = c.receipt;
-  return `<div class="receipt">
-      ${tear('up')}
-      <div class="rbody">
-        <div class="rtitle">${esc(r.title)}</div>
-        <div class="rdash"></div>
-        ${r.rows.map(([a, b]) => `<div class="rrow"><span>${esc(a)}</span><span>${esc(b)}</span></div>`).join('')}
-        <div class="rdash"></div>
-        <div class="rrow rtotal"><span>${esc(r.total[0])}</span><span>${esc(r.total[1])}</span></div>
-        <div class="rfoot">${esc(r.foot)}</div>
-      </div>
-      ${tear('down')}
-    </div>
-    <h1 class="head">${c.headline.map((p) => esc(p.t)).join('')}</h1>
-    <p class="sub">${esc(c.sub)}</p>`;
+function heroHTML(c) {
+  if (c.id === 'b-drop') {
+    /* The drop is felt as a change of scale, not read as a percentage: the old
+       landed price is struck and small, the new one is four times its size
+       directly beneath it. Both numbers are live prices plus the published
+       AED 15 rate, so nothing here can be refuted in the comments. */
+    return `<div class="drop">
+      <div class="from"><s>${esc(c.heroFrom)}</s> <span>a towel, delivered</span></div>
+      <div class="to">${fils(c.hero.replace(' fils', ''), 'fils')}<span class="tail">${esc(c.heroTail)}</span></div>
+    </div>`;
+  }
+  if (c.id === 'c-month') {
+    return `<h1 class="head money">${fils('AED 27', 'a month')}</h1>
+            <p class="tailline">${esc(c.heroTail)}</p>`;
+  }
+  if (c.id === 'd-fifty') {
+    return `<h1 class="head money big">${esc(c.hero)}</h1>`;
+  }
+  return `<h1 class="head ask">${esc(c.hero)}</h1>`;
 }
 
 function canvas(c, f) {
+  const k = LOOK[c.id];
   return `
-<div class="canvas ${f.key} f-${c.format}" data-name="biod-${c.id}-${f.key}"
-     data-w="${f.w}" data-h="${f.h}"
-     style="--ground:${c.ground};--fg:${c.fg};--accent:${c.accent};
-            --w:${f.w}px;--h:${f.h}px;--padT:${f.padT}px;--padB:${f.padB}px;
-            --padX:${f.padX}px;--s:${f.s}">
+<div class="canvas ${f.key} c-${c.id}" data-name="biod-${c.id}-${f.key}" data-w="${f.w}" data-h="${f.h}"
+     style="--ground:${k.ground};--fg:${k.fg};--accent:${k.accent};--w:${f.w}px;--h:${f.h}px;
+            --padT:${f.padT}px;--padB:${f.padB}px;--padX:${f.padX}px;--s:${f.s}">
   <div class="inner">
-    <header><img class="logo" src="${c.logo}" alt="biod"></header>
-    <div class="body">${bodyHTML(c)}</div>
-    <div class="art">${artHTML(c)}</div>
+    <header><img class="logo" src="${k.logo}" alt="biod"></header>
+    <div class="say">
+      ${heroHTML(c)}
+      <p class="sup">${esc(c.support)}</p>
+    </div>
+    <div class="art">${boxesHTML(k)}</div>
     <div class="foot">
-      <div class="tag"><b>${esc(c.tag[0])}</b><span>${esc(c.tag[1])}</span></div>
+      <p class="furn">${furniture(c.furniture)}</p>
+      ${c.footnote ? `<p class="note">${esc(c.footnote)}</p>` : ''}
       <div class="site">biod.co</div>
     </div>
   </div>
@@ -187,14 +133,13 @@ function canvas(c, f) {
 
 const html = `<!doctype html>
 <meta charset="utf-8">
-<title>BIOD static ad creatives</title>
+<title>BIOD price-led ad creatives</title>
 <style>
+@font-face{font-family:Outfit;src:url(${FONTS.o600}) format('woff2');font-weight:600;font-display:block}
 @font-face{font-family:Outfit;src:url(${FONTS.o700}) format('woff2');font-weight:700;font-display:block}
 @font-face{font-family:Outfit;src:url(${FONTS.o800}) format('woff2');font-weight:800;font-display:block}
 @font-face{font-family:'Plus Jakarta Sans';src:url(${FONTS.j500}) format('woff2');font-weight:500;font-display:block}
 @font-face{font-family:'Plus Jakarta Sans';src:url(${FONTS.j700}) format('woff2');font-weight:700;font-display:block}
-@font-face{font-family:'Space Mono';src:url(${FONTS.m400}) format('woff2');font-weight:400;font-display:block}
-@font-face{font-family:'Space Mono';src:url(${FONTS.m700}) format('woff2');font-weight:700;font-display:block}
 
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#141418;font-family:'Plus Jakarta Sans',system-ui,sans-serif;
@@ -204,82 +149,70 @@ body{background:#141418;font-family:'Plus Jakarta Sans',system-ui,sans-serif;
         position:relative;overflow:hidden;flex:none}
 .inner{position:absolute;inset:0;padding:var(--padT) var(--padX) var(--padB);
        display:flex;flex-direction:column}
-.logo{height:calc(42px * var(--s));width:auto;display:block;opacity:.9}
-header{margin-bottom:calc(46px * var(--s))}
-.body{flex:none}
+.logo{height:calc(40px * var(--s));width:auto;display:block;opacity:.88}
+header{margin-bottom:calc(40px * var(--s))}
+.say{flex:none}
 
-/* ------------------------------------------------------------------- chat */
-/* Tailless bubbles with one tightened corner: the shape every messaging app
-   has settled on, so it reads as a thread without copying any one of them. */
-.thread{display:flex;flex-direction:column;gap:calc(18px * var(--s))}
-.bub{max-width:80%;padding:calc(26px * var(--s)) calc(36px * var(--s));
-     font-size:calc(43px * var(--s));line-height:1.28;font-weight:500;
-     border-radius:calc(42px * var(--s))}
-.bub.them{align-self:flex-start;background:#3A3A46;color:var(--fg);
-          border-bottom-left-radius:calc(12px * var(--s))}
-.bub.you{align-self:flex-end;background:var(--accent);color:#1B2410;font-weight:700;
-         border-bottom-right-radius:calc(12px * var(--s))}
+/* ---- the number as headline -------------------------------------------- */
+/* Scale and air carry the emphasis. Nothing is boxed, outlined, rotated or
+   badged: that is the whole difference between editorial and dropshipper. */
+.head{font-family:Outfit,system-ui,sans-serif;font-weight:800;letter-spacing:-.04em;
+      line-height:.92}
+.head.ask{font-size:calc(82px * var(--s));line-height:1.06;letter-spacing:-.025em;
+          text-wrap:balance}
+.head.money{font-size:calc(150px * var(--s))}
+.head.money.big{font-size:calc(196px * var(--s))}
 
-/* ----------------------------------------------------------------- search */
-.searchbar{display:flex;align-items:center;gap:calc(22px * var(--s));
-           background:#fff;border:calc(3px * var(--s)) solid rgba(46,46,56,.14);
-           border-radius:calc(999px);padding:calc(26px * var(--s)) calc(36px * var(--s));
-           box-shadow:0 calc(10px * var(--s)) calc(30px * var(--s)) rgba(46,46,56,.07)}
-.searchbar svg{width:calc(38px * var(--s));height:calc(38px * var(--s));flex:none;opacity:.42}
-.searchbar span{font-size:calc(32px * var(--s));line-height:1.3;font-weight:500;opacity:.82}
-.caret{display:inline-block;vertical-align:-calc(5px * var(--s));
-       width:calc(3px * var(--s));height:calc(34px * var(--s));background:var(--accent);
-       margin-left:calc(6px * var(--s))}
-.answer{margin-top:calc(46px * var(--s));font-family:Outfit,sans-serif;font-weight:800;
-        font-size:calc(132px * var(--s));line-height:.96;letter-spacing:-.04em}
-.answer em{font-style:normal;color:var(--accent)}
+.lock{display:inline-flex;align-items:baseline;gap:calc(16px * var(--s));
+      white-space:nowrap}
+.lock .num{font-family:Outfit,sans-serif;font-weight:800;letter-spacing:-.045em;
+           font-variant-numeric:tabular-nums}
+.lock .unit{font-family:Outfit,sans-serif;font-weight:700;font-size:.34em;
+            letter-spacing:-.01em;color:var(--accent)}
 
-/* ---------------------------------------------------------------- receipt */
-.receipt{position:relative;width:calc(640px * var(--s));margin:0 auto;
-         filter:drop-shadow(0 calc(22px * var(--s)) calc(40px * var(--s)) rgba(0,0,0,.2))}
-.tear{display:block;width:100%;height:calc(14px * var(--s))}
-.rbody{background:#fff;color:#1C1C22;font-family:'Space Mono',ui-monospace,monospace;
-       padding:calc(10px * var(--s)) calc(44px * var(--s)) calc(16px * var(--s))}
-.rtitle{text-align:center;font-weight:700;font-size:calc(30px * var(--s));
-        letter-spacing:.08em;padding:calc(16px * var(--s)) 0 calc(20px * var(--s))}
-.rdash{height:calc(2px * var(--s));margin:calc(12px * var(--s)) 0;
-       background:repeating-linear-gradient(90deg,#1C1C22 0 10px,transparent 10px 20px);opacity:.45}
-.rrow{display:flex;justify-content:space-between;gap:calc(20px * var(--s));
-      font-size:calc(28px * var(--s));line-height:2;font-variant-numeric:tabular-nums}
-.rtotal{font-weight:700;font-size:calc(38px * var(--s))}
-.rfoot{text-align:center;font-size:calc(21px * var(--s));letter-spacing:.06em;
-       opacity:.5;padding-top:calc(18px * var(--s))}
-.head{margin-top:calc(44px * var(--s));font-family:Outfit,sans-serif;font-weight:800;
-      font-size:calc(112px * var(--s));line-height:.96;letter-spacing:-.04em;text-align:center}
+.tailline{margin-top:calc(10px * var(--s));font-family:Outfit,sans-serif;
+          font-weight:700;font-size:calc(58px * var(--s));letter-spacing:-.025em;opacity:.9}
 
-.sub{margin-top:calc(26px * var(--s));font-weight:500;font-size:calc(35px * var(--s));
-     line-height:1.4;opacity:.78;max-width:calc(820px * var(--s))}
-.f-receipt .sub{text-align:center;margin-inline:auto}
+/* B's drop: the old price is struck and small, the new one four times its
+   size directly beneath, so the fall is felt before it is read. */
+.drop .from{font-family:Outfit,sans-serif;font-weight:700;
+            font-size:calc(62px * var(--s));letter-spacing:-.02em;opacity:.55}
+.drop .from s{text-decoration:line-through;text-decoration-thickness:calc(5px * var(--s))}
+.drop .from span{font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;
+                 font-size:calc(34px * var(--s));letter-spacing:0}
+.drop .to{margin-top:calc(6px * var(--s));display:flex;align-items:baseline;
+          gap:calc(20px * var(--s));font-size:calc(236px * var(--s))}
+.drop .to .tail{font-family:Outfit,sans-serif;font-weight:700;
+                font-size:calc(58px * var(--s));letter-spacing:-.02em;opacity:.75}
 
-/* -------------------------------------------------------------------- art */
+.sup{margin-top:calc(30px * var(--s));font-weight:500;font-size:calc(37px * var(--s));
+     line-height:1.38;opacity:.8;max-width:calc(840px * var(--s))}
+.c-a-hook .sup{color:var(--accent);opacity:1;font-weight:700}
+
+/* ---- product ------------------------------------------------------------ */
 .art{flex:1;position:relative;display:flex;align-items:center;justify-content:center;
-     min-height:0}
-.bx{display:block;width:var(--bw);height:auto;max-height:100%;object-fit:contain;
-    transform:rotate(var(--t,0deg));
-    filter:drop-shadow(0 calc(20px * var(--s)) calc(38px * var(--s)) rgba(0,0,0,.26))}
-.solo{width:calc(var(--bw) * var(--s))}
-.row{display:flex;align-items:center;justify-content:center}
-.row .bx{width:calc(var(--bw) * var(--s));margin-inline:calc(-26px * var(--s))}
-.row .bx:nth-child(2){z-index:2}.row .bx:nth-child(3){z-index:3}
-.row .bx:nth-child(4){z-index:4}
+     min-height:0;margin:calc(16px * var(--s)) 0}
+.quad{display:flex;align-items:center;justify-content:center}
+.bx{display:block;width:calc(var(--bw) * var(--s));height:auto;max-height:100%;
+    object-fit:contain;transform:rotate(var(--t,0deg));
+    filter:drop-shadow(0 calc(18px * var(--s)) calc(34px * var(--s)) rgba(0,0,0,.24))}
+.quad .bx{margin-inline:calc(-26px * var(--s))}
+.quad .bx:nth-child(2){z-index:2}.quad .bx:nth-child(3){z-index:3}
+.quad .bx:nth-child(4){z-index:4}
 
-/* ------------------------------------------------------------------- foot */
-/* The one piece of furniture all three share, so the set reads as a family
-   while the middle of each frame does something completely different. */
-.foot{display:flex;align-items:center;justify-content:space-between;gap:24px;flex:none}
-.tag{display:flex;align-items:baseline;gap:calc(16px * var(--s));
-     background:var(--fg);color:var(--ground);
-     padding:calc(16px * var(--s)) calc(32px * var(--s)) calc(19px * var(--s))}
-.tag b{font-family:Outfit,sans-serif;font-weight:800;font-size:calc(52px * var(--s));
-       letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.tag span{font-weight:700;font-size:calc(25px * var(--s));opacity:.72}
-.site{font-weight:700;font-size:calc(29px * var(--s));letter-spacing:.05em;opacity:.7}
-.story .foot{padding-right:calc(36px * var(--s))}
+/* ---- furniture ---------------------------------------------------------- */
+/* Price and quality on one typographic line. If they ever end up in separate
+   blocks, 88 fils starts reading as cheap paper on a face. */
+.foot{flex:none;border-top:calc(2px * var(--s)) solid currentColor;
+      padding-top:calc(24px * var(--s));position:relative}
+.furn{font-weight:500;font-size:calc(28px * var(--s));line-height:1.5;opacity:.86}
+.furn b{font-weight:700;color:var(--accent)}
+.c-a-hook .furn b{color:var(--accent)}
+.furn i{font-style:normal;opacity:.4;margin:0 calc(12px * var(--s))}
+.note{margin-top:calc(8px * var(--s));font-weight:500;font-size:calc(24px * var(--s));opacity:.6}
+.site{position:absolute;right:0;bottom:0;font-weight:700;font-size:calc(27px * var(--s));
+      letter-spacing:.05em;opacity:.6}
+.story .site{right:calc(30px * var(--s))}
 </style>
 ${CONCEPTS.map((c) => FORMATS.map((f) => canvas(c, f)).join('\n')).join('\n')}
 `;
@@ -287,16 +220,15 @@ ${CONCEPTS.map((c) => FORMATS.map((f) => canvas(c, f)).join('\n')).join('\n')}
 fs.writeFileSync(path.join(ROOT, 'creatives.html'), html);
 console.log('wrote creatives.html (' + (html.length / 1024 / 1024).toFixed(2) + ' MB)');
 
-/* ------------------------------------------------------------------ render */
 (async () => {
   let chromium;
   try { ({ chromium } = require('playwright')); }
-  catch { console.log('playwright not installed here — open creatives.html in a browser instead'); return; }
+  catch { console.log('playwright not installed here — open creatives.html in a browser'); return; }
 
   fs.mkdirSync(OUT, { recursive: true });
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
-  /* Rendered at 2x and resampled down to the exact upload size: supersampling
-     is what keeps the 800-weight display type clean. */
+  /* Rendered at 2x and resampled to the exact upload size: supersampling is
+     what keeps 800-weight display type clean at these sizes. */
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 }, deviceScaleFactor: 2 });
   await page.goto('file://' + path.join(ROOT, 'creatives.html'));
   await page.evaluate(() => document.fonts.ready);
