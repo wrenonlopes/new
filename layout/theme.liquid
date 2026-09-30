@@ -33,8 +33,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- comment -%}
+    Compare case-insensitively. page_title is authored as "Biod | …" while
+    shop.name is "BIOD", and Liquid's `contains` is case-sensitive — so the
+    plain check missed and every page appended a second " — BIOD".
+  {%- endcomment -%}
+  {%- assign t_lower = page_title | downcase -%}
+  {%- assign shop_lower = shop.name | downcase -%}
   <title>
-    {{ page_title }}{% unless page_title contains shop.name %} — {{ shop.name }}{% endunless %}
+    {{ page_title }}{% unless t_lower contains shop_lower %} — {{ shop.name }}{% endunless %}
   </title>
   {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
   <link rel="canonical" href="{{ canonical_url }}">
