@@ -1,8 +1,8 @@
 # BIOD ad creatives
 
-Seven concepts — six for the XL bundle, one for the single box — each rendered
-at the two sizes the ad sets run: Feed (1080×1350) and Stories/Reels
-(1080×1920).
+Fifteen concepts — nine for the XL bundle, four for the tissue tube, two for
+the single box — each rendered at the two sizes the ad sets run: Feed
+(1080×1350) and Stories/Reels (1080×1920).
 
 | File | Hero | Mechanism |
 |---|---|---|
@@ -12,7 +12,20 @@ at the two sizes the ad sets run: Feed (1080×1350) and Stories/Reels
 | `bundle-04-drop` | AED 1.28 → **88 fils** | Landed-cost anchor |
 | `bundle-05-month` | **88 fils** a towel | Partitioned to ~AED 27 a month |
 | `bundle-06-hook` | how many times has that towel… | Installs the problem before the price |
+| `bundle-07-perbox` | **AED 44** a box | Per box, the unit a buyer handles |
+| `bundle-08-months` | six months of clean towels | Supply rather than spend |
+| `bundle-09-once` | buy it once | Decision cost, not discount |
+| `tube-01-fits` | it fits the cup holder | The form factor, demonstrated |
+| `tube-02-nine` | **AED 9** a tube | Per tube |
+| `tube-03-loose` | where does a square box actually sit? | Problem install |
+| `tube-04-interior` | it actually looks good in there | The design argument |
 | `single-01-fifty` | 50 for 49 | Entry price |
+| `single-02-once` | one towel. one face. once. | The proposition, not the price |
+
+**Units.** Per box (AED 44) and per tube (AED 9) rather than per towel or per
+tissue on those frames: the unit a buyer actually picks up is more legible than
+the smaller number, and AED 9 reads as a price where 18 fils reads as an
+abstraction. 176 ÷ 4 = 44 and 36 ÷ 4 = 9 exactly.
 
 Copy and the arithmetic behind every figure live in `copy.js`; layout in
 `build.js`. Change wording there and re-run — the HTML is generated.

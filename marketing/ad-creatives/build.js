@@ -69,10 +69,13 @@ const LOOK = {
   'bundle-06-hook':   { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232, numAccent: true },
   'single-01-fifty':  { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 1, bw: 460, numAccent: true },
   'single-02-once':   { ground: C.cream,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 1, bw: 430 },
-  'tube-01-fils':     { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158, numAccent: true },
-  'tube-02-cupholder':{ ground: C.leaf,    fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
-  'tube-03-drop':     { ground: C.paper,   fg: C.ink,   accent: C.ink,      logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
-  'tube-04-nowhere':  { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
+  'tube-01-fits':     { ground: C.leaf,    fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
+  'tube-02-nine':     { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158, numAccent: true },
+  'tube-03-loose':    { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
+  'tube-04-interior': { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
+  'bundle-07-perbox': { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232, numAccent: true },
+  'bundle-08-months': { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232 },
+  'bundle-09-once':   { ground: C.sunrise, fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
 };
 
 const FORMATS = [
@@ -86,7 +89,8 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
    same weight and the SAME COLOUR. A superscript unit, or a unit in a second
    colour, is the loudest price-badge tell there is. */
 const lock = (n, unit) =>
-  `<span class="lock"><span class="num">${esc(n)}</span><span class="unit">${esc(unit)}</span></span>`;
+  `<span class="lock"><span class="num">${esc(n)}</span>${
+    unit ? `<span class="unit">${esc(unit)}</span>` : ''}</span>`;
 
 /* Price and quality share one typographic line. If they ever end up in
    separate blocks, 88 fils starts reading as cheap paper on a face. */
@@ -115,14 +119,16 @@ function boxesHTML(k) {
 function heroHTML(c) {
   switch (c.kind) {
     case 'fils':
-      return `<div class="hero ${c.size === 'xl' ? 'xl' : ''}">${lock(c.hero, c.unit)}<span class="tail">${esc(c.heroTail)}</span></div>`;
+      return `<div class="hero ${c.size ? c.size : ''}">${lock(c.hero, c.unit)}${
+        c.heroTail ? `<span class="tail">${esc(c.heroTail)}</span>` : ''}</div>`;
 
     case 'stack':
       /* Volume above, unit price below and larger: the pile is the value, the
          unit price is what makes the pile affordable. */
       return `<div class="hero stack">
           <div class="qty">${esc(c.qty)}</div>
-          <div class="each">${lock(c.hero, c.unit)}<span class="tail">${esc(c.heroTail)}</span></div>
+          <div class="each">${lock(c.hero, c.unit)}${
+            c.heroTail ? `<span class="tail">${esc(c.heroTail)}</span>` : ''}</div>
         </div>`;
 
     case 'drop':
@@ -134,7 +140,8 @@ function heroHTML(c) {
       return `<div class="hero drop">
           <div class="was">was <span class="strike">${esc(c.heroFrom)}</span> a towel, delivered</div>
           <div class="now">now</div>
-          <div class="to">${lock(c.hero, c.unit)}<span class="tail">${esc(c.heroTail)}</span></div>
+          <div class="to">${lock(c.hero, c.unit)}${
+            c.heroTail ? `<span class="tail">${esc(c.heroTail)}</span>` : ''}</div>
         </div>`;
 
     case 'ask':
@@ -196,7 +203,7 @@ header{margin-bottom:calc(44px * var(--s))}
    rotation anywhere behind it. */
 .hero{font-family:Outfit,system-ui,sans-serif;font-weight:800;
       letter-spacing:-.055em;line-height:.86}
-.lock{display:inline-flex;align-items:baseline}
+.lock{display:inline-flex;align-items:baseline;white-space:nowrap}
 .lock .num{font-variant-numeric:proportional-nums}
 .lock .unit{font-size:.42em;letter-spacing:-.03em;margin-left:.1em}
 .hero .tail{font-family:Outfit,sans-serif;font-weight:700;font-size:calc(52px * var(--s));
@@ -204,6 +211,9 @@ header{margin-bottom:calc(44px * var(--s))}
 
 .k-fils .hero{font-size:calc(300px * var(--s));display:flex;align-items:baseline;flex-wrap:wrap}
 .k-fils .hero.xl{font-size:calc(340px * var(--s))}
+/* A currency-prefixed hero ("AED 9") carries three more glyphs than a bare
+   numeral and overruns the column at the xl step, so it opts into its own. */
+.k-fils .hero.cur{font-size:calc(236px * var(--s))}
 .accent-num .lock .num,.accent-num .lock .unit{color:var(--accent)}
 
 /* stack: volume set above, unit price below and larger. */

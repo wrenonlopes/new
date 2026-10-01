@@ -3,7 +3,7 @@
 Four shoots, one phone, no crew. Vertical 9:16, 15–25 seconds each, shot in
 real rooms and a real car. Everything here is checked against the catalogue:
 AED 49 / 50 towels, AED 176 / 200 towels (88 fils each, delivery free above
-AED 100), AED 36 / 200 tissues (18 fils each).
+AED 100), AED 36 for four tubes (AED 9 a tube, 50 three-ply tissues in each).
 
 ## Rules that apply to all four
 
@@ -83,9 +83,9 @@ interests and three traced orders have come through it.
 | 4–6s | Look at camera. Say nothing. | — |
 | 6–9s | Pick up the BIOD tube. Drop it into the cup holder. It fits. | *clunk* |
 | 9–12s | Pull a tissue out one-handed, like you would at a red light. | "That's it. That's the whole thing." |
-| 12–15s | Tube sitting in the holder, car moving, Dubai outside the window. | "Eighteen fils a tissue. Four tubes, thirty-six dirhams." |
+| 12–15s | Tube sitting in the holder, car moving, Dubai outside the window. | "Nine dirhams a tube. Four for thirty-six." |
 
-**On-screen text**: `a tissue box fits nowhere` at 4s · `18 fils a tissue` at 12s.
+**On-screen text**: `a tissue box fits nowhere` at 4s · `AED 9 a tube` at 12s.
 
 **Why this one** — it is a demonstration, not a claim. The failure in the first
 four seconds is what makes the fit at six seconds satisfying, and the whole
@@ -93,25 +93,27 @@ thing survives with the sound off, which is how most of Reels is watched.
 
 ---
 
-## 4 · Tissue tube — "everywhere a box doesn't go"
+## 4 · Tissue tube — "it looks good in there"
 
-**Length** 22s · **Hook type** rapid cuts
+**Length** 20s · **Hook type** side-by-side, no dialogue for 5s
+
+The design is the product. A square cardboard box is the only thing in a clean
+car that nobody chose — it is there because it had to go somewhere.
 
 | t | Shot | Audio / text |
 |---|---|---|
-| 0–2s | Tissue box on a kitchen counter, taking up space. Push it aside with one finger. | "A tissue box fits exactly one place." |
-| 2–4s | Same counter. The tube, standing. | "This fits everywhere else." |
-| 4–16s | Hard cuts, ~2s each, tube being placed: **car cup holder · car door pocket · handbag · desk beside a laptop · bedside table · bathroom shelf.** Same framing each time, same motion. Rhythm matters more than the locations. | Nothing, or one word per cut: "car. bag. desk. bed." |
-| 16–19s | Pull one tissue from the desk tube. | "Three-ply bamboo. Two hundred in the pack." |
-| 19–22s | Four tubes together on the counter. | "Thirty-six dirhams." |
+| 0–5s | Passenger seat, clean interior. A square tissue box sitting loose on it. Pull away from a junction — it slides. Reach over and straighten it. It slides again. | No speech. Let the sliding do the work. |
+| 5–8s | Lift the box out of frame. Beat. Drop the tube into the cup holder. | *clunk* |
+| 8–13s | Slow pan across the interior with the tube in the holder — it reads as part of the car, not as something dumped in it. | "It's round. It stands up. It stays where you put it." |
+| 13–17s | One-handed pull at a red light. | "And it doesn't look like a cardboard box in your car." |
+| 17–20s | Four tubes together on the kitchen counter, calm. | "Nine dirhams a tube. Four for thirty-six." |
 
-**On-screen text**: `18 fils a tissue` held from 16s.
+**On-screen text**: `the box was never going to fit` at 5s · `AED 9 a tube` at 17s.
 
-**Why this one** — it sells the form factor rather than the tissue, and the
-cut rhythm is what carries it. It is also the easiest of the four to reshoot
-with different locations once you know which cut people stop on.
-
----
+**Why this one** — it argues on looks rather than function, which nothing else
+in the set does, and the first five seconds show the problem without anyone
+having to describe it. Shoot it in a clean car in daylight; the whole point is
+that the interior looks good and the box is the thing spoiling it.
 
 ## Shooting notes
 
