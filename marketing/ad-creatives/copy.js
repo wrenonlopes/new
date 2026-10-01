@@ -21,6 +21,13 @@
      supply, at one towel a day                       200/30.4       = 6.6 months
      cost per month over that supply                  176/6.6        = 26.7
 
+     tube     AED 36 per 4-pack, 4 tubes x 50 tissues = 200   36/200      = 0.18
+     tube, landed (under the AED 100 threshold,
+       so +AED 15 domestic)                           (36+15)/200 = 0.255
+     three 4-packs, which clears the threshold         108/600     = 0.18
+   The modal tissue-tube order in the data is three 4-packs at AED 108 -- the
+   free-shipping threshold is already shaping how people buy it, unprompted.
+
    AED 316 is the arithmetic sum of parts (4 x 79) and was never charged; the
    only former price the store has actually taken for the bundle is AED 300,
    on 5 units over a year ago. Neither survives a buyer doing 4 x 49 = 196 in
@@ -145,6 +152,94 @@ const CONCEPTS = [
       'ultrasoft bamboo, 88 fils a towel. AED 176, delivered free.',
     ],
     headline: "it's not you, it's the damp hook",
+  },
+  {
+    /* Same move as bundle-01, on the lower number. 18 fils is the smallest
+       true figure anywhere in the catalogue. */
+    id: 'tube-01-fils',
+    label: 'Tissue tube — the number',
+    kind: 'fils', size: 'xl', product: 'tube',
+    hero: '18', unit: 'fils', heroTail: 'a tissue',
+    support: '200 tissues in the four-pack. 3-ply, 100% bamboo.',
+    furniture: '200 tissues · 3-ply bamboo · fits a cup holder',
+    footnote: 'the four-pack is AED 36.',
+    primary: [
+      '18 fils a tissue.',
+      '200 of them, 3-ply bamboo, in four tubes that fit where a box never has.',
+      'AED 36 the four-pack.',
+    ],
+    headline: '18 fils a tissue',
+  },
+  {
+    /* The one thing a cylinder does that a box cannot. This is already the
+       angle working in the account -- the ad set runs on car interests and
+       the Tissue Tube Professor ad has produced three traced orders. */
+    id: 'tube-02-cupholder',
+    label: 'Tissue tube — the cup holder',
+    kind: 'line', product: 'tube',
+    hero: 'it fits the cup holder',
+    support: "a tissue box doesn't. that is the entire pitch.",
+    furniture: '18 fils a tissue · 3-ply bamboo · 200 in the pack',
+    footnote: 'AED 36 for four tubes.',
+    primary: [
+      'a tissue box will not go in a cup holder. this will.',
+      'four tubes, 200 3-ply bamboo tissues, 18 fils each.',
+      'AED 36.',
+    ],
+    headline: 'the tissue tube that fits a cup holder',
+  },
+  {
+    /* Landed cost again: one pack delivered against three, which clears the
+       AED 100 threshold. Both sides are live prices plus the published AED 15
+       rate. 51/200 = 0.255, which is 26 fils to the nearest fil. */
+    id: 'tube-03-drop',
+    kind: 'drop', product: 'tube',
+    label: 'Tissue tube — the drop',
+    heroFrom: '26 fils',
+    hero: '18', unit: 'fils', heroTail: 'a tissue',
+    support: 'one pack, delivered: AED 51. three packs: AED 108, delivery free.',
+    furniture: '600 tissues · 3-ply bamboo · delivery free',
+    footnote: 'three four-packs, AED 108.',
+    primary: [
+      'one four-pack is AED 36, plus 15 delivery. that is 26 fils a tissue.',
+      'three is AED 108, delivery free. that is 18 fils.',
+      '600 3-ply bamboo tissues.',
+    ],
+    headline: '26 fils a tissue, or 18',
+  },
+  {
+    /* Problem install for the tube, same shape as bundle-06: a question whose
+       honest answers all indict the incumbent. */
+    id: 'tube-04-nowhere',
+    kind: 'ask', product: 'tube',
+    label: 'Tissue tube — nowhere to put it',
+    hero: 'where does a tissue box actually go?',
+    support: 'not the cup holder. not the door pocket. not a handbag.',
+    furniture: '18 fils a tissue · 3-ply bamboo',
+    footnote: '200 tissues in the four-pack, AED 36.',
+    primary: [
+      'a tissue box fits exactly one place: flat on a surface, in the way.',
+      'this one is a tube. cup holder, door pocket, bag, desk.',
+      '200 3-ply bamboo tissues, AED 36.',
+    ],
+    headline: 'a tissue box fits nowhere',
+  },
+  {
+    /* The one non-price frame for the face towel: the proposition itself,
+       stated without naming disposal. */
+    id: 'single-02-once',
+    kind: 'line', product: 'single',
+    label: 'Single — one towel, one face, once',
+    hero: 'one towel. one face. once.',
+    support: 'then tomorrow you take a fresh one. 50 large ultrasoft towels to a box.',
+    furniture: 'AED 49, was 79 · ultrasoft 100% bamboo',
+    footnote: 'or four boxes at 88 fils a towel, delivery free.',
+    primary: [
+      'one towel, one face, once.',
+      'then tomorrow you take a fresh one. 50 large ultrasoft bamboo towels, AED 49.',
+      'or four boxes at 88 fils a towel, delivered free.',
+    ],
+    headline: 'one towel, one face, once',
   },
   {
     /* The entry SKU, and the only one with sales history behind it. No

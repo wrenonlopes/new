@@ -36,14 +36,18 @@ const FONTS = {
   j700: font('plus-jakarta-sans', 'plus-jakarta-sans-latin-700-normal.woff2'),
 };
 const BOX = b64(path.join(THEME, 'sticker-xl.png'), 'image/png');
+const TUBE = b64(path.join(THEME, 'sticker-tube.png'), 'image/png');
 const LOGO_CREAM = b64(path.join(THEME, 'biod-logo-cream.png'), 'image/png');
 const LOGO_DARK = b64(path.join(THEME, 'biod-logo-dark.png'), 'image/png');
 
 /* sticker-xl.png is a 480px-wide source. Rendering it wider than that goes
    visibly soft on an illustration with hard edges, so every box width below
    is capped here rather than trusted to the layout. */
-const BOX_NATIVE = 480;
-const boxW = (w) => Math.min(w, BOX_NATIVE);
+const ART = {
+  box:  { src: BOX,  native: 480 },
+  tube: { src: TUBE, native: 380 },
+};
+const artW = (kind, w) => Math.min(w, ART[kind].native);
 
 /* Brand tokens, matching config/settings_data.json. */
 const C = {
@@ -64,6 +68,11 @@ const LOOK = {
   'bundle-05-month':  { ground: C.kraft,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 232 },
   'bundle-06-hook':   { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232, numAccent: true },
   'single-01-fifty':  { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 1, bw: 460, numAccent: true },
+  'single-02-once':   { ground: C.cream,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 1, bw: 430 },
+  'tube-01-fils':     { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158, numAccent: true },
+  'tube-02-cupholder':{ ground: C.leaf,    fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
+  'tube-03-drop':     { ground: C.paper,   fg: C.ink,   accent: C.ink,      logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
+  'tube-04-nowhere':  { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
 };
 
 const FORMATS = [
@@ -87,14 +96,19 @@ const furniture = (text) =>
     .join('<i>·</i>');
 
 function boxesHTML(k) {
+  const kind = k.art || 'box';
+  const { src } = ART[kind];
+  const w = artW(kind, k.bw);
   if (k.boxes === 1) {
-    return `<img class="bx solo" style="--bw:${boxW(k.bw)}px;--t:4deg" src="${BOX}" alt="">`;
+    return `<img class="bx solo" style="--bw:${w}px;--t:4deg" src="${src}" alt="">`;
   }
-  /* Four discrete boxes, not one big spend: partitioning is what stops AED 176
-     being evaluated as a single outlay. Nothing rotates past 6deg -- the box is
-     drawn in fixed axonometric and a steeper tilt reads as a mistake. */
-  return `<div class="quad">${[-3, 2, -2, 3]
-    .map((t) => `<img class="bx" style="--bw:${boxW(k.bw)}px;--t:${t}deg" src="${BOX}" alt="">`)
+  /* Four discrete units, not one spend: partitioning is what stops the pack
+     total being evaluated as a single outlay. Nothing rotates past 6deg --
+     both stickers are drawn in fixed perspective and a steeper tilt reads as
+     a mistake. Tubes stand upright, so they get a tighter tilt than the box. */
+  const tilts = kind === 'tube' ? [-2, 1.5, -1.5, 2] : [-3, 2, -2, 3];
+  return `<div class="quad ${kind}">${tilts
+    .map((t) => `<img class="bx" style="--bw:${w}px;--t:${t}deg" src="${src}" alt="">`)
     .join('')}</div>`;
 }
 
@@ -236,6 +250,7 @@ header{margin-bottom:calc(44px * var(--s))}
     object-fit:contain;transform:rotate(var(--t,0deg));
     filter:drop-shadow(0 calc(16px * var(--s)) calc(30px * var(--s)) rgba(0,0,0,.22))}
 .quad .bx{margin-inline:calc(-14px * var(--s))}
+.quad.tube .bx{margin-inline:calc(10px * var(--s))}
 .quad .bx:nth-child(2){z-index:2}.quad .bx:nth-child(3){z-index:3}
 .quad .bx:nth-child(4){z-index:4}
 .bx.solo{margin-right:calc(-70px * var(--s))}
