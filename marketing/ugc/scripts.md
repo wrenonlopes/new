@@ -2,8 +2,8 @@
 
 Four shoots, one phone, no crew. Vertical 9:16, 15–25 seconds each, shot in
 real rooms and a real car. Everything here is checked against the catalogue:
-AED 49 / 50 towels, AED 176 / 200 towels (88 fils each, delivery free above
-AED 100), AED 36 for four tubes (AED 9 a tube, 50 three-ply tissues in each).
+AED 49 / 50 towels, AED 176 / 200 towels (88 fils each, about four months, delivery free
+above AED 100), AED 36 for four tubes (AED 9 a tube, 50 three-ply tissues in each).
 
 ## Rules that apply to all four
 
@@ -56,7 +56,7 @@ bathroom. That is the actual job: not the click, the reminder.
 |---|---|---|
 | 0–2s | Overhead, empty counter. Hands place the box down, hard, into frame. | "Forty-nine dirhams." |
 | 2–12s | Sped-up overhead: pull towels out one at a time and lay them in a grid across the counter. Let it get slightly absurd. | Count aloud every tenth: "ten… twenty… thirty… forty… fifty." |
-| 12–16s | Pull back. The whole counter is covered. You, in frame, looking at it. | "That's one a day for seven weeks." |
+| 12–16s | Pull back. The whole counter is covered. You, in frame, looking at it. | "That's a month. Morning and night." |
 | 16–20s | Pick one up, hold to camera. | "Ninety-eight fils each. Ultrasoft bamboo." |
 
 **On-screen text**: `50 towels · AED 49` from 2s, held.

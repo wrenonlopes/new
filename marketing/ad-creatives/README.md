@@ -10,10 +10,10 @@ the single box — each rendered at the two sizes the ad sets run: Feed
 | `bundle-02-volume` | 200 towels / **88 fils** each | Volume and unit price together |
 | `bundle-03-dirham` | not even a dirham | Crossing below one dirham as a threshold |
 | `bundle-04-drop` | AED 1.28 → **88 fils** | Landed-cost anchor |
-| `bundle-05-month` | **88 fils** a towel | Partitioned to ~AED 27 a month |
+| `bundle-05-month` | **88 fils** a towel | Partitioned to ~AED 44 a month |
 | `bundle-06-hook` | how many times has that towel… | Installs the problem before the price |
 | `bundle-07-four` | **88 fils** a towel | Four separate boxes, not one object |
-| `bundle-08-months` | six months of clean towels | Supply rather than spend |
+| `bundle-08-months` | Four months of clean towels | Supply rather than spend |
 | `bundle-09-once` | buy it once | Decision cost, not discount |
 | `tube-01-fits` | it fits the cup holder | The form factor, demonstrated |
 | `tube-02-nine` | **AED 9** a tube | Per tube |
@@ -81,7 +81,10 @@ caps it; an illustration with hard edges goes visibly soft above native.
 - Delivery is AED 15 under AED 100 and free above, so one box lands at
   (49 + 15) ÷ 50 = **AED 1.28** a towel and four boxes at 88 fils. Both sides of
   that anchor are live prices plus a published rate, so it cannot be refuted.
-- 200 towels at one a day ≈ 6.6 months; 176 ÷ 6.6 ≈ **AED 27** a month.
+- The pack is **four months** of use (the owner's figure, from how customers
+  actually buy — it implies ~1.6 towels a day, i.e. a twice-daily wash, not the
+  one-a-day I had assumed). So 176 ÷ 4 = **AED 44 a month**, and one box is
+  about a month. Do not re-derive this from a one-a-day rate.
 
 Deliberately absent: no struck-through pack total (AED 316 is 4 × 79 and was
 never charged; AED 300 was taken on 5 units over a year ago — both invite a

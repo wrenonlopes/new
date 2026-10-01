@@ -18,8 +18,10 @@
        threshold, so +AED 15 domestic)                (49+15)/50     = 1.28
      compare-at, per towel                            79/50, 316/200 = 1.58
      WELCOME10, 10% off, minimum spend AED 100        176*0.9/200    = 0.792
-     supply, at one towel a day                       200/30.4       = 6.6 months
-     cost per month over that supply                  176/6.6        = 26.7
+     supply, per the owner                            200 towels     = 4 months
+     which implies                                    200/122 days   = ~1.6 a day
+     so one box is about a month                      50/1.6         = ~31 days
+     cost per month over that supply                  176/4          = AED 44
 
      tube     AED 36 per 4-pack of tubes              36/4   = AED 9 a tube
      each tube holds 50 three-ply tissues           4 x 50 = 200 per pack
@@ -79,7 +81,7 @@ const CONCEPTS = [
     kind: 'stack',
     qty: '200 towels',
     hero: '88', unit: 'fils', heroTail: 'each',
-    support: 'four boxes of 50. a fresh one every time, for about six months.',
+    support: 'four boxes of 50. a fresh one every time, for about four months.',
     furniture: `200 large towels · ${QUALITY} · delivery free`,
     footnote: PACK,
     primary: [
@@ -132,11 +134,11 @@ const CONCEPTS = [
     label: 'Bundle — by the month',
     kind: 'fils',
     hero: '88', unit: 'fils', heroTail: 'a towel',
-    support: "that is about AED 27 a month. one box runs out in seven weeks — four don't.",
+    support: 'that is about AED 44 a month. one box lasts a month — there are four in the pack.',
     furniture: `200 large towels · ${QUALITY} · delivery free`,
     footnote: PACK,
     primary: [
-      'about AED 27 a month, for a fresh towel every time.',
+      'about AED 44 a month, for a fresh towel every time.',
       "the 50-box works out at AED 1.28 a towel once delivery's on it. this one is 88 fils.",
       'ultrasoft bamboo, 200 large towels, delivered free.',
     ],
@@ -157,7 +159,7 @@ const CONCEPTS = [
     footnote: 'a fresh one, every time. ' + PACK,
     primary: [
       "the hook towel doesn't get washed. it just gets used again.",
-      'this is 200 in a box — a fresh one every time, for about six months.',
+      'this is 200 in a box — a fresh one every time, for about four months.',
       'ultrasoft bamboo, 88 fils a towel. AED 176, delivered free.',
     ],
     headline: "it's not you, it's the damp hook",
@@ -252,18 +254,18 @@ const CONCEPTS = [
     /* Supply rather than spend: converting money into time is what turns a
        large outlay into a stocked cupboard. */
     id: 'bundle-08-months',
-    label: 'Bundle — six months',
+    label: 'Bundle — four months',
     kind: 'line',
-    hero: 'Six months of clean towels',
-    support: '200 of them. a fresh one every time, at 88 fils a towel.',
+    hero: 'Four months of clean towels',
+    support: '200 of them. one box a month, four months in the pack, 88 fils a towel.',
     furniture: '88 fils a towel · ultrasoft 100% bamboo · delivery free',
     footnote: PACK,
     primary: [
-      '200 large towels is about six months of a fresh one every time.',
+      '200 large towels is about four months of a fresh one every time.',
       '88 fils each, ultrasoft 100% bamboo.',
       'AED 176, delivered free.',
     ],
-    headline: 'six months, 88 fils a towel',
+    headline: 'Four months, 88 fils a towel',
   },
   {
     /* Decision cost, not discount: the argument for buying up is that you
@@ -272,11 +274,11 @@ const CONCEPTS = [
     label: 'Bundle — buy it once',
     kind: 'line',
     hero: 'Buy it once',
-    support: "200 towels. you won't think about this again for six months.",
+    support: "200 towels. you won't think about this again for four months.",
     furniture: '88 fils a towel · ultrasoft 100% bamboo · delivery free',
     footnote: PACK,
     primary: [
-      'one box runs out in seven weeks. four do not.',
+      'one box lasts about a month. four boxes last four.',
       '200 large ultrasoft towels at 88 fils each, so you stop reordering.',
       'AED 176, delivered free.',
     ],
@@ -396,7 +398,7 @@ const CONCEPTS = [
     label: 'Single — 50 for 49',
     kind: 'line', size: 'lg', product: 'single',
     hero: '50 for 49',
-    support: '100% bamboo fibre, ultrasoft, 50 large towels. about seven weeks to a box.',
+    support: '100% bamboo fibre, ultrasoft, 50 large towels. about a month to a box.',
     furniture: `AED 49, was 79 · ${QUALITY}`,
     /* The AED 15 is stated as a rule rather than as a penalty: naming the
        threshold lets it do the upselling, where naming the charge prices the
@@ -405,7 +407,7 @@ const CONCEPTS = [
     primary: [
       '50 large ultrasoft bamboo towels, AED 49. was 79.',
       'delivery is 15 under AED 100 and free above it, so four boxes ship free.',
-      'a fresh one every time, about seven weeks to a box.',
+      'a fresh one every time, about a month to a box.',
     ],
     headline: '50 large bamboo towels, AED 49',
   },
