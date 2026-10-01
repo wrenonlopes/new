@@ -52,6 +52,14 @@ const PACK = 'the full pack is AED 176, delivered free.';
    the product does to skin: a cited result is defensible, a health benefit is
    not. The "hand-towel data" qualifier stays on the creative -- it is the
    obvious rebuttal, and pre-empting it is what makes the rest credible. */
+/* First-party, countable in admin, and the only proof in this account that is
+   not disputed: the store's first order was 14 July 2024. The date is the
+   usable signal rather than the order count -- it defeats the "this appeared
+   last week" read without needing a big number. Cash on delivery is the other
+   one: in the UAE it is the mechanism for buying from a brand you do not know,
+   and it was buried in a single furniture line until now. */
+const TRUST = 'shipping in the UAE since July 2024 · cash on delivery';
+
 const STUDY = 'Gerba et al · University of Arizona · Food Protection Trends, 2014 · hand-towel data';
 const QUALITY = 'ultrasoft 100% bamboo';
 
@@ -283,6 +291,62 @@ const CONCEPTS = [
       'AED 176, delivered free.',
     ],
     headline: 'buy it once, stop reordering',
+  },
+  {
+    /* The juxtaposition. It asserts nothing -- she supplies the consequence
+       herself, and "that" with no antecedent makes her look at her own hook.
+       This is the frame the set was missing: desire, problem and proof
+       together, with the sheet rather than the box as the image. */
+    id: 'bundle-14-that',
+    label: 'Bundle — then you dry it on that',
+    kind: 'ask', art: 'sheet',
+    hero: 'You wash your face. Then you dry it on that.',
+    support: 'a fresh towel every time. 200 of them, four boxes, 88 fils each.',
+    furniture: TRUST,
+    footnote: PACK,
+    primary: [
+      'you just cleaned your face. now you are drying it on the towel that has been on the hook since tuesday.',
+      'a fresh one every time instead. 200 large ultrasoft towels, 88 fils each.',
+      'AED 176, delivered free. cash on delivery anywhere in the UAE.',
+    ],
+    headline: 'A fresh towel every time',
+  },
+  {
+    /* The sensory frame. Nineteen creatives showed the box, which is
+       packaging; this one shows the sheet, which is the product. The whole
+       proposition is tactile and nothing in the set was carrying it. */
+    id: 'bundle-15-sheet',
+    label: 'Bundle — the sheet itself',
+    kind: 'line', size: 'sm', art: 'sheet',
+    hero: 'This is the part that touches your face',
+    support: 'ultrasoft, 100% bamboo fibre. used once, then you take a fresh one.',
+    furniture: '88 fils a towel · 200 in the pack · delivery free',
+    footnote: PACK,
+    primary: [
+      'this is the sheet. ultrasoft, 100% bamboo fibre, large.',
+      'you use it once and take a fresh one. 200 in the pack, 88 fils each.',
+      'AED 176, delivered free.',
+    ],
+    headline: 'Ultrasoft bamboo, used once',
+  },
+  {
+    /* Risk reversal, in the terms that actually matter here. Cash on delivery
+       removes the whole question of trusting an unknown store with money, and
+       the trading date removes the dropship read. Both are true today and
+       need no policy change. */
+    id: 'bundle-16-since',
+    label: 'Bundle — pay when it arrives',
+    kind: 'line', size: 'sm',
+    hero: 'Pay when the box is in your hand',
+    support: 'cash on delivery, anywhere in the UAE. shipping here since July 2024.',
+    furniture: '88 fils a towel · 200 large towels · delivery free',
+    footnote: PACK,
+    primary: [
+      'cash on delivery anywhere in the UAE — you pay when the box is in your hand.',
+      'we have been shipping here since july 2024. 200 large ultrasoft towels, 88 fils each.',
+      'AED 176, delivery free.',
+    ],
+    headline: 'Cash on delivery, UAE-wide',
   },
   {
     /* Head to head. Every line is a logistical or behavioural fact -- how the

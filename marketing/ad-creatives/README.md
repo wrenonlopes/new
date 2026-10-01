@@ -1,6 +1,6 @@
 # BIOD ad creatives
 
-Nineteen concepts — thirteen for the XL bundle, four for the tissue tube, two for
+Twenty-two concepts — sixteen for the XL bundle, four for the tissue tube, two for
 the single box — each rendered at the two sizes the ad sets run: Feed
 (1080×1350) and Stories/Reels (1080×1920).
 
@@ -19,6 +19,9 @@ the single box — each rendered at the two sizes the ad sets run: Feed
 | `tube-02-nine` | **AED 9** a tube | Per tube |
 | `tube-03-loose` | where does a square box actually sit? | Problem install |
 | `tube-04-interior` | it actually looks good in there | The design argument |
+| `bundle-14-that` | You wash your face. Then you dry it on that. | Juxtaposition — the frame the set was missing |
+| `bundle-15-sheet` | This is the part that touches your face | The sheet, not the box |
+| `bundle-16-since` | Pay when the box is in your hand | Cash on delivery as risk reversal |
 | `bundle-10-versus` | Your towel vs ours | Head to head |
 | `bundle-11-study` | **89%** | A cited research finding |
 | `bundle-12-howto` | Three steps | The routine |
@@ -45,6 +48,31 @@ frame, never as a claim about what the product does to skin. The "hand-towel
 data" qualifier stays visible — it is the obvious rebuttal, and pre-empting it
 is what makes the rest credible. This is also the only `%` in the set, and it
 is a research figure rather than a discount.
+
+## Proof — what is real and what is not
+
+Checked against the store, because the set was built with none of it and that
+was the main thing wrong with it.
+
+| Asset | Usable in an ad |
+|---|---|
+| Cash on delivery, UAE-wide | **Yes** — the strongest trust lever available here |
+| Trading since 14 July 2024 | **Yes** — defeats the "appeared last week" read |
+| Ships within 24 hours | Yes |
+| Gerba 2014 study | Yes, with the hand-towel qualifier on the frame |
+| 30-day returns | Only on **sealed, unopened** items, so weak as trial cover |
+| Loox 4.7★ / 98 reviews | **No — 99 of 100 review bodies are generated filler** |
+| "100,000+ customers" | Not supported: this store has 128 orders, 206 customers |
+
+The review data is a storefront problem, not a creative one: a shopper who
+scrolls to reviews on the product page reads machine-generated text under
+stock American names, at exactly the point where the funnel loses 42 checkouts
+down to 8 orders.
+
+**The sheet.** `bundle-14` and `bundle-15` draw the towel itself rather than
+the box. Nineteen earlier frames showed packaging; the proposition is tactile
+and nothing was carrying it. The weave, soft edge and drape are drawn in CSS
+because there is no photography — one real photo would beat all of it.
 
 **Capitals.** Every hero opens with a capital; supporting copy, furniture and
 footnotes stay lowercase. The same rule applies to on-screen text in the UGC

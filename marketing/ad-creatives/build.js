@@ -74,6 +74,9 @@ const LOOK = {
   'tube-03-loose':    { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
   'tube-04-interior': { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
   'bundle-07-four':   { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232, numAccent: true },
+  'bundle-14-that':   { ground: C.cream,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK },
+  'bundle-15-sheet':  { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM },
+  'bundle-16-since':  { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 200 },
   'bundle-10-versus': { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 170 },
   'bundle-11-study':  { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 170, numAccent: true },
   'bundle-12-howto':  { ground: C.cream,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 190 },
@@ -105,6 +108,17 @@ const furniture = (text) =>
 
 function boxesHTML(k) {
   const kind = k.art || 'box';
+  /* The sheet, drawn rather than photographed. Nineteen creatives showed the
+     box, which is packaging; this is the product. The whole proposition is
+     tactile, so the weave, the soft edge and the drape are the point -- a
+     hard-edged rectangle would read as paper. */
+  if (kind === 'sheet') {
+    return `<div class="sheets">
+      <div class="sh back"></div>
+      <div class="sh mid"></div>
+      <div class="sh front"><i class="curl"></i></div>
+    </div>`;
+  }
   const { src } = ART[kind];
   const w = artW(kind, k.bw);
   if (k.boxes === 1) {
@@ -188,7 +202,7 @@ function heroHTML(c) {
 }
 
 function canvas(c, f) {
-  const k = LOOK[c.id];
+  const k = { ...LOOK[c.id], ...(c.art ? { art: c.art } : {}) };
   return `
 <div class="canvas ${f.key} k-${c.kind} ${k.numAccent ? 'accent-num' : ''}" data-name="biod-${c.id}-${f.key}"
      data-w="${f.w}" data-h="${f.h}"
@@ -326,6 +340,7 @@ header{margin-bottom:calc(44px * var(--s))}
           text-wrap:balance;font-weight:800}
 .hero.line{font-size:calc(146px * var(--s));line-height:.94;text-wrap:balance}
 .hero.line.lg{font-size:calc(190px * var(--s));line-height:.92}
+.hero.line.sm{font-size:calc(96px * var(--s));line-height:1.04}
 
 /* The supporting line sits inside the same block as the price -- no rule, no
    colour change, no gap over 32px -- which is what welds "ultrasoft" to the
@@ -346,6 +361,30 @@ header{margin-bottom:calc(44px * var(--s))}
 .quad .bx:nth-child(2){z-index:2}.quad .bx:nth-child(3){z-index:3}
 .quad .bx:nth-child(4){z-index:4}
 .bx.solo{margin-right:calc(-70px * var(--s))}
+
+/* The sheet. Two crossed hairline gradients give the weave; the uneven
+   border-radius keeps the edge from reading as cut paper; the curl is a soft
+   highlight at one corner so it drapes rather than lies flat. */
+.sheets{position:relative;display:flex;align-items:center;justify-content:center;
+        width:100%;height:100%}
+.sh{position:absolute;top:50%;left:50%;height:94%;width:auto;aspect-ratio:1/1.18;
+    background:
+      repeating-linear-gradient(0deg,rgba(94,84,64,.055) 0 1px,transparent 1px 5px),
+      repeating-linear-gradient(90deg,rgba(94,84,64,.045) 0 1px,transparent 1px 5px),
+      linear-gradient(152deg,#FFFEFA 0%,#FAF6EC 46%,#F0E9DA 100%);
+    border-radius:calc(20px * var(--s)) calc(26px * var(--s)) calc(22px * var(--s)) calc(28px * var(--s))
+                / calc(26px * var(--s)) calc(20px * var(--s)) calc(28px * var(--s)) calc(22px * var(--s));
+    box-shadow:0 calc(22px * var(--s)) calc(44px * var(--s)) rgba(0,0,0,.2),
+               inset 0 0 0 calc(1.5px * var(--s)) rgba(94,84,64,.13)}
+.sh.back{transform:translate(-50%,-50%) rotate(-7deg) translate(calc(-42px * var(--s)),calc(10px * var(--s)));opacity:.5}
+.sh.mid{transform:translate(-50%,-50%) rotate(4deg) translate(calc(24px * var(--s)),calc(4px * var(--s)));opacity:.78}
+.sh.front{transform:translate(-50%,-50%) rotate(-1.5deg)}
+/* A soft lift at the near corner, so the top sheet reads as about to be
+   picked up rather than stacked flat. */
+.curl{position:absolute;right:0;bottom:0;width:38%;height:30%;
+      border-bottom-right-radius:inherit;
+      background:linear-gradient(315deg,rgba(255,255,255,.95) 0%,rgba(240,233,218,0) 62%);
+      filter:blur(calc(1px * var(--s)))}
 
 /* ---- furniture ---------------------------------------------------------- */
 .foot{flex:none;border-top:calc(2px * var(--s)) solid currentColor;
