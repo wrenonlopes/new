@@ -1,6 +1,6 @@
 # BIOD ad creatives
 
-Fifteen concepts — nine for the XL bundle, four for the tissue tube, two for
+Nineteen concepts — thirteen for the XL bundle, four for the tissue tube, two for
 the single box — each rendered at the two sizes the ad sets run: Feed
 (1080×1350) and Stories/Reels (1080×1920).
 
@@ -19,6 +19,10 @@ the single box — each rendered at the two sizes the ad sets run: Feed
 | `tube-02-nine` | **AED 9** a tube | Per tube |
 | `tube-03-loose` | where does a square box actually sit? | Problem install |
 | `tube-04-interior` | it actually looks good in there | The design argument |
+| `bundle-10-versus` | Your towel vs ours | Head to head |
+| `bundle-11-study` | **89%** | A cited research finding |
+| `bundle-12-howto` | Three steps | The routine |
+| `bundle-13-spec` | What AED 176 buys | The spec |
 | `single-01-fifty` | 50 for 49 | Entry price |
 | `single-02-once` | one towel. one face. once. | The proposition, not the price |
 
@@ -26,6 +30,21 @@ the single box — each rendered at the two sizes the ad sets run: Feed
 always **per tube** (AED 9). In each case that is the unit a buyer actually
 picks up — and for the tube it matters twice over, because AED 9 reads as a
 price where 18 fils reads as an abstraction. 36 ÷ 4 = 9 exactly.
+
+**The comparison frame.** Every line in `bundle-10-versus` is a logistical or
+behavioural fact — how the object is used, stored and laundered. Not one line
+claims anything about skin, germs or health. Those are the claims that get an
+ad reported or rejected, and they are not needed when the handling facts are
+this lopsided.
+
+**The cited figure.** `bundle-11-study` carries the one published statistic the
+brand already cites on its own site: 89% of 82 used hand towels carried
+coliform bacteria (Gerba et al, University of Arizona, *Food Protection
+Trends* 34(5), 2014). It is stated as a study finding with the source on the
+frame, never as a claim about what the product does to skin. The "hand-towel
+data" qualifier stays visible — it is the obvious rebuttal, and pre-empting it
+is what makes the rest credible. This is also the only `%` in the set, and it
+is a research figure rather than a discount.
 
 **Capitals.** Every hero opens with a capital; supporting copy, furniture and
 footnotes stay lowercase. The same rule applies to on-screen text in the UGC

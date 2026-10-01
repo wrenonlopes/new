@@ -44,6 +44,13 @@
    ?discount=WELCOME10, where it arrives already applied. */
 
 const PACK = 'the full pack is AED 176, delivered free.';
+
+/* The one published figure the brand already cites on its own site. Stated as
+   a study finding with the source on the frame, never as a claim about what
+   the product does to skin: a cited result is defensible, a health benefit is
+   not. The "hand-towel data" qualifier stays on the creative -- it is the
+   obvious rebuttal, and pre-empting it is what makes the rest credible. */
+const STUDY = 'Gerba et al · University of Arizona · Food Protection Trends, 2014 · hand-towel data';
 const QUALITY = 'ultrasoft 100% bamboo';
 
 const CONCEPTS = [
@@ -274,6 +281,95 @@ const CONCEPTS = [
       'AED 176, delivered free.',
     ],
     headline: 'buy it once, stop reordering',
+  },
+  {
+    /* Head to head. Every line is a logistical or behavioural fact -- how the
+       object is used, stored and laundered. No line claims anything about
+       skin, germs or health: those are the claims that get an ad reported,
+       and they are not needed when the handling facts are this lopsided. */
+    id: 'bundle-10-versus',
+    label: 'Bundle — head to head',
+    kind: 'versus',
+    hero: 'Your towel vs ours',
+    columns: ['Your face towel', 'BIOD'],
+    rows: [
+      ['Used again and again', 'A fresh one every time'],
+      ['Damp between uses', 'Dry and unused until you open it'],
+      ['Washed… when, exactly?', 'Never washed. Never reused.'],
+      ['Shares a hook with everyone', 'Yours alone, once'],
+      ['Another thing in the laundry', 'Nothing to launder'],
+    ],
+    furniture: '88 fils a towel · ultrasoft 100% bamboo · delivery free',
+    footnote: PACK,
+    primary: [
+      'the towel on the hook gets used again. and again. and then washed, eventually.',
+      'this one is fresh every time, 88 fils a towel, and never sees a washing machine.',
+      '200 large ultrasoft towels, AED 176, delivered free.',
+    ],
+    headline: 'A fresh towel every time',
+  },
+  {
+    /* The informative frame. The percentage is a cited research finding, not a
+       discount -- the only place a % belongs in this set. */
+    id: 'bundle-11-study',
+    label: 'Bundle — the study',
+    kind: 'stat',
+    hero: '89%',
+    statLine: 'of 82 used hand towels tested carried coliform bacteria.',
+    support: 'a fresh sheet skips the question entirely. 200 of them in the pack.',
+    source: STUDY,
+    furniture: '88 fils a towel · ultrasoft 100% bamboo · delivery free',
+    primary: [
+      'in a published study, 89% of 82 used hand towels carried coliform bacteria.',
+      'gerba et al, university of arizona, 2014. hand-towel data — a towel on a hook is not doing better.',
+      'a fresh sheet every time. 88 fils a towel, AED 176 the pack.',
+    ],
+    headline: '89% of used towels tested',
+  },
+  {
+    /* Informative: the actual routine, in the brand's own three steps. "Pat,
+       don't rub" is a real technique note rather than a sales line, which is
+       what makes the frame worth stopping on. */
+    id: 'bundle-12-howto',
+    label: 'Bundle — how to use it',
+    kind: 'steps',
+    hero: 'Three steps',
+    steps: [
+      ['Pull', 'one fresh sheet from the box.'],
+      ['Wash', 'your face exactly as you always do.'],
+      ['Pat', "dry — don't rub. then it's done."],
+    ],
+    furniture: '88 fils a towel · ultrasoft 100% bamboo · delivery free',
+    footnote: PACK,
+    primary: [
+      'pull a fresh sheet. wash your face as you always do. pat dry, don\'t rub.',
+      'that is the whole routine. 200 large ultrasoft towels in the pack.',
+      '88 fils a towel. AED 176, delivered free.',
+    ],
+    headline: 'Pull, wash, pat dry',
+  },
+  {
+    /* Informative: what AED 176 actually buys, stated as a spec rather than
+       sold. Every line here is on-pack or on the storefront. */
+    id: 'bundle-13-spec',
+    label: 'Bundle — what you get',
+    kind: 'spec',
+    hero: 'What AED 176 buys',
+    specs: [
+      ['Towels', '200, across four boxes'],
+      ['Size', 'Large — 50 to a box'],
+      ['Material', '100% bamboo fibre, ultrasoft'],
+      ['Additives', 'No dyes, no fragrance'],
+      ['Per towel', '88 fils'],
+      ['Delivery', 'Free over AED 100 · UAE-wide'],
+    ],
+    furniture: 'ships within 24 hours · cash on delivery available',
+    primary: [
+      '200 large ultrasoft towels across four boxes. 100% bamboo fibre, no dyes, no fragrance.',
+      '88 fils a towel. free delivery, cash on delivery available anywhere in the UAE.',
+      'AED 176.',
+    ],
+    headline: '200 towels, 88 fils each',
   },
   {
     /* The one non-price frame for the face towel: the proposition itself,

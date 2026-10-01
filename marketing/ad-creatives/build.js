@@ -74,6 +74,10 @@ const LOOK = {
   'tube-03-loose':    { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
   'tube-04-interior': { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
   'bundle-07-four':   { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232, numAccent: true },
+  'bundle-10-versus': { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 170 },
+  'bundle-11-study':  { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 170, numAccent: true },
+  'bundle-12-howto':  { ground: C.cream,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 190 },
+  'bundle-13-spec':   { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 170 },
   'bundle-08-months': { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232 },
   'bundle-09-once':   { ground: C.sunrise, fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
 };
@@ -144,6 +148,37 @@ function heroHTML(c) {
             c.heroTail ? `<span class="tail">${esc(c.heroTail)}</span>` : ''}</div>
         </div>`;
 
+    case 'versus': {
+      /* Marks are drawn rather than typed: the tick and cross glyphs are not
+         in either brand face and would silently fall back to a system font. */
+      const cross = `<svg class="mk x" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 L19 19 M19 5 L5 19"/></svg>`;
+      const tick = `<svg class="mk v" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6"/></svg>`;
+      return `<h1 class="hero vs">${esc(c.hero)}</h1>
+        <div class="table">
+          <div class="col bad"><div class="ch">${esc(c.columns[0])}</div>${
+            c.rows.map((r) => `<div class="cell">${cross}<span>${esc(r[0])}</span></div>`).join('')}</div>
+          <div class="col good"><div class="ch">${esc(c.columns[1])}</div>${
+            c.rows.map((r) => `<div class="cell">${tick}<span>${esc(r[1])}</span></div>`).join('')}</div>
+        </div>`;
+    }
+
+    case 'stat':
+      /* The only % in the set, and it is a cited research figure rather than
+         a discount. The source sits on the frame, not in the caption. */
+      return `<div class="hero statnum">${esc(c.hero)}</div>
+        <p class="statline">${esc(c.statLine)}</p>
+        <p class="sup">${esc(c.support)}</p>
+        <p class="src">${esc(c.source)}</p>`;
+
+    case 'steps':
+      return `<h1 class="hero vs">${esc(c.hero)}</h1>
+        <ol class="steps">${c.steps.map((st, i) => `<li><b>${i + 1}</b><span><em>${
+          esc(st[0])}</em> ${esc(st[1])}</span></li>`).join('')}</ol>`;
+
+    case 'spec':
+      return `<h1 class="hero vs">${esc(c.hero)}</h1>
+        <dl class="spec">${c.specs.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
+
     case 'ask':
       return `<h1 class="hero ask">${esc(c.hero)}</h1>`;
 
@@ -163,7 +198,7 @@ function canvas(c, f) {
     <header><img class="logo" src="${k.logo}" alt="biod"></header>
     <div class="say">
       ${heroHTML(c)}
-      <p class="sup">${esc(c.support)}</p>
+      ${c.support && c.kind !== 'stat' ? `<p class="sup">${esc(c.support)}</p>` : ''}
     </div>
     <div class="art">${boxesHTML(k)}</div>
     <div class="foot">
@@ -239,6 +274,53 @@ header{margin-bottom:calc(44px * var(--s))}
                top:52%;height:calc(5px * var(--s));
                border-radius:calc(3px * var(--s));transform:rotate(-2.2deg);
                transform-origin:left center;background:var(--fg)}
+
+.hero.vs{font-size:calc(76px * var(--s));line-height:1.02;letter-spacing:-.03em;
+          margin-bottom:calc(34px * var(--s))}
+
+/* Head to head. The two columns are the same width and baseline so the eye
+   reads across a row rather than down a sales list. */
+.table{display:grid;grid-template-columns:1fr 1fr;gap:calc(26px * var(--s));
+       align-items:start}
+.col{display:flex;flex-direction:column;gap:calc(16px * var(--s))}
+.ch{font-weight:700;font-size:calc(27px * var(--s));letter-spacing:.09em;
+    text-transform:uppercase;padding-bottom:calc(14px * var(--s));
+    border-bottom:calc(2px * var(--s)) solid currentColor}
+.col.bad .ch,.col.bad .cell{opacity:.5}
+.col.good .ch{color:var(--accent);border-color:var(--accent)}
+.cell{display:flex;gap:calc(13px * var(--s));align-items:flex-start;
+      font-weight:500;font-size:calc(30px * var(--s));line-height:1.26}
+.mk{width:calc(27px * var(--s));height:calc(27px * var(--s));flex:none;
+    margin-top:calc(4px * var(--s));fill:none;stroke-width:3;stroke-linecap:round}
+.mk.x{stroke:currentColor}
+.mk.v{stroke:var(--accent)}
+
+/* The cited figure. */
+.hero.statnum{font-size:calc(250px * var(--s));letter-spacing:-.055em;line-height:.86}
+.statline{margin-top:calc(14px * var(--s));font-family:Outfit,sans-serif;font-weight:700;
+          font-size:calc(46px * var(--s));line-height:1.14;letter-spacing:-.02em;
+          max-width:calc(880px * var(--s))}
+.src{margin-top:calc(22px * var(--s));font-weight:500;font-size:calc(22px * var(--s));
+     line-height:1.4;opacity:.55;max-width:calc(820px * var(--s))}
+
+/* The routine, numbered. */
+.steps{list-style:none;display:flex;flex-direction:column;gap:calc(22px * var(--s))}
+.steps li{display:flex;gap:calc(24px * var(--s));align-items:baseline}
+.steps b{font-family:Outfit,sans-serif;font-weight:800;font-size:calc(72px * var(--s));
+         line-height:.9;letter-spacing:-.04em;color:var(--accent);
+         min-width:calc(62px * var(--s));font-variant-numeric:tabular-nums}
+.steps span{font-weight:500;font-size:calc(36px * var(--s));line-height:1.3;opacity:.88}
+.steps em{font-style:normal;font-weight:700;opacity:1}
+
+/* What you actually get. */
+.spec{display:flex;flex-direction:column;gap:calc(2px * var(--s))}
+.spec div{display:grid;grid-template-columns:calc(250px * var(--s)) 1fr;
+          gap:calc(20px * var(--s));padding:calc(15px * var(--s)) 0;
+          border-bottom:calc(2px * var(--s)) solid currentColor}
+.spec div:first-child{border-top:calc(2px * var(--s)) solid currentColor}
+.spec dt{font-weight:700;font-size:calc(25px * var(--s));letter-spacing:.08em;
+         text-transform:uppercase;opacity:.5}
+.spec dd{font-weight:500;font-size:calc(31px * var(--s));line-height:1.25}
 
 .hero.ask{font-size:calc(84px * var(--s));line-height:1.06;letter-spacing:-.025em;
           text-wrap:balance;font-weight:800}
