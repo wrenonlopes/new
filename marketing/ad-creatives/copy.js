@@ -23,10 +23,10 @@
 
      tube     AED 36 per 4-pack of tubes              36/4   = AED 9 a tube
      each tube holds 50 three-ply tissues           4 x 50 = 200 per pack
-     box inside the XL bundle                       176/4  = AED 44 a box
-   Per tube and per box rather than per tissue or per towel on these frames:
-   the unit a buyer actually picks up is more legible than the smaller number,
-   and AED 9 reads as a price where 18 fils reads as an abstraction.
+   Face towels are always priced per towel (88 fils) and the tube always per
+   tube (AED 9). For the tube the unit a buyer picks up is the tube, and AED 9
+   reads as a price where 18 fils reads as an abstraction; for the towels the
+   towel is that unit, and 88 fils is the number the whole account is built on.
    The modal tissue-tube order in the data is three 4-packs at AED 108 -- the
    free-shipping threshold is already shaping how people buy it, unprompted.
 
@@ -88,7 +88,7 @@ const CONCEPTS = [
     id: 'bundle-03-dirham',
     label: 'Bundle — under a dirham',
     kind: 'line',
-    hero: 'not even a dirham',
+    hero: 'Not even a dirham',
     support: '88 fils a towel. 200 of them, ultrasoft 100% bamboo.',
     furniture: '88 fils a towel · 200 large towels · delivery free',
     footnote: PACK,
@@ -144,7 +144,7 @@ const CONCEPTS = [
     id: 'bundle-06-hook',
     label: 'Bundle — the hook',
     kind: 'ask',
-    hero: 'how many times has that towel touched your face since it was washed?',
+    hero: 'How many times has that towel touched your face since it was washed?',
     support: "it's not you. it's the damp hook.",
     furniture: `88 fils a towel · ${QUALITY}`,
     footnote: 'a fresh one, every time. ' + PACK,
@@ -163,7 +163,7 @@ const CONCEPTS = [
     id: 'tube-01-fits',
     label: 'Tissue tube — it fits',
     kind: 'line', product: 'tube',
-    hero: 'it fits the cup holder',
+    hero: 'It fits the cup holder',
     support: "a square box doesn't. it slides around the back seat and gets in the way.",
     furniture: 'AED 9 a tube · 3-ply bamboo · 50 tissues in each',
     footnote: 'four tubes, AED 36.',
@@ -195,7 +195,7 @@ const CONCEPTS = [
     id: 'tube-03-loose',
     label: 'Tissue tube — nowhere to put a box',
     kind: 'ask', product: 'tube',
-    hero: 'where does a square tissue box actually sit?',
+    hero: 'Where does a square tissue box actually sit?',
     support: 'not the cup holder. so it slides around the back seat instead.',
     furniture: 'AED 9 a tube · 3-ply bamboo',
     footnote: 'four tubes, 200 tissues, AED 36.',
@@ -212,7 +212,7 @@ const CONCEPTS = [
     id: 'tube-04-interior',
     label: 'Tissue tube — it looks good in there',
     kind: 'line', product: 'tube',
-    hero: 'it actually looks good in there',
+    hero: 'It actually looks good in there',
     support: 'round, upright, in the cup holder. not a cardboard box sliding around behind you.',
     furniture: 'AED 9 a tube · 3-ply bamboo · 50 tissues in each',
     footnote: 'four tubes, AED 36.',
@@ -224,22 +224,22 @@ const CONCEPTS = [
     headline: 'tissues that suit the car',
   },
   {
-    /* Per box rather than per towel. AED 44 is the unit a buyer handles, and
-       it is the only figure that makes the bundle look like four purchases
-       instead of one large one. */
-    id: 'bundle-07-perbox',
-    label: 'Bundle — AED 44 a box',
-    kind: 'fils', size: 'cur',
-    hero: 'AED 44', heroTail: 'a box',
-    support: 'four boxes, AED 176. 50 large ultrasoft towels in each.',
+    /* Priced per towel like every other face-towel frame, but arguing the
+       shape of the pack: four separate boxes, which is what stops AED 176
+       being evaluated as one large object. */
+    id: 'bundle-07-four',
+    label: 'Bundle — four boxes, not one',
+    kind: 'fils',
+    hero: '88', unit: 'fils', heroTail: 'a towel',
+    support: 'it arrives as four boxes, not one. bathroom, gym bag, desk, spare.',
     furniture: '200 large towels · ultrasoft 100% bamboo · delivery free',
     footnote: PACK,
     primary: [
-      'AED 44 a box.',
-      'four boxes, 200 large ultrasoft towels, 100% bamboo fibre.',
-      'AED 176 the pack, delivered free.',
+      '88 fils a towel, and it comes as four separate boxes rather than one.',
+      'bathroom, gym bag, desk, spare. 50 large ultrasoft towels in each.',
+      'AED 176, delivered free.',
     ],
-    headline: 'AED 44 a box, four in the pack',
+    headline: 'Four boxes, 88 fils a towel',
   },
   {
     /* Supply rather than spend: converting money into time is what turns a
@@ -247,7 +247,7 @@ const CONCEPTS = [
     id: 'bundle-08-months',
     label: 'Bundle — six months',
     kind: 'line',
-    hero: 'six months of clean towels',
+    hero: 'Six months of clean towels',
     support: '200 of them. a fresh one every time, at 88 fils a towel.',
     furniture: '88 fils a towel · ultrasoft 100% bamboo · delivery free',
     footnote: PACK,
@@ -264,7 +264,7 @@ const CONCEPTS = [
     id: 'bundle-09-once',
     label: 'Bundle — buy it once',
     kind: 'line',
-    hero: 'buy it once',
+    hero: 'Buy it once',
     support: "200 towels. you won't think about this again for six months.",
     furniture: '88 fils a towel · ultrasoft 100% bamboo · delivery free',
     footnote: PACK,
@@ -281,7 +281,7 @@ const CONCEPTS = [
     id: 'single-02-once',
     kind: 'line', product: 'single',
     label: 'Single — one towel, one face, once',
-    hero: 'one towel. one face. once.',
+    hero: 'One towel. One face. Once.',
     support: 'then tomorrow you take a fresh one. 50 large ultrasoft towels to a box.',
     furniture: 'AED 49, was 79 · ultrasoft 100% bamboo',
     footnote: 'or four boxes at 88 fils a towel, delivery free.',

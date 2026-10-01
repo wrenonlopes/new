@@ -39,7 +39,7 @@ camera makes them literal.
 | 10–15s | Use it on your face, properly, not a mime. Then it leaves frame — **do not show the bin.** | "A fresh one every time." |
 | 15–18s | Box in frame, label readable. | "Fifty in a box. Forty-nine dirhams." |
 
-**On-screen text** (burn in, bottom third): `it's not you. it's the damp hook.`
+**On-screen text** (burn in, bottom third): `It's not you. It's the damp hook.`
 
 **Why this one** — it is the only script that gives the viewer a problem
 before it gives them a price. The question works because every honest answer
@@ -85,7 +85,7 @@ interests and three traced orders have come through it.
 | 9–12s | Pull a tissue out one-handed, like you would at a red light. | "That's it. That's the whole thing." |
 | 12–15s | Tube sitting in the holder, car moving, Dubai outside the window. | "Nine dirhams a tube. Four for thirty-six." |
 
-**On-screen text**: `a tissue box fits nowhere` at 4s · `AED 9 a tube` at 12s.
+**On-screen text**: `A tissue box fits nowhere` at 4s · `AED 9 a tube` at 12s.
 
 **Why this one** — it is a demonstration, not a claim. The failure in the first
 four seconds is what makes the fit at six seconds satisfying, and the whole
@@ -108,7 +108,7 @@ car that nobody chose — it is there because it had to go somewhere.
 | 13–17s | One-handed pull at a red light. | "And it doesn't look like a cardboard box in your car." |
 | 17–20s | Four tubes together on the kitchen counter, calm. | "Nine dirhams a tube. Four for thirty-six." |
 
-**On-screen text**: `the box was never going to fit` at 5s · `AED 9 a tube` at 17s.
+**On-screen text**: `The box was never going to fit` at 5s · `AED 9 a tube` at 17s.
 
 **Why this one** — it argues on looks rather than function, which nothing else
 in the set does, and the first five seconds show the problem without anyone

@@ -73,7 +73,7 @@ const LOOK = {
   'tube-02-nine':     { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158, numAccent: true },
   'tube-03-loose':    { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
   'tube-04-interior': { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
-  'bundle-07-perbox': { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232, numAccent: true },
+  'bundle-07-four':   { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232, numAccent: true },
   'bundle-08-months': { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232 },
   'bundle-09-once':   { ground: C.sunrise, fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
 };
@@ -138,7 +138,7 @@ function heroHTML(c) {
          the same x, because the fall is vertical and nothing may move
          sideways. No arrow -- that lives once, at furniture size. */
       return `<div class="hero drop">
-          <div class="was">was <span class="strike">${esc(c.heroFrom)}</span> a towel, delivered</div>
+          <div class="was">Was <span class="strike">${esc(c.heroFrom)}</span> a towel, delivered</div>
           <div class="now">now</div>
           <div class="to">${lock(c.hero, c.unit)}${
             c.heroTail ? `<span class="tail">${esc(c.heroTail)}</span>` : ''}</div>
