@@ -1,8 +1,15 @@
 # BIOD ad creatives
 
-Twenty-two concepts — sixteen for the XL bundle, four for the tissue tube, two for
-the single box — each rendered at the two sizes the ad sets run: Feed
+Twenty-five concepts — nineteen for the XL bundle, four for the tissue tube, two
+for the single box — each rendered at the two sizes the ad sets run: Feed
 (1080×1350) and Stories/Reels (1080×1920).
+
+The last three (17–19) were added on 3 October against the addition audit in
+`../audit/2026-10-03-additions.md`. Each opens a new axis rather than restating
+the per-towel price: payment, scene, and language. **`bundle-19-ar` is held
+until the Arabic storefront locale is published** — `shopLocales` currently
+reports `ar · published: false`, so an Arabic ad would hand off to an English
+product page.
 
 | File | Hero | Mechanism |
 |---|---|---|
@@ -15,6 +22,9 @@ the single box — each rendered at the two sizes the ad sets run: Feed
 | `bundle-07-four` | **88 fils** a towel | Four separate boxes, not one object |
 | `bundle-08-months` | Four months of clean towels | Supply rather than spend |
 | `bundle-09-once` | buy it once | Decision cost, not discount |
+| `bundle-17-cod` | Pay when it reaches your door | Payment, not price — the objection at checkout |
+| `bundle-18-hotel` | That hotel towel has a history | The hotel-room video's mechanism, as a still |
+| `bundle-19-ar` | **88 فلس** للمنشفة | Arabic, RTL, Cairo · held until `ar` is published |
 | `tube-01-fits` | it fits the cup holder | The form factor, demonstrated |
 | `tube-02-nine` | **AED 9** a tube | Per tube |
 | `tube-03-loose` | where does a square box actually sit? | Problem install |

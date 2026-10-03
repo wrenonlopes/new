@@ -34,6 +34,12 @@ const FONTS = {
   o800: font('outfit', 'outfit-latin-800-normal.woff2'),
   j500: font('plus-jakarta-sans', 'plus-jakarta-sans-latin-500-normal.woff2'),
   j700: font('plus-jakarta-sans', 'plus-jakarta-sans-latin-700-normal.woff2'),
+  /* Outfit has no Arabic coverage, so an Arabic frame would silently fall back
+     to a system face. Cairo is what Gulf retail actually sets display Arabic
+     in, and it ships Latin digits -- which is what keeps "88" Western inside
+     an RTL line, the way a UAE price tag is written. */
+  c700: font('cairo', 'cairo-arabic-700-normal.woff2'),
+  c900: font('cairo', 'cairo-arabic-900-normal.woff2'),
 };
 const BOX = b64(path.join(THEME, 'sticker-xl.png'), 'image/png');
 const TUBE = b64(path.join(THEME, 'sticker-tube.png'), 'image/png');
@@ -83,6 +89,11 @@ const LOOK = {
   'bundle-13-spec':   { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 170 },
   'bundle-08-months': { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232 },
   'bundle-09-once':   { ground: C.sunrise, fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
+  /* Kraft for the payment frame: it is the only ground in the set that reads
+     as a parcel rather than as a page, which is the whole subject. */
+  'bundle-17-cod':    { ground: C.kraft,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 232 },
+  'bundle-18-hotel':  { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 1, bw: 440 },
+  'bundle-19-ar':     { ground: C.sunrise, fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
 };
 
 const FORMATS = [
@@ -103,7 +114,8 @@ const lock = (n, unit) =>
    separate blocks, 88 fils starts reading as cheap paper on a face. */
 const furniture = (text) =>
   text.split(' · ')
-    .map((seg) => (/fils|AED|was \d/.test(seg) ? `<b>${esc(seg)}</b>` : esc(seg)))
+    .map((seg) => (/fils|AED|was \d|\u062f\u0631\u0647\u0645|\u0641\u0644\u0633/.test(seg)
+      ? `<b>${esc(seg)}</b>` : esc(seg)))
     .join('<i>·</i>');
 
 function boxesHTML(k) {
@@ -203,8 +215,10 @@ function heroHTML(c) {
 
 function canvas(c, f) {
   const k = { ...LOOK[c.id], ...(c.art ? { art: c.art } : {}) };
+  const rtl = c.lang === 'ar';
   return `
-<div class="canvas ${f.key} k-${c.kind} ${k.numAccent ? 'accent-num' : ''}" data-name="biod-${c.id}-${f.key}"
+<div class="canvas ${f.key} k-${c.kind} ${k.numAccent ? 'accent-num' : ''}${rtl ? ' ar' : ''}"${
+       rtl ? ' dir="rtl" lang="ar"' : ''} data-name="biod-${c.id}-${f.key}"
      data-w="${f.w}" data-h="${f.h}"
      style="--ground:${k.ground};--fg:${k.fg};--accent:${k.accent};--w:${f.w}px;--h:${f.h}px;
             --padT:${f.padT}px;--padB:${f.padB}px;--padX:${f.padX}px;--s:${f.s}">
@@ -233,6 +247,8 @@ const html = `<!doctype html>
 @font-face{font-family:Outfit;src:url(${FONTS.o800}) format('woff2');font-weight:800;font-display:block}
 @font-face{font-family:'Plus Jakarta Sans';src:url(${FONTS.j500}) format('woff2');font-weight:500;font-display:block}
 @font-face{font-family:'Plus Jakarta Sans';src:url(${FONTS.j700}) format('woff2');font-weight:700;font-display:block}
+@font-face{font-family:Cairo;src:url(${FONTS.c700}) format('woff2');font-weight:700;font-display:block}
+@font-face{font-family:Cairo;src:url(${FONTS.c900}) format('woff2');font-weight:900;font-display:block}
 
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#141418;font-family:'Plus Jakarta Sans',system-ui,sans-serif;
@@ -254,9 +270,22 @@ header{margin-bottom:calc(44px * var(--s))}
       letter-spacing:-.055em;line-height:.86}
 .lock{display:inline-flex;align-items:baseline;white-space:nowrap}
 .lock .num{font-variant-numeric:proportional-nums}
-.lock .unit{font-size:.42em;letter-spacing:-.03em;margin-left:.1em}
+.lock .unit{font-size:.42em;letter-spacing:-.03em;margin-inline-start:.1em}
 .hero .tail{font-family:Outfit,sans-serif;font-weight:700;font-size:calc(52px * var(--s));
-            letter-spacing:-.02em;opacity:.62;margin-left:calc(22px * var(--s))}
+            letter-spacing:-.02em;opacity:.62;margin-inline-start:calc(22px * var(--s))}
+
+/* ---- Arabic ------------------------------------------------------------- */
+/* Everything above is laid out with flex and logical properties and carries no
+   text-align, so dir=rtl alone reverses the whole frame correctly. Two things
+   do NOT carry over: the -.055em tracking, which breaks the joins between
+   Arabic letterforms rather than tightening them, and the 0.86 line-height,
+   which clips the descenders Latin does not have. Both are reset here. */
+.canvas.ar{font-family:Cairo,system-ui,sans-serif}
+.canvas.ar .hero,.canvas.ar .hero .tail{font-family:Cairo,system-ui,sans-serif;
+      letter-spacing:normal}
+.canvas.ar .hero{line-height:1.05;font-weight:900}
+.canvas.ar .lock .unit{letter-spacing:normal}
+.canvas.ar .furn b,.canvas.ar .ch{letter-spacing:normal}
 
 .k-fils .hero{font-size:calc(300px * var(--s));display:flex;align-items:baseline;flex-wrap:wrap}
 .k-fils .hero.xl{font-size:calc(340px * var(--s))}
@@ -393,9 +422,9 @@ header{margin-bottom:calc(44px * var(--s))}
 .furn b{font-weight:700;color:var(--accent)}
 .furn i{font-style:normal;opacity:.4;margin:0 calc(11px * var(--s))}
 .note{margin-top:calc(7px * var(--s));font-weight:500;font-size:calc(23px * var(--s));opacity:.58}
-.site{position:absolute;right:0;bottom:0;font-weight:700;font-size:calc(26px * var(--s));
+.site{position:absolute;inset-inline-end:0;bottom:0;font-weight:700;font-size:calc(26px * var(--s));
       letter-spacing:.05em;opacity:.58}
-.story .site{right:calc(28px * var(--s))}
+.story .site{inset-inline-end:calc(28px * var(--s))}
 </style>
 ${CONCEPTS.map((c) => FORMATS.map((f) => canvas(c, f)).join('\n')).join('\n')}
 `;

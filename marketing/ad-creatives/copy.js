@@ -475,6 +475,72 @@ const CONCEPTS = [
     ],
     headline: '50 large bamboo towels, AED 49',
   },
+  {
+    /* Payment, which no frame in the first twenty-two led with. Both orders the
+       best-performing video has produced were cash on delivery, and the method
+       only shows up in the gateway data this week -- every order before them
+       went through a card. On a brand a cold buyer has never heard of, the card
+       field is the objection, not the price, and the audit put completion at
+       about 20%. This frame spends the headline on removing that, and lets the
+       per-towel figure sit in the furniture for once. */
+    id: 'bundle-17-cod',
+    label: 'Bundle \u2014 pay at the door',
+    kind: 'line', size: 'lg',
+    hero: 'Pay when it reaches your door.',
+    support: 'cash on delivery, anywhere in the UAE. nothing upfront, no card stored.',
+    furniture: `88 fils a towel \u00b7 200 towels \u00b7 ${QUALITY}`,
+    footnote: PACK,
+    primary: [
+      'you pay the driver.',
+      'cash on delivery anywhere in the UAE \u2014 nothing upfront, no card stored. 200 large ultrasoft bamboo towels at 88 fils each.',
+      'the full pack is AED 176, delivered free.',
+    ],
+    headline: 'cash on delivery, UAE-wide',
+  },
+  {
+    /* The one idea in this account with a conversion record behind it, moved
+       into a still. The hotel-bathroom video runs at roughly 4% CTR, the best
+       in the account, and the mechanism is a towel in a place you did not
+       choose, with a history you cannot see. Twenty-two frames argue price and
+       none argues scene. No hygiene claim is made and none is needed -- the
+       viewer supplies it, which is exactly why it works. */
+    id: 'bundle-18-hotel',
+    label: 'Bundle \u2014 the hotel towel',
+    kind: 'ask',
+    hero: 'That hotel towel has a history.',
+    support: 'and you will never see it. pack a box, take a fresh one every morning \u2014 88 fils each.',
+    furniture: `200 towels \u00b7 ${QUALITY} \u00b7 delivery free`,
+    footnote: PACK,
+    primary: [
+      'that hotel towel has a history, and you will never see it.',
+      'pack a box instead. 50 large ultrasoft bamboo towels, a fresh one every morning.',
+      'four boxes is 88 fils a towel, AED 176, delivered free.',
+    ],
+    headline: 'pack your own towel',
+  },
+  {
+    /* Arabic. Every order in the store carries an en-AE or en locale and the
+       Arabic storefront is unpublished, so this is built and held: an Arabic
+       ad that hands off to an English product page spends the goodwill it just
+       earned. The moment ar is published it goes live as-is.
+       Western digits are deliberate. Gulf retail prices in 0-9, not in Arabic-
+       Indic numerals, and Meta renders digits LTR inside an RTL line either
+       way -- so 88 is what a UAE price tag actually looks like. */
+    id: 'bundle-19-ar',
+    label: 'Bundle \u2014 Arabic, 88 fils',
+    lang: 'ar',
+    kind: 'fils', size: 'xl',
+    hero: '88', unit: '\u0641\u0644\u0633', heroTail: '\u0644\u0644\u0645\u0646\u0634\u0641\u0629',
+    support: '200 \u0645\u0646\u0634\u0641\u0629 \u0643\u0628\u064a\u0631\u0629 \u0641\u064a \u0627\u0644\u0639\u0628\u0648\u0629 \u00b7 \u0623\u0644\u064a\u0627\u0641 \u0627\u0644\u062e\u064a\u0632\u0631\u0627\u0646 \u0641\u0627\u0626\u0642\u0629 \u0627\u0644\u0646\u0639\u0648\u0645\u0629',
+    furniture: '176 \u062f\u0631\u0647\u0645 \u0644\u0644\u0639\u0628\u0648\u0629 \u00b7 \u062a\u0648\u0635\u064a\u0644 \u0645\u062c\u0627\u0646\u064a \u00b7 \u0627\u0644\u062f\u0641\u0639 \u0639\u0646\u062f \u0627\u0644\u0627\u0633\u062a\u0644\u0627\u0645',
+    footnote: '\u0645\u0646\u0634\u0641\u0629 \u062c\u062f\u064a\u062f\u0629 \u0641\u064a \u0643\u0644 \u0645\u0631\u0629.',
+    primary: [
+      '88 \u0641\u0644\u0633 \u0644\u0644\u0645\u0646\u0634\u0641\u0629.',
+      '200 \u0645\u0646\u0634\u0641\u0629 \u0643\u0628\u064a\u0631\u0629 \u0641\u0627\u0626\u0642\u0629 \u0627\u0644\u0646\u0639\u0648\u0645\u0629 \u0645\u0646 \u0623\u0644\u064a\u0627\u0641 \u0627\u0644\u062e\u064a\u0632\u0631\u0627\u0646 100%\u060c \u0645\u0646\u0634\u0641\u0629 \u062c\u062f\u064a\u062f\u0629 \u0641\u064a \u0643\u0644 \u0645\u0631\u0629.',
+      '\u0627\u0644\u0639\u0628\u0648\u0629 \u0627\u0644\u0643\u0627\u0645\u0644\u0629 176 \u062f\u0631\u0647\u0645\u060c \u0645\u0639 \u062a\u0648\u0635\u064a\u0644 \u0645\u062c\u0627\u0646\u064a \u0648\u0627\u0644\u062f\u0641\u0639 \u0639\u0646\u062f \u0627\u0644\u0627\u0633\u062a\u0644\u0627\u0645.',
+    ],
+    headline: '88 \u0641\u0644\u0633 \u0644\u0644\u0645\u0646\u0634\u0641\u0629',
+  },
 ];
 
 module.exports = { CONCEPTS };
