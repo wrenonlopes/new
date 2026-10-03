@@ -58,7 +58,14 @@ const PACK = 'the full pack is AED 176, delivered free.';
    last week" read without needing a big number. Cash on delivery is the other
    one: in the UAE it is the mechanism for buying from a brand you do not know,
    and it was buried in a single furniture line until now. */
-const TRUST = 'shipping in the UAE since July 2024 · cash on delivery';
+const TRUST = 'shipping in the UAE since July 2024';
+
+/* The owner's call, and it is the right one: a shopper compares "less than
+   AED 1" against the dirham they already have a feel for, where 88 fils has to
+   be converted first. Same number, one fewer step. 176/200 = 0.88, so it is
+   true, and the pack total stays on every frame as the footnote so the
+   arithmetic is checkable. */
+const UNDER_ONE = 'less than AED 1 a towel';
 
 const STUDY = 'Gerba et al · University of Arizona · Food Protection Trends, 2014 · hand-towel data';
 const QUALITY = 'ultrasoft 100% bamboo';
@@ -307,7 +314,7 @@ const CONCEPTS = [
     primary: [
       'you just cleaned your face. now you are drying it on the towel that has been on the hook since tuesday.',
       'a fresh one every time instead. 200 large ultrasoft towels, 88 fils each.',
-      'AED 176, delivered free. cash on delivery anywhere in the UAE.',
+      'AED 176, delivered free.',
     ],
     headline: 'A fresh towel every time',
   },
@@ -328,25 +335,6 @@ const CONCEPTS = [
       'AED 176, delivered free.',
     ],
     headline: 'Ultrasoft bamboo, used once',
-  },
-  {
-    /* Risk reversal, in the terms that actually matter here. Cash on delivery
-       removes the whole question of trusting an unknown store with money, and
-       the trading date removes the dropship read. Both are true today and
-       need no policy change. */
-    id: 'bundle-16-since',
-    label: 'Bundle — pay when it arrives',
-    kind: 'line', size: 'sm',
-    hero: 'Pay when the box is in your hand',
-    support: 'cash on delivery, anywhere in the UAE. shipping here since July 2024.',
-    furniture: '88 fils a towel · 200 large towels · delivery free',
-    footnote: PACK,
-    primary: [
-      'cash on delivery anywhere in the UAE — you pay when the box is in your hand.',
-      'we have been shipping here since july 2024. 200 large ultrasoft towels, 88 fils each.',
-      'AED 176, delivery free.',
-    ],
-    headline: 'Cash on delivery, UAE-wide',
   },
   {
     /* Head to head. Every line is a logistical or behavioural fact -- how the
@@ -429,10 +417,10 @@ const CONCEPTS = [
       ['Per towel', '88 fils'],
       ['Delivery', 'Free over AED 100 · UAE-wide'],
     ],
-    furniture: 'ships within 24 hours · cash on delivery available',
+    furniture: 'ships within 24 hours · delivery free over AED 100',
     primary: [
       '200 large ultrasoft towels across four boxes. 100% bamboo fibre, no dyes, no fragrance.',
-      '88 fils a towel. free delivery, cash on delivery available anywhere in the UAE.',
+      '88 fils a towel, delivered free anywhere in the UAE.',
       'AED 176.',
     ],
     headline: '200 towels, 88 fils each',
@@ -474,28 +462,6 @@ const CONCEPTS = [
       'a fresh one every time, about a month to a box.',
     ],
     headline: '50 large bamboo towels, AED 49',
-  },
-  {
-    /* Payment, which no frame in the first twenty-two led with. Both orders the
-       best-performing video has produced were cash on delivery, and the method
-       only shows up in the gateway data this week -- every order before them
-       went through a card. On a brand a cold buyer has never heard of, the card
-       field is the objection, not the price, and the audit put completion at
-       about 20%. This frame spends the headline on removing that, and lets the
-       per-towel figure sit in the furniture for once. */
-    id: 'bundle-17-cod',
-    label: 'Bundle \u2014 pay at the door',
-    kind: 'line', size: 'lg',
-    hero: 'Pay when it reaches your door.',
-    support: 'cash on delivery, anywhere in the UAE. nothing upfront, no card stored.',
-    furniture: `88 fils a towel \u00b7 200 towels \u00b7 ${QUALITY}`,
-    footnote: PACK,
-    primary: [
-      'you pay the driver.',
-      'cash on delivery anywhere in the UAE \u2014 nothing upfront, no card stored. 200 large ultrasoft bamboo towels at 88 fils each.',
-      'the full pack is AED 176, delivered free.',
-    ],
-    headline: 'cash on delivery, UAE-wide',
   },
   {
     /* The one idea in this account with a conversion record behind it, moved
@@ -540,6 +506,113 @@ const CONCEPTS = [
       '\u0627\u0644\u0639\u0628\u0648\u0629 \u0627\u0644\u0643\u0627\u0645\u0644\u0629 176 \u062f\u0631\u0647\u0645\u060c \u0645\u0639 \u062a\u0648\u0635\u064a\u0644 \u0645\u062c\u0627\u0646\u064a \u0648\u0627\u0644\u062f\u0641\u0639 \u0639\u0646\u062f \u0627\u0644\u0627\u0633\u062a\u0644\u0627\u0645.',
     ],
     headline: '88 \u0641\u0644\u0633 \u0644\u0644\u0645\u0646\u0634\u0641\u0629',
+  },
+  {
+    /* Horror, built entirely out of what she does not know. Every line is an
+       absence rather than an assertion: nothing here can be fact-checked into a
+       policy problem, and an unknown is harder to shake off than a claim --
+       she cannot answer any of the five, and she will be standing in a hotel
+       bathroom the next time she tries. The last line is the only one that
+       states something, which is what makes it land. */
+    id: 'bundle-20-hotel',
+    label: 'Bundle \u2014 the hotel towel, in full',
+    kind: 'horror',
+    hero: 'You know nothing about that hotel towel.',
+    items: [
+      'You do not know how many faces came before yours.',
+      'You do not know what they came with.',
+      'You do not know how it was washed, or how hot.',
+      'You do not know how long it sat folded and damp.',
+      'You do know it is the last thing to touch your face tonight.',
+    ],
+    turn: 'Pack your own. Used once, then a fresh one \u2014 ultrasoft 100% bamboo.',
+    turnPrice: UNDER_ONE.charAt(0).toUpperCase() + UNDER_ONE.slice(1) + '.',
+    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
+    footnote: PACK,
+    primary: [
+      'you do not know how many faces came before yours. or what they came with. or how hot it was washed, or how long it sat folded and damp.',
+      'you do know it is the last thing to touch your face tonight.',
+      'pack your own instead \u2014 200 large ultrasoft bamboo towels, used once, less than AED 1 each. AED 176, delivered free.',
+    ],
+    headline: 'Less than AED 1 a towel',
+  },
+  {
+    /* The same list turned on her own bathroom, and the harder of the two: the
+       hotel towel is somebody else's problem and hers is not. The opening line
+       does the whole job -- it concedes the hotel's one virtue in order to take
+       it away from her, and every line after it is something she can verify by
+       walking down the hall. */
+    id: 'bundle-21-home',
+    label: 'Bundle \u2014 the one on your own hook',
+    kind: 'horror',
+    hero: 'At least the hotel washes theirs.',
+    items: [
+      'Yours has hung in the wettest room in the house all week.',
+      'It has not been properly dry since the last time you used it.',
+      'Everyone who visits dries their hands on it.',
+      'Nothing about it has changed since Sunday.',
+      'And twice a day you press it into your face.',
+    ],
+    turn: 'A fresh towel every time instead. 200 of them, used once, ultrasoft 100% bamboo.',
+    turnPrice: UNDER_ONE.charAt(0).toUpperCase() + UNDER_ONE.slice(1) + '.',
+    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
+    footnote: PACK,
+    primary: [
+      'at least the hotel washes theirs.',
+      'yours has hung in the wettest room in the house all week, it has not been properly dry since you last used it, and everyone who visits dries their hands on it. twice a day you press it into your face.',
+      'a fresh one every time instead. 200 large ultrasoft bamboo towels, less than AED 1 each. AED 176, delivered free.',
+    ],
+    headline: 'A fresh towel every time',
+  },
+  {
+    /* The taunt, and the only frame in the set that agrees with her first. Five
+       ticks are not filler -- they are the setup: the routine is right, the
+       spend is right, the order is right, and then the one thing nobody sells
+       her undoes the care she took over all of it. Nothing is claimed about
+       skin; the whole argument is about consistency, which she can check
+       herself. */
+    id: 'bundle-22-routine',
+    label: 'Bundle \u2014 every step but one',
+    kind: 'checklist',
+    hero: 'You got every step right but one.',
+    items: [
+      'Double cleanse, morning and night',
+      'Vitamin C before the SPF',
+      'Niacinamide after the toner',
+      'SPF 50, reapplied',
+      'The AED 300 serum, used sparingly',
+    ],
+    miss: 'Dried it all off on the towel from Tuesday',
+    turn: 'The last thing to touch your face is the one part you never thought about.',
+    turnPrice: 'A fresh towel every time \u2014 ' + UNDER_ONE + '.',
+    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
+    footnote: PACK,
+    primary: [
+      'double cleanse. vitamin c. niacinamide. spf 50, reapplied. the AED 300 serum, used sparingly.',
+      'then you dried all of it off on the towel from tuesday.',
+      '200 large ultrasoft bamboo towels, used once, less than AED 1 each. AED 176, delivered free.',
+    ],
+    headline: 'Every step right but one',
+  },
+  {
+    /* The fit, drawn. Four tube frames already assert that it suits a car; none
+       of them shows the cup holder, so none of them proves it. The illustration
+       is the whole creative and the price rides on top of it -- AED 9 is the
+       number a buyer can picture, where 18 fils a tissue is an abstraction, and
+       AED 36 stays small because the tube is the unit she is deciding on. */
+    id: 'tube-05-holder',
+    label: 'Tube \u2014 in the cup holder',
+    kind: 'fils', size: 'cur', product: 'tube', art: 'holder',
+    hero: 'AED 9', heroTail: 'a tube',
+    support: 'it drops into the cup holder and stays there. 50 three-ply tissues in each.',
+    furniture: 'four tubes \u00b7 200 tissues \u00b7 one hand, every time',
+    footnote: 'four tubes, AED 36. delivery free over AED 100.',
+    primary: [
+      'AED 9 a tube.',
+      'it drops into the cup holder and stays there \u2014 no square box sliding around the passenger seat. 50 three-ply tissues in each.',
+      'four tubes, AED 36.',
+    ],
+    headline: 'AED 9 a tube',
   },
 ];
 

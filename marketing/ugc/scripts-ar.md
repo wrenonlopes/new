@@ -1,6 +1,6 @@
 # BIOD UGC scripts — Arabic
 
-Four shoots, Gulf dialect, phone only. Vertical 9:16, 15–25 seconds. Same
+Three shoots, Gulf dialect, phone only. Vertical 9:16, 15–25 seconds. Same
 catalogue as the English set: AED 49 / 50 towels, AED 176 / 200 towels
 (88 fils each, about four months), AED 36 for four tubes (AED 9 a tube).
 
@@ -42,7 +42,7 @@ be read aloud by someone who speaks Arabic but reads it slowly.
 - **Attack the object, never the viewer.** Telling someone they are unhygienic
   produces a defence of the status quo, not a purchase.
 - **No skin claims.** Nothing about حبوب, بشرة, التهابات, بكتيريا or results.
-- **Price is the last beat**, except script 4, where the payment *is* the idea.
+- **Price is the last beat.** On these three it is always the closing line.
 - Shoot in a recognisable UAE interior. A generic white bathroom reads as stock.
 
 ---
@@ -118,33 +118,6 @@ seconds is what makes the fit at six seconds satisfying.
 
 ---
 
-## 4 · الدفع عند الاستلام — "pay the driver"
-
-**Length** 20s · **Hook** naming the hesitation out loud · **No English version exists**
-
-New axis, and the data asked for it: cash on delivery appears as a payment
-method on exactly two orders in the store's history — **#1130 and #1131, the two
-most recent, both traced to the hotel-room ad.** Every order before them went
-through a card. For a cold buyer in the Gulf looking at a brand they have never
-heard of, the card field is the objection, not the price.
-
-| t | Shot | Audio | Transliteration | Meaning |
-|---|---|---|---|---|
-| 0–5s | Phone in hand, thumb hovering over a checkout form. Hesitate. Lock the phone. | «ما أحب أحط بطاقتي بموقع أول مرة أشتري منه.» | *mā aḥibb aḥuṭṭ biṭāqtī b-mawqiʿ awwal marra ashtarī minna.* | I don't like putting my card on a site I'm buying from for the first time. |
-| 5–8s | Unlock. Thumb taps the cash-on-delivery option. Small nod. | «عادي. ادفع للسائق.» | *ʿādī. idfaʿ lis-sāʾiq.* | It's fine. Pay the driver. |
-| 8–13s | Hard cut: your door. Take the parcel, hand over the cash. Keep it quick and ordinary — **no acting.** | *(ambient only)* | — | — |
-| 13–17s | Kitchen counter. Open the box, pull one towel. | «ولا شي قبل ما توصل.» | *wala shay gabl mā tūṣal.* | Nothing before it arrives. |
-| 17–20s | Four boxes together, calm. | «مئتين منشفة. ثمانية وثمانين فلس للوحدة.» | *miʾatayn minshafa. thamānya w thamānīn fils lil-waḥda.* | Two hundred towels. Eighty-eight fils each. |
-
-**Burn-in**: `الدفع عند الاستلام · بكل الإمارات` at 5s, held to 13s.
-
-**Why this one** — it does not argue with the viewer's caution, it agrees with
-it and then removes the thing they were cautious about. It is also the only
-script in either language that addresses checkout rather than desire, and
-checkout is where this store currently loses people.
-
----
-
 ## Shooting notes for the Arabic set
 
 - **Check the burn-in before you export.** Several phone editors reverse Arabic
@@ -157,11 +130,13 @@ checkout is where this store currently loses people.
 - **Speak the numbers in Arabic, print them in Western digits.** On screen, use
   `88`, `49`, `176`, `9` — that is how a UAE price tag, a receipt and the
   checkout all write them, and it is what the new Arabic static uses.
-- **Say the price once, at the end**, except script 4.
+- **Say the price once, at the end.**
 - **Film everything twice**, once speaking and once silent. The silent cut is the
   Stories version.
 - **First frame is the whole decision** — a face or the problem, never a logo.
 - Keep the raw files. A 20-second clip cuts into three 8-second Stories variants,
   and Meta treats those as separate creative.
+- **Do not mention cash on delivery** in any of these, on screen or in the
+  caption. Owner's call, 3 October.
 - Write the Meta primary text in Arabic too. An Arabic video under English
   caption copy looks like a translation someone forgot to finish.

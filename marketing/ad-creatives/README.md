@@ -1,15 +1,28 @@
 # BIOD ad creatives
 
-Twenty-five concepts — nineteen for the XL bundle, four for the tissue tube, two
+Twenty-seven concepts — twenty for the XL bundle, five for the tissue tube, two
 for the single box — each rendered at the two sizes the ad sets run: Feed
 (1080×1350) and Stories/Reels (1080×1920).
 
-The last three (17–19) were added on 3 October against the addition audit in
-`../audit/2026-10-03-additions.md`. Each opens a new axis rather than restating
-the per-towel price: payment, scene, and language. **`bundle-19-ar` is held
-until the Arabic storefront locale is published** — `shopLocales` currently
-reports `ar · published: false`, so an Arabic ad would hand off to an English
-product page.
+**Cash on delivery is not promoted anywhere in this set** (owner's call,
+3 October). `bundle-16-since` and `bundle-17-cod` were deleted and the COD lines
+came out of `bundle-13-spec` and `bundle-14-that`.
+
+**`bundle-19-ar` is held until the Arabic storefront locale is published** —
+`shopLocales` currently reports `ar · published: false`, so an Arabic ad would
+hand off to an English product page.
+
+### The 3 October set (20–22, tube-05)
+
+Four briefs, built together. The first three run the price as **"less than
+AED 1 a towel"** rather than 88 fils: it is the same number against a unit the
+shopper already has a feel for, so it needs no conversion before it reads as
+cheap. The pack total stays on every frame as the footnote, so the arithmetic is
+always checkable (176 / 200 = 0.88).
+
+Both horror frames are built out of what the viewer *cannot* know rather than
+out of claims. An absence cannot be rebutted and cannot fail substantiation,
+and it is the part that actually stays with her.
 
 | File | Hero | Mechanism |
 |---|---|---|
@@ -22,9 +35,12 @@ product page.
 | `bundle-07-four` | **88 fils** a towel | Four separate boxes, not one object |
 | `bundle-08-months` | Four months of clean towels | Supply rather than spend |
 | `bundle-09-once` | buy it once | Decision cost, not discount |
-| `bundle-17-cod` | Pay when it reaches your door | Payment, not price — the objection at checkout |
 | `bundle-18-hotel` | That hotel towel has a history | The hotel-room video's mechanism, as a still |
 | `bundle-19-ar` | **88 فلس** للمنشفة | Arabic, RTL, Cairo · held until `ar` is published |
+| `bundle-20-hotel` | You know nothing about that hotel towel | Five things she cannot know, then the turn |
+| `bundle-21-home` | At least the hotel washes theirs | The same list aimed at her own hook |
+| `bundle-22-routine` | You got every step right but one | Five ticks, one cross — the routine is right, the towel isn't |
+| `tube-05-holder` | **AED 9** a tube | The cup holder, drawn — the fit shown rather than asserted |
 | `tube-01-fits` | it fits the cup holder | The form factor, demonstrated |
 | `tube-02-nine` | **AED 9** a tube | Per tube |
 | `tube-03-loose` | where does a square box actually sit? | Problem install |

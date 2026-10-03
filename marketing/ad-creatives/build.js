@@ -82,18 +82,26 @@ const LOOK = {
   'bundle-07-four':   { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232, numAccent: true },
   'bundle-14-that':   { ground: C.cream,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK },
   'bundle-15-sheet':  { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM },
-  'bundle-16-since':  { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 200 },
   'bundle-10-versus': { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 170 },
   'bundle-11-study':  { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 170, numAccent: true },
   'bundle-12-howto':  { ground: C.cream,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 190 },
   'bundle-13-spec':   { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 170 },
   'bundle-08-months': { ground: C.leafDark,fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232 },
   'bundle-09-once':   { ground: C.sunrise, fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
-  /* Kraft for the payment frame: it is the only ground in the set that reads
-     as a parcel rather than as a page, which is the whole subject. */
-  'bundle-17-cod':    { ground: C.kraft,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 232 },
   'bundle-18-hotel':  { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 1, bw: 440 },
   'bundle-19-ar':     { ground: C.sunrise, fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
+  /* The two horror frames are the only near-black grounds in the set and they
+     are deliberately a pair: same ground family, same list, one aimed at a
+     hotel and one at her own hook, so the second reads as the answer to the
+     first if she sees both. The boxes shrink to 150 because the list, not the
+     packaging, is doing the work. */
+  'bundle-20-hotel':  { ground: '#17171C', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 150 },
+  'bundle-21-home':   { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 150 },
+  /* The routine frame goes light on purpose: it is the one that flatters the
+     viewer before it stings her, and a black frame would read as an accusation
+     before she has read a word. */
+  'bundle-22-routine':{ ground: C.cream,   fg: C.ink,   accent: C.sunrise,  logo: LOGO_DARK,  boxes: 4, bw: 150 },
+  'tube-05-holder':   { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'holder' },
 };
 
 const FORMATS = [
@@ -131,6 +139,20 @@ function boxesHTML(k) {
       <div class="sh front"><i class="curl"></i></div>
     </div>`;
   }
+  /* The cup holder, drawn. The tissue tube's whole argument is that it fits
+     something, and a tube floating on a flat ground cannot make that argument
+     -- it needs the thing it fits into. The well is painted first, the tube
+     over it, then the near lip over the tube's base: that last layer is what
+     makes it read as IN the holder rather than ON it. */
+  if (kind === 'holder') {
+    return `<div class="holder">
+      <div class="console"></div>
+      <div class="well a"></div>
+      <div class="well b"></div>
+      <img class="tb" src="${ART.tube.src}" alt="">
+      <i class="lip"></i>
+    </div>`;
+  }
   const { src } = ART[kind];
   const w = artW(kind, k.bw);
   if (k.boxes === 1) {
@@ -145,6 +167,14 @@ function boxesHTML(k) {
     .map((t) => `<img class="bx" style="--bw:${w}px;--t:${t}deg" src="${src}" alt="">`)
     .join('')}</div>`;
 }
+
+/* The turn: the sentence that converts the list into an offer, with the price
+   carried on its own line in the accent. The price is the only accented thing
+   on these frames, so the eye lands on the list, then on the number. */
+const turnHTML = (c) => (c.turn || c.turnPrice
+  ? `<p class="turn">${c.turn ? esc(c.turn) : ''}${
+      c.turnPrice ? `<b>${esc(c.turnPrice)}</b>` : ''}</p>`
+  : '');
 
 function heroHTML(c) {
   switch (c.kind) {
@@ -204,6 +234,28 @@ function heroHTML(c) {
     case 'spec':
       return `<h1 class="hero vs">${esc(c.hero)}</h1>
         <dl class="spec">${c.specs.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
+
+    /* The list is the mechanism. One line is an opinion; five short lines in a
+       column is evidence, and the eye reads down them faster than it can argue
+       back. Every line here states what the viewer does NOT know -- an absence
+       cannot be rebutted, where a claim invites one, and the unknown is the
+       part that actually sits with her. */
+    case 'horror':
+      return `<h1 class="hero vs">${esc(c.hero)}</h1>
+        <ul class="horror">${c.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+        ${turnHTML(c)}`;
+
+    /* Everything ticked but the last row. The routine is hers and it is right,
+       which is what makes the single cross land -- it is not an attack on her
+       judgement, it is the one place she never pointed it. */
+    case 'checklist': {
+      const tick = `<svg class="mk v" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6"/></svg>`;
+      const cross = `<svg class="mk x" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 L19 19 M19 5 L5 19"/></svg>`;
+      return `<h1 class="hero vs">${esc(c.hero)}</h1>
+        <ul class="check">${c.items.map((t) => `<li class="ok">${tick}<span>${esc(t)}</span></li>`).join('')}
+          <li class="no">${cross}<span>${esc(c.miss)}</span></li></ul>
+        ${turnHTML(c)}`;
+    }
 
     case 'ask':
       return `<h1 class="hero ask">${esc(c.hero)}</h1>`;
@@ -273,6 +325,69 @@ header{margin-bottom:calc(44px * var(--s))}
 .lock .unit{font-size:.42em;letter-spacing:-.03em;margin-inline-start:.1em}
 .hero .tail{font-family:Outfit,sans-serif;font-weight:700;font-size:calc(52px * var(--s));
             letter-spacing:-.02em;opacity:.62;margin-inline-start:calc(22px * var(--s))}
+
+/* The horror list and the checklist. Tight leading inside a line, generous gaps
+   between them: each item has to land as its own beat rather than as a
+   paragraph the eye can skim past. */
+.horror{list-style:none;display:flex;flex-direction:column;gap:calc(15px * var(--s));
+        margin-bottom:calc(30px * var(--s))}
+.horror li{font-weight:500;font-size:calc(35px * var(--s));line-height:1.26;
+           padding-left:calc(26px * var(--s));position:relative;
+           color:color-mix(in srgb,var(--fg) 86%,transparent)}
+.horror li::before{content:'';position:absolute;left:0;top:calc(18px * var(--s));
+                   width:calc(11px * var(--s));height:calc(3px * var(--s));
+                   background:var(--fg);opacity:.45}
+.horror li:last-child{font-weight:700;color:var(--fg)}
+
+.check{list-style:none;display:flex;flex-direction:column;gap:calc(15px * var(--s));
+       margin-bottom:calc(30px * var(--s))}
+.check li{display:flex;align-items:flex-start;gap:calc(16px * var(--s));
+          font-weight:500;font-size:calc(35px * var(--s));line-height:1.26}
+.check li.ok{color:color-mix(in srgb,var(--fg) 54%,transparent)}
+.check li.no{font-weight:700}
+.check .mk{width:calc(30px * var(--s));height:calc(30px * var(--s));flex:none;
+           margin-top:calc(8px * var(--s));fill:none;stroke-width:3.2;
+           stroke-linecap:round;stroke-linejoin:round}
+.check li.ok .mk{stroke:color-mix(in srgb,var(--fg) 42%,transparent)}
+.check li.no .mk{stroke:var(--accent)}
+
+.turn{font-family:Outfit,sans-serif;font-weight:700;font-size:calc(42px * var(--s));
+      line-height:1.16;letter-spacing:-.025em}
+.turn b{display:block;color:var(--accent);font-size:calc(58px * var(--s));
+        letter-spacing:-.035em;margin-top:calc(10px * var(--s))}
+
+/* ---- the cup holder, drawn ---------------------------------------------- */
+/* Three layers in paint order: the well, the tube, then the near lip over the
+   tube's base. Without that third layer the tube sits on the console instead of
+   in it, and the entire argument of the frame collapses. */
+.holder{position:relative;width:calc(640px * var(--s));height:calc(620px * var(--s))}
+.console{position:absolute;left:0;right:0;bottom:0;height:calc(250px * var(--s));z-index:0;
+         border-radius:calc(44px * var(--s));
+         background:linear-gradient(168deg,#5A5A64 0%,#44444D 30%,#33333B 62%,#292930 100%);
+         box-shadow:inset 0 calc(3px * var(--s)) 0 rgba(255,255,255,.17),
+                    inset 0 calc(-3px * var(--s)) calc(10px * var(--s)) rgba(0,0,0,.35),
+                    0 calc(16px * var(--s)) calc(32px * var(--s)) rgba(0,0,0,.20)}
+.well{position:absolute;top:calc(426px * var(--s));width:calc(210px * var(--s));
+      height:calc(92px * var(--s));border-radius:50%;z-index:1;
+      background:radial-gradient(ellipse at 50% 28%,#1A1A20 0%,#0B0B0F 74%);
+      box-shadow:inset 0 calc(8px * var(--s)) calc(14px * var(--s)) rgba(0,0,0,.65),
+                 0 0 0 calc(3px * var(--s)) rgba(255,255,255,.07),
+                 0 calc(3px * var(--s)) 0 rgba(255,255,255,.10)}
+.well.a{left:calc(66px * var(--s))}
+.well.b{left:calc(364px * var(--s))}
+/* 160px wide against a 380x993 source, so 418px tall; its base lands 26px above
+   the well's far edge, which is what puts it inside the hole rather than on it. */
+.holder .tb{position:absolute;left:calc(389px * var(--s));bottom:calc(120px * var(--s));
+            width:calc(160px * var(--s));height:auto;z-index:2;
+            filter:drop-shadow(calc(-6px * var(--s)) calc(12px * var(--s)) calc(18px * var(--s)) rgba(0,0,0,.30))}
+/* The near lip, painted last and over the tube's base. Without this layer the
+   tube sits on the console instead of in it, and the frame proves nothing. */
+.holder .lip{position:absolute;left:calc(364px * var(--s));top:calc(472px * var(--s));
+             width:calc(210px * var(--s));height:calc(46px * var(--s));z-index:3;
+             border-radius:0 0 calc(105px * var(--s)) calc(105px * var(--s))
+                         / 0 0 calc(46px * var(--s)) calc(46px * var(--s));
+             background:linear-gradient(180deg,#0D0D12 0%,#1A1A21 38%,#3B3B44 100%);
+             box-shadow:inset 0 calc(4px * var(--s)) calc(8px * var(--s)) rgba(0,0,0,.55)}
 
 /* ---- Arabic ------------------------------------------------------------- */
 /* Everything above is laid out with flex and logical properties and carries no

@@ -1,5 +1,13 @@
 # What to add — BIOD, 3 October 2026
 
+> **Superseded in part, same day.** The owner does not want cash on delivery
+> promoted. Everything below that recommended COD-led creative — the fourth
+> Arabic script and the `bundle-17-cod` static — has been removed from the set,
+> along with `bundle-16-since` and the COD lines in `bundle-13-spec` and
+> `bundle-14-that`. The *finding* that both recent orders were COD still stands
+> as a fact about the order book; it is simply not being used as a selling
+> line. Four replacement creatives were built instead: see the README.
+
 Scope set by the brief: **do not touch the ads.** Nothing in this document
 changes a budget, a bid, an audience, a creative or a status on anything that is
 currently serving. Everything here is either an addition, or a finding reported
