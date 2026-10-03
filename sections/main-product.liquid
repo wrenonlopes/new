@@ -164,6 +164,12 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%}
+        review_score and review_count are plain settings strings, not review
+        data. The schema defaults below and the saved values in
+        templates/product.json have to be changed together or a settings reset
+        silently reverts them.
+      {%- endcomment -%}
       {%- if section.settings.show_reviews -%}
         <div class="pdp-social">
           <div class="pdp-social__score">
