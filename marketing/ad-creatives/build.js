@@ -95,13 +95,13 @@ const LOOK = {
      hotel and one at her own hook, so the second reads as the answer to the
      first if she sees both. The boxes shrink to 150 because the list, not the
      packaging, is doing the work. */
-  /* All three go dark, and the drawn prop is the only lit thing on the frame.
-     On a light ground an off-white towel is a smudge; on these it glows, and
-     with four words of copy the eye has nowhere else to go. Three different
-     darks so they stay separable in reporting. */
-  'bundle-20-hotel':  { ground: '#17171C',  fg: C.cream, accent: C.leaf,    logo: LOGO_CREAM, art: 'towelstack' },
-  'bundle-21-home':   { ground: C.ink,      fg: C.cream, accent: C.leaf,    logo: LOGO_CREAM, art: 'towelhook' },
-  'bundle-22-routine':{ ground: C.leafDark, fg: C.cream, accent: C.sunrise, logo: LOGO_CREAM, art: 'routine' },
+  /* Back on the sticker. A drawn towel was two attempts at a prop the brand
+     does not sell, and it looked it; the box is the one piece of art in this
+     project that was made by someone who draws. Four boxes on all three --
+     these sell the bundle -- on three grounds that are already proven. */
+  'bundle-20-hotel':  { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232 },
+  'bundle-21-home':   { ground: C.kraft,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 232 },
+  'bundle-22-routine':{ ground: C.cream,   fg: C.ink,   accent: C.sunrise,  logo: LOGO_DARK,  boxes: 4, bw: 232 },
   'tube-05-holder':   { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'holder' },
 };
 
@@ -140,13 +140,6 @@ function boxesHTML(k) {
       <div class="sh front"><i class="curl"></i></div>
     </div>`;
   }
-  /* Three props drawn as SVG rather than stacked divs. A towel is a silhouette
-     problem -- a drape, a hem, the fall of the folds -- and a rounded rectangle
-     reads as foam no matter what texture is painted on it. Paths solve it;
-     border-radius cannot. */
-  if (kind === 'towelstack') return TOWEL_STACK;
-  if (kind === 'towelhook') return TOWEL_HOOK;
-  if (kind === 'routine') return ROUTINE_ROW;
   /* The cup holder, drawn. The tissue tube's whole argument is that it fits
      something, and a tube floating on a flat ground cannot make that argument
      -- it needs the thing it fits into. The well is painted first, the tube
@@ -176,153 +169,89 @@ function boxesHTML(k) {
     .join('')}</div>`;
 }
 
-/* Drawn rather than typed: the tick and cross glyphs are not in either brand
-   face and would silently fall back to a system font. */
-const TICK = `<svg class="mk v" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6"/></svg>`;
-const CROSS = `<svg class="mk x" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 L19 19 M19 5 L5 19"/></svg>`;
+function boxesHTML(k) {
+  const kind = k.art || 'box';
+  /* The sheet, drawn rather than photographed. Nineteen creatives showed the
+     box, which is packaging; this is the product. The whole proposition is
+     tactile, so the weave, the soft edge and the drape are the point -- a
+     hard-edged rectangle would read as paper. */
+  if (kind === 'sheet') {
+    return `<div class="sheets">
+      <div class="sh back"></div>
+      <div class="sh mid"></div>
+      <div class="sh front"><i class="curl"></i></div>
+    </div>`;
+  }
+  /* The cup holder, drawn. The tissue tube's whole argument is that it fits
+     something, and a tube floating on a flat ground cannot make that argument
+     -- it needs the thing it fits into. The well is painted first, the tube
+     over it, then the near lip over the tube's base: that last layer is what
+     makes it read as IN the holder rather than ON it. */
+  if (kind === 'holder') {
+    return `<div class="holder">
+      <div class="console"></div>
+      <div class="well a"></div>
+      <div class="well b"></div>
+      <img class="tb" src="${ART.tube.src}" alt="">
+      <i class="lip"></i>
+    </div>`;
+  }
+  const { src } = ART[kind];
+  const w = artW(kind, k.bw);
+  if (k.boxes === 1) {
+    return `<img class="bx solo" style="--bw:${w}px;--t:4deg" src="${src}" alt="">`;
+  }
+  /* Four discrete units, not one spend: partitioning is what stops the pack
+     total being evaluated as a single outlay. Nothing rotates past 6deg --
+     both stickers are drawn in fixed perspective and a steeper tilt reads as
+     a mistake. Tubes stand upright, so they get a tighter tilt than the box. */
+  const tilts = kind === 'tube' ? [-2, 1.5, -1.5, 2] : [-3, 2, -2, 3];
+  return `<div class="quad ${kind}">${tilts
+    .map((t) => `<img class="bx" style="--bw:${w}px;--t:${t}deg" src="${src}" alt="">`)
+    .join('')}</div>`;
+}
 
-/* Terry, twice: a fine vertical pile over the whole shape and a flat woven
-   dobby band. Shared by every towel below so they read as the same cloth. */
-const TERRY = `
-  <pattern id="pile" width="5" height="5" patternUnits="userSpaceOnUse">
-    <rect width="1" height="5" fill="#7A7058" opacity=".085"/>
-  </pattern>`;
-
-/* The hotel stack. Folded towels are flat, not fat: each is a shallow slab with
-   the rolled fold showing as a lighter lip along its front edge, and the cut
-   layers showing as short strokes at the end. Those two details are the whole
-   difference between a towel and a block. */
-const TOWEL_STACK = (() => {
-  /* 3.4:1, not 6:1. The first attempt made each towel a 596x92 strip and the
-     stack read as venetian blind slats -- a folded towel is a stout block, and
-     the proportion is most of what identifies it. */
-  const slab = (x, y, w, h) => `
-    <g transform="translate(${x} ${y})">
-      <rect x="0" y="0" width="${w}" height="${h}" rx="11" fill="url(#terryG)"/>
-      <rect x="0" y="0" width="${w}" height="${h}" rx="11" fill="url(#pile)"/>
-      <!-- the folded layers, seen end-on at the left -->
-      ${[0.26, 0.5, 0.74].map((f) =>
-        `<path d="M9 ${h * f} h34" stroke="#9A8F72" stroke-opacity=".42" stroke-width="2.2"
-               stroke-linecap="round"/>`).join('')}
-      <!-- the dobby band: two fine lines, the detail that says hotel -->
-      <path d="M62 ${h * 0.33} H${w - 24}" stroke="#A2977B" stroke-opacity=".34" stroke-width="2.6"/>
-      <path d="M62 ${h * 0.44} H${w - 24}" stroke="#A2977B" stroke-opacity=".34" stroke-width="2.6"/>
-      <!-- the rolled front edge -->
-      <path d="M2 ${h - 19} H${w - 2}" stroke="#8C8268" stroke-opacity=".26" stroke-width="1.8"/>
-      <path d="M12 ${h - 9} H${w - 12}" stroke="#FFFDF7" stroke-opacity=".8" stroke-width="3.4"/>
-      <rect x="0" y="0" width="${w}" height="${h}" rx="11" fill="none"
-            stroke="#6F6450" stroke-opacity=".18"/>
-    </g>`;
-  return `<svg class="prop stack" viewBox="0 0 400 300" aria-hidden="true">
-    <defs>${TERRY}
-      <linearGradient id="terryG" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#FEFCF7"/><stop offset=".55" stop-color="#F1ECE0"/>
-        <stop offset="1" stop-color="#DBD4C2"/></linearGradient>
-      <filter id="dropA" x="-30%" y="-30%" width="160%" height="190%">
-        <feDropShadow dx="0" dy="9" stdDeviation="11" flood-opacity=".46"/></filter>
-    </defs>
-    <g filter="url(#dropA)">
-      ${slab(30, 192, 340, 100)}
-      <g transform="rotate(-.8 200 150)">${slab(45, 100, 310, 100)}</g>
-      <g transform="rotate(1.1 200 58)">${slab(60, 8, 280, 100)}</g>
-    </g>
-  </svg>`;
-})();
-
-/* The towel on the hook. The silhouette does the work: narrow where it folds
-   over the rail, falling wider, and a hem that is not level because a hanging
-   towel never is. The gradient runs warm at the top to a cool grey-green at the
-   bottom -- warm reads as dry cotton, cool reads as wet, and "wet" is the
-   entire claim of the frame. */
-const TOWEL_HOOK = `<svg class="prop hook" viewBox="0 0 440 530" aria-hidden="true">
-  <defs>${TERRY}
-    <linearGradient id="dampG" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FBF8F1"/><stop offset=".22" stop-color="#F1EBDD"/>
-      <stop offset=".50" stop-color="#DCD4BF"/><stop offset=".72" stop-color="#B2AE9B"/>
-      <stop offset=".88" stop-color="#8E9287"/><stop offset="1" stop-color="#7C8179"/>
-    </linearGradient>
-    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#F0F2F6"/><stop offset=".46" stop-color="#A7ACB5"/>
-      <stop offset="1" stop-color="#555963"/></linearGradient>
-    <linearGradient id="creaseG" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#5E543E" stop-opacity=".34"/>
-      <stop offset="1" stop-color="#5E543E" stop-opacity="0"/></linearGradient>
-    <filter id="dropB" x="-30%" y="-20%" width="160%" height="150%">
-      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-opacity=".40"/></filter>
-    <clipPath id="clipT"><path d="M135 36 C128 64 124 92 123 118 L116 440
-      Q115 462 137 465 C190 472 250 472 303 465 Q325 462 324 440 L317 118
-      C316 92 312 64 305 36 Z"/></clipPath>
-  </defs>
-  <rect x="88" y="26" width="264" height="15" rx="7.5" fill="url(#chrome)"/>
-  <!-- the back panel, just visible past the front one: a towel over a rail is
-       two panels, and without the second it reads as a board -->
-  <path d="M152 34 C147 58 145 84 145 104 L141 452 Q140 470 158 472 L300 472
-           Q318 470 317 452 L313 104 C313 84 311 58 306 34 Z"
-        fill="#8E8878" opacity=".55" transform="translate(13 7)"/>
-  <g filter="url(#dropB)">
-    <path d="M135 36 C128 64 124 92 123 118 L116 440 Q115 462 137 465
-             C190 472 250 472 303 465 Q325 462 324 440 L317 118
-             C316 92 312 64 305 36 Z" fill="url(#dampG)"/>
-  </g>
-  <g clip-path="url(#clipT)">
-    <rect x="110" y="30" width="220" height="445" fill="url(#pile)"/>
-    <!-- the crease where it folds over the rail -->
-    <rect x="110" y="36" width="220" height="46" fill="url(#creaseG)"/>
-    <path d="M220 44 V 470" stroke="#5E543E" stroke-opacity=".15" stroke-width="9"/>
-    <path d="M176 58 V 468" stroke="#5E543E" stroke-opacity=".08" stroke-width="5"/>
-    <path d="M268 58 V 468" stroke="#5E543E" stroke-opacity=".08" stroke-width="5"/>
-    <path d="M110 384 H 330" stroke="#4F4B3B" stroke-opacity=".22" stroke-width="3.4"
-          stroke-dasharray="4 9"/>
-    <path d="M110 402 H 330" stroke="#4F4B3B" stroke-opacity=".22" stroke-width="3.4"
-          stroke-dasharray="4 9"/>
-    <!-- the hem, and the water sitting in it -->
-    <path d="M110 446 H 330" stroke="#4F4B3B" stroke-opacity=".26" stroke-width="2.4"/>
-    <rect x="110" y="398" width="220" height="80" fill="#6F7569" opacity=".30"/>
-  </g>
-</svg>`;
-
-/* The routine, as objects: three vessels she chose, ticked, and the towel she
-   never thought about, crossed. Four marks and no sentences. */
-const ROUTINE_ROW = `<svg class="prop routine" viewBox="0 0 760 320" aria-hidden="true">
-  <defs>${TERRY}
-    <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FDFBF5"/><stop offset=".58" stop-color="#EDE7D9"/>
-      <stop offset="1" stop-color="#CFC7B4"/></linearGradient>
-    <linearGradient id="capG" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#E6DFCF"/><stop offset="1" stop-color="#BDB4A0"/></linearGradient>
-    <linearGradient id="terryG2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FEFCF7"/><stop offset=".55" stop-color="#F1ECE0"/>
-      <stop offset="1" stop-color="#DBD4C2"/></linearGradient>
-    <filter id="dropC" x="-40%" y="-20%" width="180%" height="150%">
-      <feDropShadow dx="0" dy="9" stdDeviation="11" flood-opacity=".38"/></filter>
-  </defs>
-  <g filter="url(#dropC)">
-    <g><rect x="74" y="4" width="52" height="46" rx="8" fill="url(#capG)"/>
-       <rect x="86" y="46" width="28" height="30" fill="url(#capG)"/>
-       <rect x="48" y="72" width="104" height="158" rx="16" fill="url(#glassG)"/>
-       <rect x="68" y="104" width="64" height="76" rx="6" fill="#FFFFFF" opacity=".38"/></g>
-    <g><rect x="206" y="20" width="98" height="17" rx="5" fill="url(#capG)"/>
-       <path d="M210 36 h90 v142 a45 45 0 0 1 -90 0 Z" fill="url(#glassG)"/>
-       <rect x="228" y="70" width="54" height="66" rx="6" fill="#FFFFFF" opacity=".34"/></g>
-    <g><rect x="352" y="100" width="124" height="34" rx="10" fill="url(#capG)"/>
-       <rect x="340" y="132" width="148" height="98" rx="16" fill="url(#glassG)"/>
-       <rect x="366" y="156" width="68" height="48" rx="6" fill="#FFFFFF" opacity=".34"/></g>
-    <g transform="translate(540 128)">
-      <rect x="0" y="0" width="184" height="102" rx="11" fill="url(#terryG2)"/>
-      <rect x="0" y="0" width="184" height="102" rx="11" fill="url(#pile)"/>
-      <path d="M0 87 h184" stroke="#8C8268" stroke-opacity=".30" stroke-width="1.6"/>
-      <path d="M8 95 h168" stroke="#FFFDF7" stroke-opacity=".7" stroke-width="3"/>
-      <path d="M28 33 h128" stroke="#9A8F72" stroke-opacity=".3" stroke-width="2.6" stroke-dasharray="3 7"/>
-      <path d="M28 46 h128" stroke="#9A8F72" stroke-opacity=".3" stroke-width="2.6" stroke-dasharray="3 7"/>
-      <rect x="0" y="0" width="184" height="102" rx="11" fill="none" stroke="#6F6450" stroke-opacity=".16"/>
-    </g>
-  </g>
-  <g fill="none" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round">
-    ${[100, 255, 414].map((cx) =>
-      `<path d="M${cx - 20} ${278} l12 13 l24 -27" stroke="var(--fg)" stroke-opacity=".40"/>`).join('')}
-    <path d="M612 268 l28 28 M640 268 l-28 28" stroke="var(--accent)"/>
-  </g>
-</svg>`;
+function boxesHTML(k) {
+  const kind = k.art || 'box';
+  /* The sheet, drawn rather than photographed. Nineteen creatives showed the
+     box, which is packaging; this is the product. The whole proposition is
+     tactile, so the weave, the soft edge and the drape are the point -- a
+     hard-edged rectangle would read as paper. */
+  if (kind === 'sheet') {
+    return `<div class="sheets">
+      <div class="sh back"></div>
+      <div class="sh mid"></div>
+      <div class="sh front"><i class="curl"></i></div>
+    </div>`;
+  }
+  /* The cup holder, drawn. The tissue tube's whole argument is that it fits
+     something, and a tube floating on a flat ground cannot make that argument
+     -- it needs the thing it fits into. The well is painted first, the tube
+     over it, then the near lip over the tube's base: that last layer is what
+     makes it read as IN the holder rather than ON it. */
+  if (kind === 'holder') {
+    return `<div class="holder">
+      <div class="console"></div>
+      <div class="well a"></div>
+      <div class="well b"></div>
+      <img class="tb" src="${ART.tube.src}" alt="">
+      <i class="lip"></i>
+    </div>`;
+  }
+  const { src } = ART[kind];
+  const w = artW(kind, k.bw);
+  if (k.boxes === 1) {
+    return `<img class="bx solo" style="--bw:${w}px;--t:4deg" src="${src}" alt="">`;
+  }
+  /* Four discrete units, not one spend: partitioning is what stops the pack
+     total being evaluated as a single outlay. Nothing rotates past 6deg --
+     both stickers are drawn in fixed perspective and a steeper tilt reads as
+     a mistake. Tubes stand upright, so they get a tighter tilt than the box. */
+  const tilts = kind === 'tube' ? [-2, 1.5, -1.5, 2] : [-3, 2, -2, 3];
+  return `<div class="quad ${kind}">${tilts
+    .map((t) => `<img class="bx" style="--bw:${w}px;--t:${t}deg" src="${src}" alt="">`)
+    .join('')}</div>`;
+}
 
 function heroHTML(c) {
   switch (c.kind) {
@@ -355,7 +284,8 @@ function heroHTML(c) {
     case 'versus': {
       /* Marks are drawn rather than typed: the tick and cross glyphs are not
          in either brand face and would silently fall back to a system font. */
-      const cross = CROSS, tick = TICK;
+      const cross = `<svg class="mk x" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5 L19 19 M19 5 L5 19"/></svg>`;
+      const tick = `<svg class="mk v" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6"/></svg>`;
       return `<h1 class="hero vs">${esc(c.hero)}</h1>
         <div class="table">
           <div class="col bad"><div class="ch">${esc(c.columns[0])}</div>${
@@ -403,7 +333,8 @@ function canvas(c, f) {
     <header><img class="logo" src="${k.logo}" alt="biod"></header>
     <div class="say">
       ${heroHTML(c)}
-      ${c.support && c.kind !== 'stat' ? `<p class="sup">${esc(c.support)}</p>` : ''}
+      ${c.support && c.kind !== 'stat'
+        ? `<p class="sup${c.accentSup ? ' hi' : ''}">${esc(c.support)}</p>` : ''}
     </div>
     <div class="art">${boxesHTML(k)}</div>
     <div class="foot">
@@ -451,15 +382,6 @@ header{margin-bottom:calc(44px * var(--s))}
 .hero .tail{font-family:Outfit,sans-serif;font-weight:700;font-size:calc(52px * var(--s));
             letter-spacing:-.02em;opacity:.62;margin-inline-start:calc(22px * var(--s))}
 
-/* ---- drawn props ------------------------------------------------------- */
-/* The SVGs carry their own drawing; all the stylesheet owes them is a size and
-   a ceiling, so a tall prop cannot push up into the headline the way the first
-   cup-holder attempt did. */
-.prop{display:block;height:auto;max-width:100%;max-height:100%}
-.prop.stack{width:calc(560px * var(--s))}
-.prop.hook{width:calc(400px * var(--s))}
-.prop.routine{width:calc(820px * var(--s))}
-
 /* ---- the cup holder, drawn ---------------------------------------------- */
 /* Three layers in paint order: the well, the tube, then the near lip over the
    tube's base. Without that third layer the tube sits on the console instead of
@@ -467,13 +389,14 @@ header{margin-bottom:calc(44px * var(--s))}
 .holder{position:relative;width:calc(640px * var(--s));height:calc(620px * var(--s))}
 .console{position:absolute;left:0;right:0;bottom:0;height:calc(250px * var(--s));z-index:0;
          border-radius:calc(44px * var(--s));
-         background:linear-gradient(168deg,#5A5A64 0%,#44444D 30%,#33333B 62%,#292930 100%);
-         box-shadow:inset 0 calc(3px * var(--s)) 0 rgba(255,255,255,.17),
-                    inset 0 calc(-3px * var(--s)) calc(10px * var(--s)) rgba(0,0,0,.35),
+         background:radial-gradient(120% 150% at 22% 0%,rgba(255,255,255,.16) 0%,transparent 52%),
+                    linear-gradient(168deg,#78767E 0%,#5B5A63 32%,#45444C 66%,#38373E 100%);
+         box-shadow:inset 0 calc(3px * var(--s)) 0 rgba(255,255,255,.26),
+                    inset 0 calc(-3px * var(--s)) calc(12px * var(--s)) rgba(0,0,0,.30),
                     0 calc(16px * var(--s)) calc(32px * var(--s)) rgba(0,0,0,.20)}
 .well{position:absolute;top:calc(426px * var(--s));width:calc(210px * var(--s));
       height:calc(92px * var(--s));border-radius:50%;z-index:1;
-      background:radial-gradient(ellipse at 50% 28%,#1A1A20 0%,#0B0B0F 74%);
+      background:radial-gradient(ellipse at 50% 28%,#2A2930 0%,#121117 74%);
       box-shadow:inset 0 calc(8px * var(--s)) calc(14px * var(--s)) rgba(0,0,0,.65),
                  0 0 0 calc(3px * var(--s)) rgba(255,255,255,.07),
                  0 calc(3px * var(--s)) 0 rgba(255,255,255,.10)}
@@ -490,7 +413,7 @@ header{margin-bottom:calc(44px * var(--s))}
              width:calc(210px * var(--s));height:calc(46px * var(--s));z-index:3;
              border-radius:0 0 calc(105px * var(--s)) calc(105px * var(--s))
                          / 0 0 calc(46px * var(--s)) calc(46px * var(--s));
-             background:linear-gradient(180deg,#0D0D12 0%,#1A1A21 38%,#3B3B44 100%);
+             background:linear-gradient(180deg,#131218 0%,#24232B 38%,#4C4A54 100%);
              box-shadow:inset 0 calc(4px * var(--s)) calc(8px * var(--s)) rgba(0,0,0,.55)}
 
 /* ---- Arabic ------------------------------------------------------------- */
@@ -596,6 +519,10 @@ header{margin-bottom:calc(44px * var(--s))}
 .sup{margin-top:calc(30px * var(--s));font-weight:500;font-size:calc(35px * var(--s));
      line-height:1.4;opacity:.78;max-width:calc(790px * var(--s))}
 .k-ask .sup{color:var(--accent);opacity:1;font-weight:700;font-size:calc(40px * var(--s))}
+/* The accent support line under a full-size headline. It is the second thing
+   read on the frame and the only coloured text on it, so it is where the
+   argument and the price both land. */
+.sup.hi{color:var(--accent);opacity:1;font-weight:700;font-size:calc(38px * var(--s))}
 
 /* ---- product ------------------------------------------------------------ */
 .art{flex:1;position:relative;display:flex;align-items:center;justify-content:center;

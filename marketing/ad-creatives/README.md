@@ -14,28 +14,30 @@ hand off to an English product page.
 
 ### The 3 October set (20–22, tube-05)
 
-Four frames, and the rule they are built to: **one line, one object, one
-price.** The first cut of these ran a five-line list plus a turn plus a price
-and was a poster, not a feed ad — in feed the thumb is gone before line three,
-and every extra line is one more thing to disagree with. What is left is four
-to six words of headline, a drawn prop doing the arguing, and the price in the
-furniture.
+Four frames in the house layout: headline at full size, one support line in the
+accent, the sticker, the furniture bar. Two detours happened on the way here and
+both are worth recording.
 
-They run the price as **"less than AED 1 a towel"** rather than 88 fils: the
-same number against a unit the shopper already has a feel for, so it needs no
+**Too much text.** The first cut ran a five-line list plus a turn plus a price.
+That is a poster, not a feed ad — the thumb is gone before line three and every
+extra line is one more thing to disagree with. Headline plus one support line is
+the ceiling, and the support line stops at three rendered lines.
+
+**Then too little, and drawn badly.** The second cut went to four words over a
+CSS/SVG towel. The copy was right to be short but the prop was not: a towel is a
+silhouette problem and the brand does not sell towels that look like that, so it
+read as a drawing of nothing. The sticker is the one piece of art in this project
+made by someone who draws, and it is what every frame uses.
+
+The price reads **"less than AED 1 a towel"** rather than 88 fils: the same
+number against a unit the shopper already has a feel for, so it needs no
 conversion before it reads as cheap. The pack total stays on every frame as the
-footnote, so the arithmetic is always checkable (176 / 200 = 0.88).
+footnote (176 / 200 = 0.88).
 
-All three towel frames go dark, with the drawn prop as the only lit thing on
-the page. Nothing is claimed about the enemy towel — the question and the
-picture are left to do it, which is also why none of them can fail
-substantiation.
-
-**The props are SVG, not CSS boxes.** A towel is a silhouette problem — the
-drape, the hem, the fall of the folds — and a rounded rectangle reads as foam
-however much texture is painted on it. They are drawn once in `build.js`
-(`TOWEL_STACK`, `TOWEL_HOOK`, `ROUTINE_ROW`) and share one terry pattern, so
-all three read as the same cloth.
+Nothing is claimed about the enemy towel on any of them. The headline and the
+chain under it are things that are simply true of how a hotel or a bathroom
+works, so there is nothing to substantiate and nothing to argue with — which is
+also the only way disgust ever gets past a defence.
 
 | File | Hero | Mechanism |
 |---|---|---|
@@ -50,9 +52,9 @@ all three read as the same cloth.
 | `bundle-09-once` | buy it once | Decision cost, not discount |
 | `bundle-18-hotel` | That hotel towel has a history | The hotel-room video's mechanism, as a still |
 | `bundle-19-ar` | **88 فلس** للمنشفة | Arabic, RTL, Cairo · held until `ar` is published |
-| `bundle-20-hotel` | Who had it before you? | Six words over a stack of folded hotel towels |
-| `bundle-21-home` | Still damp. | Two words. The gradient on the hanging towel is the whole argument |
-| `bundle-22-routine` | Every step but one. | Three vessels ticked, the towel crossed. Four marks, no sentences |
+| `bundle-20-hotel` | Someone else's face was here first. | A chain, not a claim: a face, a laundry, a shelf, then you |
+| `bundle-21-home` | The one in your bathroom is worse. | Concedes the hotel its one virtue to take it off her |
+| `bundle-22-routine` | You got every step right but one. | Agrees with her first, then names the step nobody sells her |
 | `tube-05-holder` | **AED 9** a tube | The cup holder, drawn — the fit shown rather than asserted |
 | `tube-01-fits` | it fits the cup holder | The form factor, demonstrated |
 | `tube-02-nine` | **AED 9** a tube | Per tube |

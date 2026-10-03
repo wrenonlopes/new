@@ -508,58 +508,61 @@ const CONCEPTS = [
     headline: '88 \u0641\u0644\u0633 \u0644\u0644\u0645\u0646\u0634\u0641\u0629',
   },
   {
-    /* One question, one object. Five lines of "you do not know" was a poster --
-       in feed the thumb is gone before line three, and every extra line is a
-       chance to disagree with one of them. A folded hotel towel and six words
-       is the same idea arriving whole: she cannot answer the question, and the
-       picture is what she will be looking at the next time she tries. */
+    /* The ick, and it is a chain rather than a claim: a face, then a laundry
+       nobody shows you, then a shelf, then yours. Every link is just how a
+       hotel works, so there is nothing to substantiate and nothing to argue
+       with -- she assembles the feeling herself, which is the only way disgust
+       ever gets past a defence. */
     id: 'bundle-20-hotel',
-    label: 'Bundle \u2014 who had it before you',
-    kind: 'ask', art: 'towelstack',
-    hero: 'Who had it before you?',
-    furniture: 'BIOD face towels \u00b7 less than AED 1 each',
-    footnote: '200 towels, AED 176, delivered free.',
+    label: 'Bundle \u2014 someone else was here first',
+    kind: 'line', accentSup: true,
+    hero: 'Someone else\u2019s face was here first.',
+    support: 'then a laundry you never see, then a shelf, then you. pack your own \u2014 less than AED 1 a towel.',
+    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
+    footnote: PACK,
     primary: [
-      'who had it before you?',
-      'pack your own. 200 large ultrasoft bamboo towels, used once, less than AED 1 each.',
+      'someone else\u2019s face was on that hotel towel before yours.',
+      'then a laundry you never see, then a shelf, then you. pack your own instead \u2014 200 large ultrasoft bamboo towels, used once, less than AED 1 each.',
       'AED 176, delivered free.',
     ],
     headline: 'Less than AED 1 a towel',
   },
   {
-    /* Two words. The gradient on the towel is the entire argument -- dry at the
-       top where the air gets to it, loaded at the bottom where it does not --
-       and no sentence improves on a picture of the thing she walks past twice a
-       day. This is the one frame in the set that needs no reading at all. */
+    /* The harder of the two, because the hotel towel is somebody else's problem
+       and this one is hers. The headline concedes the hotel its single virtue
+       in order to take it off her, and every line under it is something she can
+       check by walking down the hall. */
     id: 'bundle-21-home',
-    label: 'Bundle \u2014 still damp',
-    kind: 'line', size: 'lg', art: 'towelhook',
-    hero: 'Still damp.',
-    furniture: 'BIOD face towels \u00b7 less than AED 1 each',
-    footnote: '200 towels, AED 176, delivered free.',
+    label: 'Bundle \u2014 the one on your own hook',
+    kind: 'line', accentSup: true,
+    hero: 'The one in your bathroom is worse.',
+    support: 'the hotel at least washes theirs. yours has hung damp since sunday, and everyone who visits dries their hands on it.',
+    furniture: `200 large towels \u00b7 less than AED 1 each \u00b7 ${QUALITY}`,
+    footnote: PACK,
     primary: [
-      'the one on your hook has not been properly dry since the last time you used it.',
-      'a fresh towel every time instead. 200 large ultrasoft bamboo towels, less than AED 1 each.',
-      'AED 176, delivered free.',
+      'at least the hotel washes theirs.',
+      'yours has hung damp since sunday, in the wettest room in the house, and everyone who visits dries their hands on it. twice a day you press it into your face.',
+      'a fresh one every time instead \u2014 200 large ultrasoft bamboo towels, less than AED 1 each. AED 176, delivered free.',
     ],
     headline: 'A fresh towel every time',
   },
   {
-    /* The taunt as objects. Three vessels she chose and paid for, ticked, and
-       the towel she never thought about, crossed -- four marks, four words, and
-       the whole argument is made before she has read anything. Listing her
-       actual routine was flattery she had to read; showing it is flattery she
-       takes in at a glance. */
+    /* The taunt, and the only frame in the set that agrees with her first. The
+       routine is right, the spend is right, the order is right -- and then the
+       one thing nobody sells her undoes the care she took over all of it.
+       Nothing is claimed about skin: the whole argument is consistency, which
+       she can check without taking anyone's word for it. */
     id: 'bundle-22-routine',
     label: 'Bundle \u2014 every step but one',
-    kind: 'ask', art: 'routine',
-    hero: 'Every step but one.',
-    furniture: 'BIOD face towels \u00b7 less than AED 1 each',
-    footnote: '200 towels, AED 176, delivered free.',
+    kind: 'line', accentSup: true,
+    hero: 'You got every step right but one.',
+    support: 'cleanser, serum, SPF, all of it correct \u2014 then you dried it off on the towel from tuesday. less than AED 1 a towel.',
+    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
+    footnote: PACK,
     primary: [
       'cleanser, serum, SPF. all of it right.',
-      'then you dried it off on the towel from tuesday. a fresh one every time instead \u2014 200 large ultrasoft bamboo towels, less than AED 1 each.',
-      'AED 176, delivered free.',
+      'then you dried it off on the towel that has been on the hook since tuesday. the last thing to touch your face is the one part nobody sells you.',
+      '200 large ultrasoft bamboo towels, used once, less than AED 1 each. AED 176, delivered free.',
     ],
     headline: 'Every step right but one',
   },
@@ -573,9 +576,9 @@ const CONCEPTS = [
     label: 'Tube \u2014 in the cup holder',
     kind: 'fils', size: 'cur', product: 'tube', art: 'holder',
     hero: 'AED 9', heroTail: 'a tube',
-    support: 'it drops in and stays there.',
-    furniture: 'four tubes \u00b7 200 three-ply tissues',
-    footnote: 'four tubes, AED 36.',
+    support: 'it drops into the cup holder and stays there. no square box sliding around the passenger seat.',
+    furniture: 'four tubes \u00b7 200 three-ply tissues \u00b7 one hand, every time',
+    footnote: 'four tubes, AED 36. delivery free over AED 100.',
     primary: [
       'AED 9 a tube.',
       'it drops into the cup holder and stays there \u2014 no square box sliding around the passenger seat. 50 three-ply tissues in each.',
