@@ -508,16 +508,16 @@ const CONCEPTS = [
     headline: '88 \u0641\u0644\u0633 \u0644\u0644\u0645\u0646\u0634\u0641\u0629',
   },
   {
-    /* The ick, and it is a chain rather than a claim: a face, then a laundry
-       nobody shows you, then a shelf, then yours. Every link is just how a
-       hotel works, so there is nothing to substantiate and nothing to argue
-       with -- she assembles the feeling herself, which is the only way disgust
-       ever gets past a defence. */
+    /* Direct: an instruction naming the object and the action, which is the
+       one thing a riddle headline cannot do in the half second a feed gives
+       it. The ick moves to the support line, where it is a chain of things she
+       cannot know rather than a claim -- nothing to substantiate, nothing to
+       argue with, and she assembles the feeling herself. */
     id: 'bundle-20-hotel',
     label: 'Bundle \u2014 someone else was here first',
     kind: 'line', accentSup: true,
-    hero: 'Someone else\u2019s face was here first.',
-    support: 'then a laundry you never see, then a shelf, then you. pack your own \u2014 less than AED 1 a towel.',
+    hero: 'Never dry your face on a hotel towel.',
+    support: 'you do not know whose face was on it, or how it was washed, or how long it sat folded and damp. pack your own \u2014 less than AED 1 a towel.',
     furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
     footnote: PACK,
     primary: [
@@ -529,14 +529,14 @@ const CONCEPTS = [
   },
   {
     /* The harder of the two, because the hotel towel is somebody else's problem
-       and this one is hers. The headline concedes the hotel its single virtue
-       in order to take it off her, and every line under it is something she can
-       check by walking down the hall. */
+       and this one is hers. The headline names the behaviour being replaced
+       rather than hinting at it; everything under it is something she can check
+       by walking down the hall. */
     id: 'bundle-21-home',
     label: 'Bundle \u2014 the one on your own hook',
     kind: 'line', accentSup: true,
-    hero: 'The one in your bathroom is worse.',
-    support: 'the hotel at least washes theirs. yours has hung damp since sunday, and everyone who visits dries their hands on it.',
+    hero: 'Stop drying your face on the same towel.',
+    support: 'it has hung damp in the wettest room in the house since sunday, and everyone who visits dries their hands on it. a fresh one every time \u2014 less than AED 1 a towel.',
     furniture: `200 large towels \u00b7 less than AED 1 each \u00b7 ${QUALITY}`,
     footnote: PACK,
     primary: [
@@ -544,19 +544,19 @@ const CONCEPTS = [
       'yours has hung damp since sunday, in the wettest room in the house, and everyone who visits dries their hands on it. twice a day you press it into your face.',
       'a fresh one every time instead \u2014 200 large ultrasoft bamboo towels, less than AED 1 each. AED 176, delivered free.',
     ],
-    headline: 'A fresh towel every time',
+    headline: 'Stop reusing your face towel',
   },
   {
     /* The taunt, and the only frame in the set that agrees with her first. The
-       routine is right, the spend is right, the order is right -- and then the
-       one thing nobody sells her undoes the care she took over all of it.
-       Nothing is claimed about skin: the whole argument is consistency, which
-       she can check without taking anyone's word for it. */
+       routine is right and the headline says so in the first three words,
+       which is what buys the second half the right to sting. Nothing is
+       claimed about skin: the argument is consistency, which she can check
+       without taking anyone's word for it. */
     id: 'bundle-22-routine',
     label: 'Bundle \u2014 every step but one',
     kind: 'line', accentSup: true,
-    hero: 'You got every step right but one.',
-    support: 'cleanser, serum, SPF, all of it correct \u2014 then you dried it off on the towel from tuesday. less than AED 1 a towel.',
+    hero: 'Your skincare is fine. Your towel isn\u2019t.',
+    support: 'cleanser, serum, SPF \u2014 then you dry all of it off on the towel from tuesday. a fresh towel every time, less than AED 1 each.',
     furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
     footnote: PACK,
     primary: [
@@ -564,7 +564,7 @@ const CONCEPTS = [
       'then you dried it off on the towel that has been on the hook since tuesday. the last thing to touch your face is the one part nobody sells you.',
       '200 large ultrasoft bamboo towels, used once, less than AED 1 each. AED 176, delivered free.',
     ],
-    headline: 'Every step right but one',
+    headline: 'Your towel is undoing your skincare',
   },
   {
     /* The fit, drawn. Four tube frames already assert that it suits a car; none
@@ -576,7 +576,7 @@ const CONCEPTS = [
     label: 'Tube \u2014 in the cup holder',
     kind: 'fils', size: 'cur', product: 'tube', art: 'holder',
     hero: 'AED 9', heroTail: 'a tube',
-    support: 'it drops into the cup holder and stays there. no square box sliding around the passenger seat.',
+    support: 'it fits the cup holder. a square tissue box never will.',
     furniture: 'four tubes \u00b7 200 three-ply tissues \u00b7 one hand, every time',
     footnote: 'four tubes, AED 36. delivery free over AED 100.',
     primary: [

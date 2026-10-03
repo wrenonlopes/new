@@ -34,9 +34,17 @@ number against a unit the shopper already has a feel for, so it needs no
 conversion before it reads as cheap. The pack total stays on every frame as the
 footnote (176 / 200 = 0.88).
 
-Nothing is claimed about the enemy towel on any of them. The headline and the
-chain under it are things that are simply true of how a hotel or a bathroom
-works, so there is nothing to substantiate and nothing to argue with — which is
+**Then the headlines were indirect.** The third cut was all riddle: *Someone
+else's face was here first*, *The one in your bathroom is worse*, *You got every
+step right but one*. Each needs a beat of decoding, and a feed does not give one.
+The split across the whole set is exact — every price-led headline reads direct,
+every idea headline reads as an observation. So the rule here is: **the headline
+is an instruction or a flat statement that names the object and the action**, and
+the ick and the price both drop to the support line.
+
+Nothing is claimed about the enemy towel on any of them. The support line is a
+chain of things she cannot know, or things she can check by walking down the
+hall, so there is nothing to substantiate and nothing to argue with — which is
 also the only way disgust ever gets past a defence.
 
 | File | Hero | Mechanism |
@@ -52,9 +60,9 @@ also the only way disgust ever gets past a defence.
 | `bundle-09-once` | buy it once | Decision cost, not discount |
 | `bundle-18-hotel` | That hotel towel has a history | The hotel-room video's mechanism, as a still |
 | `bundle-19-ar` | **88 فلس** للمنشفة | Arabic, RTL, Cairo · held until `ar` is published |
-| `bundle-20-hotel` | Someone else's face was here first. | A chain, not a claim: a face, a laundry, a shelf, then you |
-| `bundle-21-home` | The one in your bathroom is worse. | Concedes the hotel its one virtue to take it off her |
-| `bundle-22-routine` | You got every step right but one. | Agrees with her first, then names the step nobody sells her |
+| `bundle-20-hotel` | Never dry your face on a hotel towel. | Instruction. The ick is the chain of unknowns under it |
+| `bundle-21-home` | Stop drying your face on the same towel. | Names the behaviour being replaced, not a hint at it |
+| `bundle-22-routine` | Your skincare is fine. Your towel isn't. | Agrees in three words, which buys the sting in the next four |
 | `tube-05-holder` | **AED 9** a tube | The cup holder, drawn — the fit shown rather than asserted |
 | `tube-01-fits` | it fits the cup holder | The form factor, demonstrated |
 | `tube-02-nine` | **AED 9** a tube | Per tube |
