@@ -14,7 +14,7 @@
     "announcement": {
       "type": "announcement-bar",
       "settings": {
-        "text": "<p>Free UAE delivery over Dhs 100 </p>"
+        "text": "<p>Free UAE delivery over Dhs 100 · Ships in 24h · Cash on delivery</p>"
       }
     },
     "header": {

@@ -52,14 +52,19 @@
         <div class="pdp__unit">{{ product.metafields.biod.unit_note }}</div>
       {%- endif -%}
 
-      <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
+      {%- form 'product', product, data-ajax-add: 'true' -%}
         <input type="hidden" name="id" value="{{ v.id }}">
 
         {%- if product.selling_plan_groups.size > 0 -%}
+          {%- comment -%}
+            The subscription plan name comes from Shopify, so the "Extra 5%" it is
+            prefixed with has to be translatable on its own.
+          {%- endcomment -%}
+          {%- assign plan_extra = 'products.selling_plan.extra_discount' | t -%}
           <div class="selling-plans">
             <label class="plan on" data-price="{{ product.price | money }}">
               <input type="radio" name="selling_plan" value="" checked>
-              <div><div class="t">One-time purchase</div><div class="s">Just this order</div></div>
+              <div><div class="t">{{ 'products.selling_plan.one_time' | t }}</div><div class="s">{{ 'products.selling_plan.one_time_note' | t }}</div></div>
               <span class="p">{{ product.price | money }}</span>
             </label>
             {%- for group in product.selling_plan_groups -%}
@@ -67,7 +72,7 @@
                 {%- assign alloc = v.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
                 <label class="plan" data-price="{{ alloc.price | money }}">
                   <input type="radio" name="selling_plan" value="{{ plan.id }}">
-                  <div><div class="t">{{ plan.name | replace: '5%', 'Extra 5%' }}</div><div class="s">Cancel anytime</div></div>
+                  <div><div class="t">{{ plan.name | replace: '5%', plan_extra }}</div><div class="s">{{ 'products.selling_plan.cancel_anytime' | t }}</div></div>
                   <span class="p">{{ alloc.price | money }}</span>
                 </label>
               {%- endfor -%}
@@ -75,11 +80,13 @@
           </div>
         {%- endif -%}
 
+        {% render 'free-shipping-bar', compact: true %}
+
         <div class="buy-row">
           <div class="qty-box">
-            <button type="button" data-qty-minus aria-label="Decrease">−</button>
-            <input type="number" name="quantity" value="1" min="1" max="50" aria-label="Quantity">
-            <button type="button" data-qty-plus aria-label="Increase">+</button>
+            <button type="button" data-qty-minus aria-label="{{ 'general.quantity.decrease' | t }}">−</button>
+            <input type="number" name="quantity" value="1" min="1" max="50" aria-label="{{ 'general.quantity.label' | t }}">
+            <button type="button" data-qty-plus aria-label="{{ 'general.quantity.increase' | t }}">+</button>
           </div>
           {%- if product.available -%}
             <button type="submit" class="btn btn--ink">{{ 'products.add_to_cart' | t }}</button>
@@ -87,7 +94,11 @@
             <button type="button" class="btn btn--outline" disabled>{{ 'products.sold_out' | t }}</button>
           {%- endif -%}
         </div>
-      </form>
+
+        {%- if product.available -%}
+          <div class="pay-row">{{ form | payment_button }}</div>
+        {%- endif -%}
+      {%- endform -%}
 
       {%- assign has_ladder = false -%}
       {%- for i in (1..3) -%}
@@ -96,7 +107,7 @@
       {%- endfor -%}
       {%- if has_ladder -%}
         <div class="sizes">
-          <div class="sizes__head">Pick your format. <span>bigger = better value. that's it, that's the math.</span></div>
+          <div class="sizes__head">{{ 'products.sizes.title' | t }} <span>{{ 'products.sizes.note' | t }}</span></div>
           <div class="sizes__grid">
             {%- for i in (1..3) -%}
               {%- assign skey = 'size_' | append: i -%}
@@ -112,7 +123,7 @@
                   <b>{{ section.settings[lkey] | default: sp.title }}</b>
                   <div class="size-card__price">{{ sp.price | money }}{%- if sp.compare_at_price > sp.price %} <s>{{ sp.compare_at_price | money }}</s>{%- endif -%}</div>
                   {%- if sp.metafields.biod.unit_note != blank -%}<div class="size-card__unit">{{ sp.metafields.biod.unit_note }}</div>{%- endif -%}
-                  {%- if here -%}<span class="size-card__here">← you're here</span>{%- endif -%}
+                  {%- if here -%}<span class="size-card__here">{{ 'products.sizes.here' | t }}</span>{%- endif -%}
                 </a>
               {%- endif -%}
             {%- endfor -%}
@@ -121,20 +132,23 @@
       {%- endif -%}
 
       <div class="trust-tiles">
-        <div class="tt"><span>✨</span><div><b>Premium quality</b><small>100% bamboo fibre</small></div></div>
-        <div class="tt"><span>🌱</span><div><b>Sustainably made</b><small>biodegrades in months</small></div></div>
-        <div class="tt"><span>🚚</span><div><b>Free delivery</b><small>on orders Dhs {{ settings.free_shipping_threshold }}+</small></div></div>
-        <div class="tt"><span>🔒</span><div><b>Secure checkout</b><small>safe & encrypted payment</small></div></div>
+        <div class="tt"><span>✨</span><div><b>{{ 'products.trust.quality_title' | t }}</b><small>{{ 'products.trust.quality_note' | t }}</small></div></div>
+        <div class="tt"><span>🌱</span><div><b>{{ 'products.trust.planet_title' | t }}</b><small>{{ 'products.trust.planet_note' | t }}</small></div></div>
+        <div class="tt"><span>🚚</span><div><b>{{ 'products.trust.delivery_title' | t }}</b><small>{{ 'products.trust.delivery_note' | t: amount: settings.free_shipping_threshold }}</small></div></div>
+        <div class="tt"><span>🔒</span><div><b>{{ 'products.trust.secure_title' | t }}</b><small>{{ 'products.trust.secure_note' | t }}</small></div></div>
+        {%- if settings.show_cod -%}
+          <div class="tt"><span>💵</span><div><b>{{ 'products.trust.cod_title' | t }}</b><small>{{ 'products.trust.cod_note' | t }}</small></div></div>
+        {%- endif -%}
       </div>
 
       {%- if section.settings.show_receipts -%}
-        <div class="receipt-strip"><b>Why single-use?</b> In a published study, <b>89%</b> of used hand towels carried coliform bacteria — and dermatologists advise washing a face towel after every single use if you're acne-prone. A fresh sheet skips the whole problem.</div>
+        <div class="receipt-strip">{{ 'products.receipts.strip_html' | t }}</div>
       {%- endif -%}
 
       {%- assign combo = section.settings.combo_product -%}
       {%- if combo != blank and combo.id != product.id -%}
         <div class="combo-up">
-          <span class="combo-up__kicker">better together</span>
+          <span class="combo-up__kicker">{{ 'products.combo.kicker' | t }}</span>
           <div class="combo-up__row">
             {%- if combo.featured_image -%}<img src="{{ combo.featured_image | image_url: width: 300 }}" alt="{{ combo.title | escape }}" loading="lazy">{%- endif -%}
             <div class="combo-up__body">
@@ -142,10 +156,10 @@
               <p>{{ section.settings.combo_sub }}</p>
               <div class="combo-up__price">
                 {{ combo.price | money }}
-                {%- if combo.compare_at_price > combo.price %} <s>{{ combo.compare_at_price | money }}</s> <em>save {{ combo.compare_at_price | minus: combo.price | money }}</em>{%- endif -%}
+                {%- if combo.compare_at_price > combo.price %} <s>{{ combo.compare_at_price | money }}</s> <em>{{ 'products.combo.save' | t }} {{ combo.compare_at_price | minus: combo.price | money }}</em>{%- endif -%}
               </div>
             </div>
-            <a class="btn btn--sunrise combo-up__btn" href="{{ combo.url }}">Get both</a>
+            <a class="btn btn--sunrise combo-up__btn" href="{{ combo.url }}">{{ 'products.combo.cta' | t }}</a>
           </div>
         </div>
       {%- endif -%}
@@ -160,17 +174,17 @@
           <div class="pdp-social__quote">
             <p>{{ section.settings.review_quote }}</p>
             <span>{{ section.settings.review_who }}</span>
-            <a href="/#reviews">see the comment section →</a>
+            <a href="/#reviews">{{ 'products.social.link' | t }}</a>
           </div>
           {%- if section.settings.review_video != blank -%}
-            <video class="pdp-social__vid" src="{{ section.settings.review_video | asset_url }}" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <video class="pdp-social__vid" src="{{ section.settings.review_video | asset_url }}" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
           {%- endif -%}
         </div>
       {%- endif -%}
 
       <div class="pdp__accs">
         <details open>
-          <summary>What it is</summary>
+          <summary>{{ 'products.accordion.what_it_is' | t }}</summary>
           <div>{{ product.description }}</div>
         </details>
         {%- for block in section.blocks -%}
@@ -190,7 +204,7 @@
     {%- if pairs == blank -%}{%- assign pairs = product.metafields.biod.pairs_well_with.value -%}{%- endif -%}
     {%- if pairs != blank and pairs.count > 0 -%}
       <div style="padding:30px 0 90px">
-        <h2 class="h-l reveal" style="margin-bottom:26px">Pairs well with</h2>
+        <h2 class="h-l reveal" style="margin-bottom:26px">{{ 'products.pairs_with' | t }}</h2>
         <div class="grid-products" style="margin-top:0">
           {%- for rec in pairs limit: 2 -%}
             {% render 'product-card', product: rec %}

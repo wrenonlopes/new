@@ -1,17 +1,56 @@
+{%- liquid
+  # ---------- locale direction ----------
+  # Keyed on the primary language subtag, so ar / ar-AE / ar-SA all resolve the same way.
+  # Adding another RTL locale later means adding its subtag to rtl_langs and nothing else:
+  # base.css flips via logical properties, not via a per-locale override block.
+  assign iso = request.locale.iso_code | default: 'en' | downcase
+  assign lang = iso | split: '-' | first
+  assign rtl_langs = 'ar,ckb,dv,fa,he,ps,sd,ug,ur,yi' | split: ','
+  assign text_dir = 'ltr'
+  if rtl_langs contains lang
+    assign text_dir = 'rtl'
+  endif
+
+  # ---------- webfont, per language ----------
+  # Outfit and Plus Jakarta Sans carry no Arabic glyphs, so Arabic loads Cairo *instead of*
+  # them, not in addition: one variable family (200-1000, Arabic + Latin) covers every
+  # weight the theme asks for and keeps "AED" in the same typeface as the Arabic beside it.
+  # English pages are byte-for-byte unchanged.
+  # The `when` list is every Arabic-script language, so any of them that is enabled gets a
+  # font that can actually render it rather than falling back to tofu. It must stay in step
+  # with the :lang() rule at the top of base.css that points --display/--body at Cairo.
+  # Hebrew (he, yi) and Thaana (dv) are RTL but are not Arabic script: they get the correct
+  # direction from rtl_langs above, and still need a family added in both places.
+  # Urdu would ideally be Nastaliq rather than Cairo's Naskh; legible, not yet native.
+  assign google_font = 'Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400'
+  case lang
+    when 'ar', 'fa', 'ur', 'ps', 'sd', 'ckb', 'ug'
+      assign google_font = 'Cairo:wght@400..800'
+  endcase
+-%}
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+<html lang="{{ request.locale.iso_code }}" dir="{{ text_dir }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- comment -%}
+    Compare case-insensitively. page_title is authored as "Biod | …" while
+    shop.name is "BIOD", and Liquid's `contains` is case-sensitive — so the
+    plain check missed and every page appended a second " — BIOD".
+  {%- endcomment -%}
+  {%- assign t_lower = page_title | downcase -%}
+  {%- assign shop_lower = shop.name | downcase -%}
   <title>
-    {{ page_title }}{% unless page_title contains shop.name %} — {{ shop.name }}{% endunless %}
+    {{ page_title }}{% unless t_lower contains shop_lower %} — {{ shop.name }}{% endunless %}
   </title>
   {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
   <link rel="canonical" href="{{ canonical_url }}">
 
+  {% render 'seo-meta' %}
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family={{ google_font }}&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -38,12 +77,27 @@
 
   {% sections 'footer-group' %}
 
+  {% section 'cart-drawer' %}
+
+  {% render 'first-order-popup' %}
+
   <script>
     window.BIOD = {
       freeShipping: {{ settings.free_shipping_threshold | json }},
       moneyFormat: {{ shop.money_format | json }},
       reveals: {{ settings.enable_reveals | json }},
-      marqueeVelocity: {{ settings.marquee_velocity | json }}
+      marqueeVelocity: {{ settings.marquee_velocity | json }},
+      /* Strings global.js writes into the DOM. They have to be rendered here,
+         through `t`, or they stay English on a translated storefront. bagStatus
+         keeps {{ count }} as a literal placeholder for the script to substitute:
+         it is an aria-live status, and Arabic's six plural categories cannot be
+         resolved client-side, so the wording is count-agnostic in both locales. */
+      strings: {
+        bagStatus: {{ 'general.cart.bag_status' | t: count: '__COUNT__' | json }},
+        addError: {{ 'general.cart.add_error' | t | json }},
+        adding: {{ 'general.cart.adding' | t | json }},
+        added: {{ 'general.cart.added' | t | json }}
+      }
     };
   </script>
   <script src="{{ 'global.js' | asset_url }}" defer></script>
