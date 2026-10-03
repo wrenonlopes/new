@@ -567,14 +567,15 @@ const CONCEPTS = [
     headline: 'Your towel is undoing your skincare',
   },
   {
-    /* The fit, drawn. Four tube frames already assert that it suits a car; none
-       of them shows the cup holder, so none of them proves it. The illustration
-       is the whole creative and the price rides on top of it -- AED 9 is the
-       number a buyer can picture, where 18 fils a tissue is an abstraction, and
-       AED 36 stays small because the tube is the unit she is deciding on. */
+    /* Price-led, with the fit stated flatly underneath. The drawn cup holder
+       that used to sit here is gone: three attempts produced a soap dish, and a
+       cup holder with no car around it is ambiguous however it is drawn. The
+       fit is a photograph's job. AED 9 leads because it is the number a buyer
+       can picture, where 18 fils a tissue is an abstraction, and AED 36 stays
+       small because the tube is the unit she is deciding on. */
     id: 'tube-05-holder',
     label: 'Tube \u2014 in the cup holder',
-    kind: 'fils', size: 'cur', product: 'tube', art: 'holder',
+    kind: 'fils', size: 'cur', product: 'tube',
     hero: 'AED 9', heroTail: 'a tube',
     support: 'it fits the cup holder. a square tissue box never will.',
     furniture: 'four tubes \u00b7 200 three-ply tissues \u00b7 one hand, every time',

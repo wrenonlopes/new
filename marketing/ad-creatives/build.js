@@ -102,7 +102,11 @@ const LOOK = {
   'bundle-20-hotel':  { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232 },
   'bundle-21-home':   { ground: C.kraft,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 232 },
   'bundle-22-routine':{ ground: C.cream,   fg: C.ink,   accent: C.sunrise,  logo: LOGO_DARK,  boxes: 4, bw: 232 },
-  'tube-05-holder':   { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'holder' },
+  /* Solo tube, large. Three attempts at drawing the cup holder produced a
+     soap dish, and a cup holder with no car around it is ambiguous whatever it
+     is drawn in. The fit belongs in a photograph or in the copy, not in an
+     illustration of a thing the brand does not make. */
+  'tube-05-holder':   { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 1, bw: 250 },
 };
 
 const FORMATS = [
@@ -138,104 +142,6 @@ function boxesHTML(k) {
       <div class="sh back"></div>
       <div class="sh mid"></div>
       <div class="sh front"><i class="curl"></i></div>
-    </div>`;
-  }
-  /* The cup holder, drawn. The tissue tube's whole argument is that it fits
-     something, and a tube floating on a flat ground cannot make that argument
-     -- it needs the thing it fits into. The well is painted first, the tube
-     over it, then the near lip over the tube's base: that last layer is what
-     makes it read as IN the holder rather than ON it. */
-  if (kind === 'holder') {
-    return `<div class="holder">
-      <div class="console"></div>
-      <div class="well a"></div>
-      <div class="well b"></div>
-      <img class="tb" src="${ART.tube.src}" alt="">
-      <i class="lip"></i>
-    </div>`;
-  }
-  const { src } = ART[kind];
-  const w = artW(kind, k.bw);
-  if (k.boxes === 1) {
-    return `<img class="bx solo" style="--bw:${w}px;--t:4deg" src="${src}" alt="">`;
-  }
-  /* Four discrete units, not one spend: partitioning is what stops the pack
-     total being evaluated as a single outlay. Nothing rotates past 6deg --
-     both stickers are drawn in fixed perspective and a steeper tilt reads as
-     a mistake. Tubes stand upright, so they get a tighter tilt than the box. */
-  const tilts = kind === 'tube' ? [-2, 1.5, -1.5, 2] : [-3, 2, -2, 3];
-  return `<div class="quad ${kind}">${tilts
-    .map((t) => `<img class="bx" style="--bw:${w}px;--t:${t}deg" src="${src}" alt="">`)
-    .join('')}</div>`;
-}
-
-function boxesHTML(k) {
-  const kind = k.art || 'box';
-  /* The sheet, drawn rather than photographed. Nineteen creatives showed the
-     box, which is packaging; this is the product. The whole proposition is
-     tactile, so the weave, the soft edge and the drape are the point -- a
-     hard-edged rectangle would read as paper. */
-  if (kind === 'sheet') {
-    return `<div class="sheets">
-      <div class="sh back"></div>
-      <div class="sh mid"></div>
-      <div class="sh front"><i class="curl"></i></div>
-    </div>`;
-  }
-  /* The cup holder, drawn. The tissue tube's whole argument is that it fits
-     something, and a tube floating on a flat ground cannot make that argument
-     -- it needs the thing it fits into. The well is painted first, the tube
-     over it, then the near lip over the tube's base: that last layer is what
-     makes it read as IN the holder rather than ON it. */
-  if (kind === 'holder') {
-    return `<div class="holder">
-      <div class="console"></div>
-      <div class="well a"></div>
-      <div class="well b"></div>
-      <img class="tb" src="${ART.tube.src}" alt="">
-      <i class="lip"></i>
-    </div>`;
-  }
-  const { src } = ART[kind];
-  const w = artW(kind, k.bw);
-  if (k.boxes === 1) {
-    return `<img class="bx solo" style="--bw:${w}px;--t:4deg" src="${src}" alt="">`;
-  }
-  /* Four discrete units, not one spend: partitioning is what stops the pack
-     total being evaluated as a single outlay. Nothing rotates past 6deg --
-     both stickers are drawn in fixed perspective and a steeper tilt reads as
-     a mistake. Tubes stand upright, so they get a tighter tilt than the box. */
-  const tilts = kind === 'tube' ? [-2, 1.5, -1.5, 2] : [-3, 2, -2, 3];
-  return `<div class="quad ${kind}">${tilts
-    .map((t) => `<img class="bx" style="--bw:${w}px;--t:${t}deg" src="${src}" alt="">`)
-    .join('')}</div>`;
-}
-
-function boxesHTML(k) {
-  const kind = k.art || 'box';
-  /* The sheet, drawn rather than photographed. Nineteen creatives showed the
-     box, which is packaging; this is the product. The whole proposition is
-     tactile, so the weave, the soft edge and the drape are the point -- a
-     hard-edged rectangle would read as paper. */
-  if (kind === 'sheet') {
-    return `<div class="sheets">
-      <div class="sh back"></div>
-      <div class="sh mid"></div>
-      <div class="sh front"><i class="curl"></i></div>
-    </div>`;
-  }
-  /* The cup holder, drawn. The tissue tube's whole argument is that it fits
-     something, and a tube floating on a flat ground cannot make that argument
-     -- it needs the thing it fits into. The well is painted first, the tube
-     over it, then the near lip over the tube's base: that last layer is what
-     makes it read as IN the holder rather than ON it. */
-  if (kind === 'holder') {
-    return `<div class="holder">
-      <div class="console"></div>
-      <div class="well a"></div>
-      <div class="well b"></div>
-      <img class="tb" src="${ART.tube.src}" alt="">
-      <i class="lip"></i>
     </div>`;
   }
   const { src } = ART[kind];
@@ -381,40 +287,6 @@ header{margin-bottom:calc(44px * var(--s))}
 .lock .unit{font-size:.42em;letter-spacing:-.03em;margin-inline-start:.1em}
 .hero .tail{font-family:Outfit,sans-serif;font-weight:700;font-size:calc(52px * var(--s));
             letter-spacing:-.02em;opacity:.62;margin-inline-start:calc(22px * var(--s))}
-
-/* ---- the cup holder, drawn ---------------------------------------------- */
-/* Three layers in paint order: the well, the tube, then the near lip over the
-   tube's base. Without that third layer the tube sits on the console instead of
-   in it, and the entire argument of the frame collapses. */
-.holder{position:relative;width:calc(640px * var(--s));height:calc(620px * var(--s))}
-.console{position:absolute;left:0;right:0;bottom:0;height:calc(250px * var(--s));z-index:0;
-         border-radius:calc(44px * var(--s));
-         background:radial-gradient(120% 150% at 22% 0%,rgba(255,255,255,.16) 0%,transparent 52%),
-                    linear-gradient(168deg,#78767E 0%,#5B5A63 32%,#45444C 66%,#38373E 100%);
-         box-shadow:inset 0 calc(3px * var(--s)) 0 rgba(255,255,255,.26),
-                    inset 0 calc(-3px * var(--s)) calc(12px * var(--s)) rgba(0,0,0,.30),
-                    0 calc(16px * var(--s)) calc(32px * var(--s)) rgba(0,0,0,.20)}
-.well{position:absolute;top:calc(426px * var(--s));width:calc(210px * var(--s));
-      height:calc(92px * var(--s));border-radius:50%;z-index:1;
-      background:radial-gradient(ellipse at 50% 28%,#2A2930 0%,#121117 74%);
-      box-shadow:inset 0 calc(8px * var(--s)) calc(14px * var(--s)) rgba(0,0,0,.65),
-                 0 0 0 calc(3px * var(--s)) rgba(255,255,255,.07),
-                 0 calc(3px * var(--s)) 0 rgba(255,255,255,.10)}
-.well.a{left:calc(66px * var(--s))}
-.well.b{left:calc(364px * var(--s))}
-/* 160px wide against a 380x993 source, so 418px tall; its base lands 26px above
-   the well's far edge, which is what puts it inside the hole rather than on it. */
-.holder .tb{position:absolute;left:calc(389px * var(--s));bottom:calc(120px * var(--s));
-            width:calc(160px * var(--s));height:auto;z-index:2;
-            filter:drop-shadow(calc(-6px * var(--s)) calc(12px * var(--s)) calc(18px * var(--s)) rgba(0,0,0,.30))}
-/* The near lip, painted last and over the tube's base. Without this layer the
-   tube sits on the console instead of in it, and the frame proves nothing. */
-.holder .lip{position:absolute;left:calc(364px * var(--s));top:calc(472px * var(--s));
-             width:calc(210px * var(--s));height:calc(46px * var(--s));z-index:3;
-             border-radius:0 0 calc(105px * var(--s)) calc(105px * var(--s))
-                         / 0 0 calc(46px * var(--s)) calc(46px * var(--s));
-             background:linear-gradient(180deg,#131218 0%,#24232B 38%,#4C4A54 100%);
-             box-shadow:inset 0 calc(4px * var(--s)) calc(8px * var(--s)) rgba(0,0,0,.55)}
 
 /* ---- Arabic ------------------------------------------------------------- */
 /* Everything above is laid out with flex and logical properties and carries no

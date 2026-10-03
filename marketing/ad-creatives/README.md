@@ -23,6 +23,13 @@ That is a poster, not a feed ad — the thumb is gone before line three and ever
 extra line is one more thing to disagree with. Headline plus one support line is
 the ceiling, and the support line stops at three rendered lines.
 
+**The cup holder could not be drawn.** Three attempts — a CSS console, then a
+lit one, then a warmed one — all read as a soap dish, because a cup holder with
+no car around it is ambiguous whatever it is drawn in. That frame is now a solo
+tube with the fit stated in the support line. **The asset that actually sells
+this is a phone photo of the tube sitting in a real cup holder**; drop one in
+`assets/` and the frame can be rebuilt around it in minutes.
+
 **Then too little, and drawn badly.** The second cut went to four words over a
 CSS/SVG towel. The copy was right to be short but the prop was not: a towel is a
 silhouette problem and the brand does not sell towels that look like that, so it
@@ -63,7 +70,7 @@ also the only way disgust ever gets past a defence.
 | `bundle-20-hotel` | Never dry your face on a hotel towel. | Instruction. The ick is the chain of unknowns under it |
 | `bundle-21-home` | Stop drying your face on the same towel. | Names the behaviour being replaced, not a hint at it |
 | `bundle-22-routine` | Your skincare is fine. Your towel isn't. | Agrees in three words, which buys the sting in the next four |
-| `tube-05-holder` | **AED 9** a tube | The cup holder, drawn — the fit shown rather than asserted |
+| `tube-05-holder` | **AED 9** a tube | Solo tube, large. The fit is stated in the support line |
 | `tube-01-fits` | it fits the cup holder | The form factor, demonstrated |
 | `tube-02-nine` | **AED 9** a tube | Per tube |
 | `tube-03-loose` | where does a square box actually sit? | Problem install |
