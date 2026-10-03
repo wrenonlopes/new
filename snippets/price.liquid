@@ -4,6 +4,6 @@
   {%- if product.compare_at_price > product.price -%}
     <span class="price__was">{{ product.compare_at_price | money }}</span>
     {%- assign save = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
-    <span class="price__save">−{{ save }}%</span>
+    <span class="price__save">{{ 'products.price.save_percent' | t: percent: save }}</span>
   {%- endif -%}
 </div>

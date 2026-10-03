@@ -29,8 +29,9 @@
           <div class="fighter__verdict">{{ block.settings.verdict }}</div>
         </div>
       {%- endfor -%}
-      <span class="vs vs--1" aria-hidden="true">VS</span>
-      <span class="vs vs--2" aria-hidden="true">VS</span>
+      {%- assign vs_label = 'sections.versus.vs' | t -%}
+      <span class="vs vs--1" aria-hidden="true">{{ vs_label }}</span>
+      <span class="vs vs--2" aria-hidden="true">{{ vs_label }}</span>
       <span class="stamp" aria-hidden="true">{{ section.settings.stamp }}</span>
     </div>
   </div>
