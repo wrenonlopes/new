@@ -508,89 +508,58 @@ const CONCEPTS = [
     headline: '88 \u0641\u0644\u0633 \u0644\u0644\u0645\u0646\u0634\u0641\u0629',
   },
   {
-    /* Horror, built entirely out of what she does not know. Every line is an
-       absence rather than an assertion: nothing here can be fact-checked into a
-       policy problem, and an unknown is harder to shake off than a claim --
-       she cannot answer any of the five, and she will be standing in a hotel
-       bathroom the next time she tries. The last line is the only one that
-       states something, which is what makes it land. */
+    /* One question, one object. Five lines of "you do not know" was a poster --
+       in feed the thumb is gone before line three, and every extra line is a
+       chance to disagree with one of them. A folded hotel towel and six words
+       is the same idea arriving whole: she cannot answer the question, and the
+       picture is what she will be looking at the next time she tries. */
     id: 'bundle-20-hotel',
-    label: 'Bundle \u2014 the hotel towel, in full',
-    kind: 'horror',
-    hero: 'You know nothing about that hotel towel.',
-    items: [
-      'You do not know how many faces came before yours.',
-      'You do not know what they came with.',
-      'You do not know how it was washed, or how hot.',
-      'You do not know how long it sat folded and damp.',
-      'You do know it is the last thing to touch your face tonight.',
-    ],
-    turn: 'Pack your own. Used once, then a fresh one \u2014 ultrasoft 100% bamboo.',
-    turnPrice: UNDER_ONE.charAt(0).toUpperCase() + UNDER_ONE.slice(1) + '.',
-    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
-    footnote: PACK,
+    label: 'Bundle \u2014 who had it before you',
+    kind: 'ask', art: 'towelstack',
+    hero: 'Who had it before you?',
+    furniture: 'BIOD face towels \u00b7 less than AED 1 each',
+    footnote: '200 towels, AED 176, delivered free.',
     primary: [
-      'you do not know how many faces came before yours. or what they came with. or how hot it was washed, or how long it sat folded and damp.',
-      'you do know it is the last thing to touch your face tonight.',
-      'pack your own instead \u2014 200 large ultrasoft bamboo towels, used once, less than AED 1 each. AED 176, delivered free.',
+      'who had it before you?',
+      'pack your own. 200 large ultrasoft bamboo towels, used once, less than AED 1 each.',
+      'AED 176, delivered free.',
     ],
     headline: 'Less than AED 1 a towel',
   },
   {
-    /* The same list turned on her own bathroom, and the harder of the two: the
-       hotel towel is somebody else's problem and hers is not. The opening line
-       does the whole job -- it concedes the hotel's one virtue in order to take
-       it away from her, and every line after it is something she can verify by
-       walking down the hall. */
+    /* Two words. The gradient on the towel is the entire argument -- dry at the
+       top where the air gets to it, loaded at the bottom where it does not --
+       and no sentence improves on a picture of the thing she walks past twice a
+       day. This is the one frame in the set that needs no reading at all. */
     id: 'bundle-21-home',
-    label: 'Bundle \u2014 the one on your own hook',
-    kind: 'horror',
-    hero: 'At least the hotel washes theirs.',
-    items: [
-      'Yours has hung in the wettest room in the house all week.',
-      'It has not been properly dry since the last time you used it.',
-      'Everyone who visits dries their hands on it.',
-      'Nothing about it has changed since Sunday.',
-      'And twice a day you press it into your face.',
-    ],
-    turn: 'A fresh towel every time instead. 200 of them, used once, ultrasoft 100% bamboo.',
-    turnPrice: UNDER_ONE.charAt(0).toUpperCase() + UNDER_ONE.slice(1) + '.',
-    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
-    footnote: PACK,
+    label: 'Bundle \u2014 still damp',
+    kind: 'line', size: 'lg', art: 'towelhook',
+    hero: 'Still damp.',
+    furniture: 'BIOD face towels \u00b7 less than AED 1 each',
+    footnote: '200 towels, AED 176, delivered free.',
     primary: [
-      'at least the hotel washes theirs.',
-      'yours has hung in the wettest room in the house all week, it has not been properly dry since you last used it, and everyone who visits dries their hands on it. twice a day you press it into your face.',
-      'a fresh one every time instead. 200 large ultrasoft bamboo towels, less than AED 1 each. AED 176, delivered free.',
+      'the one on your hook has not been properly dry since the last time you used it.',
+      'a fresh towel every time instead. 200 large ultrasoft bamboo towels, less than AED 1 each.',
+      'AED 176, delivered free.',
     ],
     headline: 'A fresh towel every time',
   },
   {
-    /* The taunt, and the only frame in the set that agrees with her first. Five
-       ticks are not filler -- they are the setup: the routine is right, the
-       spend is right, the order is right, and then the one thing nobody sells
-       her undoes the care she took over all of it. Nothing is claimed about
-       skin; the whole argument is about consistency, which she can check
-       herself. */
+    /* The taunt as objects. Three vessels she chose and paid for, ticked, and
+       the towel she never thought about, crossed -- four marks, four words, and
+       the whole argument is made before she has read anything. Listing her
+       actual routine was flattery she had to read; showing it is flattery she
+       takes in at a glance. */
     id: 'bundle-22-routine',
     label: 'Bundle \u2014 every step but one',
-    kind: 'checklist',
-    hero: 'You got every step right but one.',
-    items: [
-      'Double cleanse, morning and night',
-      'Vitamin C before the SPF',
-      'Niacinamide after the toner',
-      'SPF 50, reapplied',
-      'The AED 300 serum, used sparingly',
-    ],
-    miss: 'Dried it all off on the towel from Tuesday',
-    turn: 'The last thing to touch your face is the one part you never thought about.',
-    turnPrice: 'A fresh towel every time \u2014 ' + UNDER_ONE + '.',
-    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
-    footnote: PACK,
+    kind: 'ask', art: 'routine',
+    hero: 'Every step but one.',
+    furniture: 'BIOD face towels \u00b7 less than AED 1 each',
+    footnote: '200 towels, AED 176, delivered free.',
     primary: [
-      'double cleanse. vitamin c. niacinamide. spf 50, reapplied. the AED 300 serum, used sparingly.',
-      'then you dried all of it off on the towel from tuesday.',
-      '200 large ultrasoft bamboo towels, used once, less than AED 1 each. AED 176, delivered free.',
+      'cleanser, serum, SPF. all of it right.',
+      'then you dried it off on the towel from tuesday. a fresh one every time instead \u2014 200 large ultrasoft bamboo towels, less than AED 1 each.',
+      'AED 176, delivered free.',
     ],
     headline: 'Every step right but one',
   },
@@ -604,9 +573,9 @@ const CONCEPTS = [
     label: 'Tube \u2014 in the cup holder',
     kind: 'fils', size: 'cur', product: 'tube', art: 'holder',
     hero: 'AED 9', heroTail: 'a tube',
-    support: 'it drops into the cup holder and stays there. 50 three-ply tissues in each.',
-    furniture: 'four tubes \u00b7 200 tissues \u00b7 one hand, every time',
-    footnote: 'four tubes, AED 36. delivery free over AED 100.',
+    support: 'it drops in and stays there.',
+    furniture: 'four tubes \u00b7 200 three-ply tissues',
+    footnote: 'four tubes, AED 36.',
     primary: [
       'AED 9 a tube.',
       'it drops into the cup holder and stays there \u2014 no square box sliding around the passenger seat. 50 three-ply tissues in each.',

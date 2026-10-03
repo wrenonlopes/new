@@ -14,15 +14,28 @@ hand off to an English product page.
 
 ### The 3 October set (20–22, tube-05)
 
-Four briefs, built together. The first three run the price as **"less than
-AED 1 a towel"** rather than 88 fils: it is the same number against a unit the
-shopper already has a feel for, so it needs no conversion before it reads as
-cheap. The pack total stays on every frame as the footnote, so the arithmetic is
-always checkable (176 / 200 = 0.88).
+Four frames, and the rule they are built to: **one line, one object, one
+price.** The first cut of these ran a five-line list plus a turn plus a price
+and was a poster, not a feed ad — in feed the thumb is gone before line three,
+and every extra line is one more thing to disagree with. What is left is four
+to six words of headline, a drawn prop doing the arguing, and the price in the
+furniture.
 
-Both horror frames are built out of what the viewer *cannot* know rather than
-out of claims. An absence cannot be rebutted and cannot fail substantiation,
-and it is the part that actually stays with her.
+They run the price as **"less than AED 1 a towel"** rather than 88 fils: the
+same number against a unit the shopper already has a feel for, so it needs no
+conversion before it reads as cheap. The pack total stays on every frame as the
+footnote, so the arithmetic is always checkable (176 / 200 = 0.88).
+
+All three towel frames go dark, with the drawn prop as the only lit thing on
+the page. Nothing is claimed about the enemy towel — the question and the
+picture are left to do it, which is also why none of them can fail
+substantiation.
+
+**The props are SVG, not CSS boxes.** A towel is a silhouette problem — the
+drape, the hem, the fall of the folds — and a rounded rectangle reads as foam
+however much texture is painted on it. They are drawn once in `build.js`
+(`TOWEL_STACK`, `TOWEL_HOOK`, `ROUTINE_ROW`) and share one terry pattern, so
+all three read as the same cloth.
 
 | File | Hero | Mechanism |
 |---|---|---|
@@ -37,9 +50,9 @@ and it is the part that actually stays with her.
 | `bundle-09-once` | buy it once | Decision cost, not discount |
 | `bundle-18-hotel` | That hotel towel has a history | The hotel-room video's mechanism, as a still |
 | `bundle-19-ar` | **88 فلس** للمنشفة | Arabic, RTL, Cairo · held until `ar` is published |
-| `bundle-20-hotel` | You know nothing about that hotel towel | Five things she cannot know, then the turn |
-| `bundle-21-home` | At least the hotel washes theirs | The same list aimed at her own hook |
-| `bundle-22-routine` | You got every step right but one | Five ticks, one cross — the routine is right, the towel isn't |
+| `bundle-20-hotel` | Who had it before you? | Six words over a stack of folded hotel towels |
+| `bundle-21-home` | Still damp. | Two words. The gradient on the hanging towel is the whole argument |
+| `bundle-22-routine` | Every step but one. | Three vessels ticked, the towel crossed. Four marks, no sentences |
 | `tube-05-holder` | **AED 9** a tube | The cup holder, drawn — the fit shown rather than asserted |
 | `tube-01-fits` | it fits the cup holder | The form factor, demonstrated |
 | `tube-02-nine` | **AED 9** a tube | Per tube |
