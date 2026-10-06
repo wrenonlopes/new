@@ -68,12 +68,23 @@ def _item(name, ok, detail, fix=""):
     return {"name": name, "ok": bool(ok), "detail": detail, "fix": fix if not ok else ""}
 
 
+def _guarded(name, fn, fix):
+    """Run one check; an unreadable state becomes a failed item instead of a crash."""
+    try:
+        return fn()
+    except Exception as e:  # only the exception class: settings files can hold auth data
+        return _item(name, False, f"unreadable: {type(e).__name__}", fix)
+
+
 def chromium_path():
     from playwright.sync_api import sync_playwright
 
-    with sync_playwright() as p:
-        path = p.chromium.executable_path
-    return path if path and Path(path).exists() else None
+    try:
+        with sync_playwright() as p:
+            path = p.chromium.executable_path
+        return path if path and Path(path).exists() else None
+    except Exception:
+        return None
 
 
 def checks(root, data, fix):
@@ -86,23 +97,34 @@ def checks(root, data, fix):
     sq = Path(data) / "node/node_modules/squirrelscan/bin/squirrel"
     sv = parse_version(_run([str(sq), "--version"], {"NO_TELEMETRY": "1"})) if sq.exists() else None
     out.append(_item("squirrelscan 0.0.98", sv == SQUIRREL_PIN, f"{sv} at {sq}", ensure))
-    settings_file = Path.home() / ".squirrel/settings.json"
-    s = json.loads(settings_file.read_text()) if settings_file.exists() else {}
-    out.append(_item("squirrel privacy settings", s.get("auto_update") is False and s.get("telemetry") is False,
+    def check_squirrel_privacy():
+        settings_file = Path.home() / ".squirrel/settings.json"
+        s = json.loads(settings_file.read_text()) if settings_file.exists() else {}
+        if not isinstance(s, dict):
+            s = {}
+        return _item("squirrel privacy settings", s.get("auto_update") is False and s.get("telemetry") is False,
                      f"auto_update={s.get('auto_update')} telemetry={s.get('telemetry')}",
                      f'NO_TELEMETRY=1 "{sq}" self settings set auto_update false && '
-                     f'NO_TELEMETRY=1 "{sq}" self settings set telemetry false'))
+                     f'NO_TELEMETRY=1 "{sq}" self settings set telemetry false')
+    out.append(_guarded("squirrel privacy settings", check_squirrel_privacy,
+                        f'NO_TELEMETRY=1 "{sq}" self settings set auto_update false && '
+                        f'NO_TELEMETRY=1 "{sq}" self settings set telemetry false'))
     ul = Path(data) / "node/node_modules/unlighthouse-ci/package.json"
-    ul_version = json.loads(ul.read_text()).get("version") if ul.exists() else None
-    out.append(_item("unlighthouse-ci 0.19.1", ul_version == UNLIGHTHOUSE_PIN, ul_version or "missing", ensure))
+    def check_unlighthouse():
+        ul_version = json.loads(ul.read_text()).get("version") if ul.exists() else None
+        return _item("unlighthouse-ci 0.19.1", ul_version == UNLIGHTHOUSE_PIN, ul_version or "missing", ensure)
+    out.append(_guarded("unlighthouse-ci 0.19.1", check_unlighthouse, ensure))
     vocab = Path(root) / "data/schemaorg-all-https.jsonld"
-    want = (Path(root) / "data/schemaorg.sha256").read_text().split()[0]
-    have = hashlib.sha256(vocab.read_bytes()).hexdigest() if vocab.exists() else None
-    out.append(_item("schema.org vocabulary", have == want, have or "missing",
-                     "Restore data/schemaorg-all-https.jsonld from git"))
+    def check_vocab():
+        want = (Path(root) / "data/schemaorg.sha256").read_text().split()[0]
+        have = hashlib.sha256(vocab.read_bytes()).hexdigest() if vocab.exists() else None
+        return _item("schema.org vocabulary", have == want, have or "missing",
+                     "Restore data/schemaorg-all-https.jsonld and data/schemaorg.sha256 from git")
+    out.append(_guarded("schema.org vocabulary", check_vocab,
+                        "Restore data/schemaorg-all-https.jsonld and data/schemaorg.sha256 from git"))
     chromium = chromium_path()
     if not chromium and fix:
-        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=False)
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=False, stdout=sys.stderr)
         chromium = chromium_path()
     out.append(_item("chromium", chromium, chromium or "missing", "Re-run doctor.py with --fix"))
     return out, chromium
