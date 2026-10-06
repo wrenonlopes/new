@@ -1,4 +1,6 @@
-from raw_vs_rendered import compare, slug
+from types import SimpleNamespace
+
+from raw_vs_rendered import compare, slug, summarize
 
 
 def page(words, h1, status=200):
@@ -33,3 +35,19 @@ def test_unknown_when_rendered_page_is_empty():
     r = compare("u", page(10, []), page(0, []))
     assert r["verdict"] == "unknown"
     assert r["pages"] == ["u"]
+
+
+def crawl_result(error, status=200, html="<html><body></body></html>"):
+    return SimpleNamespace(success=False, status_code=status, html=html, error_message=error,
+                           markdown="[Home](/)\n", links={})
+
+
+def test_empty_js_shell_flagged_structural_is_kept_not_unknown():
+    s = summarize(crawl_result("Blocked by anti-bot protection: Structural: minimal_text on small page (453 bytes, 4 chars visible)"))
+    assert s["ok"] and s["words"] == 1
+    assert compare("u", s, page(100, ["Pricing"]))["verdict"] == "fail"
+
+
+def test_real_block_and_non_2xx_stay_unknown():
+    assert not summarize(crawl_result("Blocked by anti-bot protection: Cloudflare challenge"))["ok"]
+    assert not summarize(crawl_result("Blocked by anti-bot protection: Structural: minimal_text", status=403))["ok"]

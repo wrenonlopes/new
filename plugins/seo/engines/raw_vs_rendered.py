@@ -41,8 +41,16 @@ def slug(url):
     return re.sub(r"[^a-z0-9]+", "-", url.lower().split("://", 1)[-1]).strip("-")[:80]
 
 
+def structural_false_block(result):
+    """Crawl4AI flags tiny pages (an empty client-side shell) as anti-bot blocks.
+    That is the very case this check exists for, so keep the fetch when the server answered 2xx
+    and only the structural heuristic fired. Pattern blocks (WAF challenge pages) stay failures."""
+    return (not result.success and bool(result.html) and 200 <= (result.status_code or 0) < 300
+            and str(result.error_message or "").startswith("Blocked by anti-bot protection: Structural:"))
+
+
 def summarize(result):
-    if not result.success:
+    if not result.success and not structural_false_block(result):
         return {"ok": False, "status": result.status_code, "error": result.error_message}
     md = str(result.markdown or "")
     blocks = [b.strip() for b in re.split(r"\n\s*\n", md) if len(b.split()) >= 8]
