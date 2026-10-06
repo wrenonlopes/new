@@ -2,8 +2,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import Validator from '@adobe/structured-data-validator';
+import WebAutoExtractor from '@marbec/web-auto-extractor';
 import {
   visibleText, stringValues, notVisible, subclassIndex, isSubtypeOf, requiredIssues, checkPage,
+  decodeEntities, normType, dedupeIssues, unknownChecks,
 } from './schema_check.mjs';
 
 const vocab = JSON.parse(readFileSync(new URL('../data/schemaorg-all-https.jsonld', import.meta.url)));
@@ -56,4 +58,58 @@ test('checkPage: no structured data passes with a note', async () => {
   assert.equal(valid.verdict, 'pass');
   assert.equal(valid.evidence.note, 'no structured data found');
   assert.equal(matches.verdict, 'pass');
+});
+
+test('WordPress entities and curly quotes match plain JSON-LD text', () => {
+  assert.equal(visibleText('<p>Dubai&#8217;s &#038; Co &ndash; the best&hellip;</p>'), "dubai's & co - the best…");
+  const text = visibleText('<h1>Why Dubai&#8217;s market keeps growing</h1>');
+  assert.deepEqual(notVisible([{ headline: 'Why Dubai’s market keeps growing' }], text), []);
+  assert.equal(decodeEntities('&#x2019;&#9999999;'), '’&#9999999;');
+});
+
+test('requiredIssues keeps two distinct businesses distinct (real extractor)', () => {
+  const html = ld({ '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'One Co' })
+    + ld({ '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'Two Co' });
+  const data = new WebAutoExtractor({ addLocation: true, embedSource: ['rdfa', 'microdata'] }).parse(html);
+  const errors = requiredIssues(data.jsonld, table, parents).filter((i) => i.severity === 'ERROR');
+  assert.equal(errors.length, 2);
+});
+
+test('schema.org URL and prefix types are normalised', () => {
+  assert.equal(normType('https://schema.org/LocalBusiness'), 'LocalBusiness');
+  const issues = requiredIssues({ 'schema:LocalBusiness': [{ name: 'x' }] }, table, parents);
+  assert.equal(issues.filter((i) => i.severity === 'ERROR').length, 1);
+});
+
+test('checkPage reports each issue once for a multi-typed item', async () => {
+  const html = `<html><head>${ld({ '@context': 'https://schema.org', '@type': ['Product', 'IndividualProduct'], name: 'Widget' })}</head><body><h1>Widget</h1></body></html>`;
+  const [valid] = await checkPage('https://x.test/p', html, new Validator(vocab), table, parents);
+  const keys = valid.evidence.errors.map((e) => `${e.message}|${e.fields}`);
+  assert.equal(new Set(keys).size, keys.length);
+});
+
+test('dedupeIssues keeps distinct locations', () => {
+  const a = { severity: 'ERROR', issueMessage: 'm', fieldNames: ['f'], location: '1,2' };
+  assert.equal(dedupeIssues([a, { ...a }, { ...a, location: '9,9' }]).length, 2);
+});
+
+test('WebPage description (Yoast meta description) is not required to be visible', async () => {
+  const html = `<html><head>${ld({ '@context': 'https://schema.org', '@graph': [
+    { '@type': 'WebPage', name: 'Home', description: 'A meta description that never appears in the body' },
+  ] })}</head><body><h1>Welcome home</h1></body></html>`;
+  const [, matches] = await checkPage('https://x.test/', html, new Validator(vocab), table, parents);
+  assert.equal(matches.verdict, 'pass');
+});
+
+test('microdata-only page: visible-text match is unknown', async () => {
+  const html = '<div itemscope itemtype="https://schema.org/Product"><span itemprop="name">Widget</span></div>';
+  const [, matches] = await checkPage('https://x.test/m', html, new Validator(vocab), table, parents);
+  assert.equal(matches.verdict, 'unknown');
+});
+
+test('unknownChecks carry the full check shape', () => {
+  for (const c of unknownChecks('https://x.test/', { status: 503 })) {
+    assert.deepEqual(Object.keys(c).sort(), ['evidence', 'id', 'pages', 'question', 'source', 'verdict']);
+    assert.equal(c.verdict, 'unknown');
+  }
 });

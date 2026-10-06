@@ -14,13 +14,31 @@ const SKIP_KEYS = new Set(['@context', '@type', '@id', '@location', 'url', 'imag
   'contentUrl', 'embedUrl', 'thumbnailUrl']);
 const URLISH = /^(https?:|\/|www\.)/i;
 const UA = 'Mozilla/5.0 (compatible; seo-plugin-schema/1.0)';
+const SOURCE = 'node/schema_check.mjs';
+const QUESTIONS = {
+  'tech.schema-valid': 'Is the structured data valid for Google rich results and schema.org?',
+  'tech.schema-matches': 'Does structured data match visible text?',
+};
+// Types whose text is page metadata (Yoast puts the meta description here), not body content.
+const METADATA_TYPES = ['WebPage', 'WebSite'];
+const NAMED_ENTITIES = { nbsp: ' ', amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', hellip: '…',
+  ndash: '–', mdash: '—', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', copy: '©', reg: '®', trade: '™' };
+
+export function decodeEntities(s) {
+  return String(s).replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) => {
+    if (e[0] === '#') {
+      const code = /^#x/i.test(e) ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+      return Number.isFinite(code) && code <= 0x10ffff ? String.fromCodePoint(code) : m;
+    }
+    return NAMED_ENTITIES[e.toLowerCase()] ?? m;
+  });
+}
 
 export function visibleText(html) {
-  return String(html)
+  return decodeEntities(String(html)
     .replace(/<(script|style|noscript|template)[^>]*>[\s\S]*?<\/\1>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
-    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+    .replace(/<[^>]+>/g, ' '))
+    .replace(/[’‘]/g, "'").replace(/[”“]/g, '"').replace(/[–—]/g, '-')
     .toLowerCase().replace(/\s+/g, ' ').trim();
 }
 
@@ -59,19 +77,25 @@ export function isSubtypeOf(type, ancestor, parents, seen = new Set()) {
   return (parents.get(type) ?? []).some((p) => isSubtypeOf(p, ancestor, parents, seen));
 }
 
+export function normType(type) {
+  return String(type).replace(/^(https?:\/\/schema\.org\/|schema:)/, '');
+}
+
 export function requiredIssues(jsonld, table, parents) {
   const issues = [];
-  const seen = new Set();
-  for (const [type, items] of Object.entries(jsonld)) {
+  const done = new Map(); // item object -> Set("rule|field"); the extractor shares one object across its type keys
+  for (const [rawType, items] of Object.entries(jsonld)) {
+    const type = normType(rawType);
     for (const [rule, spec] of Object.entries(table)) {
       if (rule.startsWith('_') || !isSubtypeOf(type, rule, parents)) continue;
       for (const item of items) {
+        if (!done.has(item)) done.set(item, new Set());
+        const seen = done.get(item);
         for (const [severity, fields] of [['ERROR', spec.required], ['WARNING', spec.recommended]]) {
           for (const f of fields) {
-            const key = `${item['@location']}|${rule}|${f}`;
-            if (item[f] !== undefined || seen.has(key)) continue;
-            seen.add(key);
-            issues.push({ rootType: type, rule, severity, fieldNames: [f], doc: spec.doc,
+            if (item[f] !== undefined || seen.has(`${rule}|${f}`)) continue;
+            seen.add(`${rule}|${f}`);
+            issues.push({ rootType: type, rule, severity, fieldNames: [f], doc: spec.doc, location: item['@location'],
               issueMessage: `${severity === 'ERROR' ? 'Required' : 'Recommended'} attribute "${f}" is missing` });
           }
         }
@@ -81,34 +105,58 @@ export function requiredIssues(jsonld, table, parents) {
   return issues;
 }
 
+export function dedupeIssues(issues) {
+  const seen = new Set();
+  return issues.filter((i) => {
+    // Adobe reports a multi-typed item once per type key and drops '@location' after the first pass,
+    // so the later copy has no location. Its serialised `source` is the same on every copy: use it as
+    // the item identity, falling back to the location (our own issues, which have no `source`).
+    const identity = `${i.dataFormat ?? ''}|${i.source ?? i.location ?? ''}`;
+    const k = `${i.severity}|${i.issueMessage}|${(i.fieldNames ?? []).join(',')}|${identity}`;
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
+export function unknownChecks(url, evidence) {
+  return Object.entries(QUESTIONS).map(([id, question]) =>
+    ({ id, question, verdict: 'unknown', pages: [url], evidence, source: SOURCE }));
+}
+
 export async function checkPage(url, html, validator, table, parents) {
   const data = new WebAutoExtractor({ addLocation: true, embedSource: ['rdfa', 'microdata'] }).parse(html);
   const jsonld = data.jsonld ?? {};
-  const all = [...(await validator.validate(data)), ...requiredIssues(jsonld, table, parents)];
+  const ours = requiredIssues(jsonld, table, parents); // before validate(): it deletes '@location'
+  const all = dedupeIssues([...(await validator.validate(data)), ...ours]);
   const errors = all.filter((i) => i.severity === 'ERROR');
   const warnings = all.filter((i) => i.severity !== 'ERROR');
-  const items = Object.values(jsonld).flat();
-  const present = items.length > 0 || Object.keys(data.microdata ?? {}).length > 0 || Object.keys(data.rdfa ?? {}).length > 0;
-  const hidden = notVisible(items, visibleText(html));
+  const hasJsonld = Object.values(jsonld).some((items) => items.length > 0);
+  const hasOther = Object.keys(data.microdata ?? {}).length > 0 || Object.keys(data.rdfa ?? {}).length > 0;
+  const content = [...new Set(Object.entries(jsonld)
+    .filter(([t]) => !METADATA_TYPES.some((m) => isSubtypeOf(normType(t), m, parents)))
+    .flatMap(([, items]) => items))];
+  const hidden = notVisible(content, visibleText(html));
   const brief = (i) => ({ type: i.rootType, message: i.issueMessage, fields: i.fieldNames });
+
+  let matches;
+  if (hasJsonld) {
+    matches = { verdict: hidden.length ? 'fail' : 'pass', pages: hidden.length ? [url] : [], evidence: { not_visible: hidden.slice(0, 10) } };
+  } else if (hasOther) {
+    matches = { verdict: 'unknown', pages: [url], evidence: { note: 'only microdata/RDFa found; the visible-text match checks JSON-LD' } };
+  } else {
+    matches = { verdict: 'pass', pages: [], evidence: { note: 'no structured data found' } };
+  }
   return [
     {
-      id: 'tech.schema-valid',
-      question: 'Is the structured data valid for Google rich results and schema.org?',
+      id: 'tech.schema-valid', question: QUESTIONS['tech.schema-valid'],
       verdict: errors.length ? 'fail' : 'pass',
       pages: errors.length ? [url] : [],
-      evidence: present ? { errors: errors.map(brief), warnings: warnings.map(brief) } : { note: 'no structured data found' },
-      source: 'engines/schema_check.mjs',
+      evidence: hasJsonld || hasOther ? { errors: errors.map(brief), warnings: warnings.map(brief) } : { note: 'no structured data found' },
+      source: SOURCE,
     },
-    {
-      id: 'tech.schema-matches',
-      question: 'Does structured data match visible text?',
-      verdict: hidden.length ? 'fail' : 'pass',
-      pages: hidden.length ? [url] : [],
-      evidence: { not_visible: hidden.slice(0, 10) },
-      rule: 'Structured data must match visible text',
-      source: 'engines/schema_check.mjs',
-    },
+    { id: 'tech.schema-matches', question: QUESTIONS['tech.schema-matches'], ...matches,
+      rule: 'Structured data must match visible text', source: SOURCE },
   ];
 }
 
@@ -127,12 +175,16 @@ async function main(argv) {
   const results = [];
   for (const url of args.urls) {
     try {
-      const res = await fetch(url, { headers: { 'user-agent': UA }, redirect: 'follow' });
+      const res = await fetch(url, { headers: { 'user-agent': UA }, redirect: 'follow', signal: AbortSignal.timeout(30000) });
+      const contentType = res.headers.get('content-type') ?? '';
+      if (!res.ok || !/html/i.test(contentType)) {
+        results.push({ url, status: res.status, checks: unknownChecks(url, { status: res.status, content_type: contentType, note: 'page did not return 2xx HTML' }) });
+        continue;
+      }
       const html = await res.text();
       results.push({ url, status: res.status, checks: await checkPage(url, html, validator, table, parents) });
     } catch (e) {
-      const unknown = (id) => ({ id, verdict: 'unknown', pages: [url], evidence: { error: String(e) }, source: 'engines/schema_check.mjs' });
-      results.push({ url, status: null, checks: [unknown('tech.schema-valid'), unknown('tech.schema-matches')] });
+      results.push({ url, status: null, checks: unknownChecks(url, { error: String(e) }) });
     }
   }
   writeFileSync(args.out, JSON.stringify(results, null, 2));
