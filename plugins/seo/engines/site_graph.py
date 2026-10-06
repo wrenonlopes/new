@@ -29,6 +29,8 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
+from raw_vs_rendered import structural_false_block  # same engines/ folder; stdlib-only at import time
+
 UA = "Mozilla/5.0 (compatible; seo-plugin-site-graph/1.0)"
 DEPTH_LIMIT = 3  # heuristic: three-click depth
 # Agents that decide whether pages can appear in search or AI-search answers.
@@ -225,6 +227,11 @@ def most_linked(pages, n):
     return [url_for[k] for k, _ in counts.most_common() if k in url_for][:n]
 
 
+def page_ok(r):
+    """Crawl4AI marks an empty client-side shell as blocked; a 2xx page is still a live page."""
+    return bool(r.success) or structural_false_block(r)
+
+
 def fetch_text(url):
     try:
         with urlopen(Request(url, headers={"User-Agent": UA}), timeout=20) as r:
@@ -253,7 +260,7 @@ async def crawl(start, max_pages, max_depth):
             "url": url,
             "depth": (r.metadata or {}).get("depth", 0),
             "parent": norm(parent) if parent else None,
-            "ok": bool(r.success),
+            "ok": page_ok(r),
             "status": r.status_code,
             "links": [{"href": norm(urljoin(url, l.get("href", ""))), "text": (l.get("text") or "").strip()[:120]}
                       for l in (r.links or {}).get("internal", [])],

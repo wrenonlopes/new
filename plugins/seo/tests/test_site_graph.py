@@ -1,4 +1,6 @@
-from site_graph import (crawl_failure, depth_check, hreflang_check, hreflang_map, key, most_linked, norm, robots_check)
+from types import SimpleNamespace
+
+from site_graph import (crawl_failure, page_ok, depth_check, hreflang_check, hreflang_map, key, most_linked, norm, robots_check)
 
 S = "https://s.test"
 
@@ -125,3 +127,12 @@ def test_crawl_failure_reasons():
     assert crawl_failure([]) == "crawl returned no pages"
     assert "503" in crawl_failure([pg("/", 0, status=503)])
     assert crawl_failure([pg("/", 0)]) is None
+
+
+def test_page_ok_keeps_a_2xx_empty_js_shell_but_not_a_404():
+    shell = "Blocked by anti-bot protection: Structural: minimal_text on small page (453 bytes, 4 chars visible)"
+    r = lambda ok, status, err="": SimpleNamespace(success=ok, status_code=status, html="<html><body></body></html>", error_message=err)
+    assert page_ok(r(False, 200, shell))
+    assert page_ok(r(True, 200))
+    assert not page_ok(r(False, 404, "HTTP 404"))
+    assert not page_ok(r(False, 200, "Blocked by anti-bot protection: Cloudflare challenge"))
