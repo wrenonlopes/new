@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__dataforseo__api_request|mcp__search-console__(add_site|delete_site|submit_sitemap|delete_sitemap|manage_sitemaps)|mcp__squirrelscan__comment_on_issue",
+        "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.py\"" }]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [{ "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/bash_guard.sh\"" }]
+      }
+    ]
+  }
+}
