@@ -79,3 +79,40 @@ def test_cname_and_astro_site(tmp_path):
     d = detect(tmp_path)
     assert d["framework"] == "astro"
     assert d["domain_candidates"] == ["https://blog.test"]
+
+
+def test_headless_wordpress_front_end_stays_code(tmp_path):
+    write(tmp_path / "package.json", json.dumps({"dependencies": {"next": "16"}}))
+    html = tmp_path / "home.html"
+    html.write_text('<img src="https://cms.test/wp-content/uploads/a.jpg">')
+    d = detect(tmp_path, html)
+    assert (d["stack_type"], d["framework"], d["cms"]) == ("code", "nextjs", "wordpress")
+
+
+def test_bad_inputs_do_not_crash(tmp_path):
+    (tmp_path / ".envs").mkdir()
+    write(tmp_path / "package.json", "{not json")
+    assert detect(tmp_path)["stack_type"] == "none"
+    write(tmp_path / "package.json", json.dumps({"dependencies": None, "devDependencies": {"astro": "6"}}))
+    assert detect(tmp_path)["framework"] == "astro"
+    write(tmp_path / "package.json", "[]")
+    assert detect(tmp_path)["stack_type"] == "none"
+
+
+def test_credentials_and_paths_are_stripped_from_candidates(tmp_path):
+    write(tmp_path / ".env", "SITE_URL=https://admin:hunter2@staging.test/path?token=abc\n")
+    d = detect(tmp_path)
+    assert d["domain_candidates"] == ["https://staging.test"]
+    assert "hunter2" not in json.dumps(d) and "token" not in json.dumps(d)
+
+
+def test_localhost_example_env_and_repo_homepages_are_dropped(tmp_path):
+    write(tmp_path / "package.json", json.dumps({"homepage": "https://github.com/a/b", "dependencies": {"next": "16"}}))
+    write(tmp_path / ".env.development", "NEXT_PUBLIC_SITE_URL=http://localhost:3000\n")
+    write(tmp_path / ".env.example", "NEXT_PUBLIC_SITE_URL=https://example.test\n")
+    assert detect(tmp_path)["domain_candidates"] == []
+
+
+def test_rendering_values_fit_the_profile_enum(tmp_path):
+    write(tmp_path / "package.json", json.dumps({"dependencies": {"next": "16"}}))
+    assert detect(tmp_path)["rendering"] == "hybrid"

@@ -20,15 +20,16 @@ import json
 import re
 import shutil
 from pathlib import Path
+from urllib.parse import urlsplit
 
 SUBDIRS = ["reports", "content", "offpage", "visibility", "briefs", "handoff", "inputs"]
 GITIGNORE = "# Written by the seo plugin\nreports/*/raw/\ninputs/\n"
 # (dependency, framework, rendering) in priority order: frameworks before plain libraries.
 FRAMEWORKS = [
-    ("next", "nextjs", "ssr/ssg (check 'use client' content)"),
-    ("nuxt", "nuxt", "ssr/ssg"),
+    ("next", "nextjs", "hybrid"),
+    ("nuxt", "nuxt", "hybrid"),
     ("astro", "astro", "ssg"),
-    ("@sveltejs/kit", "sveltekit", "ssr/ssg"),
+    ("@sveltejs/kit", "sveltekit", "hybrid"),
     ("gatsby", "gatsby", "ssg"),
     ("@remix-run/react", "remix", "ssr"),
     ("vite-ssg", "vue", "ssg"),
@@ -41,7 +42,27 @@ HTML_MARKERS = [("wp-content/", "wordpress"), ("cdn.shopify.com", "shopify"), ("
 SITE_URL_KEYS = re.compile(
     r"^\s*(?:NEXT_PUBLIC_SITE_URL|PUBLIC_SITE_URL|SITE_URL|NUXT_PUBLIC_SITE_URL|VITE_SITE_URL)\s*=\s*['\"]?(https?://[^'\"\s]+)",
     re.M)
-CONFIG_SITE = re.compile(r"(?:site|siteUrl)\s*:\s*['\"](https?://[^'\"]+)['\"]")
+CONFIG_SITE = re.compile(r"\b(?:site|siteUrl)\s*:\s*['\"](https?://[^'\"]+)['\"]")
+NOT_SITES = {"localhost", "127.0.0.1", "0.0.0.0", "github.com", "gitlab.com", "www.npmjs.com", "npmjs.com"}
+
+
+def _read(path):
+    try:
+        return path.read_text(errors="ignore")
+    except OSError:
+        return None
+
+
+def site_root(url):
+    """scheme://host[:port] only: drops credentials, path, query and fragment. None if not a public site."""
+    try:
+        p = urlsplit(url.strip())
+        port = p.port
+    except ValueError:
+        return None
+    if p.scheme not in ("http", "https") or not p.hostname or p.hostname in NOT_SITES:
+        return None
+    return f"{p.scheme}://{p.hostname}" + (f":{port}" if port else "")
 
 
 def init(project, templates):
@@ -67,53 +88,65 @@ def detect(project, html=None):
     framework = rendering = cms = None
 
     pkg = p / "package.json"
-    if pkg.exists():
-        data = json.loads(pkg.read_text())
-        deps = {**data.get("dependencies", {}), **data.get("devDependencies", {})}
+    if pkg.is_file():
+        try:
+            data = json.loads(_read(pkg) or "")
+        except ValueError:
+            data = None
+        if not isinstance(data, dict):
+            evidence.append("package.json unreadable")
+            data = {}
+        deps = {}
+        for field in ("dependencies", "devDependencies"):
+            if isinstance(data.get(field), dict):
+                deps.update(data[field])
         for dep, fw, rend in FRAMEWORKS:
             if dep in deps:
                 framework, rendering = fw, rend
                 evidence.append(f"package.json depends on {dep}")
+                if fw == "nextjs":
+                    evidence.append("Next.js: content in 'use client' components renders in the browser; check raw HTML")
                 break
-        if str(data.get("homepage", "")).startswith("http"):
+        if isinstance(data.get("homepage"), str):
             domains.append(data["homepage"])
 
     for name, fw in CONFIG_FILES:
         if not framework and (p / name).exists():
             framework, rendering = fw, "ssg"
             evidence.append(f"found {name}")
-    if (p / "wp-config.php").exists() or (p / "wp-content").is_dir():
+    wp_files = (p / "wp-config.php").exists() or (p / "wp-content").is_dir()
+    if wp_files:
         cms = "wordpress"
         evidence.append("found WordPress files")
 
     for cfg in sorted(p.glob("astro.config.*")) + sorted(p.glob("next-sitemap.config.*")):
-        domains += CONFIG_SITE.findall(cfg.read_text(errors="ignore"))
+        domains += CONFIG_SITE.findall(_read(cfg) or "")
     cname = p / "CNAME"
-    if cname.exists() and cname.read_text().strip():
-        domains.append("https://" + cname.read_text().strip())
-    for env_file in sorted(p.glob(".env*")):
-        domains += SITE_URL_KEYS.findall(env_file.read_text(errors="ignore"))
+    name = (_read(cname) or "").strip()
+    if name:
+        domains.append("https://" + name)
+    for env_file in sorted(f for f in p.glob(".env*") if f.is_file() and f.name != ".env.example"):
+        domains += SITE_URL_KEYS.findall(_read(env_file) or "")
 
     if not framework and not cms and any(p.glob("*.html")):
         framework, rendering = "static-html", "static"
         evidence.append("found *.html at the project root")
 
     if html:
-        text = Path(html).read_text(errors="ignore")
+        text = _read(Path(html)) or ""
         for marker, name in HTML_MARKERS:
             if marker in text and not cms:
                 cms = name
                 evidence.append(f"live HTML contains {marker}")
 
-    if cms and framework is None:
+    if wp_files or (cms and framework is None):
         stack_type = "cms"
     elif framework:
-        stack_type = "code"
+        stack_type = "code"  # an HTML-detected CMS behind a code front end (headless) stays code
     else:
         stack_type = "none"
-    if cms == "wordpress":
-        stack_type = "cms"
-    unique = list(dict.fromkeys(d.rstrip("/") for d in domains))
+        evidence.append("no framework, CMS or HTML found at the project root; set stack.repo if the code lives elsewhere")
+    unique = list(dict.fromkeys(r for r in (site_root(d) for d in domains) if r))
     return {"stack_type": stack_type, "framework": framework, "rendering": rendering, "cms": cms,
             "domain_candidates": unique, "evidence": evidence}
 
