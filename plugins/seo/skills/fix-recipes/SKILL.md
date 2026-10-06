@@ -8,6 +8,8 @@ description: How to apply SEO fixes per stack (Next.js, Astro, Nuxt, SvelteKit, 
 ## Rules for every fix
 
 - Change only what the fix-queue item names. One item per commit: `seo: <check id> <short description>`.
+- Commit locally on the fix branch only. Never push, deploy or publish; approval works as in the `seo-system` skill.
+- JSON-LD written as raw HTML must escape `<` as `\u003c` in every stack (`JSON.stringify(data).replace(/</g, '\\u003c')`), so a `</script>` in content cannot break out of the block.
 - Read the project first and follow its patterns (where metadata lives, components, i18n setup).
 - Structured data must match visible text. Use types Google supports for rich results; no "AI schema"; llms.txt is not a Google requirement.
 - Indexable content must be in the initial HTML: prefer static generation or server rendering over client-only rendering.
@@ -27,11 +29,11 @@ description: How to apply SEO fixes per stack (Next.js, Astro, Nuxt, SvelteKit, 
 
 ## Next.js (Pages Router)
 
-- `next/head` per page; `getStaticProps` or `getServerSideProps` instead of client fetching for indexable content; sitemap through a `pages/sitemap.xml.ts` route, or `next-sitemap` only if the project already uses it.
+- `next/head` per page; `getStaticProps` or `getServerSideProps` instead of client fetching for indexable content; sitemap through `pages/sitemap.xml.tsx` exporting a no-op default component plus `getServerSideProps` that writes the XML, or `next-sitemap` only if the project already uses it.
 
 ## Astro
 
-- Set `site` in `astro.config.*` (needed for canonicals and the sitemap); `@astrojs/sitemap` integration; head tags in the base layout through props; JSON-LD with `<script type="application/ld+json" set:html={JSON.stringify(data)} />`; prefer static output; `client:only` islands must not hold indexable content.
+- Set `site` in `astro.config.*` (needed for canonicals and the sitemap); `@astrojs/sitemap` integration; head tags in the base layout through props; JSON-LD with `<script type="application/ld+json" set:html={JSON.stringify(data).replace(/</g, '\\u003c')} />`; prefer static output; `client:only` islands must not hold indexable content.
 
 ## Nuxt
 
@@ -39,15 +41,15 @@ description: How to apply SEO fixes per stack (Next.js, Astro, Nuxt, SvelteKit, 
 
 ## SvelteKit
 
-- `<svelte:head>` per route; `export const prerender = true` in `+page.ts` or `+layout.ts` for static pages; sitemap from a `+server.ts` route (or `super-sitemap`, with approval).
+- `<svelte:head>` per route; `export const prerender = true` in `+page.ts` or `+layout.ts` for static pages; sitemap from a `+server.ts` route (or `super-sitemap`, with approval); JSON-LD via `{@html '<script type="application/ld+json">' + JSON.stringify(data).replace(/</g, '\\u003c') + '</script>'}` inside `<svelte:head>`.
 
 ## Vite SPA (React or Vue without a framework): client-rendered
 
-- Raw-HTML failures here are structural. Options by size of change: (1) build-time prerendering of indexable routes with `vite-prerender-plugin` (any framework) or `vite-ssg` (Vue); (2) React Router framework mode with `prerender` in `react-router.config.ts`; (3) move indexable routes to an SSR/SSG framework (Vike, Next.js, Nuxt, Astro). Propose; do not migrate without approval. Do not add the deleted prerender server or the unmaintained react-snap.
+- Raw-HTML failures here are structural. Options by size of change: (1) build-time prerendering of indexable routes with `vite-prerender-plugin` (any framework) or `vite-ssg` (Vue); (2) React Router framework mode with `prerender` in `react-router.config.ts`; (3) move indexable routes to an SSR/SSG framework (Vike, Next.js, Nuxt, Astro). Propose; do not migrate without approval. Do not add react-snap (unmaintained) or a self-hosted prerender proxy.
 
 ## Hugo
 
-- Built-in sitemap (`[sitemap]` config) and robots (`enableRobotsTXT = true`, `layouts/robots.txt`); title and description from front matter in `layouts/_default/baseof.html`; hreflang through multilingual config and `.Translations`.
+- Built-in sitemap (`[sitemap]` config) and robots (`enableRobotsTXT = true`, `layouts/robots.txt`); title and description from front matter in the project's `baseof.html` (`layouts/baseof.html` on Hugo 0.146+, `layouts/_default/baseof.html` before); hreflang through multilingual config and `.AllTranslations` (it includes the current page; `.Translations` does not).
 
 ## Jekyll
 
@@ -70,4 +72,4 @@ description: How to apply SEO fixes per stack (Next.js, Astro, Nuxt, SvelteKit, 
 
 ## hreflang (any stack)
 
-- Every language version lists every version, including itself, plus `x-default`; links are reciprocal; codes are ISO 639-1 with optional ISO 3166-1 region (`en`, `ar-AE`); each version's canonical points to itself.
+- Every language version lists every version, including itself, plus `x-default` where there is a default or language-selector page; links are reciprocal; codes are ISO 639-1 with optional ISO 3166-1 region (`en`, `ar-AE`); each version's canonical points to itself.

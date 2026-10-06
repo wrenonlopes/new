@@ -156,6 +156,7 @@ Each item: the failed question, the fix in one or two sentences, pages, evidence
 - `public-relations` lists Connectively as live: it shut down 2024-12-09; HARO relaunched under Featured 2025-04-22.
 - `directory-submissions` dofollow check by HTTP headers: invalid (rel lives in the HTML); its article-site and social-bookmarking tiers are link spam under Google's policies; its FAQ-schema claim conflicts with the rule base.
 - Blocking an AI crawler in robots.txt is not automatically a failure: training-only agents (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot, meta-externalagent) do not affect search results; only search and user-fetch agents count for tech.ai-crawler-access.
+- `audit-website` (vendored) runs bare `squirrel audit <url>` and suggests re-audit loops and published reports: inside this plugin always use the exact squirrel invocation in "Tools and spend guards" (pinned path, `NO_TELEMETRY=1`, `--render-mode off`), never publish, and stop after one audit per run unless the user asks.
 
 ## Tools and spend guards
 
