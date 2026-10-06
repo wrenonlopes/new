@@ -19,7 +19,7 @@ const QUESTIONS = {
   'tech.schema-valid': 'Is the structured data valid for Google rich results and schema.org?',
   'tech.schema-matches': 'Does structured data match visible text?',
 };
-// Types whose text is page metadata (Yoast puts the meta description here), not body content.
+// Exact types (not subtypes) whose `description` is page metadata (Yoast puts the meta description there).
 const METADATA_TYPES = ['WebPage', 'WebSite'];
 const NAMED_ENTITIES = { nbsp: ' ', amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', hellip: '…',
   ndash: '–', mdash: '—', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', copy: '©', reg: '®', trade: '™' };
@@ -112,7 +112,9 @@ export function dedupeIssues(issues) {
     // so the later copy has no location. Its serialised `source` is the same on every copy: use it as
     // the item identity, falling back to the location (our own issues, which have no `source`).
     const identity = `${i.dataFormat ?? ''}|${i.source ?? i.location ?? ''}`;
-    const k = `${i.severity}|${i.issueMessage}|${(i.fieldNames ?? []).join(',')}|${identity}`;
+    // Nested entities differ only in the path (property and index); `type` differs across multi-typed copies.
+    const path = JSON.stringify((i.path ?? []).map(({ type, ...rest }) => rest));
+    const k = `${i.severity}|${i.issueMessage}|${(i.fieldNames ?? []).join(',')}|${identity}|${path}`;
     if (seen.has(k)) return false;
     seen.add(k);
     return true;
@@ -133,9 +135,12 @@ export async function checkPage(url, html, validator, table, parents) {
   const warnings = all.filter((i) => i.severity !== 'ERROR');
   const hasJsonld = Object.values(jsonld).some((items) => items.length > 0);
   const hasOther = Object.keys(data.microdata ?? {}).length > 0 || Object.keys(data.rdfa ?? {}).length > 0;
-  const content = [...new Set(Object.entries(jsonld)
-    .filter(([t]) => !METADATA_TYPES.some((m) => isSubtypeOf(normType(t), m, parents)))
-    .flatMap(([, items]) => items))];
+  const content = [...new Set(Object.values(jsonld).flat())].map((item) => {
+    const types = [].concat(item['@type'] ?? []).map(normType);
+    if (!types.some((t) => METADATA_TYPES.includes(t))) return item;
+    const { description, ...rest } = item; // Yoast sets this to the meta description, not body text
+    return rest;
+  });
   const hidden = notVisible(content, visibleText(html));
   const brief = (i) => ({ type: i.rootType, message: i.issueMessage, fields: i.fieldNames });
 

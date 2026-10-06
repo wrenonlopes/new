@@ -113,3 +113,30 @@ test('unknownChecks carry the full check shape', () => {
     assert.equal(c.verdict, 'unknown');
   }
 });
+
+test('FAQPage text hidden from the body fails the visible-text match', async () => {
+  const html = `<html><head>${ld({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [{
+    '@type': 'Question', name: 'How long does a boiler installation take?',
+    acceptedAnswer: { '@type': 'Answer', text: 'Most boiler installations take one full working day.' } }] })}</head>
+  <body><h1>Boilers</h1></body></html>`;
+  const [, matches] = await checkPage('https://x.test/faq', html, new Validator(vocab), table, parents);
+  assert.equal(matches.verdict, 'fail');
+});
+
+test('WebPage keeps its other text in the visible-text match', async () => {
+  const html = `<html><head>${ld({ '@context': 'https://schema.org', '@type': 'WebPage',
+    name: 'Premium Gold Widget Deluxe Edition', description: 'A meta description that never appears in the body' })}</head>
+  <body><h1>Basic Widget</h1></body></html>`;
+  const [, matches] = await checkPage('https://x.test/w', html, new Validator(vocab), table, parents);
+  assert.equal(matches.verdict, 'fail');
+  assert.deepEqual(matches.evidence.not_visible, ['Premium Gold Widget Deluxe Edition']);
+});
+
+test('dedupeIssues keeps issues on different nested entities', () => {
+  const a = { severity: 'ERROR', issueMessage: 'Required attribute "price" is missing', fieldNames: ['price'],
+    dataFormat: 'jsonld', source: 's',
+    path: [{ type: 'Product', index: 0 }, { property: 'offers', index: 0, length: 2, type: 'Offer' }] };
+  const b = { ...a, path: [{ type: 'Product', index: 0 }, { property: 'offers', index: 1, length: 2, type: 'Offer' }] };
+  const c = { ...a, path: [{ type: 'IndividualProduct', index: 0 }, { property: 'offers', index: 0, length: 2, type: 'Offer' }] };
+  assert.equal(dedupeIssues([a, b, c]).length, 2); // a and c are multi-typed copies; b is a second offer
+});
