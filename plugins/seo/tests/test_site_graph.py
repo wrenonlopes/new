@@ -1,10 +1,12 @@
-from site_graph import depth_check, hreflang_check, hreflang_map, most_linked, norm, robots_check
+from site_graph import (crawl_failure, depth_check, hreflang_check, hreflang_map, key, most_linked, norm, robots_check)
 
 S = "https://s.test"
 
 
-def pg(path, depth, hreflang=None, status=200, links=()):
-    return {"url": norm(S + path), "depth": depth, "parent": None, "status": status,
+def pg(path, depth, hreflang=None, status=200, links=(), ok=None):
+    if ok is None:
+        ok = status is not None and status < 400
+    return {"url": norm(S + path), "depth": depth, "parent": None, "ok": ok, "status": status,
             "links": [{"href": norm(S + l), "text": ""} for l in links], "hreflang": hreflang or {}}
 
 
@@ -74,3 +76,52 @@ def test_most_linked_counts_inbound():
     pages = [pg("/", 0, links=["/a", "/b", "/a"]), pg("/a", 1, links=["/b"]), pg("/b", 1)]
     assert most_linked(pages, 1) == ["https://s.test/b"] or most_linked(pages, 1) == ["https://s.test/a"]
     assert set(most_linked(pages, 2)) == {"https://s.test/a", "https://s.test/b"}
+
+
+def test_key_canonicalises_but_norm_keeps_www():
+    assert key("https://www.S.test:443/a/") == key("https://s.test/a")
+    assert key("https://s.test/index.html") == key("https://s.test/")
+    assert norm("https://www.s.test/a") == "https://www.s.test/a"
+
+
+def test_depth_target_matches_despite_trailing_slash():
+    assert depth_check([pg("/", 0), pg("/services/", 1)], [S + "/services"], complete=True)["verdict"] == "pass"
+
+
+def test_depth_no_targets_truncated_crawl_is_unknown():
+    assert depth_check([pg("/", 0), pg("/a", 1)], [], complete=False)["verdict"] == "unknown"
+
+
+def test_depth_no_targets_complete_shallow_crawl_passes():
+    assert depth_check([pg("/", 0), pg("/a", 1)], [], complete=True)["verdict"] == "pass"
+
+
+def test_hreflang_unfetched_alternate_is_unknown():
+    en = pg("/en", 1, {"en": norm(S + "/en"), "ar": norm(S + "/ar")})
+    ar = pg("/ar", 1, status=None)
+    assert hreflang_check([en, ar])["verdict"] == "unknown"
+
+
+def test_robots_wildcard_and_end_anchor():
+    txt = "User-agent: OAI-SearchBot\nDisallow: /*.html$\n"
+    assert robots_check(txt, [S + "/page.html"])["verdict"] == "fail"
+    assert robots_check(txt, [S + "/page.htm"])["verdict"] == "pass"
+
+
+def test_robots_longest_match_allow_wins():
+    txt = "User-agent: *\nDisallow: /\nAllow: /public/\n"
+    assert robots_check(txt, [S + "/public/x"])["verdict"] == "pass"
+    assert robots_check(txt, [S + "/private"])["verdict"] == "fail"
+
+
+def test_robots_specific_group_overrides_star():
+    txt = "User-agent: *\nDisallow: /\n\nUser-agent: Googlebot\nAllow: /\n"
+    r = robots_check(txt, [S + "/"])
+    assert "Googlebot" not in r["evidence"]["blocked_search"]
+    assert "Bingbot" in r["evidence"]["blocked_search"]
+
+
+def test_crawl_failure_reasons():
+    assert crawl_failure([]) == "crawl returned no pages"
+    assert "503" in crawl_failure([pg("/", 0, status=503)])
+    assert crawl_failure([pg("/", 0)]) is None
