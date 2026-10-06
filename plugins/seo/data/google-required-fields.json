@@ -1,0 +1,25 @@
+{
+  "_source": "Google Search Central structured data docs",
+  "_checked": "2026-10-06",
+  "LocalBusiness": {
+    "required": ["name", "address"],
+    "recommended": ["aggregateRating", "department", "geo", "menu", "openingHoursSpecification", "priceRange", "review", "servesCuisine", "telephone", "url"],
+    "doc": "https://developers.google.com/search/docs/appearance/structured-data/local-business"
+  },
+  "Event": {
+    "required": ["name", "startDate", "location"],
+    "recommended": ["description", "endDate", "eventStatus", "image", "offers", "organizer", "performer", "previousStartDate"],
+    "doc": "https://developers.google.com/search/docs/appearance/structured-data/event"
+  },
+  "Article": {
+    "required": [],
+    "recommended": ["headline", "image", "datePublished", "dateModified", "author"],
+    "doc": "https://developers.google.com/search/docs/appearance/structured-data/article"
+  },
+  "FAQPage": {
+    "required": [],
+    "recommended": [],
+    "doc": "https://developers.google.com/search/updates#removing-faq-rich-result",
+    "note": "Google stopped showing FAQ rich results on 2026-05-07 and removed its FAQ structured data documentation in June 2026, so no Google requirement is checked."
+  }
+}

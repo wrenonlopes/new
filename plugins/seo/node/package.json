@@ -1,0 +1,13 @@
+{
+  "name": "seo-plugin-node-tools",
+  "private": true,
+  "type": "module",
+  "description": "Pinned Node tools for the seo plugin, installed into the plugin data folder by engines/ensure_node.sh.",
+  "dependencies": {
+    "@adobe/structured-data-validator": "1.7.0",
+    "@marbec/web-auto-extractor": "2.2.1",
+    "squirrelscan": "0.0.98",
+    "unlighthouse-ci": "0.19.1"
+  },
+  "engines": { "node": ">=22.18.0" }
+}
