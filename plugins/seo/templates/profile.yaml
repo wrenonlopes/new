@@ -1,0 +1,50 @@
+# seo plugin project profile. /seo:setup fills what it can detect and asks for the rest.
+# Leave a field empty rather than guessing; checks that need it report "unknown".
+
+name: ""                      # short project name
+domain: ""                    # production domain, e.g. estateium.ae
+key_urls: []                  # homepage, service pages, top converters (full production URLs)
+
+market:
+  regions: []                 # e.g. [Dubai, GCC]
+  languages: []               # e.g. [en, ar]
+
+audience: ""                  # who searches and what problem they are solving
+
+conversions: []               # e.g. [{name: Enquiry form, url: /contact}, {name: WhatsApp}]
+success_metric: ""            # the one number this project is judged on
+
+competitors: []               # 3 to 5 domains
+
+brand:
+  names: []                   # brand name and aliases, used to detect AI mentions
+
+buyer_prompts: []             # questions buyers ask AI assistants, in their words
+
+data_access:
+  search_console: ""          # property, e.g. sc-domain:example.com
+  ga4_property: ""            # numeric property ID
+  bing_webmaster: ""          # verified site URL
+
+stack:
+  type: ""                    # code | cms | none (decides how /seo:fix applies fixes)
+  framework: ""               # e.g. nextjs, astro, hugo, static-html
+  rendering: ""               # ssr | ssg | csr | hybrid | static | server
+  cms: ""                     # e.g. wordpress, shopify, wix (when type is cms)
+  repo: ""                    # where fixes are made, if not this folder
+
+content:                      # used by /seo:content and /seo:brief (Plan 2)
+  experts: []                 # [{name, role, credentials_url}]
+  first_party_data: []        # data only this business has
+  capacity_per_month: 0       # pieces human writers can publish per month
+
+offpage:                      # used by /seo:offpage (Plan 4)
+  spokespeople: []            # [{name, topics: [], bio_url}]
+  linkable_assets: []
+  platforms: []               # expert-source platforms subscribed to
+  locations: []               # [{name, address, phone, hours, gbp_id}]
+  communities: []
+  partners: []
+
+approval:
+  approver: ""                # who signs off before anything ships
