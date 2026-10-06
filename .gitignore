@@ -4,3 +4,4 @@ __pycache__/
 .env
 *.raw.json
 .DS_Store
+plugins/seo/node/node_modules/

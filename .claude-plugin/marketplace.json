@@ -1,0 +1,12 @@
+{
+  "name": "seo-tool",
+  "description": "SEO + AI search visibility system for Claude Code",
+  "owner": { "name": "Abdelhamid" },
+  "plugins": [
+    {
+      "name": "seo",
+      "source": "./plugins/seo",
+      "description": "Plug-and-play SEO + AI search visibility: audit, ranked fixes, approved fixes, monitoring."
+    }
+  ]
+}

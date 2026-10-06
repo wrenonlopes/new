@@ -1,0 +1,16 @@
+seo plugin: third-party notices
+
+Bundled data
+- schema.org vocabulary v30.1 (data/schemaorg-all-https.jsonld), Apache-2.0, https://schema.org
+
+Installed on the user's machine at setup, not redistributed in this repository
+- Crawl4AI 0.9.4, Apache-2.0 with attribution clause.
+  This product includes software developed by UncleCode (https://x.com/unclecode) as part of the Crawl4AI project (https://github.com/unclecode/crawl4ai).
+- squirrelscan 0.0.98 (MIT), unlighthouse-ci 0.19.1 (MIT), @adobe/structured-data-validator 1.7.0 (Apache-2.0), @marbec/web-auto-extractor 2.2.1 (MIT), Lighthouse via Unlighthouse (Apache-2.0)
+
+Vendored skills (MIT), pinned
+- coreyhaines31/marketingskills @5b2c000: seo-audit, ai-seo, schema, site-architecture, programmatic-seo, content-strategy, competitors, copywriting, copy-editing, analytics, public-relations, directory-submissions. Copyright (c) Corey Haines.
+- squirrelscan/skills @993ff2e: audit-website. Copyright (c) squirrelscan.
+- addyosmani/web-quality-skills @afa8da9: core-web-vitals, performance. Copyright (c) 2026 Addy Osmani.
+
+Ideas borrowed and rewritten (MIT): local-SEO, Common Crawl graph and backlink-verification approaches (AgriciDaniel/claude-seo); AI-crawler user-agent list and CDN bot-blocking checks (Auriti-Labs/geo-optimizer-skill); evidence slots and claim tables (AgriciDaniel/claude-blog); cannibalization approach (AminForou/mcp-gsc).
