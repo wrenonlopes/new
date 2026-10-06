@@ -114,7 +114,7 @@ Each item: the failed question, the fix in one or two sentences, pages, evidence
 | Put the key answer in the first 30% of the page (44.2% of citations) | ChatGPT | [Growth Memo, Kevin Indig](https://www.searchenginejournal.com/the-science-of-how-ai-pays-attention/561306/) |
 | Open with a declarative statement (+14% citation lift) | 7 verticals | [SEJ](https://www.searchenginejournal.com/the-science-of-what-ai-actually-rewards/570849/) |
 | Titles should match how the prompt is phrased (0.602 vs 0.484 similarity) | ChatGPT | [Ahrefs study summary](https://www.searchenginejournal.com/chatgpt-often-retrieves-but-rarely-cites-reddit-pages-data-shows/572243/) |
-| 91% of citations appear on only one platform, so track each engine separately | ChatGPT, Perplexity, AI Overviews | [Growth Memo, Kevin Indig](https://www.searchenginejournal.com/the-science-of-how-ai-pays-attention/561306/) |
+| 91% of citations appear on only one platform, so track each engine separately | ChatGPT, Perplexity, AI Overviews | [Growth Memo, Kevin Indig: The Consensus Gap (2026-05-11)](https://www.growth-memo.com/p/the-consensus-gap) |
 | A small set of URLs earns most citations; aim pages at that group | Cross-platform | [Dynadot summary of Otterly](https://www.dynadot.com/blog/how-ai-understands-domain-names) |
 | 85% of brand discovery in AI search comes from third-party sources | B2B software discovery, three models, Oct 2025 | [AirOps](https://airops.com/report/the-influence-of-offsite-signals-in-ai-search) |
 | AI referrals grow fast but organic still sends more traffic | Shopify Q2 2026 | [Search Engine Land](https://searchengineland.com/shopify-ai-referrals-up-organic-search-leads-traffic-484962) |
