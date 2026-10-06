@@ -1,0 +1,11 @@
+name: fixture
+domain: fixture.example
+key_urls:
+  - https://fixture.example/
+  - https://fixture.example/csr.html
+  - https://fixture.example/deep.html
+conversions:
+  - {name: Contact, url: /local.html}
+brand: {names: [Fixture Co]}
+stack: {type: code, framework: static-html, rendering: static, cms: ""}
+approval: {approver: E2E Test}

@@ -1,0 +1,9 @@
+# check id -> paths that must appear in that check's pages, with verdict fail
+tech.raw-html: [/csr.html]
+tech.click-depth: [/deep.html]
+tech.ai-crawler-access: [/]
+tech.schema-valid: [/bad-product.html, /local.html]
+tech.schema-matches: [/schema-mismatch.html]
+tech.broken: [/missing.html]
+tech.hreflang: [/en.html]
+onpage.h1: [/no-h1.html]
