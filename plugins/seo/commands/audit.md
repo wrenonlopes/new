@@ -16,21 +16,25 @@ ROOT=${CLAUDE_PLUGIN_ROOT}, DATA=${CLAUDE_PLUGIN_DATA}, P=${CLAUDE_PROJECT_DIR}/
 - NODE = output of `sh "$ROOT/engines/ensure_node.sh" "$ROOT/node" "$DATA/node"`.
 - CHROMIUM = `chromium_path` from `uv run --script "$ROOT/engines/doctor.py" --root "$ROOT" --data "$DATA"`.
 
-## 2. Collect (run independent steps in parallel)
+## 2. Collect (run steps a to e in parallel; Unlighthouse runs last)
 
 a. `NO_TELEMETRY=1 "$NODE/node_modules/squirrelscan/bin/squirrel" audit "$BASE" -C full --render-mode off -f json -o "$RAW/squirrel.json"`
 b. `uv run --script "$ROOT/engines/site_graph.py" "$BASE" --targets "<TARGETS comma-separated>" --out "$RAW/site-graph.json" --checks-out "$RUN/site-graph-checks.json"`
-c. After b: PAGES = TARGETS + `top_linked` from `$RAW/site-graph.json`, deduplicated, at most 20.
+c. After b: PAGES = TARGETS + `top_linked` from `$RAW/site-graph.json`, deduplicated, at most 20. Exclude pages whose site-graph `status` is not 2xx or whose `ok` is false; tech.broken covers them.
    - `uv run --script "$ROOT/engines/raw_vs_rendered.py" <PAGES> --out "$RAW/raw-vs-rendered.json" --save-markdown "$RAW/rendered"`
    - `node "$NODE/schema_check.mjs" --vocab "$ROOT/data/schemaorg-all-https.jsonld" --required "$ROOT/data/google-required-fields.json" --out "$RAW/schema.json" <PAGES>`
-   - Write `$RAW/unlighthouse.config.ts` containing `export default { puppeteerOptions: { executablePath: '<CHROMIUM>' }, chrome: { useSystem: false, useDownloadFallback: false } }`. Then run `"$NODE/node_modules/.bin/unlighthouse-ci" --site "$BASE" --urls "<PAGES as root-relative paths, comma-separated>" --mobile --reporter jsonExpanded --output-path "$RAW/unlighthouse" --no-cache --config-file "$RAW/unlighthouse.config.ts"`, then `uv run --script "$ROOT/engines/lab_speed.py" "$RAW/unlighthouse/ci-result.json" --site "$BASE" --out "$RUN/lab-speed.json"`.
 d. Production only (skip with `--local`): `uv run --script "$ROOT/engines/crux.py" --origin "$PROD" --url <each TARGET> --out "$RUN/field-speed.json"`.
 e. Production only, and only if the `search-console` MCP is connected and `data_access.search_console` is set: URL Inspection for each TARGET (index status, `richResultsResult`), plus the last 28 days of top queries per TARGET. Save to `$RAW/gsc.json`. If not connected, the checks that need it are `unknown` with "connect Search Console (tier 1)".
+
+Run Unlighthouse alone, after steps a to e have finished, so it does not skew lab numbers: write `$RAW/unlighthouse.config.ts` containing `export default { puppeteerOptions: { executablePath: '<CHROMIUM>' }, chrome: { useSystem: false, useDownloadFallback: false } }`. Then run `"$NODE/node_modules/.bin/unlighthouse-ci" --site "$BASE" --urls "<PAGES as root-relative paths, comma-separated>" --mobile --reporter jsonExpanded --output-path "$RAW/unlighthouse" --no-cache --config-file "$RAW/unlighthouse.config.ts"`, then `uv run --script "$ROOT/engines/lab_speed.py" "$RAW/unlighthouse/ci-result.json" --site "$BASE" --out "$RUN/lab-speed.json"`. If CHROMIUM is null, skip Unlighthouse and set tech.speed-lab to unknown with "Chromium missing: run /seo:setup".
 
 ## 3. Score → `$RUN/checks.yaml`
 
 A YAML list with one entry per check id in the seo-system check catalogue, in the check format.
 
+- Merging per-page engine results into one check: any page `fail` → `fail`; else any `unknown` → `unknown`; else `pass`. `pages` lists the failing pages (or, for `unknown`, the pages without evidence).
+- An engine's `unknown`, error or non-zero exit stays `unknown` with the engine's reason. Never replace engine output with your own fetch or guess.
+- Copy `rule` only from the seo-system check catalogue or rule base; otherwise omit it.
 - **Engine checks:** copy them as they are.
   - tech.raw-html: merge the per-page results into one check whose `pages` lists failing pages and whose evidence is keyed per page.
   - tech.click-depth, tech.hreflang, tech.ai-crawler-access: from `site-graph-checks.json`.

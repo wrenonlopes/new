@@ -43,11 +43,17 @@ def crawl_result(error, status=200, html="<html><body></body></html>"):
 
 
 def test_empty_js_shell_flagged_structural_is_kept_not_unknown():
-    s = summarize(crawl_result("Blocked by anti-bot protection: Structural: minimal_text on small page (453 bytes, 4 chars visible)"))
+    s = summarize(crawl_result("Blocked by anti-bot protection: Structural: minimal_text on small page (453 bytes, 4 chars visible)"), allow_shell=True)
     assert s["ok"] and s["words"] == 1
     assert compare("u", s, page(100, ["Pricing"]))["verdict"] == "fail"
 
 
 def test_real_block_and_non_2xx_stay_unknown():
-    assert not summarize(crawl_result("Blocked by anti-bot protection: Cloudflare challenge"))["ok"]
-    assert not summarize(crawl_result("Blocked by anti-bot protection: Structural: minimal_text", status=403))["ok"]
+    assert not summarize(crawl_result("Blocked by anti-bot protection: Cloudflare challenge"), allow_shell=True)["ok"]
+    assert not summarize(crawl_result("Blocked by anti-bot protection: Structural: minimal_text", status=403), allow_shell=True)["ok"]
+
+
+def test_unmounted_js_shell_on_both_sides_is_unknown_not_pass():
+    shell = "Blocked by anti-bot protection: Structural: minimal_text on small page (453 bytes, 4 chars visible)"
+    r = compare("u", summarize(crawl_result(shell), allow_shell=True), summarize(crawl_result(shell)))
+    assert r["verdict"] == "unknown"

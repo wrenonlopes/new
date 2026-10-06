@@ -49,8 +49,9 @@ def structural_false_block(result):
             and str(result.error_message or "").startswith("Blocked by anti-bot protection: Structural:"))
 
 
-def summarize(result):
-    if not result.success and not structural_false_block(result):
+def summarize(result, allow_shell=False):
+    """allow_shell: only for the raw fetch. A rendered shell means the JS did not mount, which is not a pass."""
+    if not result.success and not (allow_shell and structural_false_block(result)):
         return {"ok": False, "status": result.status_code, "error": result.error_message}
     md = str(result.markdown or "")
     blocks = [b.strip() for b in re.split(r"\n\s*\n", md) if len(b.split()) >= 8]
@@ -113,11 +114,12 @@ async def run(urls, save_markdown=None):
     async with AsyncWebCrawler(crawler_strategy=http) as raw_crawler, AsyncWebCrawler() as browser:
         results = []
         for url in urls:
-            raw = summarize(await raw_crawler.arun(url, config=cfg))
+            raw = summarize(await raw_crawler.arun(url, config=cfg), allow_shell=True)
             rendered_result = await browser.arun(url, config=cfg)
-            if save_markdown and rendered_result.success:
+            rendered = summarize(rendered_result)
+            if save_markdown and rendered["ok"]:
                 (Path(save_markdown) / f"{slug(url)}.md").write_text(str(rendered_result.markdown or ""), encoding="utf-8")
-            results.append(compare(url, raw, summarize(rendered_result)))
+            results.append(compare(url, raw, rendered))
         return results
 
 
