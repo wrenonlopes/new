@@ -27,3 +27,9 @@ def test_unknown_when_a_fetch_failed():
 
 def test_slug_is_filesystem_safe():
     assert slug("https://Example.com/a/b?x=1") == "example-com-a-b-x-1"
+
+
+def test_unknown_when_rendered_page_is_empty():
+    r = compare("u", page(10, []), page(0, []))
+    assert r["verdict"] == "unknown"
+    assert r["pages"] == ["u"]

@@ -65,7 +65,11 @@ def compare(url, raw, rendered):
         out.update(verdict="unknown", pages=[url], evidence={"raw": raw, "rendered": rendered})
         return out
 
-    share = raw["words"] / rendered["words"] if rendered["words"] else 1.0
+    if rendered["words"] == 0:
+        out.update(verdict="unknown", pages=[url], evidence={"raw": {k: raw[k] for k in ("status", "words")}, "rendered_words": 0, "note": "rendered page has no text; cannot compare"})
+        return out
+
+    share = raw["words"] / rendered["words"]
     raw_text = " ".join(raw["blocks"])
     missing_blocks = [b[:160] for b in rendered["blocks"] if b[:80] not in raw_text]
     missing_h1 = [h for h in rendered["h1"] if h not in raw["h1"]]
