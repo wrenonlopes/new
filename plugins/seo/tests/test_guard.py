@@ -1,8 +1,9 @@
 import json
+import re
 import subprocess
 from pathlib import Path
 
-from guard import decide
+from guard import decide, READ_ONLY
 
 HOOKS = Path(__file__).resolve().parents[1] / "hooks"
 
@@ -74,3 +75,36 @@ def test_bash_prefilter_skips_unrelated_commands():
     out = subprocess.run(["sh", str(HOOKS / "bash_guard.sh")],
                          input=json.dumps(ev("Bash", command="squirrel auth login")), capture_output=True, text=True, check=True)
     assert json.loads(out.stdout)["hookSpecificOutput"]["permissionDecision"] == "deny"
+
+
+def test_global_config_flag_does_not_bypass_auth_keys():
+    sq = "/d/node/node_modules/squirrelscan/bin/squirrel"
+    for cmd in [f"{sq} -c cfg.toml auth login", f"{sq} --config-file cfg.toml keys list"]:
+        assert decide(ev("Bash", command=cmd))[0] == "deny", cmd
+
+
+def test_wrapped_and_equals_flags_are_denied():
+    sq = "/d/node/node_modules/squirrelscan/bin/squirrel"
+    for cmd in [f"sh -c '{sq} audit https://a.test -y'", f'bash -c "{sq} report a.test -p"',
+                f"{sq} audit https://a.test --yes=true", f"sh -c '{sq} report a.test --publish'"]:
+        assert decide(ev("Bash", command=cmd))[0] == "deny", cmd
+
+
+def test_auth_in_a_url_is_not_a_subcommand():
+    sq = "/d/node/node_modules/squirrelscan/bin/squirrel"
+    assert decide(ev("Bash", command=f"{sq} audit https://a.test/auth -C full --render-mode off")) is None
+
+
+def test_hooks_json_matcher_covers_every_guarded_tool():
+    config = json.loads((HOOKS / "hooks.json").read_text())
+    matcher = config["hooks"]["PreToolUse"][0]["matcher"]
+    for name in sorted(READ_ONLY) + ["mcp__dataforseo__api_request"]:
+        assert re.fullmatch(matcher, name), name
+    assert not re.fullmatch(matcher, "mcp__search-console__get_sitemaps")
+
+
+def test_malformed_event_fails_closed():
+    for payload in ["null", "[]", json.dumps({"tool_name": "Bash", "tool_input": {"command": ["squirrel", "auth"]}})]:
+        out = subprocess.run(["/usr/bin/python3", str(HOOKS / "guard.py")], input=payload,
+                             capture_output=True, text=True, check=True).stdout
+        assert json.loads(out)["hookSpecificOutput"]["permissionDecision"] == "deny", payload

@@ -6,6 +6,7 @@ Reads the hook event on stdin and prints a deny/ask decision, or nothing to allo
 - DataForSEO: Backlinks endpoints deny; any Live endpoint asks (DataForSEO Labs is Live-only).
 - squirrel CLI: deny cloud spend and publishing (auth, keys, --render except --render-mode off, -y, --publish/-p).
 Standard library only, Python 3.9 compatible: hooks run on the system python3.
+Literal-text guardrail, not a sandbox: deliberate obfuscation (variables, odd casing) can evade it.
 """
 import json
 import re
@@ -19,11 +20,14 @@ READ_ONLY = {
     "mcp__search-console__manage_sitemaps",
     "mcp__squirrelscan__comment_on_issue",
 }
+# A flag ends at anything that is not a word character or dash (space, quote, '=', ')', end).
+END = r"(?![\w-])"
 SQUIRREL_BLOCKS = [
-    (re.compile(r"squirrel\S*\s+(auth|keys)\b"), "squirrel auth/keys are cloud account actions"),
+    # auth/keys as a token anywhere after the squirrel command (global -c/--config-file may precede it)
+    (re.compile(r"squirrel\S*\s(?:.*\s)?(auth|keys)" + END), "squirrel auth/keys are cloud account actions"),
     (re.compile(r"--render(?!-mode[ =]off)"), "cloud rendering spends squirrel credits; Crawl4AI renders locally"),
-    (re.compile(r"--publish\b|\s-p(\s|$)"), "publishing reports makes them public"),
-    (re.compile(r"\saudit\b.*\s(-y|--yes)(\s|$)"), "-y auto-approves cloud spend"),
+    (re.compile(r"--publish" + END + r"|\s-p" + END), "publishing reports makes them public"),
+    (re.compile(r"\saudit\b.*\s(-y|--yes)" + END), "-y auto-approves cloud spend"),
 ]
 SEGMENT = re.compile(r"[;&|\n]+")
 
@@ -55,9 +59,9 @@ def decide(event):
 def main():
     try:
         event = json.load(sys.stdin)
-    except ValueError:
-        return 0
-    decision = decide(event)
+        decision = decide(event)
+    except Exception:  # unreadable event for a guarded tool: fail closed
+        decision = ("deny", "seo plugin guard could not read this tool call, so it was blocked.")
     if decision:
         json.dump({"hookSpecificOutput": {"hookEventName": "PreToolUse",
                                           "permissionDecision": decision[0],
