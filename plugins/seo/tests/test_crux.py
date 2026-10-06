@@ -1,3 +1,6 @@
+import sys
+
+import crux
 from crux import assess, check, no_key_check
 
 
@@ -42,3 +45,21 @@ def test_low_traffic_site_is_unknown_not_fail():
 def test_missing_key_is_unknown_with_unlock_step():
     c = no_key_check()
     assert c["verdict"] == "unknown" and "GOOGLE_API_KEY" in c["evidence"]["unlock"]
+
+
+def test_low_traffic_run_is_unknown(monkeypatch):
+    monkeypatch.setattr(crux, "query", lambda key, body: None)
+    assert check(crux.run("k", "https://s.test/", ["https://s.test/a"]))["verdict"] == "unknown"
+
+
+def test_error_output_never_contains_the_key(monkeypatch, tmp_path):
+    def boom(key, body):
+        raise ValueError(f"URL can't contain control characters. '/v1/records:queryRecord?key={key} '")
+    monkeypatch.setattr(crux, "query", boom)
+    monkeypatch.setenv("GOOGLE_API_KEY", " AIzaSECRET123 \n")
+    out = tmp_path / "field.json"
+    monkeypatch.setattr(sys, "argv", ["crux.py", "--origin", "https://s.test", "--out", str(out)])
+    crux.main()
+    text = out.read_text()
+    assert "AIzaSECRET123" not in text
+    assert "GOOGLE_API_KEY" in text  # the unlock hint survives the error path

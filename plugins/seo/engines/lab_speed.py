@@ -35,8 +35,12 @@ def assess(ci, site):
     failing = [r for r in routes if r["over_limit"]]
     if not routes or all(len(r["missing"]) == len(LIMITS) for r in routes):
         verdict = "unknown"
+    elif failing:
+        verdict = "fail"
+    elif any(r["missing"] for r in routes):
+        verdict = "unknown"  # no failure seen, but not every metric was measured
     else:
-        verdict = "fail" if failing else "pass"
+        verdict = "pass"
     return {
         "id": "tech.speed-lab",
         "question": "Do pages load fast and stay stable on mobile (lab)?",

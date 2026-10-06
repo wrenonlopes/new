@@ -18,6 +18,7 @@ import os
 import sys
 from pathlib import Path
 from urllib.error import HTTPError
+from urllib.parse import quote
 from urllib.request import Request, urlopen
 
 API = "https://chromeuxreport.googleapis.com/v1/records:queryRecord"
@@ -53,7 +54,7 @@ def no_key_check():
 
 
 def query(key, body):
-    req = Request(f"{API}?key={key}", data=json.dumps(body).encode(),
+    req = Request(f"{API}?key={quote(key, safe='')}", data=json.dumps(body).encode(),
                   headers={"Content-Type": "application/json"}, method="POST")
     try:
         with urlopen(req, timeout=30) as r:
@@ -85,14 +86,15 @@ def main():
     ap.add_argument("--url", action="append", default=[])
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
-    key = os.environ.get("GOOGLE_API_KEY")
+    key = (os.environ.get("GOOGLE_API_KEY") or "").strip()
     if not key:
         result = no_key_check()
     else:
         try:
             result = check(run(key, args.origin, args.url))
-        except Exception as e:  # invalid key, API disabled, network: report, don't crash the audit
-            result = {**no_key_check(), "evidence": {"error": str(e)[:300]}}
+        except Exception as e:  # invalid key, API disabled, network: report without the key, keep the unlock hint
+            base = no_key_check()
+            result = {**base, "evidence": {**base["evidence"], "error": str(e).replace(key, "***")[:300]}}
     Path(args.out).write_text(json.dumps(result, indent=2), encoding="utf-8")
     print(f"{result['verdict']:>7}  tech.speed-field", file=sys.stderr)
 

@@ -28,3 +28,11 @@ def test_slow_route_fails_and_is_listed():
 
 def test_no_routes_is_unknown():
     assert assess({"routes": []}, "https://s.test")["verdict"] == "unknown"
+
+
+def test_missing_metric_without_failures_is_unknown():
+    assert assess({"routes": [route("/", 1000, None, None)]}, "https://s.test")["verdict"] == "unknown"
+
+
+def test_failure_still_wins_over_missing_metrics():
+    assert assess({"routes": [route("/", 4000, None, None)]}, "https://s.test")["verdict"] == "fail"
