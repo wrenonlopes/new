@@ -1,3 +1,11 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#   "google-genai==2.25.0",
+#   "pyyaml==6.0.3",
+#   "cryptography<49; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+# ]
+# ///
 """AI visibility prompt runner.
 
 Question per prompt and platform: are we mentioned, and is our domain cited?
@@ -11,9 +19,9 @@ Each platform is scored and stored on its own; results are never blended
   score     score a filled answers file: [{prompt, answer, citations: [url]}]
 
 Usage:
-  uv run engines/prompt_runner.py gemini   --profile projects/X/profile.yaml --out-dir DIR
-  uv run engines/prompt_runner.py template --profile projects/X/profile.yaml --platform chatgpt --out FILE
-  uv run engines/prompt_runner.py score    --profile projects/X/profile.yaml --platform chatgpt --answers FILE --out-dir DIR
+  uv run --script prompt_runner.py gemini   --profile projects/X/profile.yaml --out-dir DIR
+  uv run --script prompt_runner.py template --profile projects/X/profile.yaml --platform chatgpt --out FILE
+  uv run --script prompt_runner.py score    --profile projects/X/profile.yaml --platform chatgpt --answers FILE --out-dir DIR
 """
 
 import argparse

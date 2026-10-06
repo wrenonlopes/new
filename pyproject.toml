@@ -13,3 +13,8 @@ dependencies = [
 package = false
 # Intel Macs: cryptography >=49 ships no x86_64 macOS wheel (source build needs Rust).
 constraint-dependencies = ["cryptography<49"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

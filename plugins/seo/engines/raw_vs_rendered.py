@@ -1,3 +1,10 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#   "crawl4ai==0.9.4",
+#   "cryptography<49; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+# ]
+# ///
 """Raw vs rendered check.
 
 Question: is the core content in the initial HTML?
@@ -10,7 +17,9 @@ Fetches each URL twice through the same Crawl4AI pipeline:
 and compares words, headings, internal links and JSON-LD.
 
 Usage:
-  uv run engines/raw_vs_rendered.py URL [URL ...] --out report.json
+  uv run --script raw_vs_rendered.py URL [URL ...] --out report.json [--save-markdown DIR]
+
+This product includes software developed by UncleCode (https://x.com/unclecode) as part of the Crawl4AI project (https://github.com/unclecode/crawl4ai).
 """
 
 import argparse
@@ -18,9 +27,7 @@ import asyncio
 import json
 import re
 import sys
-
-from crawl4ai import AsyncWebCrawler, CacheMode, CrawlerRunConfig, HTTPCrawlerConfig
-from crawl4ai.async_crawler_strategy import AsyncHTTPCrawlerStrategy
+from pathlib import Path
 
 GPTBOT_UA = (
     "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); "
@@ -28,6 +35,10 @@ GPTBOT_UA = (
 )
 # Heuristic: raw must carry at least this share of the rendered words to pass.
 MIN_RAW_SHARE = 0.8
+
+
+def slug(url):
+    return re.sub(r"[^a-z0-9]+", "-", url.lower().split("://", 1)[-1]).strip("-")[:80]
 
 
 def summarize(result):
@@ -48,9 +59,10 @@ def summarize(result):
 
 
 def compare(url, raw, rendered):
-    out = {"url": url, "question": "Is the core content in the initial HTML?"}
+    out = {"id": "tech.raw-html", "url": url, "question": "Is the core content in the initial HTML?",
+           "rule": "Core content must be in the initial HTML", "source": "engines/raw_vs_rendered.py"}
     if not (raw["ok"] and rendered["ok"]):
-        out.update(verdict="unknown", evidence={"raw": raw, "rendered": rendered})
+        out.update(verdict="unknown", pages=[url], evidence={"raw": raw, "rendered": rendered})
         return out
 
     share = raw["words"] / rendered["words"] if rendered["words"] else 1.0
@@ -62,6 +74,7 @@ def compare(url, raw, rendered):
     passed = share >= MIN_RAW_SHARE and not missing_h1 and raw["status"] == 200
     out.update(
         verdict="pass" if passed else "fail",
+        pages=[] if passed else [url],
         evidence={
             "raw_status": raw["status"],
             "raw_words": raw["words"],
@@ -77,15 +90,22 @@ def compare(url, raw, rendered):
     return out
 
 
-async def run(urls):
+async def run(urls, save_markdown=None):
+    from crawl4ai import AsyncWebCrawler, CacheMode, CrawlerRunConfig, HTTPCrawlerConfig
+    from crawl4ai.async_crawler_strategy import AsyncHTTPCrawlerStrategy
+
     cfg = CrawlerRunConfig(cache_mode=CacheMode.BYPASS, page_timeout=45000)
     http = AsyncHTTPCrawlerStrategy(browser_config=HTTPCrawlerConfig(headers={"User-Agent": GPTBOT_UA}))
+    if save_markdown:
+        Path(save_markdown).mkdir(parents=True, exist_ok=True)
     async with AsyncWebCrawler(crawler_strategy=http) as raw_crawler, AsyncWebCrawler() as browser:
         results = []
         for url in urls:
             raw = summarize(await raw_crawler.arun(url, config=cfg))
-            rendered = summarize(await browser.arun(url, config=cfg))
-            results.append(compare(url, raw, rendered))
+            rendered_result = await browser.arun(url, config=cfg)
+            if save_markdown and rendered_result.success:
+                (Path(save_markdown) / f"{slug(url)}.md").write_text(str(rendered_result.markdown or ""), encoding="utf-8")
+            results.append(compare(url, raw, summarize(rendered_result)))
         return results
 
 
@@ -93,13 +113,13 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("urls", nargs="+")
     p.add_argument("--out", help="write JSON here (default: stdout)")
+    p.add_argument("--save-markdown", help="directory for rendered markdown, one <slug>.md per URL")
     args = p.parse_args()
 
-    results = asyncio.run(run(args.urls))
+    results = asyncio.run(run(args.urls, args.save_markdown))
     text = json.dumps(results, indent=2, ensure_ascii=False)
     if args.out:
-        with open(args.out, "w", encoding="utf-8") as f:
-            f.write(text)
+        Path(args.out).write_text(text, encoding="utf-8")
     else:
         print(text)
     for r in results:
