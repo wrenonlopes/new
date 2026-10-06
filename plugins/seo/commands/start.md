@@ -4,7 +4,7 @@ description: Start here. Sets up the seo plugin in a new project, or shows this 
 
 Load the `seo-system` skill. P=${CLAUDE_PROJECT_DIR}/.seo
 
-If `$P/profile.yaml` does not exist: say "No SEO setup in this folder yet", then follow ${CLAUDE_PLUGIN_ROOT}/commands/setup.md step by step and stop after its report.
+If `$P/profile.yaml` does not exist, or `${CLAUDE_PLUGIN_DATA}/node/node_modules/squirrelscan/bin/squirrel` is missing (a new machine), say "This folder needs SEO setup". Then read ${CLAUDE_PLUGIN_ROOT}/commands/setup.md and follow it step by step, using ROOT=${CLAUDE_PLUGIN_ROOT}, DATA=${CLAUDE_PLUGIN_DATA} and PROJECT=${CLAUDE_PROJECT_DIR} as its three path values. Stop after its report.
 
 Otherwise, show compactly:
 
