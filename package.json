@@ -1,0 +1,13 @@
+{
+  "name": "seo-system",
+  "private": true,
+  "description": "SEO + AI search visibility system. Tools pinned; bump deliberately and re-check the rule base.",
+  "scripts": {
+    "squirrel": "squirrel",
+    "lighthouse": "lighthouse"
+  },
+  "devDependencies": {
+    "lighthouse": "13.5.0",
+    "squirrelscan": "0.0.98"
+  }
+}
