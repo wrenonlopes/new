@@ -1,8 +1,0 @@
-use_default_settings: true
-server:
-  # Local-only instance; set SEARXNG_SECRET in the environment to override.
-  secret_key: "local-only-change-me"
-  limiter: false
-  public_instance: false
-search:
-  formats: [html, json]

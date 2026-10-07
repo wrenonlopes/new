@@ -1,44 +1,33 @@
-# SEO + AI Search Visibility System
+# seo: SEO + AI search visibility plugin for Claude Code
 
-Per-project SEO and AI-search audit, plan and monitoring loop, run from Claude Code. Design: `SEO + AI Search Visibility System — Blueprint.md`. Operating manual (rule base, loop, guards): `CLAUDE.md`.
+Install once, then in any project folder: `/seo:start`.
 
-## Setup (once per machine)
+## Install
 
-Needs Node, [uv](https://docs.astral.sh/uv/) and Docker.
+Needs Node ≥ 22.18 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-npm install                 # squirrelscan 0.0.98, lighthouse 13.5.0 (pinned)
-uv sync                     # crawl4ai, google-genai, pyyaml (pinned)
-uv run crawl4ai-setup       # Chromium for Crawl4AI and Lighthouse
-docker compose -f searxng/docker-compose.yml up -d   # SERP fallback on 127.0.0.1:8888
-uv run engines/test_engines.py                       # prints "ok"
+claude plugin marketplace add /Users/abdelhamidsahbi/seo-tool
+claude plugin install seo@seo-tool
 ```
-
-Credentials: copy the exports in `.env.example` into your shell profile and fill them. Then start Claude Code in this folder and approve the three project MCP servers (`search-console`, `dataforseo`, `squirrelscan`).
-
-Accounts to set up by hand: Google Cloud OAuth client (Search Console API), DataForSEO ($50 deposit, auto-recharge off), Gemini API key, Bing Webmaster Tools, Ahrefs Webmaster Tools, Google Ads (Keyword Planner).
-
-### Skills
-
-Vendored from pinned commits, scanned with `skillspector --no-llm` on 2026-09-27:
-
-| Source | Commit | Scope | Scan |
-| --- | --- | --- | --- |
-| [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) | `5b2c000` | `skills/*` → `.claude/skills/`, `tools/` → `.claude/tools/` | Full repo CRITICAL (false positives in ad/sales skills and API docs); the 5 SEO skills LOW |
-| [squirrelscan/skills](https://github.com/squirrelscan/skills) | `993ff2e` | `skills/audit-website` → `.claude/skills/` | Full repo CRITICAL (install docs); audit-website LOW |
 
 ## Use
 
-```bash
-cp -R projects/_template projects/<name>   # or let /audit onboard it
-```
+| Command | Does |
+| --- | --- |
+| `/seo:start` | First run: setup. Later: status and the next step. |
+| `/seo:setup` | Checks tools, detects the stack, fills `.seo/profile.yaml`, connects data sources. |
+| `/seo:audit [--local URL]` | Technical + on-page checks → `.seo/reports/<date>/fix-queue.md`. |
+| `/seo:fix [ids \| top N]` | Applies approved fixes: a branch in code projects, admin steps for CMS sites, a handoff doc otherwise. |
 
-| Command | Phase | Does |
-| --- | --- | --- |
-| `/audit <name>` | 1 | Technical + on-page checks → ranked fix queue |
-| `/research <name>` | 2 | Keywords (DataForSEO) + page map |
-| `/brief <name> <group or URL>` | 3 | Content brief from the rule base |
-| `/visibility <name> [chatgpt] [perplexity]` | 4 | AI mentions and citations, per platform |
-| `/review <name>` | 5 | Diffs, predicted vs actual, analytics, off-page |
+Coming in later plans: `/seo:research`, `/seo:content`, `/seo:brief`, `/seo:visibility`, `/seo:offpage`, `/seo:review`.
 
-Outputs land in `projects/<name>/reports/<date>/` and `projects/<name>/visibility/<date>/`.
+## Credentials (optional; more data at each tier)
+
+Export in your shell profile: `GSC_OAUTH_CLIENT_SECRETS_FILE` (Search Console OAuth client JSON), `GOOGLE_API_KEY` (Chrome UX Report API), `DATAFORSEO_LOGIN` + `DATAFORSEO_PASSWORD` ($50 deposit, auto-recharge off), `GEMINI_API_KEY`. GA4 uses `gcloud auth application-default login` with the `analytics.readonly` scope.
+
+## Safety
+
+A plugin hook blocks Search Console write tools, DataForSEO Backlinks calls, and squirrelscan cloud and publish flags in every project; it asks before any DataForSEO Live call. Fixes never land on your default branch, and nothing is pushed or deployed.
+
+Third-party credits: `plugins/seo/NOTICE`.
