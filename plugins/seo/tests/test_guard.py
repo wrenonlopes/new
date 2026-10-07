@@ -134,6 +134,8 @@ def test_mcp_audit_website_needs_offline_true():
 def test_line_continuations_and_combined_short_flags():
     assert decide(ev("Bash", command=f"{SQ} audit a.test --offline \\\n -y"))[0] == "deny"
     assert decide(ev("Bash", command=f"{SQ} audit a.test \\\n --offline -C full --render-mode off -f json")) is None
+    # bash joins "x.json\<newline>--offline" into one word, so --offline never reaches squirrel
+    assert decide(ev("Bash", command=f"{SQ} audit a.test -o x.json\\\n--offline"))[0] == "deny"
     for flags in ["-yp", "-py", "-yC full", "-Cy full"]:
         assert decide(ev("Bash", command=f"{SQ} audit a.test --offline {flags}"))[0] == "deny", flags
     assert decide(ev("Bash", command=f"{SQ} report a.test -lp"))[0] == "deny"

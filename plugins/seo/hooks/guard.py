@@ -8,7 +8,8 @@ Reads the hook event on stdin and prints a deny/ask decision, or nothing to allo
 - squirrel CLI: deny cloud spend and publishing (auth, keys, --render except --render-mode off, -y, --publish/-p,
   audit/crawl without --offline). A segment started by a $VAR in a command that mentions squirrel counts as squirrel.
 Standard library only, Python 3.9 compatible: hooks run on the system python3.
-Literal-text guardrail, not a sandbox: deliberate obfuscation (eval, odd casing) can evade it.
+Literal-text guardrail, not a sandbox: deliberate obfuscation (eval, odd casing, comments or quotes holding
+--offline, a $VAR squirrel path after a prefix word such as env/timeout/do) can evade it.
 """
 import json
 import re
@@ -59,7 +60,7 @@ def decide(event):
                            "Confirm the quoted cost before it runs.")
         return None
     if tool == "Bash":
-        command = (args.get("command") or "").replace("\\\n", " ")  # join line continuations
+        command = (args.get("command") or "").replace("\\\n", "")  # join line continuations exactly as bash does
         if "squirrel" not in command:
             return None
         for segment in SEGMENT.split(command):
