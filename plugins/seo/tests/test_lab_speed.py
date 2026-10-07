@@ -6,7 +6,7 @@ from lab_speed import assess
 DATA = Path(__file__).parent / "data" / "unlighthouse-ci-result.json"
 
 
-def test_real_example_com_run_passes():
+def test_recorded_local_unlighthouse_run_passes():
     r = assess(json.loads(DATA.read_text()), "https://example.com")
     assert r["id"] == "tech.speed-lab"
     assert r["verdict"] == "pass"

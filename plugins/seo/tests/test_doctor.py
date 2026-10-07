@@ -63,5 +63,25 @@ def test_checks_survive_broken_state_files(tmp_path, monkeypatch):
     by_name = {i["name"]: i for i in items}
     assert by_name["schema.org vocabulary"]["ok"] is False
     assert by_name["squirrel privacy settings"]["ok"] is False
+    assert by_name["squirrel signed out"]["ok"] is False
     assert by_name["unlighthouse-ci 0.19.1"]["ok"] is False
     assert chromium is None
+
+
+def test_signed_in_squirrel_fails_without_printing_auth(tmp_path, monkeypatch):
+    root, home = tmp_path / "root", tmp_path / "home"
+    (root / "data").mkdir(parents=True)
+    (root / "data/schemaorg.sha256").write_text("x")
+    (home / ".squirrel").mkdir(parents=True)
+    settings = home / ".squirrel/settings.json"
+    monkeypatch.setattr(doctor.Path, "home", classmethod(lambda cls: home))
+    monkeypatch.setattr(doctor, "chromium_path", lambda: None)
+    settings.write_text(json.dumps({"auth": {"token": "tok-secret-123"}, "auto_update": False, "telemetry": False}))
+    items, _ = checks(str(root), str(tmp_path / "data"), fix=False)
+    item = {i["name"]: i for i in items}["squirrel signed out"]
+    assert item["ok"] is False and "auth logout" in item["fix"]
+    assert "tok-secret-123" not in json.dumps(items)
+    settings.write_text(json.dumps({"auth": None}))
+    items, _ = checks(str(root), str(tmp_path / "data"), fix=False)
+    assert {i["name"]: i for i in items}["squirrel signed out"]["ok"] is True
+    assert "python3" in {i["name"] for i in items}

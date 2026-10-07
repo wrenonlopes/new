@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from project_setup import detect, init
+from project_setup import detect, init, site_root
 
 TEMPLATES = Path(__file__).resolve().parents[1] / "templates"
 
@@ -116,3 +116,17 @@ def test_localhost_example_env_and_repo_homepages_are_dropped(tmp_path):
 def test_rendering_values_fit_the_profile_enum(tmp_path):
     write(tmp_path / "package.json", json.dumps({"dependencies": {"next": "16"}}))
     assert detect(tmp_path)["rendering"] == "hybrid"
+
+
+def test_site_root_rejects_malformed_userinfo_and_keeps_ipv6_brackets():
+    assert site_root("https://admin:12#45@staging.test") is None
+    assert site_root("https://user:1234?x@host.test") is None
+    assert site_root("https://admin:pw@staging.test/x") == "https://staging.test"
+    assert site_root("https://[2001:db8::1]:8443/x") == "https://[2001:db8::1]:8443"
+    assert site_root("http://[::1]:3000") is None  # loopback, like localhost
+
+
+def test_malformed_userinfo_never_reaches_candidates(tmp_path):
+    write(tmp_path / ".env", "SITE_URL=https://admin:12#45@staging.test\n")
+    d = detect(tmp_path)
+    assert d["domain_candidates"] == [] and "admin" not in json.dumps(d)

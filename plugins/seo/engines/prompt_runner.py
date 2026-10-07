@@ -19,9 +19,9 @@ Each platform is scored and stored on its own; results are never blended
   score     score a filled answers file: [{prompt, answer, citations: [url]}]
 
 Usage:
-  uv run --script prompt_runner.py gemini   --profile projects/X/profile.yaml --out-dir DIR
-  uv run --script prompt_runner.py template --profile projects/X/profile.yaml --platform chatgpt --out FILE
-  uv run --script prompt_runner.py score    --profile projects/X/profile.yaml --platform chatgpt --answers FILE --out-dir DIR
+  uv run --script prompt_runner.py gemini   --profile .seo/profile.yaml --out-dir DIR
+  uv run --script prompt_runner.py template --profile .seo/profile.yaml --platform chatgpt --out FILE
+  uv run --script prompt_runner.py score    --profile .seo/profile.yaml --platform chatgpt --answers FILE --out-dir DIR
 """
 
 import argparse

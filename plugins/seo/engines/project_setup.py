@@ -43,7 +43,7 @@ SITE_URL_KEYS = re.compile(
     r"^\s*(?:NEXT_PUBLIC_SITE_URL|PUBLIC_SITE_URL|SITE_URL|NUXT_PUBLIC_SITE_URL|VITE_SITE_URL)\s*=\s*['\"]?(https?://[^'\"\s]+)",
     re.M)
 CONFIG_SITE = re.compile(r"\b(?:site|siteUrl)\s*:\s*['\"](https?://[^'\"]+)['\"]")
-NOT_SITES = {"localhost", "127.0.0.1", "0.0.0.0", "github.com", "gitlab.com", "www.npmjs.com", "npmjs.com"}
+NOT_SITES = {"localhost", "127.0.0.1", "0.0.0.0", "::1", "github.com", "gitlab.com", "www.npmjs.com", "npmjs.com"}
 
 
 def _read(path):
@@ -60,9 +60,12 @@ def site_root(url):
         port = p.port
     except ValueError:
         return None
+    if "@" in url and "@" not in p.netloc:
+        return None  # unencoded userinfo ('#', '?' or '/' in a password) would leak into the host
     if p.scheme not in ("http", "https") or not p.hostname or p.hostname in NOT_SITES:
         return None
-    return f"{p.scheme}://{p.hostname}" + (f":{port}" if port else "")
+    host = f"[{p.hostname}]" if ":" in p.hostname else p.hostname  # IPv6 keeps its brackets
+    return f"{p.scheme}://{host}" + (f":{port}" if port else "")
 
 
 def init(project, templates):

@@ -90,18 +90,22 @@ def chromium_path():
 def checks(root, data, fix):
     ensure = f'sh "{root}/engines/ensure_node.sh" "{root}/node" "{data}/node"'
     out = [_item("uv", shutil.which("uv"), shutil.which("uv") or "not found",
-                 "curl -LsSf https://astral.sh/uv/install.sh | sh")]
+                 "curl -LsSf https://astral.sh/uv/install.sh | sh"),
+           _item("python3", shutil.which("python3"), shutil.which("python3") or "not found",
+                 "Install Python 3: the plugin's guard hook runs on python3 and lets everything through without it")]
     nv = parse_version(_run(["node", "-v"]))
     out.append(_item("node >= 22.18", nv and nv >= NODE_MIN, "v" + ".".join(map(str, nv)) if nv else "not found",
                      "Install Node 22.18 or newer (e.g. brew install node)"))
     sq = Path(data) / "node/node_modules/squirrelscan/bin/squirrel"
     sv = parse_version(_run([str(sq), "--version"], {"NO_TELEMETRY": "1"})) if sq.exists() else None
     out.append(_item("squirrelscan 0.0.98", sv == SQUIRREL_PIN, f"{sv} at {sq}", ensure))
-    def check_squirrel_privacy():
+    def squirrel_settings():
         settings_file = Path.home() / ".squirrel/settings.json"
         s = json.loads(settings_file.read_text()) if settings_file.exists() else {}
-        if not isinstance(s, dict):
-            s = {}
+        return s if isinstance(s, dict) else {}
+
+    def check_squirrel_privacy():
+        s = squirrel_settings()
         return _item("squirrel privacy settings", s.get("auto_update") is False and s.get("telemetry") is False,
                      f"auto_update={s.get('auto_update')} telemetry={s.get('telemetry')}",
                      f'NO_TELEMETRY=1 "{sq}" self settings set auto_update false && '
@@ -109,6 +113,11 @@ def checks(root, data, fix):
     out.append(_guarded("squirrel privacy settings", check_squirrel_privacy,
                         f'NO_TELEMETRY=1 "{sq}" self settings set auto_update false && '
                         f'NO_TELEMETRY=1 "{sq}" self settings set telemetry false'))
+    signed_out_fix = "Run `squirrel auth logout` yourself; this plugin works only signed out."
+    def check_signed_out():  # signed in, squirrel publishes and spends credits by default; never print the auth value
+        signed_in = bool(squirrel_settings().get("auth"))
+        return _item("squirrel signed out", not signed_in, "signed in" if signed_in else "signed out", signed_out_fix)
+    out.append(_guarded("squirrel signed out", check_signed_out, signed_out_fix))
     ul = Path(data) / "node/node_modules/unlighthouse-ci/package.json"
     def check_unlighthouse():
         ul_version = json.loads(ul.read_text()).get("version") if ul.exists() else None

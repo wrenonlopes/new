@@ -76,8 +76,8 @@ def test_robots_unreadable_is_unknown():
 
 def test_most_linked_counts_inbound():
     pages = [pg("/", 0, links=["/a", "/b", "/a"]), pg("/a", 1, links=["/b"]), pg("/b", 1)]
-    assert most_linked(pages, 1) == ["https://s.test/b"] or most_linked(pages, 1) == ["https://s.test/a"]
-    assert set(most_linked(pages, 2)) == {"https://s.test/a", "https://s.test/b"}
+    assert most_linked(pages, 1) == ["https://s.test/b"]
+    assert most_linked(pages, 2) == ["https://s.test/b", "https://s.test/a"]
 
 
 def test_key_canonicalises_but_norm_keeps_www():
@@ -126,7 +126,11 @@ def test_robots_specific_group_overrides_star():
 def test_crawl_failure_reasons():
     assert crawl_failure([]) == "crawl returned no pages"
     assert "503" in crawl_failure([pg("/", 0, status=503)])
-    assert crawl_failure([pg("/", 0)]) is None
+    no_links = "start page has no links in raw HTML; see tech.raw-html"
+    assert crawl_failure([pg("/", 0)]) == no_links
+    assert crawl_failure([pg("/", 0, links=["/"])]) == no_links  # a self-link (logo) is not navigation
+    assert crawl_failure([pg("/", 0, links=["/a"]), pg("/a", 1)]) is None
+    assert crawl_failure([pg("/", 0, links=["/a"])]) is None
 
 
 def test_page_ok_keeps_a_2xx_empty_js_shell_but_not_a_404():
@@ -136,3 +140,14 @@ def test_page_ok_keeps_a_2xx_empty_js_shell_but_not_a_404():
     assert page_ok(r(True, 200))
     assert not page_ok(r(False, 404, "HTTP 404"))
     assert not page_ok(r(False, 200, "Blocked by anti-bot protection: Cloudflare challenge"))
+
+
+def test_depth_keeps_shortest_path_for_url_variants():
+    pages = [pg("/", 0), pg("/a", 1), pg("/a/", 4)]
+    assert depth_check(pages, [S + "/a"], complete=True)["verdict"] == "pass"
+    assert depth_check(pages, [], complete=True)["verdict"] == "pass"
+
+
+def test_robots_with_no_urls_is_unknown():
+    r = robots_check("User-agent: *\nDisallow: /\n", [])
+    assert r["verdict"] == "unknown" and r["evidence"]["error"] == "no URLs to check"

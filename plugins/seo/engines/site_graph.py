@@ -85,7 +85,11 @@ def hreflang_map(html, base):
 
 
 def depth_check(pages, targets, complete, limit=DEPTH_LIMIT):
-    depth = {key(p["url"]): (p["url"], p["depth"]) for p in pages}
+    depth = {}  # key -> (url, depth); URL variants of one page keep the shortest path
+    for p in pages:
+        k = key(p["url"])
+        if k not in depth or p["depth"] < depth[k][1]:
+            depth[k] = (p["url"], p["depth"])
     if targets:
         wanted = [norm(t) for t in targets]
         unreached = [t for t in wanted if key(t) not in depth]
@@ -200,6 +204,8 @@ def robots_check(robots_txt, urls):
             "source": "engines/site_graph.py"}
     if robots_txt is None:
         return {**base, "verdict": "unknown", "pages": [], "evidence": {"error": "robots.txt could not be fetched"}}
+    if not urls:
+        return {**base, "verdict": "unknown", "pages": [], "evidence": {"error": "no URLs to check"}}
     groups = robots_groups(robots_txt)
 
     def blocked(agents):
@@ -277,6 +283,8 @@ def crawl_failure(pages):
     status = start.get("status") or 0
     if not start.get("ok", True) or not 200 <= status < 300:
         return f"start page fetch failed (status {start.get('status')})"
+    if len(pages) == 1 and not [l for l in start["links"] if key(l["href"]) != key(start["url"])]:
+        return "start page has no links in raw HTML; see tech.raw-html"  # client-rendered navigation
     return None
 
 
