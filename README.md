@@ -4,7 +4,7 @@ Install once, then in any project folder: `/seo:start`.
 
 ## Install
 
-Needs Node ≥ 22.18 and [uv](https://docs.astral.sh/uv/).
+Needs git, python3, Node ≥ 22.18 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 claude plugin marketplace add /Users/abdelhamidsahbi/seo-tool
@@ -28,6 +28,6 @@ Export in your shell profile: `GSC_OAUTH_CLIENT_SECRETS_FILE` (Search Console OA
 
 ## Safety
 
-A plugin hook blocks Search Console write tools, DataForSEO Backlinks calls, and squirrelscan cloud and publish flags in every project; it asks before any DataForSEO Live call. Fixes never land on your default branch, and nothing is pushed or deployed.
+A plugin hook blocks Search Console write tools, DataForSEO Backlinks calls, squirrelscan cloud and publish flags, and squirrel audits without `--offline` in every project; it asks before any DataForSEO Live call. Keep squirrel signed out (`/seo:setup` checks it). Fixes never land on your default branch, and nothing is pushed or deployed.
 
 Third-party credits: `plugins/seo/NOTICE`.
