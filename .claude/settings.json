@@ -1,0 +1,10 @@
+{
+  "extraKnownMarketplaces": {
+    "seo-tool": {
+      "source": { "source": "github", "repo": "wrenonlopes/new", "ref": "seo-tool" }
+    }
+  },
+  "enabledPlugins": {
+    "seo@seo-tool": true
+  }
+}
