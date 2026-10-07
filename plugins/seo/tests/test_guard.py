@@ -54,8 +54,8 @@ def test_squirrel_cloud_flags_denied():
 
 def test_squirrel_local_audit_and_other_segments_allowed():
     sq = "/d/node/node_modules/squirrelscan/bin/squirrel"
-    ok = [f"{sq} audit https://a.test -C full --render-mode off -f json -o out.json",
-          f"mkdir -p out && {sq} audit https://a.test --render-mode=off -f json -o out/s.json",
+    ok = [f"{sq} audit https://a.test -C full --render-mode off --offline -f json -o out.json",
+          f"mkdir -p out && {sq} audit https://a.test --render-mode=off --offline -f json -o out/s.json",
           f"{sq} --version", "npx -y unlighthouse-ci --site https://a.test", "mkdir -p x"]
     for cmd in ok:
         assert decide(ev("Bash", command=cmd)) is None, cmd
@@ -92,15 +92,16 @@ def test_wrapped_and_equals_flags_are_denied():
 
 def test_auth_in_a_url_is_not_a_subcommand():
     sq = "/d/node/node_modules/squirrelscan/bin/squirrel"
-    assert decide(ev("Bash", command=f"{sq} audit https://a.test/auth -C full --render-mode off")) is None
+    assert decide(ev("Bash", command=f"{sq} audit https://a.test/auth -C full --render-mode off --offline")) is None
 
 
 def test_hooks_json_matcher_covers_every_guarded_tool():
     config = json.loads((HOOKS / "hooks.json").read_text())
     matcher = config["hooks"]["PreToolUse"][0]["matcher"]
-    for name in sorted(READ_ONLY) + ["mcp__dataforseo__api_request"]:
+    for name in sorted(READ_ONLY) + ["mcp__dataforseo__api_request", "mcp__squirrelscan__audit_website"]:
         assert re.fullmatch(matcher, name), name
     assert not re.fullmatch(matcher, "mcp__search-console__get_sitemaps")
+    assert not re.fullmatch(matcher, "mcp__squirrelscan__quick_check")
 
 
 def test_malformed_event_fails_closed():
@@ -108,3 +109,39 @@ def test_malformed_event_fails_closed():
         out = subprocess.run(["/usr/bin/python3", str(HOOKS / "guard.py")], input=payload,
                              capture_output=True, text=True, check=True).stdout
         assert json.loads(out)["hookSpecificOutput"]["permissionDecision"] == "deny", payload
+
+
+SQ = "/d/node/node_modules/squirrelscan/bin/squirrel"
+
+
+def test_audit_and_crawl_need_offline():
+    for cmd in [f"NO_TELEMETRY=1 {SQ} audit https://a.test -C full --render-mode off -f json -o o.json",
+                f"{SQ} crawl https://a.test", f"{SQ} audit https://a.test --offline=false"]:
+        d = decide(ev("Bash", command=cmd))
+        assert d[0] == "deny" and "--offline" in d[1], cmd
+    for cmd in [f"NO_TELEMETRY=1 {SQ} audit https://a.test -C full --render-mode off --offline -f json -o o.json",
+                f"{SQ} crawl https://a.test --offline", f"{SQ} report a.test --diff 1a2b3c4d -f json"]:
+        assert decide(ev("Bash", command=cmd)) is None, cmd
+
+
+def test_mcp_audit_website_needs_offline_true():
+    assert decide(ev("mcp__squirrelscan__audit_website", url="https://a.test", offline=True)) is None
+    for inp in [{}, {"offline": False}, {"offline": "true"}]:
+        assert decide(ev("mcp__squirrelscan__audit_website", url="https://a.test", **inp))[0] == "deny", inp
+    assert decide(ev("mcp__squirrelscan__quick_check", url="https://a.test")) is None
+
+
+def test_line_continuations_and_combined_short_flags():
+    assert decide(ev("Bash", command=f"{SQ} audit a.test --offline \\\n -y"))[0] == "deny"
+    assert decide(ev("Bash", command=f"{SQ} audit a.test \\\n --offline -C full --render-mode off -f json")) is None
+    for flags in ["-yp", "-py", "-yC full", "-Cy full"]:
+        assert decide(ev("Bash", command=f"{SQ} audit a.test --offline {flags}"))[0] == "deny", flags
+    assert decide(ev("Bash", command=f"{SQ} report a.test -lp"))[0] == "deny"
+
+
+def test_squirrel_through_a_variable():
+    for cmd in [f'SQ={SQ}; NO_TELEMETRY=1 "$SQ" audit https://a.test --offline -y',
+                f"SQ={SQ}\n$SQ auth login", f"SQ={SQ} && ${{SQ}} audit https://a.test"]:
+        assert decide(ev("Bash", command=cmd))[0] == "deny", cmd
+    assert decide(ev("Bash", command=f'SQ={SQ}; "$SQ" audit https://a.test --offline -C full')) is None
+    assert decide(ev("Bash", command='X=/bin/ls; "$X" -p')) is None  # no squirrel anywhere
