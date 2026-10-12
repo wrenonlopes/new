@@ -639,3 +639,93 @@ img{max-width:100%;height:auto}
   .contact__grid{grid-template-columns:1fr;gap:24px}
   .contact__row{grid-template-columns:1fr}
 }
+
+/* ============================================================
+   ARABIC / RTL — scoped to <html lang="ar" dir="rtl"> only.
+   Nothing below matches the English (LTR) storefront.
+   ============================================================ */
+/* Outfit / Plus Jakarta Sans have no Arabic glyphs: Latin + digits keep the
+   brand fonts, Arabic glyphs fall through to Baloo Bhaijaan 2 (loaded in
+   theme.liquid for the ar locale only). */
+html:lang(ar){
+  --display:'Outfit','Baloo Bhaijaan 2','Helvetica Neue',Arial,sans-serif;
+  --body:'Plus Jakarta Sans','Baloo Bhaijaan 2','Helvetica Neue',Arial,sans-serif;
+}
+/* any tracking breaks Arabic letter joining */
+html:lang(ar) *{letter-spacing:0 !important}
+
+/* mirror physical positions */
+[dir=rtl] .hs--1{left:auto;right:2%}
+[dir=rtl] .hs--2{right:auto;left:1%}
+[dir=rtl] .hs--3{left:auto;right:6%}
+[dir=rtl] .hs--4{right:auto;left:5%}
+[dir=rtl] .hero h1 .accent svg{transform:scaleX(-1)}
+[dir=rtl] .ticker__track{animation-name:slide-rtl}
+@keyframes slide-rtl{to{transform:translateX(50%)}}
+[dir=rtl] .chat__avas i:nth-child(n+2){margin-left:0;margin-right:-9px}
+[dir=rtl] .msg{transform-origin:right bottom}
+[dir=rtl] .msg--out{transform-origin:left bottom}
+[dir=rtl] .msg .sender{margin:0 14px 3px 0}
+[dir=rtl] .msg .bub{border-radius:18px 18px 5px 18px}
+[dir=rtl] .msg--out .bub{border-radius:18px 18px 18px 5px}
+@media (min-width:921px){[dir=rtl] .chat{margin-left:0;margin-right:auto}}
+[dir=rtl] .pcard__tag{left:auto;right:14px}
+[dir=rtl] .fighter__tag{right:auto;left:20px}
+[dir=rtl] .vs--1{left:auto;right:calc(34.5% - 14px)}
+[dir=rtl] .vs--2{left:auto;right:calc(67.3% - 14px)}
+[dir=rtl] .stamp{right:auto;left:-10px}
+[dir=rtl] .stat__corner{right:auto;left:22px}
+[dir=rtl] .vs-row .rgt{text-align:left}
+[dir=rtl] .final__pct{text-align:right}
+[dir=rtl] .final__sticker{left:auto;right:1%}
+[dir=rtl] .plan .p{margin-left:0;margin-right:auto}
+[dir=rtl] .coll-toolbar select{margin-left:0;margin-right:auto;padding-right:14px;padding-left:36px;background-position:left 14px center}
+[dir=rtl] .cline__qty{margin-left:0;margin-right:auto}
+[dir=rtl] .cline__total{text-align:left}
+[dir=rtl] .rte ul,[dir=rtl] .rte ol{padding-left:0;padding-right:22px}
+[dir=rtl] .rte blockquote{border-left:0;border-right:5px solid var(--leaf);padding:6px 22px 6px 0}
+[dir=rtl] .combo-up__kicker{left:auto;right:16px}
+[dir=rtl] .combo-up__price em{margin-left:0;margin-right:4px}
+[dir=rtl] .img-badges{right:auto;left:12px}
+@media (max-width:880px){
+  [dir=rtl] .hs--3.hs--img{margin:-14px 6px 0 0}
+  [dir=rtl] .hs--2.hs--img{margin:-46px 0 0 10px}
+  [dir=rtl] .pcard__tag{left:auto;right:9px}
+  [dir=rtl] .stamp{right:auto;left:4px}
+  [dir=rtl] .final__sticker{left:auto;right:-6px}
+  [dir=rtl] .qty-box{border-right:0;border-left:2.5px solid var(--line)}
+  [dir=rtl] .cline__qty{margin-right:0}
+  [dir=rtl] .cline__total{margin-left:0;margin-right:auto}
+}
+
+/* numbers, prices and phone numbers stay left-to-right inside Arabic text */
+[dir=rtl] .price__now,[dir=rtl] .price__was,[dir=rtl] .price__save,[dir=rtl] .plan .p,[dir=rtl] .cline__total{direction:ltr;unicode-bidi:isolate}
+[dir=rtl] .combo-up__price s,[dir=rtl] .combo-up__price em,[dir=rtl] .size-card__price s{unicode-bidi:isolate}
+[dir=rtl] .contact__wanum,[dir=rtl] .rcard__vmeta .h{direction:ltr;text-align:right}
+[dir=rtl] .contact input[type=tel],[dir=rtl] .contact input[type=email]{direction:ltr;text-align:right}
+/* Arabic copy runs ~25% longer: keep the "not close." stamp off the last verdict */
+[dir=rtl] .fighter:last-of-type .fighter__verdict{padding-bottom:26px}
+
+/* Arabic type tuning: taller line-height for stacked headings (dots/descenders),
+   tiny tracked-uppercase labels get a touch bigger since Arabic has no caps */
+html:lang(ar) .h-display{line-height:1.15}
+html:lang(ar) .h-xl{line-height:1.2}
+html:lang(ar) .h-l,html:lang(ar) .pdp h1{line-height:1.3}
+html:lang(ar) .fighter__name,html:lang(ar) .sizes__head,html:lang(ar) .combo-up__body b{line-height:1.35}
+html:lang(ar) .kicker,html:lang(ar) .final__pill,html:lang(ar) .pdp__kicker,html:lang(ar) .contact__label{font-size:13px}
+html:lang(ar) .announce{font-size:12.5px}
+html:lang(ar) .hero__rating{font-size:13px}
+html:lang(ar) .pcard__tag,html:lang(ar) .fighter__tag,html:lang(ar) .stat__corner,html:lang(ar) .combo-up__kicker{font-size:12px}
+html:lang(ar) .fstat .fl{font-size:13px}
+html:lang(ar) .fstat .note{font-size:12px}
+html:lang(ar) .msg .sender,html:lang(ar) .stat .m,html:lang(ar) .site-footer__note,html:lang(ar) .size-card__tag{font-size:11.5px}
+html:lang(ar) .site-footer h4{font-size:14px}
+html:lang(ar) .final__micro{font-size:12.5px}
+@media (max-width:880px){
+  html:lang(ar) .kicker{font-size:12px}
+  html:lang(ar) .announce{font-size:11.5px}
+  html:lang(ar) .hero__rating{font-size:12px}
+  html:lang(ar) .pcard__tag,html:lang(ar) .size-card__tag{font-size:10.5px}
+  html:lang(ar) .pb small{font-size:10.5px}
+  [dir=rtl] .fighter:last-of-type .fighter__verdict{padding-bottom:18px}
+}

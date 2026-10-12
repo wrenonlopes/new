@@ -52,6 +52,8 @@
 
   /* ---------- velocity marquees ---------- */
   let lastY = window.scrollY, velocity = 0, vTimer;
+  // RTL: tracks start at the right edge, so they scroll rightwards (positive X)
+  const dirSign = document.documentElement.dir === 'rtl' ? 1 : -1;
   if (motionOK && cfg.marqueeVelocity !== false) {
     document.querySelectorAll('.ticker__track, .rev-track').forEach(track => {
       track.style.animation = 'none';
@@ -67,7 +69,7 @@
         const dt = Math.min((now - prev) / 1000, .05); prev = now;
         if (!paused && half() > 0) {
           offset = (offset + (base + Math.min(Math.abs(velocity) * .9, 700)) * dt) % half();
-          track.style.transform = 'translateX(' + (-offset).toFixed(1) + 'px)';
+          track.style.transform = 'translateX(' + (dirSign * offset).toFixed(1) + 'px)';
         }
         requestAnimationFrame(loop);
       })(prev);
