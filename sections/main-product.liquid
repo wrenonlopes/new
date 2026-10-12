@@ -59,7 +59,7 @@
           <div class="selling-plans">
             <label class="plan on" data-price="{{ product.price | money }}">
               <input type="radio" name="selling_plan" value="" checked>
-              <div><div class="t">One-time purchase</div><div class="s">Just this order</div></div>
+              <div><div class="t">{{ 'products.product.one_time_purchase' | t }}</div><div class="s">{{ 'products.product.one_time_note' | t }}</div></div>
               <span class="p">{{ product.price | money }}</span>
             </label>
             {%- for group in product.selling_plan_groups -%}
@@ -67,7 +67,7 @@
                 {%- assign alloc = v.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
                 <label class="plan" data-price="{{ alloc.price | money }}">
                   <input type="radio" name="selling_plan" value="{{ plan.id }}">
-                  <div><div class="t">{{ plan.name | replace: '5%', 'Extra 5%' }}</div><div class="s">Cancel anytime</div></div>
+                  <div><div class="t">{%- assign extra_label = 'products.product.plan_extra_discount' | t -%}{{ plan.name | replace: '5%', extra_label }}</div><div class="s">{{ 'products.product.cancel_anytime' | t }}</div></div>
                   <span class="p">{{ alloc.price | money }}</span>
                 </label>
               {%- endfor -%}
@@ -77,9 +77,9 @@
 
         <div class="buy-row">
           <div class="qty-box">
-            <button type="button" data-qty-minus aria-label="Decrease">−</button>
-            <input type="number" name="quantity" value="1" min="1" max="50" aria-label="Quantity">
-            <button type="button" data-qty-plus aria-label="Increase">+</button>
+            <button type="button" data-qty-minus aria-label="{{ 'general.accessibility.decrease' | t }}">−</button>
+            <input type="number" name="quantity" value="1" min="1" max="50" aria-label="{{ 'general.accessibility.quantity' | t }}">
+            <button type="button" data-qty-plus aria-label="{{ 'general.accessibility.increase' | t }}">+</button>
           </div>
           {%- if product.available -%}
             <button type="submit" class="btn btn--ink">{{ 'products.add_to_cart' | t }}</button>
@@ -96,7 +96,7 @@
       {%- endfor -%}
       {%- if has_ladder -%}
         <div class="sizes">
-          <div class="sizes__head">Pick your format. <span>bigger = better value. that's it, that's the math.</span></div>
+          <div class="sizes__head">{{ 'products.product.sizes_heading_html' | t }}</div>
           <div class="sizes__grid">
             {%- for i in (1..3) -%}
               {%- assign skey = 'size_' | append: i -%}
@@ -112,7 +112,7 @@
                   <b>{{ section.settings[lkey] | default: sp.title }}</b>
                   <div class="size-card__price">{{ sp.price | money }}{%- if sp.compare_at_price > sp.price %} <s>{{ sp.compare_at_price | money }}</s>{%- endif -%}</div>
                   {%- if sp.metafields.biod.unit_note != blank -%}<div class="size-card__unit">{{ sp.metafields.biod.unit_note }}</div>{%- endif -%}
-                  {%- if here -%}<span class="size-card__here">← you're here</span>{%- endif -%}
+                  {%- if here -%}<span class="size-card__here">{{ 'products.product.you_are_here' | t }}</span>{%- endif -%}
                 </a>
               {%- endif -%}
             {%- endfor -%}
@@ -121,31 +121,32 @@
       {%- endif -%}
 
       <div class="trust-tiles">
-        <div class="tt"><span>✨</span><div><b>Premium quality</b><small>100% bamboo fibre</small></div></div>
-        <div class="tt"><span>🌱</span><div><b>Sustainably made</b><small>biodegrades in months</small></div></div>
-        <div class="tt"><span>🚚</span><div><b>Free delivery</b><small>on orders Dhs {{ settings.free_shipping_threshold }}+</small></div></div>
-        <div class="tt"><span>🔒</span><div><b>Secure checkout</b><small>safe & encrypted payment</small></div></div>
+        <div class="tt"><span>✨</span><div><b>{{ 'products.product.trust.quality_title' | t }}</b><small>{{ 'products.product.trust.quality_note' | t }}</small></div></div>
+        <div class="tt"><span>🌱</span><div><b>{{ 'products.product.trust.sustainable_title' | t }}</b><small>{{ 'products.product.trust.sustainable_note' | t }}</small></div></div>
+        <div class="tt"><span>🚚</span><div><b>{{ 'products.product.trust.delivery_title' | t }}</b><small>{{ 'products.product.trust.delivery_note' | t: amount: settings.free_shipping_threshold }}</small></div></div>
+        <div class="tt"><span>🔒</span><div><b>{{ 'products.product.trust.secure_title' | t }}</b><small>{{ 'products.product.trust.secure_note' | t }}</small></div></div>
       </div>
 
       {%- if section.settings.show_receipts -%}
-        <div class="receipt-strip"><b>Why single-use?</b> In a published study, <b>89%</b> of used hand towels carried coliform bacteria — and dermatologists advise washing a face towel after every single use if you're acne-prone. A fresh sheet skips the whole problem.</div>
+        <div class="receipt-strip">{{ 'products.product.receipt_html' | t }}</div>
       {%- endif -%}
 
       {%- assign combo = section.settings.combo_product -%}
       {%- if combo != blank and combo.id != product.id -%}
         <div class="combo-up">
-          <span class="combo-up__kicker">better together</span>
+          <span class="combo-up__kicker">{{ 'products.product.combo.kicker' | t }}</span>
           <div class="combo-up__row">
             {%- if combo.featured_image -%}<img src="{{ combo.featured_image | image_url: width: 300 }}" alt="{{ combo.title | escape }}" loading="lazy">{%- endif -%}
             <div class="combo-up__body">
               <b>{{ section.settings.combo_heading }}</b>
               <p>{{ section.settings.combo_sub }}</p>
+              {%- assign combo_save = combo.compare_at_price | minus: combo.price | money -%}
               <div class="combo-up__price">
                 {{ combo.price | money }}
-                {%- if combo.compare_at_price > combo.price %} <s>{{ combo.compare_at_price | money }}</s> <em>save {{ combo.compare_at_price | minus: combo.price | money }}</em>{%- endif -%}
+                {%- if combo.compare_at_price > combo.price %} <s>{{ combo.compare_at_price | money }}</s>  <em>{{ 'products.product.combo.save' | t: amount: combo_save }}</em>{%- endif -%}
               </div>
             </div>
-            <a class="btn btn--sunrise combo-up__btn" href="{{ combo.url }}">Get both</a>
+            <a class="btn btn--sunrise combo-up__btn" href="{{ combo.url }}">{{ 'products.product.combo.cta' | t }}</a>
           </div>
         </div>
       {%- endif -%}
@@ -160,7 +161,7 @@
           <div class="pdp-social__quote">
             <p>{{ section.settings.review_quote }}</p>
             <span>{{ section.settings.review_who }}</span>
-            <a href="/#reviews">see the comment section →</a>
+            <a href="/#reviews">{{ 'products.product.reviews_link' | t }}</a>
           </div>
           {%- if section.settings.review_video != blank -%}
             <video class="pdp-social__vid" src="{{ section.settings.review_video | asset_url }}" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
@@ -170,7 +171,7 @@
 
       <div class="pdp__accs">
         <details open>
-          <summary>What it is</summary>
+          <summary>{{ 'products.product.description_title' | t }}</summary>
           <div>{{ product.description }}</div>
         </details>
         {%- for block in section.blocks -%}
@@ -190,7 +191,7 @@
     {%- if pairs == blank -%}{%- assign pairs = product.metafields.biod.pairs_well_with.value -%}{%- endif -%}
     {%- if pairs != blank and pairs.count > 0 -%}
       <div style="padding:30px 0 90px">
-        <h2 class="h-l reveal" style="margin-bottom:26px">Pairs well with</h2>
+        <h2 class="h-l reveal" style="margin-bottom:26px">{{ 'products.product.pairs_heading' | t }}</h2>
         <div class="grid-products" style="margin-top:0">
           {%- for rec in pairs limit: 2 -%}
             {% render 'product-card', product: rec %}

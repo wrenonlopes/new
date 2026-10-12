@@ -1,19 +1,20 @@
 <section class="section" style="background:var(--cream)">
   <div class="wrap">
     <span class="kicker">{{ 'general.cart.title' | t }}</span>
-    <h1 class="h-xl">Almost yours.</h1>
+    <h1 class="h-xl">{{ 'general.cart.heading' | t }}</h1>
 
     {%- if cart.item_count > 0 -%}
       {%- assign threshold = settings.free_shipping_threshold | times: 100 -%}
       {%- if threshold > 0 -%}
         <div class="shipbar">
           {%- if cart.total_price >= threshold -%}
-            <div class="t"><b>Free delivery unlocked.</b> The planet and your wallet high-five.</div>
+            <div class="t">{{ 'general.cart.free_shipping_unlocked_html' | t }}</div>
             <div class="prog"><i style="width:100%"></i></div>
           {%- else -%}
             {%- assign remaining = threshold | minus: cart.total_price -%}
             {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
-            <div class="t">{{ remaining | money }} away from <b>free delivery</b>.</div>
+            {%- assign remaining_money = remaining | money -%}
+            <div class="t">{{ 'general.cart.free_shipping_remaining_html' | t: amount: remaining_money }}</div>
             <div class="prog"><i style="width:{{ pct }}%"></i></div>
           {%- endif -%}
         </div>
@@ -34,17 +35,18 @@
                 </div>
               </div>
               <div class="cline__qty">
-                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}" aria-label="Decrease">−</button>
+                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}" aria-label="{{ 'general.accessibility.decrease' | t }}">−</button>
                 <b>{{ item.quantity }}</b>
-                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}" aria-label="Increase">+</button>
+                <button type="button" data-line-change data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}" aria-label="{{ 'general.accessibility.increase' | t }}">+</button>
               </div>
               <span class="cline__total">{{ item.final_line_price | money }}</span>
-              <button type="button" class="cline__rm" data-line-change data-line="{{ forloop.index }}" data-qty="0" aria-label="Remove">✕</button>
+              <button type="button" class="cline__rm" data-line-change data-line="{{ forloop.index }}" data-qty="0" aria-label="{{ 'general.accessibility.remove' | t }}">✕</button>
             </div>
           {%- endfor -%}
         </div>
         <div class="cart-foot">
-          <span class="sum">Total: {{ cart.total_price | money }}</span>
+          {% assign cart_total = cart.total_price | money %}
+          <span class="sum">{{ 'general.cart.total' | t: amount: cart_total }}</span>
           <div style="display:flex;gap:12px;flex-wrap:wrap">
             <a class="btn btn--outline" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.keep_shopping' | t }}</a>
             {%- if request.locale.primary -%}
@@ -64,7 +66,7 @@
         {%- endform -%}
       {%- endunless -%}
       {%- if settings.show_cod -%}
-        <p style="margin-top:18px;font-weight:700;font-size:12.5px;color:var(--faint)">Cash on delivery available at checkout</p>
+        <p style="margin-top:18px;font-weight:700;font-size:12.5px;color:var(--faint)">{{ 'general.cart.cod_note' | t }}</p>
       {%- endif -%}
     {%- else -%}
       <div class="cart-empty" style="position:relative">
@@ -73,7 +75,7 @@
         </span>
         <p class="h-m">{{ 'general.cart.empty' | t }}</p>
         <br>
-        <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">Go shopping</a>
+        <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.go_shopping' | t }}</a>
       </div>
     {%- endif -%}
   </div>

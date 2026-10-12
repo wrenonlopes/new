@@ -1,12 +1,145 @@
 {
   "general": {
-    "search": { "placeholder": "Search" },
-    "cart": { "title": "Your cart", "empty": "Nothing here yet. Your towel remains moist.", "checkout": "Checkout", "keep_shopping": "Keep shopping" },
-    "404": { "title": "This page biodegraded.", "back": "Back to the shop" }
+    "search": {
+      "placeholder": "Search",
+      "title": "Search",
+      "submit": "Search",
+      "heading": "Looking for something?",
+      "results_for": "Results for \"{{ terms }}\""
+    },
+    "cart": {
+      "title": "Your cart",
+      "empty": "Nothing here yet. Your towel remains moist.",
+      "checkout": "Checkout",
+      "keep_shopping": "Keep shopping",
+      "heading": "Almost yours.",
+      "free_shipping_unlocked_html": "<b>Free delivery unlocked.</b> The planet and your wallet high-five.",
+      "free_shipping_remaining_html": "{{ amount }} away from <b>free delivery</b>.",
+      "total": "Total: {{ amount }}",
+      "go_shopping": "Go shopping",
+      "cod_note": "Cash on delivery available at checkout"
+    },
+    "404": {
+      "title": "This page biodegraded.",
+      "back": "Back to the shop"
+    },
+    "header": {
+      "cart": "Cart"
+    },
+    "footer": {
+      "whatsapp": "Chat on WhatsApp"
+    },
+    "accessibility": {
+      "decrease": "Decrease",
+      "increase": "Increase",
+      "quantity": "Quantity",
+      "remove": "Remove",
+      "menu": "Menu"
+    },
+    "ajax_cart": {
+      "adding": "Adding…",
+      "added": "Added ✓",
+      "error": "Oops — try again"
+    }
   },
   "products": {
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",
-    "view": "View"
+    "view": "View",
+    "product": {
+      "one_time_purchase": "One-time purchase",
+      "one_time_note": "Just this order",
+      "plan_extra_discount": "Extra 5%",
+      "cancel_anytime": "Cancel anytime",
+      "sizes_heading_html": "Pick your format. <span>bigger = better value. that's it, that's the math.</span>",
+      "you_are_here": "← you're here",
+      "trust": {
+        "quality_title": "Premium quality",
+        "quality_note": "100% bamboo fibre",
+        "sustainable_title": "Sustainably made",
+        "sustainable_note": "biodegrades in months",
+        "delivery_title": "Free delivery",
+        "delivery_note": "on orders Dhs {{ amount }}+",
+        "secure_title": "Secure checkout",
+        "secure_note": "safe & encrypted payment"
+      },
+      "receipt_html": "<b>Why single-use?</b> In a published study, <b>89%</b> of used hand towels carried coliform bacteria — and dermatologists advise washing a face towel after every single use if you're acne-prone. A fresh sheet skips the whole problem.",
+      "combo": {
+        "kicker": "better together",
+        "save": "save {{ amount }}",
+        "cta": "Get both"
+      },
+      "reviews_link": "see the comment section →",
+      "description_title": "What it is",
+      "pairs_heading": "Pairs well with"
+    },
+    "coming_soon": {
+      "tag": "Coming soon",
+      "kicker": "The revolution continues",
+      "cta": "Get notified"
+    }
+  },
+  "collections": {
+    "general": {
+      "kicker": "Collection",
+      "all": "All",
+      "formats_count": {
+        "one": "{{ count }} formats · all bamboo",
+        "other": "{{ count }} formats · all bamboo"
+      }
+    },
+    "sorting": {
+      "manual": "Featured",
+      "price_ascending": "Price low to high",
+      "price_descending": "Price high to low",
+      "best_selling": "Best selling"
+    },
+    "list": {
+      "kicker": "Collections",
+      "heading": "Browse by category.",
+      "products_count": {
+        "one": "{{ count }} products",
+        "other": "{{ count }} products"
+      }
+    }
+  },
+  "blogs": {
+    "general": {
+      "kicker": "The Feed"
+    }
+  },
+  "sections": {
+    "versus": {
+      "vs": "VS"
+    },
+    "problem_chat": {
+      "chat_label": "Group chat conversation"
+    }
+  },
+  "contact": {
+    "form": {
+      "success_title": "got it. 🌱",
+      "success_text": "Message landed. We'll slide into your inbox soon — usually within a day.",
+      "error": "Hmm, check the highlighted fields and try again.",
+      "name": "Your name",
+      "name_placeholder": "who's this?",
+      "email": "Email",
+      "email_placeholder": "so we can reply",
+      "phone": "WhatsApp / phone",
+      "optional": "(optional)",
+      "message": "What's up?",
+      "message_placeholder": "tell us everything — orders, wholesale, collabs, or just to say hi",
+      "submit": "Send it"
+    },
+    "side": {
+      "chat_label": "Prefer to chat?",
+      "whatsapp": "💬 WhatsApp us",
+      "find_us": "Find us",
+      "response_label": "Response time",
+      "response_text": "Usually within 24 hours, 7 days a week."
+    }
+  },
+  "date_formats": {
+    "month_year": "%b %Y"
   }
 }

@@ -48,6 +48,11 @@
       reveals: {{ settings.enable_reveals | json }},
       marqueeVelocity: {{ settings.marquee_velocity | json }}
     };
+    window.BIOD_STRINGS = {
+      adding: {{ 'general.ajax_cart.adding' | t | json }},
+      added: {{ 'general.ajax_cart.added' | t | json }},
+      error: {{ 'general.ajax_cart.error' | t | json }}
+    };
   </script>
   <script src="{{ 'global.js' | asset_url }}" defer></script>
 </body>

@@ -1,0 +1,153 @@
+{
+  "general": {
+    "search": {
+      "placeholder": "ابحث",
+      "title": "البحث",
+      "submit": "ابحث",
+      "heading": "تدوّر على شيء معيّن؟",
+      "results_for": "نتائج البحث عن «{{ terms }}»"
+    },
+    "cart": {
+      "title": "سلّتك",
+      "empty": "ما في شيء هنا بعد. ومنشفتك لسّه رطبة.",
+      "checkout": "إتمام الطلب",
+      "keep_shopping": "كمّل التسوّق",
+      "heading": "صارت تقريبًا لك.",
+      "free_shipping_unlocked_html": "<b>التوصيل المجاني صار لك.</b> الكوكب ومحفظتك يحتفلون معًا.",
+      "free_shipping_remaining_html": "باقي لك {{ amount }} على <b>التوصيل المجاني</b>.",
+      "total": "الإجمالي: {{ amount }}",
+      "go_shopping": "يلّا نتسوّق",
+      "cod_note": "الدفع عند الاستلام متاح عند إتمام الطلب"
+    },
+    "404": {
+      "title": "هذي الصفحة تحلّلت.",
+      "back": "ارجع للمتجر"
+    },
+    "header": {
+      "cart": "السلة"
+    },
+    "footer": {
+      "whatsapp": "كلّمنا على واتساب"
+    },
+    "accessibility": {
+      "decrease": "إنقاص الكمية",
+      "increase": "زيادة الكمية",
+      "quantity": "الكمية",
+      "remove": "إزالة",
+      "menu": "القائمة"
+    },
+    "ajax_cart": {
+      "adding": "جاري الإضافة…",
+      "added": "تمت الإضافة ✓",
+      "error": "أوبس — جرّب مرة ثانية"
+    }
+  },
+  "products": {
+    "add_to_cart": "أضف للسلة",
+    "sold_out": "نفدت الكمية",
+    "view": "عرض",
+    "product": {
+      "one_time_purchase": "شراء لمرة واحدة",
+      "one_time_note": "لهذا الطلب فقط",
+      "plan_extra_discount": "5% إضافية",
+      "cancel_anytime": "ألغِ في أي وقت",
+      "sizes_heading_html": "اختر حجمك. <span>كل ما كبر الحجم، كانت القيمة أحسن. بس كذا، هذي كل الحسبة.</span>",
+      "you_are_here": "أنت هنا",
+      "trust": {
+        "quality_title": "جودة ممتازة",
+        "quality_note": "ألياف البامبو 100%",
+        "sustainable_title": "صناعة مستدامة",
+        "sustainable_note": "يتحلّل خلال أشهر",
+        "delivery_title": "توصيل مجاني",
+        "delivery_note": "للطلبات من {{ amount }} درهم وأكثر",
+        "secure_title": "إتمام طلب آمن",
+        "secure_note": "دفع آمن ومشفّر"
+      },
+      "receipt_html": "<b>ليش الاستخدام لمرة وحدة؟</b> في دراسة منشورة، <b>89%</b> من مناشف اليد المستعملة كانت تحمل بكتيريا القولونيات — وأطباء الجلد ينصحون بغسل منشفة الوجه بعد كل استخدام إذا بشرتك معرّضة لحب الشباب. ورقة جديدة كل مرة وتخلص من المشكلة كلها.",
+      "combo": {
+        "kicker": "أحلى مع بعض",
+        "save": "وفّر {{ amount }}",
+        "cta": "خذ الاثنين"
+      },
+      "reviews_link": "شوف قسم التعليقات ←",
+      "description_title": "شو هو؟",
+      "pairs_heading": "يمشي معه"
+    },
+    "coming_soon": {
+      "tag": "قريبًا",
+      "kicker": "الثورة مستمرة",
+      "cta": "نبّهني أول ما يوصل"
+    }
+  },
+  "collections": {
+    "general": {
+      "kicker": "التشكيلة",
+      "all": "الكل",
+      "formats_count": {
+        "zero": "ما في أحجام بعد",
+        "one": "حجم واحد · كله من البامبو",
+        "two": "حجمان · كلها من البامبو",
+        "few": "{{ count }} أحجام · كلها من البامبو",
+        "many": "{{ count }} حجمًا · كلها من البامبو",
+        "other": "{{ count }} حجم · كلها من البامبو"
+      }
+    },
+    "sorting": {
+      "manual": "المختارة",
+      "price_ascending": "السعر: من الأقل للأعلى",
+      "price_descending": "السعر: من الأعلى للأقل",
+      "best_selling": "الأكثر مبيعًا"
+    },
+    "list": {
+      "kicker": "التشكيلات",
+      "heading": "تصفّح حسب الفئة.",
+      "products_count": {
+        "zero": "لا توجد منتجات",
+        "one": "منتج واحد",
+        "two": "منتجان",
+        "few": "{{ count }} منتجات",
+        "many": "{{ count }} منتجًا",
+        "other": "{{ count }} منتج"
+      }
+    }
+  },
+  "blogs": {
+    "general": {
+      "kicker": "الفيد"
+    }
+  },
+  "sections": {
+    "versus": {
+      "vs": "ضد"
+    },
+    "problem_chat": {
+      "chat_label": "محادثة جماعية"
+    }
+  },
+  "contact": {
+    "form": {
+      "success_title": "وصلتنا. 🌱",
+      "success_text": "رسالتك وصلت. بنردّ عليك على الإيميل قريب — غالبًا خلال يوم.",
+      "error": "همم، راجع الحقول المحددة وجرّب مرة ثانية.",
+      "name": "اسمك",
+      "name_placeholder": "مين معنا؟",
+      "email": "البريد الإلكتروني",
+      "email_placeholder": "عشان نقدر نرد عليك",
+      "phone": "واتساب / رقم الهاتف",
+      "optional": "(اختياري)",
+      "message": "شو في بالك؟",
+      "message_placeholder": "قول لنا كل شيء — طلبات، بيع بالجملة، تعاون، أو بس سلام",
+      "submit": "أرسلها"
+    },
+    "side": {
+      "chat_label": "تفضّل الدردشة؟",
+      "whatsapp": "💬 راسلنا على واتساب",
+      "find_us": "موقعنا",
+      "response_label": "وقت الرد",
+      "response_text": "عادةً خلال 24 ساعة، 7 أيام في الأسبوع."
+    }
+  },
+  "date_formats": {
+    "month_year": "%b %Y"
+  }
+}

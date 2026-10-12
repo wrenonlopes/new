@@ -24,8 +24,8 @@
           {%- endfor -%}
         {%- endform -%}
       {%- endif -%}
-      <a class="cart-link" href="{{ routes.cart_url }}">Cart · <span data-cart-count>{{ cart.item_count }}</span></a>
-      <button class="menu-toggle" aria-label="Menu">☰</button>
+      <a class="cart-link" href="{{ routes.cart_url }}">{{ 'general.header.cart' | t }} · <span data-cart-count>{{ cart.item_count }}</span></a>
+      <button class="menu-toggle" aria-label="{{ 'general.accessibility.menu' | t }}">☰</button>
     </div>
   </div>
 </header>

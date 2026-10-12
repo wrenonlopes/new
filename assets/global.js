@@ -2,6 +2,7 @@
 (function () {
   const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cfg = window.BIOD || {};
+  const str = window.BIOD_STRINGS || {};
 
   /* ---------- scroll reveals ---------- */
   if (cfg.reveals !== false) {
@@ -114,15 +115,15 @@
     ev.preventDefault();
     const btn = form.querySelector('[type="submit"]');
     const orig = btn.textContent;
-    btn.disabled = true; btn.textContent = 'Adding…';
+    btn.disabled = true; btn.textContent = str.adding || 'Adding…';
     try {
       const res = await fetch('/cart/add.js', { method: 'POST', body: new FormData(form) });
       if (!res.ok) throw new Error((await res.json()).description || 'error');
       const cart = await (await fetch('/cart.js')).json();
       bumpCart(cart.item_count);
-      btn.textContent = 'Added ✓';
+      btn.textContent = str.added || 'Added ✓';
     } catch (err) {
-      btn.textContent = 'Oops — try again';
+      btn.textContent = str.error || 'Oops — try again';
       console.error(err);
     }
     setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 1400);
