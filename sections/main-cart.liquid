@@ -47,10 +47,22 @@
           <span class="sum">Total: {{ cart.total_price | money }}</span>
           <div style="display:flex;gap:12px;flex-wrap:wrap">
             <a class="btn btn--outline" href="{{ routes.all_products_collection_url }}">{{ 'general.cart.keep_shopping' | t }}</a>
-            <button type="submit" name="checkout" class="btn btn--ink">{{ 'general.cart.checkout' | t }}</button>
+            {%- if request.locale.primary -%}
+              <button type="submit" name="checkout" class="btn btn--ink">{{ 'general.cart.checkout' | t }}</button>
+            {%- else -%}
+              {%- comment -%} Translated storefronts check out in the primary language so orders, emails and the Transcorp/SuiteFleet sync stay English. {%- endcomment -%}
+              <button type="submit" form="checkout-primary-locale" class="btn btn--ink">{{ 'general.cart.checkout' | t }}</button>
+            {%- endif -%}
           </div>
         </div>
       </form>
+      {%- unless request.locale.primary -%}
+        {%- assign primary_locale = shop.published_locales | where: 'primary', true | first -%}
+        {%- form 'localization', id: 'checkout-primary-locale' -%}
+          <input type="hidden" name="locale_code" value="{{ primary_locale.iso_code | default: 'en' }}">
+          <input type="hidden" name="return_to" value="/checkout">
+        {%- endform -%}
+      {%- endunless -%}
       {%- if settings.show_cod -%}
         <p style="margin-top:18px;font-weight:700;font-size:12.5px;color:var(--faint)">Cash on delivery available at checkout</p>
       {%- endif -%}
