@@ -13,6 +13,17 @@
       {%- endfor -%}
     </nav>
     <div style="display:flex;gap:12px;align-items:center">
+      {%- if localization.available_languages.size > 1 -%}
+        {%- form 'localization', class: 'lang-switch' -%}
+          <input type="hidden" name="return_to" value="{{ request.path }}">
+          {%- for language in localization.available_languages -%}
+            <button type="submit" name="locale_code" value="{{ language.iso_code }}" lang="{{ language.iso_code }}"
+              {% if language.iso_code == localization.language.iso_code %}aria-current="true" disabled{% endif %}>
+              {%- if language.iso_code == 'ar' -%}عربي{%- elsif language.iso_code == 'en' -%}EN{%- else -%}{{ language.endonym_name }}{%- endif -%}
+            </button>
+          {%- endfor -%}
+        {%- endform -%}
+      {%- endif -%}
       <a class="cart-link" href="{{ routes.cart_url }}">Cart · <span data-cart-count>{{ cart.item_count }}</span></a>
       <button class="menu-toggle" aria-label="Menu">☰</button>
     </div>
