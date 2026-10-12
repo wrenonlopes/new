@@ -84,7 +84,7 @@
       "kicker": "Collection",
       "all": "All",
       "formats_count": {
-        "one": "{{ count }} formats · all bamboo",
+        "one": "{{ count }} format · all bamboo",
         "other": "{{ count }} formats · all bamboo"
       }
     },
@@ -98,7 +98,7 @@
       "kicker": "Collections",
       "heading": "Browse by category.",
       "products_count": {
-        "one": "{{ count }} products",
+        "one": "{{ count }} product",
         "other": "{{ count }} products"
       }
     }
