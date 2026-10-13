@@ -563,26 +563,6 @@ const CONCEPTS = [
     ],
     headline: 'AED 9 a tube',
   },
-  /* The only frame written off the order book rather than off the brief. Tube
-     buyers land at AED 51 -- AED 36 of tissue plus AED 15 to ship it -- while
-     the ad costs more than that to win. Three packs is the first rung that
-     clears the free-delivery line, and the unit price does not move to get
-     there: AED 108 is still AED 9 a tube. Headline is the instruction, the
-     arithmetic goes to the support line, per the three frames that landed. */
-  {
-    id: 'tube-06-delivery',
-    label: 'Tube \u2014 stop paying to ship tissues',
-    kind: 'line', accentSup: true, product: 'tube',
-    hero: 'Stop paying to ship tissues.',
-    support: 'Twelve tubes is AED 108. Delivery free.',
-    furniture: '12 tubes \u00b7 AED 9 a tube',
-    primary: [
-      'You are paying AED 15 to ship AED 36 of tissues.',
-      'Twelve tubes costs AED 108 and the delivery costs nothing \u2014 the tube is AED 9 either way.',
-      'Three packs, AED 108, delivered free.',
-    ],
-    headline: 'Delivery free over AED 100',
-  },
   /* ------------------------------------------------------------------ *
    * The fear set. Written to one shape: the headline is the thing she does
    * not want to be true, the support is one short sentence in sentence

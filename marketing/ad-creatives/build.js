@@ -111,7 +111,6 @@ const LOOK = {
   'tube-05-holder':   { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
   /* The only frame in the set that argues arithmetic the buyer can check on
      her own receipt, so it gets the dark ground the other money frames use. */
-  'tube-06-delivery': { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
 
   /* The fear set. The XL singles get one box, large -- the single is one box
      of fifty and four boxes would be the bundle's picture, which is the one
