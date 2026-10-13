@@ -112,6 +112,19 @@ const LOOK = {
   /* The only frame in the set that argues arithmetic the buyer can check on
      her own receipt, so it gets the dark ground the other money frames use. */
   'tube-06-delivery': { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
+
+  /* The fear set. The XL singles get one box, large -- the single is one box
+     of fifty and four boxes would be the bundle's picture, which is the one
+     mistake in this set that would actually cost a sale. Hardest frame gets
+     the darkest ground: "you don't know who used that towel" on near-black is
+     the only combination here that reads as a warning rather than an offer. */
+  'xl-01-whose':      { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 1, bw: 430 },
+  'xl-02-damp':       { ground: C.kraft,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 1, bw: 430 },
+  'xl-03-everyone':   { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 1, bw: 430 },
+  'xl-04-harsh':      { ground: C.cream,   fg: C.ink,   accent: C.sunrise,  logo: LOGO_DARK,  boxes: 1, bw: 430 },
+  'bundle-23-brush':  { ground: C.leafDark,fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
+  'tube-07-june':     { ground: C.leaf,    fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
+  'tube-08-slide':    { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
 };
 
 const FORMATS = [

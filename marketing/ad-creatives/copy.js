@@ -508,82 +508,58 @@ const CONCEPTS = [
     headline: '88 \u0641\u0644\u0633 \u0644\u0644\u0645\u0646\u0634\u0641\u0629',
   },
   {
-    /* Direct: an instruction naming the object and the action, which is the
-       one thing a riddle headline cannot do in the half second a feed gives
-       it. The ick moves to the support line, where it is a chain of things she
-       cannot know rather than a claim -- nothing to substantiate, nothing to
-       argue with, and she assembles the feeling herself. */
     id: 'bundle-20-hotel',
     label: 'Bundle \u2014 someone else was here first',
     kind: 'line', accentSup: true,
     hero: 'Never dry your face on a hotel towel.',
-    support: 'you do not know whose face was on it, or how it was washed, or how long it sat folded and damp. pack your own \u2014 less than AED 1 a towel.',
-    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
-    footnote: PACK,
+    support: 'You have no idea what it dried last.',
+    furniture: '200 towels \u00b7 AED 176 \u00b7 delivery free',
     primary: [
-      'someone else\u2019s face was on that hotel towel before yours.',
-      'then a laundry you never see, then a shelf, then you. pack your own instead \u2014 200 large ultrasoft bamboo towels, used once, less than AED 1 each.',
+      'Someone else\u2019s face was on that hotel towel before yours. Or worse.',
+      'Pack your own instead \u2014 200 large ultrasoft bamboo towels, used once, less than AED 1 each.',
       'AED 176, delivered free.',
     ],
     headline: 'Less than AED 1 a towel',
   },
   {
-    /* The harder of the two, because the hotel towel is somebody else's problem
-       and this one is hers. The headline names the behaviour being replaced
-       rather than hinting at it; everything under it is something she can check
-       by walking down the hall. */
     id: 'bundle-21-home',
     label: 'Bundle \u2014 the one on your own hook',
     kind: 'line', accentSup: true,
     hero: 'Stop drying your face on the same towel.',
-    support: 'it has hung damp in the wettest room in the house since sunday, and everyone who visits dries their hands on it. a fresh one every time \u2014 less than AED 1 a towel.',
-    furniture: `200 large towels \u00b7 less than AED 1 each \u00b7 ${QUALITY}`,
-    footnote: PACK,
+    support: 'It has hung damp since Sunday.',
+    furniture: '200 towels \u00b7 less than AED 1 each',
     primary: [
-      'at least the hotel washes theirs.',
-      'yours has hung damp since sunday, in the wettest room in the house, and everyone who visits dries their hands on it. twice a day you press it into your face.',
-      'a fresh one every time instead \u2014 200 large ultrasoft bamboo towels, less than AED 1 each. AED 176, delivered free.',
+      'At least the hotel washes theirs.',
+      'Yours has hung damp since Sunday, in the wettest room in the house, and everyone who visits dries their hands on it. Twice a day you press it into your face.',
+      '200 fresh ones instead. AED 176, delivered free.',
     ],
     headline: 'Stop reusing your face towel',
   },
   {
-    /* The taunt, and the only frame in the set that agrees with her first. The
-       routine is right and the headline says so in the first three words,
-       which is what buys the second half the right to sting. Nothing is
-       claimed about skin: the argument is consistency, which she can check
-       without taking anyone's word for it. */
     id: 'bundle-22-routine',
-    label: 'Bundle \u2014 every step but one',
+    label: 'Bundle \u2014 the taunt',
     kind: 'line', accentSup: true,
     hero: 'Your skincare is fine. Your towel isn\u2019t.',
-    support: 'cleanser, serum, SPF \u2014 then you dry all of it off on the towel from tuesday. a fresh towel every time, less than AED 1 each.',
-    furniture: `200 large towels \u00b7 ${QUALITY} \u00b7 delivery free`,
-    footnote: PACK,
+    support: 'Cleanser, serum, SPF \u2014 then Tuesday\u2019s towel.',
+    furniture: '200 towels \u00b7 AED 176 \u00b7 delivery free',
     primary: [
-      'cleanser, serum, SPF. all of it right.',
-      'then you dried it off on the towel that has been on the hook since tuesday. the last thing to touch your face is the one part nobody sells you.',
-      '200 large ultrasoft bamboo towels, used once, less than AED 1 each. AED 176, delivered free.',
+      'Cleanser, serum, SPF. Then you dry all of it off on the towel from Tuesday.',
+      'A fresh towel every time instead \u2014 200 large ultrasoft bamboo towels, less than AED 1 each.',
+      'AED 176, delivered free.',
     ],
-    headline: 'Your towel is undoing your skincare',
+    headline: 'A fresh towel every time',
   },
   {
-    /* Price-led, with the fit stated flatly underneath. The drawn cup holder
-       that used to sit here is gone: three attempts produced a soap dish, and a
-       cup holder with no car around it is ambiguous however it is drawn. The
-       fit is a photograph's job. AED 9 leads because it is the number a buyer
-       can picture, where 18 fils a tissue is an abstraction, and AED 36 stays
-       small because the tube is the unit she is deciding on. */
     id: 'tube-05-holder',
     label: 'Tube \u2014 in the cup holder',
     kind: 'line', accentSup: true, product: 'tube',
     hero: 'Put your tissues in the cup holder.',
-    support: 'round goes in. square never has. AED 9 a tube, and it stays where you put it.',
-    furniture: 'four tubes \u00b7 200 three-ply tissues \u00b7 one hand, every time',
-    footnote: 'four tubes, AED 36. delivery free over AED 100.',
+    support: 'Round goes in. Square never has.',
+    furniture: '4 tubes \u00b7 AED 36 \u00b7 AED 9 a tube',
     primary: [
-      'AED 9 a tube.',
-      'it drops into the cup holder and stays there \u2014 no square box sliding around the passenger seat. 50 three-ply tissues in each.',
-      'four tubes, AED 36.',
+      'A square tissue box fits nowhere in a car.',
+      'The tube drops into the cup holder and stays there. 50 three-ply tissues in each.',
+      'Four tubes, AED 36.',
     ],
     headline: 'AED 9 a tube',
   },
@@ -598,15 +574,135 @@ const CONCEPTS = [
     label: 'Tube \u2014 stop paying to ship tissues',
     kind: 'line', accentSup: true, product: 'tube',
     hero: 'Stop paying to ship tissues.',
-    support: 'four tubes is AED 36, then AED 15 delivery on top. twelve tubes is AED 108 \u2014 same AED 9 a tube, and delivery is free.',
-    furniture: 'three packs \u00b7 12 tubes \u00b7 delivery free',
-    footnote: 'three packs, AED 108. AED 9 a tube.',
+    support: 'Twelve tubes is AED 108. Delivery free.',
+    furniture: '12 tubes \u00b7 AED 9 a tube',
     primary: [
-      'you are paying AED 15 to ship AED 36 of tissues.',
-      'four tubes costs AED 36 and the delivery costs another AED 15. twelve tubes costs AED 108 and the delivery costs nothing \u2014 the tube is AED 9 either way.',
-      'three packs, AED 108, delivered free.',
+      'You are paying AED 15 to ship AED 36 of tissues.',
+      'Twelve tubes costs AED 108 and the delivery costs nothing \u2014 the tube is AED 9 either way.',
+      'Three packs, AED 108, delivered free.',
     ],
     headline: 'Delivery free over AED 100',
+  },
+  /* ------------------------------------------------------------------ *
+   * The fear set. Written to one shape: the headline is the thing she does
+   * not want to be true, the support is one short sentence in sentence
+   * case, and the price sits in the furniture so it never costs a third
+   * line. No footnote anywhere -- every line removed is a line the first
+   * two get read instead.
+   *
+   * What the fear is allowed to be: that she does not KNOW. Who used it,
+   * what for, how long it has hung there. That is true of every shared
+   * towel and cannot be argued with. What it is never allowed to be: a
+   * claim about her skin, about bacteria, or about what a towel does to a
+   * face. Those are health claims, nothing here substantiates them, and
+   * Meta rejects them.
+   * ------------------------------------------------------------------ */
+
+  /* XL single, AED 49 for 50. Four reasons the towel on her hook is not
+     hers alone, hardest first. */
+  {
+    id: 'xl-01-whose',
+    label: 'XL \u2014 you do not know who used it',
+    kind: 'line', accentSup: true,
+    hero: 'You don\u2019t know who used that towel.',
+    support: 'Or what they used it for.',
+    furniture: '50 towels \u00b7 AED 49 \u00b7 98 fils each',
+    primary: [
+      'You don\u2019t know who used that towel, or what they used it for.',
+      'Fifty large ultrasoft bamboo towels. Use one, then never again.',
+      'AED 49.',
+    ],
+    headline: '50 towels, AED 49',
+  },
+  {
+    id: 'xl-02-damp',
+    label: 'XL \u2014 damp since Sunday',
+    kind: 'line', accentSup: true,
+    hero: 'That towel has been damp since Sunday.',
+    support: 'Use one once. Never twice.',
+    furniture: '50 towels \u00b7 AED 49',
+    primary: [
+      'It has hung damp in the wettest room in the house since Sunday.',
+      'Fifty large ultrasoft bamboo towels instead. Use one once, never twice.',
+      'AED 49.',
+    ],
+    headline: 'A fresh towel every time',
+  },
+  {
+    id: 'xl-03-everyone',
+    label: 'XL \u2014 everyone in the house',
+    kind: 'line', accentSup: true,
+    hero: 'Everyone in the house uses that towel.',
+    support: 'Keep fifty that are only yours.',
+    furniture: '50 towels \u00b7 AED 49',
+    primary: [
+      'Everyone in the house dries their hands on it. Then you press it into your face.',
+      'Fifty large ultrasoft bamboo towels that are only yours.',
+      'AED 49.',
+    ],
+    headline: 'Fifty towels, only yours',
+  },
+  {
+    id: 'xl-04-harsh',
+    label: 'XL \u2014 it is scratching her',
+    kind: 'line', accentSup: true,
+    hero: 'Your towel is scratching your face.',
+    support: 'Ultrasoft bamboo instead.',
+    furniture: '50 towels \u00b7 AED 49 \u00b7 98 fils each',
+    primary: [
+      'Old terry cloth goes stiff, and you drag it across your face twice a day.',
+      'Fifty ultrasoft 100% bamboo towels instead. 98 fils each.',
+      'AED 49.',
+    ],
+    headline: 'Ultrasoft bamboo, 98 fils',
+  },
+
+  /* The fourth bundle frame. The toothbrush does the whole argument in six
+     words, because nobody needs persuading of the toothbrush half. */
+  {
+    id: 'bundle-23-brush',
+    label: 'Bundle \u2014 the toothbrush',
+    kind: 'line', accentSup: true,
+    hero: 'You would never share a toothbrush.',
+    support: 'So stop sharing a towel.',
+    furniture: '200 towels \u00b7 AED 176 \u00b7 delivery free',
+    primary: [
+      'You would never share a toothbrush. You share a face towel twice a day.',
+      '200 large ultrasoft bamboo towels, used once each, less than AED 1 a towel.',
+      'AED 176, delivered free.',
+    ],
+    headline: 'Stop sharing a towel',
+  },
+
+  /* Tube, two more. The car is the only room where the square box is
+     visibly the wrong shape, so both frames stay in it. */
+  {
+    id: 'tube-07-june',
+    label: 'Tube \u2014 still there since June',
+    kind: 'line', accentSup: true, product: 'tube',
+    hero: 'Those car tissues have been there since June.',
+    support: 'A sealed tube instead.',
+    furniture: '4 tubes \u00b7 AED 36',
+    primary: [
+      'That open box has sat on the back seat since June, collecting everything.',
+      'A sealed tube that drops into the cup holder instead. 50 three-ply tissues in each.',
+      'Four tubes, AED 36.',
+    ],
+    headline: 'AED 9 a tube',
+  },
+  {
+    id: 'tube-08-slide',
+    label: 'Tube \u2014 it slides',
+    kind: 'line', accentSup: true, product: 'tube',
+    hero: 'That box slides around every corner.',
+    support: 'The tube stays where you put it.',
+    furniture: '4 tubes \u00b7 AED 9 a tube',
+    primary: [
+      'A square box slides off the seat at the first roundabout. Every time.',
+      'The tube sits in the cup holder and stays there. One hand, at a red light.',
+      'Four tubes, AED 36.',
+    ],
+    headline: 'It stays where you put it',
   },
 ];
 
