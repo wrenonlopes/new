@@ -12,15 +12,15 @@
         {%- if block.type == 'coming_soon' -%}
           <div class="pcard pcard--soon" {{ block.shopify_attributes }}>
             <div class="pcard__img">
-              <span class="pcard__tag">Coming soon</span>
+              <span class="pcard__tag">{{ 'sections.featured_collection.coming_soon' | t }}</span>
               {%- if block.settings.image -%}<img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy">{%- endif -%}
             </div>
             <div class="pcard__info">
-              <span class="pcard__stars" style="color:var(--sub)">The revolution continues</span>
+              <span class="pcard__stars" style="color:var(--sub)">{{ 'sections.featured_collection.revolution' | t }}</span>
               <h3 class="pcard__title">{{ block.settings.title }}</h3>
               <p class="pcard__sub">{{ block.settings.subtitle }}</p>
             </div>
-            <a class="pcard__add" style="margin:16px 26px 26px" href="{{ block.settings.notify_url | default: '/pages/contact' }}">Get notified</a>
+            <a class="pcard__add" style="margin:16px 26px 26px" href="{{ block.settings.notify_url | default: '/pages/contact' }}">{{ 'sections.featured_collection.notify' | t }}</a>
           </div>
         {%- endif -%}
       {%- endfor -%}
