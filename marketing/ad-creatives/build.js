@@ -124,6 +124,7 @@ const LOOK = {
   'bundle-23-brush':  { ground: C.leafDark,fg: C.cream, accent: C.cream,    logo: LOGO_CREAM, boxes: 4, bw: 232 },
   'tube-07-june':     { ground: C.leaf,    fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
   'tube-08-slide':    { ground: '#23232B', fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
+  'tube-09-places':   { ground: C.kraft,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
 };
 
 const FORMATS = [
