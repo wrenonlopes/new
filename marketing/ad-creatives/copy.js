@@ -575,9 +575,9 @@ const CONCEPTS = [
        small because the tube is the unit she is deciding on. */
     id: 'tube-05-holder',
     label: 'Tube \u2014 in the cup holder',
-    kind: 'fils', size: 'cur', product: 'tube',
-    hero: 'AED 9', heroTail: 'a tube',
-    support: 'it fits the cup holder. a square tissue box never will.',
+    kind: 'line', accentSup: true, product: 'tube',
+    hero: 'Put your tissues in the cup holder.',
+    support: 'round goes in. square never has. AED 9 a tube, and it stays where you put it.',
     furniture: 'four tubes \u00b7 200 three-ply tissues \u00b7 one hand, every time',
     footnote: 'four tubes, AED 36. delivery free over AED 100.',
     primary: [
@@ -586,6 +586,27 @@ const CONCEPTS = [
       'four tubes, AED 36.',
     ],
     headline: 'AED 9 a tube',
+  },
+  /* The only frame written off the order book rather than off the brief. Tube
+     buyers land at AED 51 -- AED 36 of tissue plus AED 15 to ship it -- while
+     the ad costs more than that to win. Three packs is the first rung that
+     clears the free-delivery line, and the unit price does not move to get
+     there: AED 108 is still AED 9 a tube. Headline is the instruction, the
+     arithmetic goes to the support line, per the three frames that landed. */
+  {
+    id: 'tube-06-delivery',
+    label: 'Tube \u2014 stop paying to ship tissues',
+    kind: 'line', accentSup: true, product: 'tube',
+    hero: 'Stop paying to ship tissues.',
+    support: 'four tubes is AED 36, then AED 15 delivery on top. twelve tubes is AED 108 \u2014 same AED 9 a tube, and delivery is free.',
+    furniture: 'three packs \u00b7 12 tubes \u00b7 delivery free',
+    footnote: 'three packs, AED 108. AED 9 a tube.',
+    primary: [
+      'you are paying AED 15 to ship AED 36 of tissues.',
+      'four tubes costs AED 36 and the delivery costs another AED 15. twelve tubes costs AED 108 and the delivery costs nothing \u2014 the tube is AED 9 either way.',
+      'three packs, AED 108, delivered free.',
+    ],
+    headline: 'Delivery free over AED 100',
   },
 ];
 

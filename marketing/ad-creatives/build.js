@@ -102,11 +102,16 @@ const LOOK = {
   'bundle-20-hotel':  { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, boxes: 4, bw: 232 },
   'bundle-21-home':   { ground: C.kraft,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  boxes: 4, bw: 232 },
   'bundle-22-routine':{ ground: C.cream,   fg: C.ink,   accent: C.sunrise,  logo: LOGO_DARK,  boxes: 4, bw: 232 },
-  /* Solo tube, large. Three attempts at drawing the cup holder produced a
-     soap dish, and a cup holder with no car around it is ambiguous whatever it
-     is drawn in. The fit belongs in a photograph or in the copy, not in an
-     illustration of a thing the brand does not make. */
-  'tube-05-holder':   { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 1, bw: 250 },
+  /* Four attempts at showing the fit: three drawings that read as a soap dish,
+     then flat geometry, which read as a square tidily framing a circle -- the
+     opposite of "will not go in". A cup holder is only legible with a car
+     around it, so the fit is a motion idea and lives in UGC script 3, where a
+     box fails for four seconds before the tube drops in. The static keeps the
+     instruction in the headline and shows the product. */
+  'tube-05-holder':   { ground: C.paper,   fg: C.ink,   accent: C.leafDark, logo: LOGO_DARK,  art: 'tube', boxes: 4, bw: 158 },
+  /* The only frame in the set that argues arithmetic the buyer can check on
+     her own receipt, so it gets the dark ground the other money frames use. */
+  'tube-06-delivery': { ground: C.ink,     fg: C.cream, accent: C.leaf,     logo: LOGO_CREAM, art: 'tube', boxes: 4, bw: 158 },
 };
 
 const FORMATS = [
