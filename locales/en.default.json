@@ -30,6 +30,8 @@
       "cod": "Cash on delivery available at checkout",
       "free_shipping_unlocked": "Free UAE delivery unlocked.",
       "free_shipping_unlocked_extra": "The planet and your wallet high-five.",
+      "free_shipping_included": "Free UAE delivery included.",
+      "free_shipping_adds": "Add this and UAE delivery is free.",
       "free_shipping_progress_html": "You're <b>{{ amount }}</b> away from free UAE delivery.",
       "upsell_title": "Add to your order",
       "upsell_flag": "free delivery",
