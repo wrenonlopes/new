@@ -1,11 +1,11 @@
 <section class="section" style="background:var(--cream)">
   <div class="wrap">
-    <span class="kicker">Search</span>
-    <h1 class="h-xl">{% if search.performed %}Results for "{{ search.terms }}"{% else %}Looking for something?{% endif %}</h1>
+    <span class="kicker">{{ 'general.search.kicker' | t }}</span>
+    <h1 class="h-xl">{% if search.performed %}{{ 'general.search.results_for' | t: terms: search.terms }}{% else %}{{ 'general.search.heading_empty' | t }}{% endif %}</h1>
     <form action="{{ routes.search_url }}" method="get" style="margin-top:30px;display:flex;gap:12px;max-width:520px">
       <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}"
              style="flex:1;font-family:var(--body);font-size:15px;padding:14px 18px;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper)">
-      <button type="submit" class="btn btn--ink">Search</button>
+      <button type="submit" class="btn btn--ink">{{ 'general.search.submit' | t }}</button>
     </form>
     {%- if search.performed -%}
       <div class="grid-products">

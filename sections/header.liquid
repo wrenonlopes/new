@@ -13,11 +13,62 @@
       {%- endfor -%}
     </nav>
     <div style="display:flex;gap:12px;align-items:center">
-      <a class="cart-link" href="{{ routes.cart_url }}">Cart · <span data-cart-count>{{ cart.item_count }}</span></a>
-      <button class="menu-toggle" aria-label="Menu">☰</button>
+      {%- comment -%}
+        Language switcher. Renders only when the shop publishes more than one language,
+        so it stays invisible while Arabic is still an unpublished locale.
+
+        One Shopify localization form per target language, each submitting its own
+        language code from a plain submit button: no JavaScript, keyboard-operable by
+        default, and it still works if global.js fails to load. Only the languages the
+        shopper is NOT currently reading are shown, so a two-language store gets a single
+        compact toggle ("العربية" while reading English) — the pattern UAE shoppers expect.
+
+        Both locale_code and language_code are sent: Shopify's localization endpoint is
+        documented with language_code while Dawn ships locale_code, and they carry the
+        same value here, so whichever the endpoint reads, the switch lands.
+      {%- endcomment -%}
+      {%- if localization.available_languages.size > 1 -%}
+        <div class="langsw" role="group" aria-label="{{ 'general.language.label' | t }}">
+          {%- for language in localization.available_languages -%}
+            {%- unless language.iso_code == localization.language.iso_code -%}
+              {%- assign langsw_id = 'LangSwitch-' | append: language.iso_code -%}
+              {%- form 'localization', id: langsw_id, class: 'langsw__form' -%}
+                <input type="hidden" name="locale_code" value="{{ language.iso_code }}">
+                <input type="hidden" name="language_code" value="{{ language.iso_code }}">
+                <button type="submit" class="chip langsw__btn"
+                        lang="{{ language.iso_code }}" hreflang="{{ language.iso_code }}"
+                        aria-label="{{ 'general.language.switch_to' | t: language: language.endonym_name }}">
+                  {{- language.endonym_name | capitalize -}}
+                </button>
+              {%- endform -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+      <a class="cart-link" href="{{ routes.cart_url }}">{{ 'sections.header.cart' | t }} · <span data-cart-count>{{ cart.item_count }}</span></a>
+      <button class="menu-toggle" aria-label="{{ 'sections.header.menu' | t }}">☰</button>
     </div>
   </div>
 </header>
+
+{%- comment -%}
+  Scoped styles, following snippets/first-order-popup.liquid: assets/base.css is not
+  edited from here. The buttons reuse base.css's .chip pill so the switcher inherits the
+  header's existing border/radius conventions; only size and font are tuned down to sit
+  beside .cart-link.
+{%- endcomment -%}
+<style>
+  .langsw{display:flex;align-items:center;gap:6px}
+  .langsw__form{display:flex;margin:0}
+  .langsw__btn{
+    font-family:var(--display);font-size:11.5px;padding:7px 14px;
+    line-height:1.1;white-space:nowrap
+  }
+  .langsw__btn:focus-visible{outline:3px solid var(--sunrise);outline-offset:2px}
+  @media (max-width:700px){
+    .langsw__btn{padding:6px 11px;font-size:11px}
+  }
+</style>
 {% schema %}
 {
   "name": "Header",

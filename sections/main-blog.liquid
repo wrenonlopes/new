@@ -1,6 +1,6 @@
 <section class="section" style="background:var(--cream)">
   <div class="wrap">
-    <span class="kicker">The Feed</span>
+    <span class="kicker">{{ 'blogs.general.kicker' | t }}</span>
     <h1 class="h-xl">{{ blog.title }}</h1>
     <div class="grid-products" style="margin-top:44px">
       {%- paginate blog.articles by 9 -%}

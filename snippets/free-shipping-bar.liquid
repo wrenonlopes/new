@@ -1,0 +1,69 @@
+{%- comment -%}
+  Free UAE delivery progress. Accepts:
+    compact    (boolean) tighter variant for the PDP buy box
+    with_price (integer, cents) the price of the product being viewed. Pass this on a
+               product page and ONLY on a product page.
+
+  Why with_price exists: cart.total_price is the right referent in the cart and the
+  drawer, and the wrong one in a product buy box. Rendered under a product's price with
+  no basis, the bar reports the cart while the shopper reads it as a statement about the
+  product in front of them -- every PDP showed the same "Dhs 64.00 away" whatever it
+  cost, because the cart held 36. On a product page the honest number is what the cart
+  WOULD be if they added this, so that is what with_price makes it compute.
+
+  Scope: the settings.free_shipping_threshold rate is the UAE domestic rate. GCC and
+  international orders have their own, much higher thresholds, so the bar is hidden for
+  shoppers in other markets rather than promising them delivery terms they do not get.
+  Copy names the UAE explicitly as a second guard, for single-market stores where
+  localization.country resolves to AE for every visitor.
+{%- endcomment -%}
+{%- assign fs_threshold = settings.free_shipping_threshold | times: 100 -%}
+{%- assign fs_pdp = false -%}
+{%- assign fs_basis = cart.total_price -%}
+{%- if with_price -%}
+  {%- assign fs_pdp = true -%}
+  {%- assign fs_basis = cart.total_price | plus: with_price -%}
+{%- endif -%}
+{%- assign fs_country = localization.country.iso_code -%}
+{%- assign fs_show = false -%}
+{%- if fs_country == blank -%}{%- assign fs_show = true -%}{%- endif -%}
+{%- if fs_country == 'AE' -%}{%- assign fs_show = true -%}{%- endif -%}
+
+{%- if fs_show -%}
+  {%- if fs_threshold > 0 -%}
+    {%- assign fs_render = fs_pdp -%}
+    {%- if cart.item_count > 0 -%}{%- assign fs_render = true -%}{%- endif -%}
+    {%- if fs_render -%}
+      <div class="shipbar{% if compact %} shipbar--compact{% endif %}">
+        {%- if fs_basis >= fs_threshold -%}
+          {%- comment -%}
+            Three different true sentences. The product clearing the line on its own is
+            the common case on the bundles and deserves to be said outright, because the
+            old copy told the best basket in the catalogue it was short.
+          {%- endcomment -%}
+          {%- if fs_pdp and with_price >= fs_threshold -%}
+            <div class="t"><b>{{ 'general.cart.free_shipping_included' | t }}</b></div>
+          {%- elsif fs_pdp -%}
+            <div class="t"><b>{{ 'general.cart.free_shipping_adds' | t }}</b></div>
+          {%- else -%}
+            <div class="t"><b>{{ 'general.cart.free_shipping_unlocked' | t }}</b>{% unless compact %} {{ 'general.cart.free_shipping_unlocked_extra' | t }}{% endunless %}</div>
+          {%- endif -%}
+          <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i style="width:100%"></i></div>
+        {%- else -%}
+          {%- assign fs_remaining = fs_threshold | minus: fs_basis -%}
+          {%- assign fs_pct = fs_basis | times: 100 | divided_by: fs_threshold -%}
+          {%- assign fs_bar = fs_pct -%}
+          {%- if fs_bar < 4 -%}{%- assign fs_bar = 4 -%}{%- endif -%}
+          {%- comment -%}
+            The amount is passed into the string so the sentence can be reordered per
+            language; the key carries the _html suffix because the bold tag lives in the
+            translation, around the placeholder.
+          {%- endcomment -%}
+          {%- assign fs_remaining_money = fs_remaining | money -%}
+          <div class="t">{{ 'general.cart.free_shipping_progress_html' | t: amount: fs_remaining_money }}</div>
+          <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_pct }}"><i style="width:{{ fs_bar }}%"></i></div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
