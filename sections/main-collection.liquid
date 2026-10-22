@@ -1,3 +1,21 @@
+{%- comment -%}
+  /collections/all is not a collection. It is a built-in Shopify route that lists
+  every product, so it has no manual order to set -- nothing in the admin can
+  reorder it, which is why it ignored every attempt. The curated order lives in the
+  real "all-products" collection, and this swaps it in for that route only, and only
+  when the shopper has not chosen a sort of their own. Pick a sort from the dropdown
+  and it hands straight back to Shopify.
+
+  This matters more than it looks: the ads land on /collections/all, so this is the
+  first thing almost every paid visitor sees.
+{%- endcomment -%}
+{%- assign coll = collection -%}
+{%- if collection.handle == 'all' and collection.sort_by == blank -%}
+  {%- assign curated = collections['all-products'] -%}
+  {%- if curated != blank and curated.products_count > 0 -%}
+    {%- assign coll = curated -%}
+  {%- endif -%}
+{%- endif -%}
 <section class="section" style="background:var(--cream)">
   <div class="wrap" style="position:relative">
     <span class="kicker">{{ 'collections.general.kicker' | t }} · {{ collection.title }}</span>
@@ -13,7 +31,7 @@
           <a class="chip {% if current_tags contains tag %}on{% endif %}" href="{{ collection.url }}/{{ tag | handle }}">{{ tag }}</a>
         {%- endfor -%}
       {%- else -%}
-        <span class="chip on" style="pointer-events:none">{{ 'collections.general.formats_count' | t: count: collection.products_count }}</span>
+        <span class="chip on" style="pointer-events:none">{{ 'collections.general.formats_count' | t: count: coll.products_count }}</span>
       {%- endif -%}
       <select onchange="location.href=this.value" aria-label="{{ 'collections.general.sort_label' | t }}">
         {%- assign sorts = 'manual,price-ascending,price-descending,best-selling' | split: ',' -%}
@@ -30,8 +48,8 @@
     </div>
 
     <div class="grid-products">
-      {%- paginate collection.products by 12 -%}
-        {%- for product in collection.products -%}
+      {%- paginate coll.products by 12 -%}
+        {%- for product in coll.products -%}
           {% render 'product-card', product: product, tag_label: product.metafields.biod.card_tag %}
         {%- endfor -%}
       {%- endpaginate -%}
