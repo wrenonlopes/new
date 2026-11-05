@@ -84,6 +84,7 @@
   "products": {
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",
+    "coming_soon": "Coming soon",
     "view": "View",
     "pairs_with": "Pairs well with",
     "price": {

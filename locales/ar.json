@@ -92,6 +92,7 @@
   "products": {
     "add_to_cart": "أضف إلى السلة",
     "sold_out": "نفدت الكمية",
+    "coming_soon": "قريباً",
     "view": "عرض",
     "pairs_with": "أحلى مع",
     "price": {

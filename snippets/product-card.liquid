@@ -20,7 +20,9 @@
     {% render 'price', product: product %}
   </div>
   {%- assign v = product.selected_or_first_available_variant -%}
-  {%- if product.available -%}
+  {%- if product.tags contains 'coming-soon' -%}
+    <button class="pcard__add" disabled>{{ 'products.coming_soon' | t }}</button>
+  {%- elsif product.available -%}
     <form method="post" action="{{ routes.cart_add_url }}" data-ajax-add>
       <input type="hidden" name="id" value="{{ v.id }}">
       <button type="submit" class="pcard__add" style="width:calc(100% - 52px)">{{ 'products.add_to_cart' | t }}</button>
