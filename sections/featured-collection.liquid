@@ -3,7 +3,21 @@
     <span class="kicker kicker--sunrise">{{ section.settings.kicker }}</span>
     <h2 class="h-xl reveal">{{ section.settings.heading }}</h2>
     <div class="grid-products">
-      {%- assign coll = section.settings.collection | default: collections.all -%}
+      {%- comment -%}
+        Mirror main-collection.liquid: with no collection picked, fall back to the
+        curated all-products collection so the homepage shows the same products in
+        the same manual order as /collections/all. collections.all is the built-in
+        route, which ignores that ordering.
+      {%- endcomment -%}
+      {%- assign coll = section.settings.collection -%}
+      {%- if coll == blank -%}
+        {%- assign curated = collections['all-products'] -%}
+        {%- if curated != blank and curated.products_count > 0 -%}
+          {%- assign coll = curated -%}
+        {%- else -%}
+          {%- assign coll = collections.all -%}
+        {%- endif -%}
+      {%- endif -%}
       {%- for product in coll.products limit: section.settings.limit -%}
         {%- assign tag_label = product.metafields.biod.card_tag -%}
         {% render 'product-card', product: product, tag_label: tag_label, tag_hot: false %}
