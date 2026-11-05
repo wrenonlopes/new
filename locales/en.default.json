@@ -71,7 +71,7 @@
       "email_placeholder": "you@email.com",
       "submit": "Send my code",
       "error": "That email did not work — try again.",
-      "fine_print": "One use per customer, on orders over {{ amount }}. Cash on delivery available across the UAE.",
+      "fine_print": "One use per customer, on orders over {{ amount }}.",
       "decline": "No thanks",
       "success_kicker": "You're in",
       "success_title": "Here's your code",
