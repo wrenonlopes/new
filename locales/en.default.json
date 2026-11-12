@@ -33,6 +33,7 @@
       "free_shipping_included": "Free UAE delivery included.",
       "free_shipping_adds": "Add this and UAE delivery is free.",
       "free_shipping_progress_html": "You're <b>{{ amount }}</b> away from free UAE delivery.",
+      "free_shipping_progress_cart_html": "With your cart, you're <b>{{ amount }}</b> from free UAE delivery.",
       "upsell_title": "Add to your order",
       "upsell_flag": "free delivery",
       "upsell_add": "Add",

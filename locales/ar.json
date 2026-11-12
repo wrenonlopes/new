@@ -37,6 +37,7 @@
       "free_shipping_included": "توصيل مجاني داخل الإمارات مع هذا المنتج.",
       "free_shipping_adds": "أضيفيه ويصير التوصيل داخل الإمارات مجاني.",
       "free_shipping_progress_html": "باقي <b>{{ amount }}</b> ويصير التوصيل داخل الإمارات مجاني.",
+      "free_shipping_progress_cart_html": "مع سلتك، باقي <b>{{ amount }}</b> ويصير التوصيل داخل الإمارات مجاني.",
       "upsell_title": "أضف إلى طلبك",
       "upsell_flag": "توصيل مجاني",
       "upsell_add": "أضف",

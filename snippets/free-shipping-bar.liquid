@@ -58,9 +58,26 @@
             The amount is passed into the string so the sentence can be reordered per
             language; the key carries the _html suffix because the bold tag lives in the
             translation, around the placeholder.
+
+            Which sentence depends on what the number is counting. On a product page the
+            basis is the cart PLUS the product being viewed, so once the cart holds
+            anything, the bare "you're X away" reads as a statement about the product on
+            screen and the arithmetic visibly does not work: a Dhs 49 towel with Dhs 68
+            already in the cart says "Dhs 33.00 away", and 49 + 33 is not 150. The shopper
+            cannot see the cart from here, so the sentence has to name its own basis.
+            Products priced over the threshold were never affected -- they take the
+            "included" branch above -- which is why this only ever looked broken on the
+            cheaper listings.
+
+            The cart and the drawer keep the bare sentence: there the basis is the cart,
+            it is itemised directly above the bar, and nothing is hidden.
           {%- endcomment -%}
           {%- assign fs_remaining_money = fs_remaining | money -%}
-          <div class="t">{{ 'general.cart.free_shipping_progress_html' | t: amount: fs_remaining_money }}</div>
+          {%- if fs_pdp and cart.item_count > 0 -%}
+            <div class="t">{{ 'general.cart.free_shipping_progress_cart_html' | t: amount: fs_remaining_money }}</div>
+          {%- else -%}
+            <div class="t">{{ 'general.cart.free_shipping_progress_html' | t: amount: fs_remaining_money }}</div>
+          {%- endif -%}
           <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_pct }}"><i style="width:{{ fs_bar }}%"></i></div>
         {%- endif -%}
       </div>
