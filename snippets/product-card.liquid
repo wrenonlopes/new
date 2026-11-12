@@ -4,6 +4,7 @@
     {%- if tag_label != blank -%}
       <span class="pcard__tag {% if tag_hot %}pcard__tag--hot{% endif %}">{{ tag_label }}</span>
     {%- endif -%}
+    {% render 'bf', variant: 'badge' %}
     {%- if product.featured_image -%}
       <img src="{{ product.featured_image | image_url: width: 600 }}"
            srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 600 }} 600w"

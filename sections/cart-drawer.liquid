@@ -263,6 +263,7 @@
 
       {%- if cart.item_count > 0 -%}
         <footer class="cdrawer__foot">
+          {% render 'bf', variant: 'line' %}
           <div class="cdrawer__sum">
             <span>{{ 'general.cart.subtotal' | t }}</span>
             <b>{{ cart.total_price | money }}</b>

@@ -4,6 +4,7 @@
       <span class="final__sticker" aria-hidden="true"><img src="{{ 'sticker-travel.png' | asset_url }}" alt="" loading="lazy"></span>
     {%- endif -%}
     <span class="final__pill reveal">{{ section.settings.pill }}</span>
+    {% render 'bf', variant: 'pill' %}
     <h2 class="h-xl reveal">{{ section.settings.heading }}<span class="final__dots" aria-hidden="true"><i>.</i><i>.</i><i>.</i></span></h2>
 
     {%- if section.settings.show_loader -%}

@@ -49,6 +49,23 @@
       "adding": "Adding…",
       "added": "Added ✓"
     },
+    "bf": {
+      "label": "Black Friday",
+      "badge": "Black Friday",
+      "bar": "Up to {{ up_to }}% off, plus {{ percent }}% more with code",
+      "pill": "Black Friday is live · up to {{ up_to }}% off",
+      "card_title": "Take an extra {{ percent }}% off",
+      "card_note": "Paste the code at checkout.",
+      "card_note_dated": "Paste the code at checkout. Ends {{ date }}.",
+      "line": "Take {{ percent }}% off this order with code",
+      "code_aria": "Copy the discount code {{ code }}",
+      "copied": "Copied",
+      "ends_in": "Ends in",
+      "days": {
+        "one": "{{ count }} day",
+        "other": "{{ count }} days"
+      }
+    },
     "quantity": {
       "label": "Quantity",
       "decrease": "Decrease quantity",

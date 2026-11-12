@@ -1,0 +1,98 @@
+{%- comment -%}
+  Black Friday promo surfaces. Accepts:
+    variant — 'bar' | 'pill' | 'card' | 'line' | 'badge'
+
+  Every surface is gated on the same conditions, computed here rather than at each
+  call site, so there is exactly one place that decides whether the sale is showing:
+  the Black Friday checkbox in theme settings, a non-empty code, AND the end date not
+  having passed. The storefront must stop advertising a code before Shopify stops
+  honouring it, so settings.bf_ends_at and the discount's own endsAt in admin have to
+  be set to the same moment — this check is the backstop, the discount is the truth.
+
+  An unparseable bf_ends_at yields 0 from the %s filter. That case leaves the sale ON
+  rather than off, deliberately: a typo in a date field should not silently take down
+  a running promotion, and the checkbox is always there to kill it in one click.
+
+  The code is printed exactly as stored, upcased — it is what the shopper has to type,
+  so it must never be reworded, truncated or translated.
+{%- endcomment -%}
+{%- liquid
+  assign bf_on = settings.bf_enabled
+  assign bf_code = settings.bf_code | strip | upcase
+  assign bf_deadline = settings.bf_ends_at | date: '%s' | plus: 0
+  assign bf_now = 'now' | date: '%s' | plus: 0
+
+  if bf_deadline > 0 and bf_now > bf_deadline
+    assign bf_on = false
+  endif
+  if bf_code == blank
+    assign bf_on = false
+  endif
+
+  assign bf_pct = settings.bf_percent
+  assign bf_upto = settings.bf_up_to
+  assign bf_end_label = settings.bf_ends_at | date: '%-d %B'
+-%}
+{%- if bf_on -%}
+  {%- case variant -%}
+
+  {%- when 'bar' -%}
+    <div class="bfbar">
+      <div class="bfbar__in">
+        <span class="bfbar__tag">{{ 'general.bf.label' | t }}</span>
+        <span class="bfbar__msg">{{ 'general.bf.bar' | t: up_to: bf_upto, percent: bf_pct }}</span>
+        <button type="button" class="bf-code bfbar__code" data-bf-copy="{{ bf_code }}"
+                data-copied-label="{{ 'general.bf.copied' | t | escape }}"
+                aria-label="{{ 'general.bf.code_aria' | t: code: bf_code | escape }}">{{ bf_code }}</button>
+        {%- if bf_deadline > 0 -%}
+          {%- comment -%}
+            Server-rendered day count is the no-JavaScript fallback; global.js replaces
+            the contents of the <b> with a live clock and leaves the label alone.
+          {%- endcomment -%}
+          {%- assign bf_left = bf_deadline | minus: bf_now -%}
+          {%- assign bf_days = bf_left | divided_by: 86400 | plus: 1 -%}
+          <span class="bfbar__clock">
+            <span>{{ 'general.bf.ends_in' | t }}</span>
+            <b data-bf-countdown="{{ bf_deadline }}">{{ 'general.bf.days' | t: count: bf_days }}</b>
+          </span>
+        {%- endif -%}
+      </div>
+    </div>
+
+  {%- when 'pill' -%}
+    <span class="bf-pill">
+      <i aria-hidden="true"></i>{{ 'general.bf.pill' | t: up_to: bf_upto, percent: bf_pct }}
+    </span>
+
+  {%- when 'card' -%}
+    <div class="bf-card">
+      <div class="bf-card__head">
+        <span class="bf-card__tag">{{ 'general.bf.label' | t }}</span>
+        <b>{{ 'general.bf.card_title' | t: percent: bf_pct }}</b>
+      </div>
+      <button type="button" class="bf-code bf-card__code" data-bf-copy="{{ bf_code }}"
+              data-copied-label="{{ 'general.bf.copied' | t | escape }}"
+              aria-label="{{ 'general.bf.code_aria' | t: code: bf_code | escape }}">{{ bf_code }}</button>
+      <p class="bf-card__note">
+        {%- if bf_end_label != blank -%}
+          {{ 'general.bf.card_note_dated' | t: date: bf_end_label }}
+        {%- else -%}
+          {{ 'general.bf.card_note' | t }}
+        {%- endif -%}
+      </p>
+    </div>
+
+  {%- when 'line' -%}
+    <p class="bf-line">
+      <span class="bf-line__tag">{{ 'general.bf.label' | t }}</span>
+      {{ 'general.bf.line' | t: percent: bf_pct }}
+      <button type="button" class="bf-code bf-line__code" data-bf-copy="{{ bf_code }}"
+              data-copied-label="{{ 'general.bf.copied' | t | escape }}"
+              aria-label="{{ 'general.bf.code_aria' | t: code: bf_code | escape }}">{{ bf_code }}</button>
+    </p>
+
+  {%- when 'badge' -%}
+    <span class="pcard__bf">{{ 'general.bf.badge' | t }}</span>
+
+  {%- endcase -%}
+{%- endif -%}

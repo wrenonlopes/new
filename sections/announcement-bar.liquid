@@ -1,11 +1,24 @@
-{% if section.settings.text != blank %}
-<div class="announce">{{ section.settings.text }}</div>
-{% endif %}
+{%- comment -%}
+  While Black Friday mode is on, the sale strip takes this slot instead of the standing
+  message — two stacked bars push the hero off a phone screen, and the sale is the thing
+  worth the space. Free delivery is still stated on every product page, in the cart, in
+  the trust tiles and in the FAQ, so nothing is lost by standing it down here.
+
+  snippets/bf.liquid decides for itself whether the sale is on, so the capture coming
+  back empty is the signal to fall through to the standing message.
+{%- endcomment -%}
+{%- capture bf_bar -%}{% render 'bf', variant: 'bar' %}{%- endcapture -%}
+{%- assign bf_bar_out = bf_bar | strip -%}
+{%- if bf_bar_out != blank -%}
+  {{ bf_bar }}
+{%- elsif section.settings.text != blank -%}
+  <div class="announce">{{ section.settings.text }}</div>
+{%- endif -%}
 {% schema %}
 {
   "name": "Announcement bar",
   "settings": [
-    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Free UAE delivery over Dhs 150 · <b>Ships in 24h</b></p>" }
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Free UAE delivery over Dhs 150 · <b>Ships in 24h</b></p>", "info": "Hidden while Black Friday mode is on — the sale strip takes this slot." }
   ]
 }
 {% endschema %}

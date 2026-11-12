@@ -220,6 +220,8 @@
           <script type="application/json" data-cart-drawer-pairs>[{{ up_pair_rows | split: '|' | join: ',' }}]</script>
         </div>
 
+        {% render 'bf', variant: 'line' %}
+
         <form class="cart-checkout" action="{{ routes.cart_url }}" method="post">
           <div class="cart-foot">
             <span class="sum">{{ 'general.cart.total' | t }} {{ cart.total_price | money }}</span>

@@ -31,6 +31,17 @@
     ]
   },
   {
+    "name": "Black Friday",
+    "settings": [
+      { "type": "paragraph", "content": "One switch for the whole sale: the announcement bar, the hero pill, product-card badges, the product-page code card and the cart reminder. Turn it off and every piece disappears at once." },
+      { "type": "checkbox", "id": "bf_enabled", "label": "Black Friday mode", "default": false },
+      { "type": "text", "id": "bf_code", "label": "Discount code", "default": "BIODBLACKFRIDAY", "info": "Shown to shoppers exactly as typed. It must match a live code in Discounts, or the storefront is advertising a code that does not work." },
+      { "type": "range", "id": "bf_percent", "label": "Code value (%)", "min": 5, "max": 50, "step": 5, "default": 15, "info": "Keep in step with the discount in Discounts." },
+      { "type": "range", "id": "bf_up_to", "label": "\u201cUp to\u201d headline (%)", "min": 10, "max": 70, "step": 5, "default": 40, "info": "The best saving already shown on a product before the code is applied. Set it at or below the real best saving in the catalogue." },
+      { "type": "text", "id": "bf_ends_at", "label": "Ends at", "default": "2026-11-28T23:59:59", "info": "Store time, as YYYY-MM-DDTHH:MM:SS. Drives the countdown and hides the sale on its own once the moment passes. Set it to the same moment as the discount's end date in Discounts." }
+    ]
+  },
+  {
     "name": "Motion",
     "settings": [
       { "type": "checkbox", "id": "enable_reveals", "label": "Scroll reveal animations", "default": true },

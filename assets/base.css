@@ -38,6 +38,9 @@
 [dir="rtl"] .h-l,[dir="rtl"] .h-m,[dir="rtl"] .btn,[dir="rtl"] .hero__rating,
 [dir="rtl"] .sticker b,[dir="rtl"] .sticker span,[dir="rtl"] .site-header__logo span,
 [dir="rtl"] .ticker span,[dir="rtl"] .pcard__tag,[dir="rtl"] .pcard__stars,
+[dir="rtl"] .bfbar__tag,[dir="rtl"] .bfbar__msg,[dir="rtl"] .bfbar__clock,
+[dir="rtl"] .bf-pill,[dir="rtl"] .pcard__bf,[dir="rtl"] .bf-card__tag,
+[dir="rtl"] .bf-card__head b,[dir="rtl"] .bf-line,[dir="rtl"] .bf-line__tag,
 [dir="rtl"] .pcard__title,[dir="rtl"] .price__now,[dir="rtl"] .price__save,
 [dir="rtl"] .fighter__name,[dir="rtl"] .fighter__tag,[dir="rtl"] .fstat .fl,
 [dir="rtl"] .fighter__verdict,[dir="rtl"] .stamp,[dir="rtl"] .stat b,[dir="rtl"] .stat .m,
@@ -841,4 +844,118 @@ img{max-width:100%;height:auto}
 
 @media (prefers-reduced-motion:reduce){
   .cdrawer,.cdrawer__panel{transition:none}
+}
+
+/* ============================================================
+   BLACK FRIDAY
+   Every surface here is rendered by snippets/bf.liquid, which is the single place
+   that decides whether the sale is on. Nothing below is reachable while the Black
+   Friday checkbox in theme settings is off, so the whole promotion is one switch.
+
+   Palette is the brand's own — ink ground, leaf band, kraft dashes — rather than the
+   generic red-on-black every other store runs. It reads as a sale because of the
+   band and the clock, not because it stops looking like biod.
+   ============================================================ */
+
+/* ---- sitewide strip (takes the announcement-bar slot) ---- */
+.bfbar{position:relative;overflow:hidden;background:var(--ink);color:var(--cream)}
+.bfbar__in{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:10px 14px;padding:10px 16px;max-width:1240px;margin:0 auto;position:relative;z-index:1}
+.bfbar__tag{background:var(--leaf);color:var(--ink);font-family:var(--display);font-weight:800;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border-radius:999px;
+  white-space:nowrap}
+.bfbar__msg{font-weight:800;font-size:11px;letter-spacing:.13em;text-transform:uppercase}
+.bfbar__clock{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:10.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:rgba(248,241,223,.72)}
+.bfbar__clock b{color:var(--leaf);letter-spacing:.06em;font-variant-numeric:tabular-nums;
+  font-size:11.5px;min-width:9ch;text-align:start}
+
+/* A slow gloss sweep: enough movement to read as "live sale" from the corner of the
+   eye, far enough from the text not to compete with it. Killed outright below for
+   prefers-reduced-motion, where a crawling highlight is exactly the wrong thing. */
+.bfbar::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(100deg,transparent 38%,rgba(122,193,67,.22) 50%,transparent 62%);
+  transform:translateX(-100%);animation:bf-sweep 6.5s ease-in-out infinite}
+@keyframes bf-sweep{0%,55%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* ---- the code chip, shared by all three surfaces ---- */
+.bf-code{position:relative;font-family:var(--display);font-weight:800;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;line-height:1;cursor:pointer;
+  color:inherit;background:none;border:1.5px dashed currentColor;border-radius:9px;
+  padding:6px 12px;transition:background .15s,border-color .15s;white-space:nowrap}
+.bf-code:hover{background:color-mix(in srgb,currentColor 15%,transparent)}
+.bf-code:focus-visible{outline:2px solid var(--leaf);outline-offset:2px}
+/* Copy confirmation without a layout shift: the label is swapped in over the code,
+   which keeps the chip exactly the width it already was. */
+.bf-code.is-copied{color:transparent;border-color:var(--leaf);border-style:solid}
+.bf-code.is-copied::after{content:attr(data-copied-label);position:absolute;inset:0;
+  display:grid;place-items:center;color:var(--leaf);letter-spacing:.1em}
+
+/* ---- hero + closing-CTA pill ---- */
+.bf-pill{display:inline-flex;align-items:center;gap:9px;background:var(--leaf);color:var(--ink);
+  font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  padding:9px 18px;border-radius:999px;margin-bottom:14px;transform:rotate(-1.5deg)}
+.bf-pill i{width:8px;height:8px;border-radius:50%;background:var(--ink);animation:bf-blink 1.6s ease-in-out infinite}
+@keyframes bf-blink{0%,100%{opacity:1}50%{opacity:.25}}
+.final .bf-pill{margin:10px 0 0}
+
+/* ---- product-card / PDP corner badge ----
+   The corner differs by context, and each one is forced by what already occupies the
+   others. On a card the top-left belongs to the metafield card_tag ("Best seller"),
+   and at the 2-up phone grid (max-width:880px above) a long tag and this badge
+   overlap outright — so on cards the badge takes the bottom of the image, which is
+   empty on every one of them. On a product page the bottom-right is where .img-badges
+   sit, so there it takes the top-right instead; that image is a full column wide, so
+   it cannot reach the tag. Anything that adds a fourth corner element has to revisit
+   this. */
+.pcard__bf{position:absolute;z-index:2;
+  background:var(--leaf);color:var(--ink);font-family:var(--display);font-weight:800;font-size:9.5px;
+  letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;transform:rotate(2deg)}
+.pcard__img .pcard__bf{bottom:14px;inset-inline-end:14px}
+.pdp__main-img .pcard__bf{top:14px;inset-inline-end:14px}
+
+/* ---- product-page code card ---- */
+.bf-card{background:var(--ink);color:var(--cream);border-radius:18px;padding:16px 18px;margin:0 0 14px;
+  display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px}
+.bf-card__head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:1 1 auto;min-width:0}
+.bf-card__tag{background:var(--leaf);color:var(--ink);font-family:var(--display);font-weight:800;
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.bf-card__head b{font-family:var(--display);font-weight:800;font-size:15px}
+.bf-card__note{flex:1 0 100%;margin:0;font-size:12.5px;font-weight:600;color:rgba(248,241,223,.72)}
+
+/* ---- cart + drawer reminder ---- */
+.bf-line{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin:0 0 14px;
+  background:color-mix(in srgb,var(--leaf) 16%,transparent);border:1.5px solid color-mix(in srgb,var(--leaf) 45%,transparent);
+  border-radius:14px;padding:11px 14px;font-weight:700;font-size:13px;color:var(--ink)}
+.bf-line__tag{background:var(--ink);color:var(--cream);font-family:var(--display);font-weight:800;
+  font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.bf-line .bf-code{color:var(--leaf-dark);font-size:10.5px;padding:5px 10px}
+
+@media (max-width:880px){
+  .bfbar__in{gap:8px 10px;padding:9px 12px}
+  .bfbar__tag{font-size:9.5px;letter-spacing:.12em;padding:4px 10px}
+  .bfbar__msg{font-size:9.5px;letter-spacing:.1em}
+  .bfbar__clock{font-size:9.5px;letter-spacing:.1em}
+  .bfbar__clock b{font-size:10.5px;min-width:8ch}
+  .bf-code{font-size:10px;padding:5px 10px}
+  .bf-pill{font-size:10.5px;padding:8px 15px}
+  .pcard__bf{font-size:8.5px;padding:5px 10px}
+  .pcard__img .pcard__bf{bottom:9px;inset-inline-end:9px}
+  .pdp__main-img .pcard__bf{top:9px;inset-inline-end:9px}
+  .bf-card{padding:14px 15px;border-radius:16px}
+  .bf-card__head b{font-size:14px}
+  .bf-card__note{font-size:12px}
+  .bf-line{font-size:12.5px;padding:10px 12px}
+}
+
+/* The hero on a phone is a two-column grid with explicit `order` on every child
+   (see the MOBILE PASS above); an unordered child would be dropped at the top of
+   the flow, above the rating pill. Give it the slot before it. */
+@media (max-width:880px){
+  .hero .bf-pill{order:0;grid-column:1/-1;margin-bottom:12px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .bfbar::after{animation:none;display:none}
+  .bf-pill i{animation:none}
 }

@@ -446,4 +446,54 @@
     });
     if (res.ok) location.reload();
   });
+
+  /* ---------- Black Friday: live countdown ----------
+     The element ships with a server-rendered day count as its contents, so a visitor
+     without JavaScript still sees how long is left. This only ever replaces the number
+     inside the <b>; the "Ends in" label beside it is translated Liquid and is left
+     alone. data-bf-countdown is the deadline in epoch SECONDS (Liquid's %s). */
+  document.querySelectorAll('[data-bf-countdown]').forEach(el => {
+    const end = Number(el.dataset.bfCountdown) * 1000;
+    if (!Number.isFinite(end) || end <= 0) return;
+    const pad = n => String(n).padStart(2, '0');
+    let timer;
+    const tick = () => {
+      const left = end - Date.now();
+      if (left <= 0) {
+        /* The sale is over but this page was rendered before it was. Drop the clock
+           rather than count upward; Liquid hides the whole strip on the next load. */
+        clearInterval(timer);
+        el.closest('.bfbar__clock')?.remove();
+        return;
+      }
+      const d = Math.floor(left / 86400000);
+      const h = Math.floor(left / 3600000) % 24;
+      const m = Math.floor(left / 60000) % 60;
+      const s = Math.floor(left / 1000) % 60;
+      el.textContent = (d > 0 ? d + 'd ' : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
+    };
+    tick();
+    timer = setInterval(tick, 1000);
+  });
+
+  /* ---------- Black Friday: one-tap code copy ----------
+     Delegated, because the cart drawer re-renders its markup — and with it the chip —
+     through the Section Rendering API after every cart change. The confirmation label
+     comes from the element's data attribute so it stays translated; CSS swaps it in
+     over the code without changing the chip's width. */
+  const bfCopied = new WeakMap();
+  document.addEventListener('click', ev => {
+    const chip = ev.target.closest('[data-bf-copy]');
+    if (!chip) return;
+    ev.preventDefault();
+    const done = () => {
+      chip.classList.add('is-copied');
+      clearTimeout(bfCopied.get(chip));
+      bfCopied.set(chip, setTimeout(() => chip.classList.remove('is-copied'), 1800));
+    };
+    /* Clipboard access needs a secure context and can be refused outright. A failed
+       copy must not look like a successful one, so the chip is left untouched and the
+       shopper can still read and type the code — it is plain text on the button. */
+    navigator.clipboard?.writeText(chip.dataset.bfCopy).then(done).catch(() => {});
+  });
 })();

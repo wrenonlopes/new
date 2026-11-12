@@ -33,6 +33,7 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
+    {% render 'bf', variant: 'pill' %}
     {%- if section.settings.rating_text != blank -%}
       <div class="hero__rating">{{ section.settings.rating_text }}</div>
     {%- endif -%}

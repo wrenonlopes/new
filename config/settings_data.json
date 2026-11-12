@@ -12,6 +12,11 @@
     "free_shipping_threshold": 150,
     "show_cod": false,
     "enable_reveals": true,
-    "marquee_velocity": true
+    "marquee_velocity": true,
+    "bf_enabled": true,
+    "bf_code": "BIODBLACKFRIDAY",
+    "bf_percent": 15,
+    "bf_up_to": 40,
+    "bf_ends_at": "2026-11-28T23:59:59"
   }
 }

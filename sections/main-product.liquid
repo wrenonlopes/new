@@ -9,6 +9,7 @@
         {%- if product.metafields.biod.card_tag != blank -%}
           <span class="pcard__tag pcard__tag--hot">{{ product.metafields.biod.card_tag }}</span>
         {%- endif -%}
+        {%- unless coming_soon -%}{% render 'bf', variant: 'badge' %}{%- endunless -%}
         {%- if product.featured_image -%}
           <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}">
         {%- endif -%}
@@ -82,6 +83,8 @@
             {%- endfor -%}
           </div>
         {%- endif -%}
+
+        {%- unless coming_soon -%}{% render 'bf', variant: 'card' %}{%- endunless -%}
 
         {% render 'free-shipping-bar', compact: true, with_price: v.price %}
 
